@@ -1,0 +1,14 @@
+.Header {
+  height: 20%;
+  width: 100%;
+}
+
+.navbar-custom { 
+  height: 100%;
+  display: flex;
+}
+
+.navbar-brand-custom { 
+  font-weight: bold; 
+}
+
