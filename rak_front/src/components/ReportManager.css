@@ -1,0 +1,10 @@
+
+.search-bar {
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.search-bar input {
+  width: 30%;
+}
