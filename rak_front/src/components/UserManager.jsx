@@ -6,7 +6,7 @@ import ModalComponent from './ModalComponent'
 import useModal from './useModal'
 
 const UserManager = () => {
-  //모달상태
+  //모달상태ㅇ
   const { isModalOpen, toggleModal } = useModal();
   const [selectedUser, setSelectedUser] = useState(null);
 
