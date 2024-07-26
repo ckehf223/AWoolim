@@ -1,0 +1,41 @@
+.MyPageSideArea{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 20%;
+  gap: 10px;
+}
+.MyPageInfoMenuArea,.MyPageClubMenuArea{
+  width: 100%;
+}
+.MyPageInfoHeader,.MyPageClubHeader{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.MyPageInfoHeader img,.MyPageClubHeader img,.myPageReportMenu img{
+  width: 25px;
+  height: 25px;
+}
+.MyPageInfoMenu,.MyPageClubMenu{
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  gap: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(34, 34, 34, 0.4);
+}
+.MyPageInfoMenu span,.MyPageClubMenu span{
+  cursor: pointer;
+}
+.myPageReportMenu{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.myPageReportMenu h3{
+  cursor: pointer;
+}
