@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
+import CountUp from 'react-countup';
 import './Dashboard.css';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { Bar, Line, Doughnut, Pie } from 'react-chartjs-2';
+import { Bar, Line, Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,7 +31,6 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-
   const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
@@ -54,17 +54,35 @@ const Dashboard = () => {
         beginAtZero: true
       }
     }
-
-  }
+  };
 
   const events = [
     { title: 'Event 1', date: '2023-07-01' },
     { title: 'Event 2', date: '2023-07-02' }
   ];
 
-
   return (
-    <div className="Dashboard">
+    <div className="dashboard">
+      <h1>Welcome</h1>
+      <p>관리자님 안녕하세요!</p>
+      <div className="stats">
+        <div className="stat-card">
+          <h3>방문자</h3>
+          <CountUp start={0} end={1643} duration={2.75} separator="," />명
+          <div className="percentage decrease">▼ -5.4%</div>
+        </div>
+        <div className="stat-card">
+          <h3>오늘의 모임</h3>
+          <CountUp start={0} end={158} duration={2.75} separator="," />건
+          <div className="percentage increase">▲ 19.6%</div>
+        </div>
+        <div className="stat-card">
+          <h3>신규 가입자</h3>
+          <CountUp start={0} end={142} duration={2.75} separator="," />명
+          <div className="percentage increase">▲ 8.6%</div>
+        </div>
+      </div>
+
       <div className="row">
         <div className="col-md-6">
           <div className="chart-container border p-3">
@@ -98,7 +116,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Dashboard;

@@ -1,6 +1,7 @@
 import React from 'react'
 import './ClubManager.css'
 import { Table, Input } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 const ClubManager = () => {
   const club = [
@@ -32,7 +33,7 @@ const ClubManager = () => {
             <tr key={club.id}>
               <th scope='row'>{club.id}</th>
               <td>{club.category}</td>
-              <td>{club.name}</td>
+              <td><Link to={`/club/${club.id}`}>{club.name}</Link></td>
               <td>{club.people}</td>
               <td>{club.date}</td>
               <td>{club.regular}</td>

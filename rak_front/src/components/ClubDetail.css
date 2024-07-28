@@ -1,0 +1,57 @@
+.club-detail {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.club-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.delete-button {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.club-info, .club-select, .club-members {
+  margin-bottom: 20px;
+}
+
+.club-info h3, .club-select h3, .club-members h3 {
+  margin-bottom: 10px;
+}
+
+.club-info p {
+  line-height: 1.6;
+}
+
+.select-boxes {
+  display: flex;
+  gap: 10px;
+}
+
+.select-box {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.club-members ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.club-members li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
