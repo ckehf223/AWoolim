@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 
-const ModalComponent = ({ isOpen, toggle, title, children }) => {
+const ModalComponent = ({ isOpen, toggle, title, children, onDelete }) => {
 
   return (
 
@@ -20,6 +20,7 @@ const ModalComponent = ({ isOpen, toggle, title, children }) => {
       </ModalBody>
 
       <ModalFooter>
+        <Button color='danger' onClick={onDelete}>삭제</Button>
         <Button color='secondary' onClick={toggle}>✖</Button>
       </ModalFooter>
     </Modal >

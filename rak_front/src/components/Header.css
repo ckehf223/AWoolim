@@ -1,14 +1,23 @@
 .Header {
   height: 20%;
   width: 100%;
+  margin-bottom: 20px;
+  
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .navbar-custom { 
   height: 100%;
   display: flex;
+  
 }
 
 .navbar-brand-custom { 
   font-weight: bold; 
+}
+
+.my-navbar-color {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 

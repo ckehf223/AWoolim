@@ -1,7 +1,5 @@
 .club-detail {
   padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
 .club-header {
@@ -9,49 +7,60 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fff; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px;
 }
 
 .delete-button {
-  background-color: #ff4d4f;
+  background-color: #e74c3c;
   color: white;
   border: none;
   padding: 10px 20px;
+  border-radius: 4px;
   cursor: pointer;
-  border-radius: 5px;
 }
 
-.club-info, .club-select, .club-members {
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.club-select, .club-info, .club-members {
   margin-bottom: 20px;
-}
-
-.club-info h3, .club-select h3, .club-members h3 {
-  margin-bottom: 10px;
-}
-
-.club-info p {
-  line-height: 1.6;
+  padding: 20px;
+  background-color: #fff; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px;
 }
 
 .select-boxes {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .select-box {
   flex: 1;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(53, 174, 192, 0.897);
+  border-radius: 4px;
   text-align: center;
-  background-color: #f9f9f9;
+}
+
+h3 {
+  margin-top: 0;
 }
 
 .club-members ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
 }
 
 .club-members li {
+  margin-bottom: 10px;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
+  border-radius: 4px;
 }

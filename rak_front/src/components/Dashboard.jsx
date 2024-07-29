@@ -1,21 +1,10 @@
 import React from 'react';
 import CountUp from 'react-countup';
 import './Dashboard.css';
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
 import { Bar, Line, Doughnut } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import 'react-calendar/dist/Calendar.css';
+import CustomCalendar from './CustomCalendar';
 
 // Chart.js 모듈 등록
 ChartJS.register(
@@ -36,11 +25,11 @@ const Dashboard = () => {
     datasets: [
       {
         label: 'My First dataset',
-        backgroundColor: 'rgba(255,99,132,0.2)',
-        borderColor: 'rgba(255,99,132,1)',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
-        hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-        hoverBorderColor: 'rgba(255,99,132,1)',
+        hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
+        hoverBorderColor: 'rgba(54, 162, 235, 1)',
         data: [65, 59, 80, 81, 56, 55, 40]
       }
     ]
@@ -64,19 +53,19 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <h1>Welcome</h1>
-      <p>관리자님 안녕하세요!</p>
+      <p>관리자님 안녕하세요👋</p>
       <div className="stats">
-        <div className="stat-card">
+        <div className="stat-card card1">
           <h3>방문자</h3>
           <CountUp start={0} end={1643} duration={2.75} separator="," />명
           <div className="percentage decrease">▼ -5.4%</div>
         </div>
-        <div className="stat-card">
+        <div className="stat-card card2">
           <h3>오늘의 모임</h3>
           <CountUp start={0} end={158} duration={2.75} separator="," />건
           <div className="percentage increase">▲ 19.6%</div>
         </div>
-        <div className="stat-card">
+        <div className="stat-card card3">
           <h3>신규 가입자</h3>
           <CountUp start={0} end={142} duration={2.75} separator="," />명
           <div className="percentage increase">▲ 8.6%</div>
@@ -86,22 +75,12 @@ const Dashboard = () => {
       <div className="row">
         <div className="col-md-6">
           <div className="chart-container border p-3">
-            <Bar data={data} options={options} width={100} height={400} />
+            <Bar data={data} options={options} width={100} height={460} />
           </div>
         </div>
         <div className="col-md-6">
-          <div className="calendar-container border p-3">
-            <FullCalendar
-              plugins={[dayGridPlugin]}
-              initialView="dayGridMonth"
-              events={events}
-              headerToolbar={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,dayGridWeek,dayGridDay'
-              }}
-              height='400px'
-            />
+          <div className="chart-container border p-3">
+            <CustomCalendar />
           </div>
         </div>
         <div className="col-md-6">

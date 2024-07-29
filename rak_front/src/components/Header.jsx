@@ -6,7 +6,7 @@ const Header = () => {
 
   return (
     <div className="Header">
-      <Navbar color="light" light expand="md" className="navbar-custom">
+      <Navbar light expand="md" className="navbar-custom my-navbar-color">
         <NavbarBrand href="/" className="navbar-brand-custom">Admin Page</NavbarBrand>
         <Nav className="ml-auto" navbar >
           <NavItem>
