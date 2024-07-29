@@ -1,0 +1,96 @@
+.UserMyClub{
+  width: 100%;
+  text-align: left;
+  padding-left: 50px;
+  min-height: 1000px; 
+}
+.UserMyClubWrap{
+  margin: 0 auto;
+}
+.UserMyClubContentBorder{
+  border-bottom: 3px solid #222;
+  padding-bottom: 16px;
+}
+.UserMyClubTitle{
+  font-size: 24px;
+  letter-spacing: -.36px;
+}
+.UserMyClubMainArea{
+  width: 100%;
+  margin-top: 30px;
+}
+.UserMyClubArea{
+  margin: 0;
+  padding: 0;
+}
+.UserMyClubSortBox{
+  padding: 10px;
+}
+.UserMyClubSort{
+  background-color: #fff;
+  border: 1px solid #d3d3d3;
+  border-radius: 12px;
+  font-size: 13px;
+  min-width: 120px;
+  padding: 5px 30px 5px 10px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+
+}
+
+.UserMyClubBox{
+  align-items: center;
+  border-bottom: 1px solid rgb(0,0,0,0.3);
+  display: flex;
+  padding: 12px;
+  justify-content: space-between;
+}
+.UserMyClubInfoBox{
+  display: flex;
+  gap: 30px;
+}
+.UserMyClubImageBox{
+  position: relative;
+}
+.UserMyClubImageBox img{
+  width: 150px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.UserMyClubInfo{
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+}
+.UserMyClubCategory{
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+.UserMyClubTitle{
+  font-size: 16px;
+  margin: 0;
+}
+.UserMyClubButtonArea{
+  display: flex;
+  gap: 50px;
+}
+.UserMyClubBoardImg,.UserMyClubExitImg{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+ }
+.UserMyClubNoneArea{
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.UserMyClubNoneArea p{
+  font-size: 20px;
+}

@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom'
 import './MyPageSide.css'
 const MyPageSide = () => {
+  const nav = useNavigate();
   return (
     <>
       <div className="MyPageSideArea">
@@ -11,8 +13,8 @@ const MyPageSide = () => {
             <h3>내 정보</h3>
           </div>
           <div className="MyPageInfoMenu">
-            <span>프로필 관리</span>
-            <span>회원 정보수정</span>
+            <span onClick={() => { nav('/mypage/profile') }}>프로필 관리</span>
+            <span onClick={() => { nav('/mypage/usermodify', { replace: true }) }}>회원 정보수정</span>
           </div>
         </div>
 
@@ -22,8 +24,8 @@ const MyPageSide = () => {
             <h3>모임 정보</h3>
           </div>
           <div className="MyPageClubMenu">
-            <span>참여모임</span>
-            <span>내 모임</span>
+            <span onClick={() => { nav('/mypage/myclub') }}>참여모임</span>
+            <span onClick={() => { nav('/mypage/madeclub') }}>내 모임</span>
           </div>
         </div>
 

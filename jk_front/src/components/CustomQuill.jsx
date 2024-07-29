@@ -3,8 +3,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { CustomToolbar } from './CustomToolbar';
 
-const CustomQuill = () => {
-  const [editorContent, setEditorContent] = useState('');
+const CustomQuill = ({ content }) => {
+  const [editorContent, setEditorContent] = useState(content);
 
   const handleEditorChange = (value) => {
     setEditorContent(value);

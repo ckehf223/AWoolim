@@ -7,6 +7,7 @@ const MyProfile = () => {
   const [nickName, setNickName] = useState('마봉팔');
   const [introMg, setIntroMg] = useState('안녕하세요~');
   const [imageSrc, setImageSrc] = useState('/src/images/blank_image.png');
+  const [backImageSrc, setBackImageSrc] = useState('');
   const [tempNickName, setTempNickName] = useState(nickName);
   const [tempIntroMg, setTempIntroMg] = useState(introMg);
 
@@ -50,6 +51,9 @@ const MyProfile = () => {
   const onDeleteImage = () => {
     setImageSrc('/src/images/blank_image.png');
   }
+  const onBackDeleteImage = () => {
+    setBackImageSrc('');
+  }
   //이미지 미리보기 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -63,6 +67,19 @@ const MyProfile = () => {
       setImageSrc('/src/images/blank_image.png');
     }
   };
+  //이미지 미리보기 
+  const handleBackImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setBackImageSrc(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setBackImageSrc('');
+    }
+  };
 
   return (
     <>
@@ -72,14 +89,25 @@ const MyProfile = () => {
         </div>
         <div className="MyProfileInfoArea">
           <input type="file" id="MyProfileFile" name='MyProfileFile' accept=".jpg, .jpeg, .png, .gif, .webp" onChange={handleImageChange} />
+          <input type="file" id="MyProfileBackFile" name='MyProfileBackFile' accept=".jpg, .jpeg, .png, .gif, .webp" onChange={handleBackImageChange} />
           <div className="MyProfileImageArea">
+            <div className='MyProfileBackImage' style={{ backgroundImage: `url(${backImageSrc})` }}></div>
             <img src={imageSrc} alt="미리보기" />
+            <div className='MyProfileIntroArea'>
+              <div className='MyProfileNickName'>{nickName}</div>
+              <div className='MyProfileIntroMg'>{introMg}</div>
+            </div>
           </div>
           <div className="MyProfileImgEditor">
-            <strong>{nickName}</strong>
             <div className="MyProfileChangeButtonArea">
-              <label className="MyProfileChangeButton" htmlFor='MyProfileFile' >이미지 변경</label>
-              <button className="MyProfileDeleteButton" onClick={onDeleteImage}>삭제</button>
+              <div>
+                <label className="MyProfileChangeButton" htmlFor='MyProfileBackFile' >배경 이미지 변경</label>
+                <button className="MyProfileDeleteButton" onClick={onBackDeleteImage}>삭제</button>
+              </div>
+              <div>
+                <label className="MyProfileChangeButton" htmlFor='MyProfileFile' >프로필 이미지 변경</label>
+                <button className="MyProfileDeleteButton" onClick={onDeleteImage}>삭제</button>
+              </div>
             </div>
           </div>
         </div>
