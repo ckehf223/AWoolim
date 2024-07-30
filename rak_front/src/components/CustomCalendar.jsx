@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import './CustomCalendar.css';
+import { CiCalendar } from "react-icons/ci";
 
 const CustomCalendar = () => {
   const [date, setDate] = useState(new Date());
@@ -24,6 +25,7 @@ const CustomCalendar = () => {
         showNeighboringMonth={false}
       />
       <div className="selected-date">
+        <CiCalendar size={30} className='cicalendar' />
         {date.toLocaleDateString('ko-KR', {
           year: 'numeric',
           month: '2-digit',

@@ -12,8 +12,9 @@
   
 }
 
-.navbar-brand-custom { 
-  font-weight: bold; 
+.navbar-brand-custom img { 
+  font-weight: bold;
+  width: 70%; 
 }
 
 .my-navbar-color {

@@ -20,8 +20,8 @@ const ModalComponent = ({ isOpen, toggle, title, children, onDelete }) => {
       </ModalBody>
 
       <ModalFooter>
-        <Button color='danger' onClick={onDelete}>삭제</Button>
-        <Button color='secondary' onClick={toggle}>✖</Button>
+        <Button outline color='danger' onClick={onDelete}>삭제</Button>
+        <Button outline color='secondary' onClick={toggle}>✖</Button>
       </ModalFooter>
     </Modal >
   )

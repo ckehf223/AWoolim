@@ -1,19 +1,15 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import './ClubDetail.css';
-import update from 'immutability-helper';
+import { ClubContext } from '../ClubContext';
+import { Button } from 'reactstrap';
 
-const mockData = [
-  { id: 1, name: '운동모임', description: '운동을 좋아하는 사람들의 모임입니다.', members: ['회원 1', '회원 2', '회원 3'], category: '운동', people: 10, date: '2024-07-25', regular: '정기' },
-  { id: 2, name: '교양모임', description: '교양을 즐기는 사람들의 모임입니다.', members: ['회원 4', '회원 5', '회원 6'], category: '교양', people: 20, date: '2024-07-25', regular: '일회' },
-  { id: 3, name: '운동모임', description: '운동을 좋아하는 사람들의 모임입니다.', members: ['회원 7', '회원 8', '회원 9'], category: '운동', people: 30, date: '2024-07-25', regular: '정기' },
-];
 
 const ClubDetail = () => {
-  const [clubs, setClubs] = useState(mockData);
   const { clubId } = useParams();
   const navigate = useNavigate();
+  const { clubs, deleteClub } = useContext(ClubContext);
   const club = clubs.find(club => club.id === parseInt(clubId, 10));
 
   useEffect(() => {
@@ -24,18 +20,11 @@ const ClubDetail = () => {
 
   const handleDelete = () => {
     if (window.confirm('정말로 삭제하시겠습니까?')) {
-      const clubIndex = clubs.findIndex(c => c.id === club.id);
-      if (clubIndex !== -1) {
-        const updatedClubs = update(clubs, { $splice: [[clubIndex, 1]] });
-        setClubs(updatedClubs);
-        navigate('/club');
-      }
+      deleteClub(club.id);
+      navigate('/club');
     }
   }
 
-  if (!club) {
-    return <div>모임이 존재하지 않습니다</div>;
-  }
 
 
 
@@ -44,7 +33,7 @@ const ClubDetail = () => {
     <div className="club-detail">
       <div className="club-header">
         <h2>{club.name}</h2>
-        <button className="delete-button" onClick={handleDelete}>모임 삭제</button>
+        <Button outline color='danger' className="delete-button" onClick={handleDelete}>모임 삭제</Button>
       </div>
       <div className="club-select">
         <h3>선택한 내용</h3>
