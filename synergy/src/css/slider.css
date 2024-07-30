@@ -1,0 +1,34 @@
+.image-slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+.thumbnails {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  bottom: 80px;
+}
+
+.thumbnails img {
+  width: 50px; /* 썸네일 크기 조절 */
+  height: 50px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 7px;
+  filter: brightness(90%);
+}
+.thumbnails img:hover {
+  transform: scale(1.1);
+  filter: brightness(100%);
+}
+.slide {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}

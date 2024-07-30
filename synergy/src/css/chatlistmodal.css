@@ -1,0 +1,30 @@
+.chat-list-modal {
+  width: 400px;
+  height: 600px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 11; /* 모달창이 배경 위에 나타나도록 설정 */
+}
+
+.modal-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.chat-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.chat-list li:hover {
+  background-color: #f5f5f5;
+}

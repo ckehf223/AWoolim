@@ -1,0 +1,88 @@
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+#header-logo img {
+  height: 56px;
+  position: relative;
+  left: 120px;
+  top: 5px;
+}
+
+#header-search {
+  position: relative;
+  left: 95px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 6px;
+}
+
+#header-search input {
+  padding: 8px;
+  border: none;
+  margin: 0 8px;
+  width: 320px;
+  font-size: 17px;
+}
+
+#header-search input:focus {
+  outline: none;
+}
+
+#header-search input::placeholder {
+  color: rgb(174, 174, 174);
+  font-size: 14px;
+}
+
+#header-search a img {
+  width: 21px;
+  position: relative;
+  top: 1px;
+  right: 6px;
+}
+
+#header-icons {
+  position: relative;
+  right: 120px;
+  width: 20%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#header-icons button {
+  background-color: #007bff; /* 버튼 배경색 */
+  color: white; /* 글자색 */
+  border: none; /* 테두리 제거 */
+  padding: 8px 15px; /* 내부 여백 */
+  border-radius: 10px; /* 둥근 모서리 */
+  cursor: pointer; /* 커서 스타일 변경 */
+  transition: background-color 0.2s ease; /* 호버 효과를 위한 트랜지션 */
+}
+#header-icons button:hover {
+  background-color: #0056b3; /* 호버 시 배경색 변경 */
+}
+#alarm-icon {
+  max-height: 28px;
+  transition: transform 0.2s ease;
+}
+#alarm-icon:hover {
+  transform: scale(1.1); /* 호버 시 아이콘 확대 */
+}
+@media (max-width: 768px) {
+  #alarm-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  #header-icons button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
