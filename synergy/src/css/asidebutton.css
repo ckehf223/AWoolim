@@ -1,7 +1,7 @@
 .main-image {
   position: fixed; /* firstImage 위치 고정 */
-  right: 120px;
-  bottom: 170px;
+  right: 80px;
+  bottom: 80px;
   cursor: pointer;
   z-index: 1; /* 다른 요소 위에 표시 */
   width: 50px;
@@ -13,8 +13,8 @@
   flex-direction: column;
   gap: 50px; /* 이미지 간격 */
   position: fixed;
-  bottom: 370px;
-  left: 1750px;
+  bottom: 280px;
+  left: 1790px;
   width: 50px;
   height: 50px;
 }

@@ -17,7 +17,7 @@ function Header() {
       {/* 알림 */}
       <div id="header-icons">
         <a href="">
-          <img src="./src/images/bell.png" alt="알림" id="alarm-icon"></img>
+          <img src="./src/images/notice.png" alt="알림" id="alarm-icon"></img>
         </a>
         <button id="mypage-button">공지사항</button>
         {/* 마이페이지 */}

@@ -541,7 +541,9 @@ function Category() {
             {categoryData[currentCategory].length > 4 && (
               <>
                 {currentSlide > 0 && (
-                  <button
+                  <img
+                    src="/src/images/left-arrow.png" // 이전 버튼 이미지 경로
+                    alt="이전 버튼"
                     className="categoryButton"
                     onClick={handlePrevClick}
                     style={{
@@ -549,13 +551,14 @@ function Category() {
                       top: "50%",
                       left: "-70px",
                       transform: "translateY(-50%)",
+                      cursor: "pointer", // 이미지에 클릭 가능한 커서 스타일 추가
                     }}
-                  >
-                    이전
-                  </button> // 이전 버튼 스타일
+                  />
                 )}
                 {currentSlide < categoryData[currentCategory].length - 4 && (
-                  <button
+                  <img
+                    src="/src/images/right-arrow.png" // 다음 버튼 이미지 경로
+                    alt="다음 버튼"
                     className="categoryButton"
                     onClick={handleNextClick}
                     style={{
@@ -563,10 +566,9 @@ function Category() {
                       top: "50%",
                       right: "-70px",
                       transform: "translateY(-50%)",
+                      cursor: "pointer", // 이미지에 클릭 가능한 커서 스타일 추가
                     }}
-                  >
-                    다음
-                  </button> // 다음 버튼 스타일
+                  />
                 )}
               </>
             )}

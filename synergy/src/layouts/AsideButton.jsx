@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "/src/css/asidebutton.css";
 import ChatListModal from "./ChatListModal";
-import firstImage from "/src/images/github.png";
-import secondImage from "/src/images/insta.png";
-import thirdImage from "/src/images/kakao.png";
+import firstImage from "/src/images/check-list.png";
+import secondImage from "/src/images/comments.png";
+import thirdImage from "/src/images/calendar.png";
 
 function AsideButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);

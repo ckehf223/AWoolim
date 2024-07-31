@@ -78,15 +78,14 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 강조 */
 }
 .categoryButton {
-  background-color: #007bff; /* 버튼 배경색 */
-  color: white; /* 글자색 */
-  border: none; /* 테두리 제거 */
-  padding: 8px 15px; /* 내부 여백 */
-  border-radius: 10px; /* 둥근 모서리 */
-  cursor: pointer; /* 커서 스타일 변경 */
-  opacity: 0.9;
+  width: 27px;
+  height: 27px;
+  padding: 7px;
+  border: 1px solid rgb(159, 159, 159);
+  border-radius: 30px;
   transition: background-color 0.2s ease; /* 호버 효과를 위한 트랜지션 */
+  opacity: 0.6;
 }
 .categoryButton:hover {
-  background-color: #0056b3; /* 호버 시 배경색 변경 */
+  background-color: #868686; /* 호버 시 배경색 변경 */
 }
