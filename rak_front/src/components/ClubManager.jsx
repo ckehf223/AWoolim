@@ -1,12 +1,17 @@
 import React, { useContext, useState } from 'react'
 import './ClubManager.css'
-import { Table, Input } from 'reactstrap'
+import { Table, Input, Label, Col, Button, FormGroup } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { ClubContext } from '../ClubContext'
 import PaginationComponent from './PaginationComponent'
 
 const ClubManager = () => {
   const { clubs } = useContext(ClubContext);
+  const initialClubs = clubs;
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchColumn, setSearchColumn] = useState('name');
+  const [filteredClubs, setFilteredClubs] = useState(initialClubs);
 
   // -------------------------페이지네이션-------------------
   const itemsPerPage = 10;
@@ -19,15 +24,57 @@ const ClubManager = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentClubs = clubs.slice(indexOfFirstItem, indexOfLastItem);
+  const currentClubs = filteredClubs.slice(indexOfFirstItem, indexOfLastItem);
   //-------------------------페이지네이션-------------------
+
+  //-------------------------검색기능-------------------------
+  const handleSearch = () => {
+    if (searchTerm === '') {
+      setFilteredClubs(initialClubs);
+    } else {
+      const newFilteredClubs = initialClubs.filter(club =>
+        club[searchColumn].toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredClubs(newFilteredClubs);
+    }
+    setCurrentPage(1); // 검색 결과가 갱신될 때 페이지를 첫 번째로 설정
+  };
+  //-------------------------검색기능-------------------------
 
   return (
     <div className='ClubManager'>
       <h1>Club Manager</h1>
       <div className='search-bar'>
-        <Input type='search' placeholder='검색어를 입력하세요'
-          className='mb-3' />
+        <FormGroup row className='form-group'>
+          <Label for='searchColumn' sm={2}></Label>
+          <Col sm={3}>
+            <Input
+              type='select'
+              name='searchColumn'
+              id='searchColumn'
+              value={searchColumn}
+              onChange={(e) => setSearchColumn(e.target.value)}
+            >
+              <option value="name">모임 이름</option>
+              <option value="category">카테고리</option>
+              <option value="people">참여인원</option>
+              <option value="date">개설일</option>
+              <option value="regular">정기/일회</option>
+            </Input>
+          </Col>
+          <Col sm={4}>
+            <Input
+              type='search'
+              placeholder='검색어를 입력하세요'
+              className='mb-3'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            ></Input>
+          </Col>
+          <Col sm={3}>
+            <Button color='primary' onClick={handleSearch}>검색하기</Button>
+          </Col>
+        </FormGroup>
       </div>
       <Table bordered>
         <thead>

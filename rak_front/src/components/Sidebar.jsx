@@ -3,11 +3,12 @@ import { Nav, NavItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import './Sidebar.css'
 
+
 const Sidebar = () => {
 
   return (
     <div className="Sidebar">
-      <div className="bg-light border-right" style={{ minHeight: '100vh' }}>
+      <div className=" border-right" style={{ minHeight: '100vh' }}>
         <Nav vertical>
           <NavItem className="nav-item-custom">
             <Link className="nav-link" to="/">대시보드</Link>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Table, Input, Button } from 'reactstrap'
+import { Table, Input, Button, FormGroup, Label, Col } from 'reactstrap'
 import './UserManager.css'
 import ModalComponent from './ModalComponent'
 import useModal from './useModal'
@@ -9,7 +9,7 @@ import PaginationComponent from './PaginationComponent'
 
 const UserManager = () => {
 
-  const [users, setUsers] = useState([
+  const initialUsers = [
     { id: 1, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
     { id: 2, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
     { id: 3, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
@@ -31,13 +31,16 @@ const UserManager = () => {
     { id: 19, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
     { id: 20, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
     { id: 21, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
+  ];
 
-  ]);
+  const [users, setUsers] = useState(initialUsers);
+  const [filteredUsers, setFilteredUsers] = useState(initialUsers);
 
-
-  //모달상태
+  //-------------------------모달상태-------------------------
   const { isModalOpen, toggleModal } = useModal();
   const [selectedUser, setSelectedUser] = useState(null);
+  //-------------------------모달상태-------------------------
+
 
   // -------------------------페이지네이션-------------------
   const itemsPerPage = 10;
@@ -50,8 +53,27 @@ const UserManager = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
+  const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
   //-------------------------페이지네이션-------------------
+
+
+  //-------------------------검색기능-------------------------
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchColumn, setSearchColumn] = useState('name');
+
+  const handleSearch = () => {
+    if (searchTerm === '') {
+      setFilteredUsers(users);
+    } else {
+      const newFilteredUsers = users.filter(user =>
+        user[searchColumn].toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredUsers(newFilteredUsers);
+    }
+    setCurrentPage(1); // 검색 결과가 갱신될 때 페이지를 첫 번째로 설정
+  };
+  //-------------------------검색기능-------------------------
+
 
   const openUserModal = (user) => {
     setSelectedUser(user);
@@ -70,12 +92,39 @@ const UserManager = () => {
 
 
 
+
   return (
     <div className='UserManager'>
       <h1>User Manager</h1>
       <div className='search-bar'>
-        <Input type='search' placeholder='검색어를 입력하세요'
-          className='mb-3' />
+        <FormGroup row className='form-group'>
+          <Label for='searchColumn' sm={2}></Label>
+          <Col sm={3}>
+            <Input
+              type='select'
+              name='searchColumn'
+              id='searchColumn'
+              value={searchColumn}
+              onChange={(e) => setSearchColumn(e.target.value)}
+            >
+              <option value="name">이름</option>
+              <option value="email">이메일</option>
+              <option value="userId">아이디</option>
+            </Input>
+          </Col>
+          <Col sm={4}>
+            <Input
+              type='search'
+              placeholder='검색어를 입력하세요'
+              className='mb-3'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            ></Input>
+          </Col>
+          <Col sm={3}>
+            <Button color='primary' onClick={handleSearch}>검색하기</Button>
+          </Col>
+        </FormGroup>
       </div>
       <Table bordered>
         <thead>
@@ -85,7 +134,7 @@ const UserManager = () => {
             <th>Email</th>
             <th>userId</th>
             <th>Role</th>
-            <th>상세정보</th>
+            <th className='action-column'>상세정보</th>
           </tr>
         </thead>
         <tbody>

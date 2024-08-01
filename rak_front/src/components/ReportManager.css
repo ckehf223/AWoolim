@@ -2,9 +2,47 @@
 .search-bar {
   display: flex;
   justify-content: flex-end;
-
+  margin-right: -20px /* 오른쪽으로 추가 이동 */
 }
 
 .search-bar input {
-  width: 30%;
+  width: 20%;
 }
+
+.ReportManager > table > thead > tr > th {
+  background-color: #6c757d;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.ReportManager > table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.ReportManager > table th:first-child {
+  border-top-left-radius: 5px;
+}
+
+.ReportManager > table th:last-child {
+  border-top-right-radius: 5px;
+}
+
+.ReportManager > table td {
+  background-color: white;
+}
+
+.ReportManager > table tr {
+  transition: all 0.2s ease;
+}
+
+.ReportManager > table tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
