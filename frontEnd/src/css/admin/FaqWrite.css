@@ -1,0 +1,59 @@
+.FaqWrite{
+    width: 1000px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.FwHeader {
+    display: flex;
+    align-items: center;
+}
+
+
+.fwQuestion {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fwQuestion textarea{
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.fwQuestion h4 {
+    color: rgb(3, 3, 129);  
+}
+
+.fwAnswer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fwAnswer h4{
+    color: rgb(3, 3, 129);
+}
+
+.fwAnswer textarea{
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.fwBtn {
+    display: flex;
+    justify-content: center;
+}
+
+.fwBtn button {
+    padding: 10px;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    border-right: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+    margin: 5px;
+    margin-top: 15px;
+}

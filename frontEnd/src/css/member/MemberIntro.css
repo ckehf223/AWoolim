@@ -1,0 +1,90 @@
+.MemberIntro {
+    margin: 30px auto;
+    text-align: center;
+}
+
+.miHeader img{
+    width: 200px;
+    padding-bottom: 20px;
+}
+
+.joinWay{
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+.joinWay button {
+    width: 500px;
+    height: 70px;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.classic {
+    background-color: rgb(94, 94, 247);
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    
+}
+
+.kakao {
+    background-color: #FEE500;
+    font-size: large;
+    font-weight: bold;
+    color: rgb(78, 78, 78);
+    text-align: center;
+    align-items: center;
+    border: none;
+}
+.naver {
+    display: flex;
+    justify-content: center;
+    background-color: #03C75A;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    align-items: center;
+    border: none;
+}
+
+.naver_span {
+    font-size: 22px;
+    font-weight: bold;
+    position: relative;
+    right: 10px;
+    top: 1px;
+}
+
+.naverImg {
+    width: 450px;
+    height: 60px;
+}
+.googleLogo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    font-size: large;
+    font-weight: bold;
+    color: rgb(27, 27, 27);
+    text-align: center;
+    align-items: center;
+    border: 1px solid lightgray;
+}
+
+.googleLogo img{
+    width: 23px;
+    position: relative;
+    right: 10px;
+    top: 1px
+}
+
+.googleLogo span{
+    font-size: 15px;
+}

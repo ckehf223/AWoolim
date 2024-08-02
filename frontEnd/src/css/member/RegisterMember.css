@@ -1,0 +1,149 @@
+.RegisterMember {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 700px;
+    margin-top: 50px;
+}
+
+.register-form {
+    width: 80%;
+}
+
+.register-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    height: 50px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    width: 150px;
+}
+
+.input-group input {
+    padding: 8px 10px;
+    box-sizing: border-box;
+    border: 1px dotted lightblue;
+    border-radius: 5px;
+    height: 40px;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+
+.input-group button {
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0078d7;
+    color: white;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.input-group button:hover {
+    background-color: #005bb5;
+}
+
+/* ------------------------------------------ */
+.input-group .pw-group{
+    display: flex;
+    justify-content: space-between;
+    border: 1px dotted lightblue;
+    width: 500px;
+    border-radius: 5px;
+    margin: 5px;
+    margin-left: 0px;
+
+}
+
+.input-group .pw-group input{
+    border: none;
+    outline: none;
+    width: 90%;/* 이부분수정됨 */
+}
+/* 이부분수정됨 */
+.pw-group .password-toggle {
+    margin-left: 10px;
+}
+
+/* ------------------------------------- */
+.input-group2 {
+    margin-bottom: 15px;
+    display: flex;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.input-group2 label {
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    width: 150px;
+    color: gray;
+}
+
+.input-group2 input,
+.input-group2 select {
+    width: 490px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    border: 1px dotted lightblue;
+    border-radius: 5px;
+    height: 40px;
+    margin: 5px 5px 5px;
+    color: gray;
+}
+
+.input-group2 button {
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0078d7;
+    color: white;
+    margin-right: 5px;
+}
+
+.input-group2 button:hover {
+    background-color: #005bb5;
+}
+
+/* ---------------------------------------- */
+
+.register-button {
+    width: 100%;
+    padding: 5px;
+    background-color: #0078d7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    height: 50px;
+}
+
+.register-button:hover {
+    background-color: #005bb5;
+}

@@ -1,0 +1,15 @@
+.Admin {
+  height: 100vh;
+ 
+}
+
+.AdminMainContainer {
+  display: flex;
+  flex: 1;
+}
+
+.AdminMainContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}

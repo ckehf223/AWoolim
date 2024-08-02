@@ -1,0 +1,134 @@
+/* Notice.css */
+.Notice {
+    width: 1000px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.Notice_Header {
+    margin: 20px 0;
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.Notice_Header h1 {
+    font-size: 24px;
+    color: #28522a;
+}
+
+.Notice .searchBox {
+    display: flex;
+    justify-content: space-between;
+}
+.Notice .searchBox .writeBtn button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 40px;
+}
+.Notice .searchBox .SB {
+    width: 250px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Notice .searchBox input {
+    width: 200px;
+    padding: 8px;
+    margin-right: 5px;
+    border-style: none;
+    outline: none;
+}
+
+.NoticeTable {
+    width: 100%;
+    min-height: 419px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.NoticeTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.NoticeTable th, .NoticeTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.NoticeTable th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.NotNo, .NotTitle, .NotCnt, .NotRegDate {
+    padding: 10px;
+}
+
+.NotNo{
+    width: 120px;
+}
+.NotCnt {
+    width: 120px;
+}
+.NotRegDate{
+    width: 150px;
+}
+
+.noticeKeyword {
+    font-size: 11pt;
+    font-weight: bold;
+    color: blue;
+    margin-right: 10px;
+}
+
+.Notice .pageNum {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 20px;
+   
+}
+
+.currentBtn {
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    margin: auto 1px;
+    cursor: pointer;
+    border: 1px solid skyblue;
+    border-radius: 5px;
+}
+
+.currentBtn.active {
+    background-color: #506be4;
+    color: white;
+}
+
+.FirstPageBtn {
+    padding: 5px;
+    width: 50px;
+    height: 40px;
+    margin: auto 1px;
+    cursor: pointer;
+    border: 1px solid skyblue;
+    border-radius: 5px;
+}
+
+.prevPageBtn {
+    padding: 5px;
+    width: 50px;
+    height: 40px;
+    margin: auto 1px;
+    cursor: pointer;
+    border: 1px solid skyblue;
+    border-radius: 5px;
+}
