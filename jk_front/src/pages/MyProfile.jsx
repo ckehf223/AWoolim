@@ -63,10 +63,9 @@ const MyProfile = () => {
         setImageSrc(e.target.result);
       };
       reader.readAsDataURL(file);
-    } else {
-      setImageSrc('/src/images/blank_image.png');
     }
   };
+
   //이미지 미리보기 
   const handleBackImageChange = (event) => {
     const file = event.target.files[0];
@@ -76,8 +75,6 @@ const MyProfile = () => {
         setBackImageSrc(e.target.result);
       };
       reader.readAsDataURL(file);
-    } else {
-      setBackImageSrc('');
     }
   };
 
@@ -85,7 +82,7 @@ const MyProfile = () => {
     <>
       <div className="MyProfile">
         <div className="MyProfileHeader">
-          <h2>프로필 관리</h2>
+          <h4>프로필 관리</h4>
         </div>
         <div className="MyProfileInfoArea">
           <input type="file" id="MyProfileFile" name='MyProfileFile' accept=".jpg, .jpeg, .png, .gif, .webp" onChange={handleImageChange} />

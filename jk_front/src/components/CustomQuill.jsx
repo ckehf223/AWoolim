@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { CustomToolbar } from './CustomToolbar';
 
-const CustomQuill = ({ content }) => {
+const CustomQuill = ({ content, width, height }) => {
   const [editorContent, setEditorContent] = useState(content);
 
   const handleEditorChange = (value) => {
@@ -32,7 +32,7 @@ const CustomQuill = ({ content }) => {
         onChange={handleEditorChange}
         modules={modules}
         formats={formats}
-        style={{ width: "900px", height: "300px", }}
+        style={{ width: `${width}px`, height: `${height}px`, }}
       />
     </div>
   );

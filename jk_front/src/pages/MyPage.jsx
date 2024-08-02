@@ -5,6 +5,8 @@ import './MyPage.css'
 import UserModify from "./UserModify"
 import UserMyClub from "./UserMyClub"
 import UserMadeClub from "./UserMadeClub"
+import MyClubManager from "./MyClubManager"
+import UserReport from "./UserReport"
 
 const MyPage = () => {
   return (
@@ -18,6 +20,8 @@ const MyPage = () => {
               <Route path='usermodify' element={<UserModify />} />
               <Route path='myclub' element={<UserMyClub />} />
               <Route path='madeclub' element={<UserMadeClub />} />
+              <Route path='clubmanager/*' element={<MyClubManager />} />
+              <Route path='report' element={<UserReport />} />
             </Routes >
           </div>
         </div>

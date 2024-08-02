@@ -1,8 +1,7 @@
 .UserModify{
-  width: 100%;
+  margin: 0;
   text-align: left;
-  padding-left: 50px;
-  min-height: 1000px; 
+  min-height: 900px;
 }
 .UserModifyWrap{
   margin: 0 auto;
@@ -11,9 +10,11 @@
   border-bottom: 3px solid #222;
   padding-bottom: 16px;
 }
-.UserModifyTitle{
-  font-size: 24px;
-  letter-spacing: -.36px;
+.UserModifyTitle h4{
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+
 }
 .UserModifyMainArea{
   width: 100%;

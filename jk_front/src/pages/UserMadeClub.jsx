@@ -1,34 +1,36 @@
 import { useState } from 'react';
 import './UserMadeClub.css'
+import { useNavigate } from 'react-router-dom';
 const myClubData = [
   {
     clubNo: 1,
-    category: '실내스포츠',
+    category: '모집중',
     clubName: '오늘 다같이 미쳐보자',
-    clubImage: '/src/images/image.png',
+    clubImage: '/src/images/frankenstein.webp',
   },
   {
     clubNo: 2,
-    category: '친목모임',
+    category: '모집마감',
     clubName: '오늘 다같이 죽어보자',
     clubImage: '/src/images/image.png',
   },
   {
     clubNo: 3,
-    category: '야외스포츠',
+    category: '모집마감',
     clubName: '오늘 다같이 이겨보자',
     clubImage: '/src/images/image.png',
   },
 ];
 const UserMadeClub = () => {
   const [data, setData] = useState(myClubData);
+  const nav = useNavigate();
   return (
     <>
       <div className='UserMadeClub'>
         <div className='UserMadeClubWrap'>
           <div className='UserMadeClubContentBorder'>
             <div className='UserMadeClubTitle'>
-              <h3>내 모임</h3>
+              <h4>내 모임</h4>
             </div>
           </div>
           <div className='UserMadeClubMainArea'>
@@ -53,10 +55,20 @@ const UserMadeClub = () => {
                             <p className='UserMadeClubCategory'>{club.category}</p>
                             <p className='UserMadeClubTitle'>{club.clubName}</p>
                           </div>
+                          <div className='UserMadeClubMgBox'>
+                            <div className='UserMadeClubInfo'>
+                              <p className='UserMadeClubCategory'>인원</p>
+                              <p className='UserMadeClubTitle'>13 명</p>
+                            </div>
+                            <div className='UserMadeClubInfo'>
+                              <p className='UserMadeClubCategory'>신청</p>
+                              <p className='UserMadeClubTitle'>3 건</p>
+                            </div>
+                          </div>
                         </div>
                         <div className='UserMadeClubButtonArea'>
                           <img className='UserMadeClubBoardImg' src="/src/images/home.png" alt="모임 게시판 이미지" />
-                          <img className='UserMadeClubExitImg' src="/src/images/settings.png" alt="모임 설정 이미지" />
+                          <img className='UserMadeClubExitImg' src="/src/images/settings.png" alt="모임 설정 이미지" onClick={() => { nav('/mypage/clubmanager/modify') }} />
                         </div>
                       </div>
                     )

@@ -5,12 +5,11 @@ const MyPageSide = () => {
   return (
     <>
       <div className="MyPageSideArea">
-        <h2>마이페이지</h2>
-
+        <h4>마이페이지</h4>
         <div className="MyPageInfoMenuArea">
           <div className="MyPageInfoHeader">
             <img src="/src/images/user.png" />
-            <h3>내 정보</h3>
+            <h5>내 정보</h5>
           </div>
           <div className="MyPageInfoMenu">
             <span onClick={() => { nav('/mypage/profile') }}>프로필 관리</span>
@@ -21,7 +20,7 @@ const MyPageSide = () => {
         <div className="MyPageClubMenuArea">
           <div className="MyPageClubHeader">
             <img src="/src/images/group2.png" />
-            <h3>모임 정보</h3>
+            <h5>모임 정보</h5>
           </div>
           <div className="MyPageClubMenu">
             <span onClick={() => { nav('/mypage/myclub') }}>참여모임</span>
@@ -30,8 +29,8 @@ const MyPageSide = () => {
         </div>
 
         <div className="myPageReportMenu">
-          <img src="/src/images/report.png" />
-          <h3>신고내역</h3>
+          <img src="/src/images/warning.png" />
+          <h5 onClick={() => { nav('/mypage/report') }}>신고내역</h5>
         </div>
 
       </div>

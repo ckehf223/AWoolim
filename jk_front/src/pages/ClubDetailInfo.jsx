@@ -96,8 +96,8 @@ const ClubDetailInfo = () => {
                   onClick={() => openUserModal({
                     nickName: '마봉팔',
                     message: '집에가고싶다~',
-                    backgroundImage: '/src/images/frankenstein.webp',
-                    profileImage: '/src/images/blank_image.png'
+                    backgroundImage: 'frankenstein.webp',
+                    profileImage: 'blank_image.png'
                   })}>
                   <img src="/src/images/blank_image.png" />
                   <div className='ClubDetailMemberInfo'>

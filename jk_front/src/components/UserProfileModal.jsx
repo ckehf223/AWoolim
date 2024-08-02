@@ -22,7 +22,7 @@ const UserProfileModal = ({
         <div className="modal-content">
           <ModalHeader
             className='UserProfileModalHeader'
-            style={{ backgroundImage: `url(${backgroundImage})` }}>
+            style={{ backgroundImage: `url(/src/images/${backgroundImage})` }}>
             <img className='UserProfileModalReportImage' src="/src/images/report4.png" alt="신고이미지" onClick={toggleModal} />
             <ReportModal
               isOpen={isModalOpen}
@@ -31,7 +31,7 @@ const UserProfileModal = ({
               targetId={name} >
             </ReportModal>
             <Button className='UserProfileModalCloseButton' onClick={toggle} >✖</Button>
-            <img src={profileImage} alt="Profile" className='UserProfileModalProfileImage' />
+            <img src={`/src/images/${profileImage}`} alt="Profile" className='UserProfileModalProfileImage' />
           </ModalHeader>
           <ModalBody className='UserProfileModalBody'>
             <div className='UserProfileModalProfileName'>{name}</div>

@@ -3,7 +3,7 @@
   text-align: center;
 }
 .ClubRegisterWrap{
-  width: 70%;
+  width:70%;
   margin: 0 auto;
 }
 
@@ -31,7 +31,7 @@
 .preview{
   position: relative;
   width: 600px;
-  height: 250px;
+  height: 370px;
   margin-bottom: 10px;
   border-radius: 10px;
 }
@@ -40,6 +40,7 @@
   height: 100%;
   border-radius: 10px;
   z-index: 1;
+  object-fit: cover;
 }
 .upload-name {
   display: inline-block;
@@ -161,7 +162,7 @@
 }
 .choiceBox select{
   text-align: end;
-  width: 320px;
+  width: 300px;
   height: 40px;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.5);

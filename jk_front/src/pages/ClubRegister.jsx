@@ -263,7 +263,7 @@ const ClubRegister = () => {
           </div>
           <div className="ClubRegisterSection">
             <h3>상세 정보</h3>
-            <CustomQuill />
+            <CustomQuill width={900} height={300} />
           </div>
           <div className="ClubRegisterButtonArea">
             <button className="registerButton">등록</button>

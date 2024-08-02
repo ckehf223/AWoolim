@@ -1,8 +1,7 @@
 .UserMyClub{
-  width: 100%;
+  margin: 0;
   text-align: left;
-  padding-left: 50px;
-  min-height: 1000px; 
+  min-height: 900px;
 }
 .UserMyClubWrap{
   margin: 0 auto;
@@ -11,9 +10,10 @@
   border-bottom: 3px solid #222;
   padding-bottom: 16px;
 }
-.UserMyClubTitle{
-  font-size: 24px;
-  letter-spacing: -.36px;
+.UserMyClubTitle h4{
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
 }
 .UserMyClubMainArea{
   width: 100%;
@@ -38,7 +38,6 @@
   outline: none;
 
 }
-
 .UserMyClubBox{
   align-items: center;
   border-bottom: 1px solid rgb(0,0,0,0.3);
@@ -54,10 +53,9 @@
   position: relative;
 }
 .UserMyClubImageBox img{
-  width: 150px;
-  height: 80px;
+  width: 200px;
+  height: 135px;
   border-radius: 12px;
-  object-fit: cover;
 }
 .UserMyClubInfo{
   display: flex;

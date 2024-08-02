@@ -1,0 +1,60 @@
+/* ModalComponent.css */
+.CustomModal .modal-dialog {
+  max-width: 600px; /* 원하는 최대 너비 */
+  width: 100%;
+  margin: 0 auto;
+  top: 10%;
+}
+
+.CustomModal .modal-content {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.CustomModalHeader {
+  position: relative;
+  height: 200px;
+  background-color: rgb(135, 192, 187); /* ModalHeader의 배경색 변경 */
+  background-size: cover;
+  background-position: center;
+}
+
+.CustomModalCloseButton {
+  position: absolute;
+  top: 10px; /* 상단 위치 조정 */
+  right: 10px; /* 우측 위치 조정 */
+  border: none !important;
+  background: none !important;
+  color: #ff0000 !important; /* X 버튼 색상 변경 */
+  font-size: 1.5rem; /* X 버튼 크기 조정 */
+  cursor: pointer;
+}
+
+.CustomModalBody {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.ProfileImage {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 3px solid white;
+  width: 100px;
+  height: 100px;
+}
+
+.ProfileName {
+  font-size: 1.5rem;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.ProfileDetails {
+  margin-top: 10px;
+  color: #666;
+  font-size: 1rem;
+}

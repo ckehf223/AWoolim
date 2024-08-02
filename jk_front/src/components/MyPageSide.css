@@ -2,16 +2,22 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 20%;
+  width: 225px;
   gap: 10px;
+}
+.MyPageSideArea h4,.MyPageSideArea h5{
+  font-weight: bold;
+  margin: 5px 0 0 0;
 }
 .MyPageInfoMenuArea,.MyPageClubMenuArea{
   width: 100%;
+  margin-top: 30px;
 }
 .MyPageInfoHeader,.MyPageClubHeader{
-  width: 100%;
   display: flex;
+  width: 100%;
   align-items: center;
+  height: 50px;
   gap: 10px;
 }
 .MyPageInfoHeader img,.MyPageClubHeader img,.myPageReportMenu img{
@@ -21,11 +27,14 @@
 .MyPageInfoMenu,.MyPageClubMenu{
   display: flex;
   flex-direction: column;
-  margin-top: 5px;
-  gap: 15px;
+  margin-top: 15px;
+  gap: 10px;
   font-size: 15px;
   font-weight: 600;
-  color: rgba(34, 34, 34, 0.4);
+  color: rgba(34, 34, 34, 0.5);
+}
+.MyPageInfoMenu span:hover,.MyPageClubMenu span:hover{
+  color: rgb(84, 83, 83);
 }
 .MyPageInfoMenu span,.MyPageClubMenu span{
   cursor: pointer;
@@ -36,6 +45,8 @@
   align-items: center;
   gap: 10px;
 }
-.myPageReportMenu h3{
+.myPageReportMenu h5{
+  margin-bottom: 6px;
   cursor: pointer;
+  color: rgb(246, 193, 0);
 }

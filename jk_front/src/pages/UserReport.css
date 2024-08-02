@@ -1,0 +1,183 @@
+.UserReport{
+  width: 100%;
+  text-align: left;
+  padding-left: 50px;
+  min-height: 1000px; 
+}
+.UserReport a{
+  text-decoration: none;
+  color: inherit;
+}
+.UserReportWrap{
+  margin: 0 auto;
+}
+.UserReportHeaderArea{
+  display: flex;
+  text-align: center;
+  margin-top: 30px;
+  align-items: center;
+  width: 100%;
+}
+.UserReportHeaderNav{
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  cursor: pointer;
+}
+
+.UserReportHeaderNavselected{
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  cursor: pointer;
+}
+
+.UserReportHeaderNavselected > .UserReportTotalCount{
+  width: 100%;
+  font-size: 22px;
+  font-weight: bold;
+  color: red;
+  margin: 0;
+}
+
+.UserReportHeaderNavselected > .UserReportTotalMg{
+  width: 100%;
+  margin: 5px 0;
+  font-size: 13px;
+  color: black;
+  font-weight: bold;
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+}
+
+.UserReportHeaderNav > .UserReportTotalCount{
+  width: 100%;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.UserReportHeaderNav > .UserReportTotalMg{
+  width: 100%;
+  margin: 5px 0;
+  font-size: 13px;
+  color: rgba(34, 34, 34, .5);
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d3d3d3;
+}
+.UserReportCalendarArea{
+  display: flex;
+  justify-content: center;
+  background-color: #e7e7e7;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+}
+.UserReportCalendarArea b{
+  margin-right: 10px;
+}
+.UserReportCalendarArea button{
+  padding: 0 15px;
+  height: 32px;
+  border-radius: 7px;
+  margin-left: 5px;
+  outline: none;
+  color: white;
+  background-color: black;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+.DatePicker{
+  text-align: center;
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid #d3d3d3;
+  padding: 3px;
+  cursor: pointer;
+  caret-color: transparent;
+  width: 150px;
+}
+/* .UserReportContentBorder{
+  border-bottom: 3px solid #222;
+  padding-bottom: 16px;
+} */
+.UserReportTitle{
+  font-size: 24px;
+  letter-spacing: -.36px;
+}
+.UserReportMainArea{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin-top: 30px;
+}
+.UserReportContentBorder{
+  border-bottom: 2px solid #302f2f;
+  width: 100%;
+  text-align: center;
+}
+.UserReportMainHeader{
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+}
+.UserReportMainHeader div{
+  width: 200px;
+  font-weight: bold;
+  padding: 10px 0;
+}
+.UserReportInfoArea{
+  width: 100%;
+  text-align: center;
+  border: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+.UserReportMainBox{
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  cursor: pointer;
+}
+.UserReportMainBox div{
+  width: 200px;
+  padding: 10px 0;
+}
+.UserReportContentArea{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-top: none;
+  border-radius: 5px;
+  max-height: 0;
+  gap: 10px;
+  overflow: hidden;
+  transition: max-height 0.2s, padding 0.2s ease-in-out;
+}
+.UserReportContentAreaShow{
+  display: flex;
+  flex-direction: column;
+  padding-left:170px;
+  justify-content: center;
+  width: 100%;
+  height: 80px;
+  border-top: none;
+  border-radius: 5px;
+  gap: 10px;
+  background-color: #e7e7e7;
+  cursor: pointer;
+}
+.UserReportContentAreaShow div{
+  font-weight: bold;
+  font-size: 15px;
+  display: flex;
+  gap: 10px;
+}
+.UserReportContentAreaShow span{
+  font-size: 14px;
+  color: rgba(34, 34, 34, .7);
+}
