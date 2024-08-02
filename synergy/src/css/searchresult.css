@@ -1,5 +1,5 @@
 .search-page {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* 깔끔한 글꼴 */
+  font-family: "Noto Sans KR", sans-serif;
   width: 70%;
   margin: 40px auto;
 }
@@ -13,8 +13,6 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
 }
 .filter-title {
-  background-color: #e0f2f1; /* 부드러운 파란색 배경 */
-  color: #26a69a; /* 진한 청록색 글씨 */
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 15px;
@@ -22,18 +20,18 @@
 
 .filter-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
 
 .filter-header h3 {
   margin: 0;
-  font-size: 1.2rem;
-  color: #333; /* 진한 회색 */
+  font-size: 24px;
+  color: rgb(45, 45, 45);
 }
 
 .filter-body {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -43,15 +41,16 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-bottom: 15px; /* 항목 간 간격 추가 */
+  padding-left: 15px;
+  margin-bottom: 10px;
 }
-
 .filter-row select,
 .filter-row input {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 0.9rem;
+  margin: 0 10px;
 }
 
 .filter-row button {
@@ -98,26 +97,54 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.search-results input[type="text"] {
-  width: calc(100% - 20px);
+.search-page input[type="text"] {
+  width: 320px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  margin-bottom: 15px;
   box-sizing: border-box;
 }
-
+.search-results span {
+  font-size: 24px;
+  font-weight: 600;
+  padding-left: 30px;
+  color: rgb(45, 45, 45);
+}
 .search-results ul {
   list-style: none;
   padding: 0;
 }
 
 .search-result-item {
+  display: flex;
   border-bottom: 1px solid #eee;
   padding: 15px;
   transition: background-color 0.2s ease;
 }
-
+.search-result-item a {
+  width: 300px;
+  height: 200px;
+}
+.search-result-item img {
+  width: 300px;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.search-result-item div {
+  margin-left: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.search-result-item div h4 {
+  font-size: 17px;
+  margin: 0 0 5px 0;
+}
+.search-result-item div p {
+  margin: 0;
+  font-size: 15px;
+}
 .search-result-item:hover {
   background-color: #f9f9f9; /* 더 연한 회색 호버 배경 */
 }
@@ -128,5 +155,5 @@
 }
 
 .search-result-item p {
-  color: #777;
+  color: #3e3e3e;
 }

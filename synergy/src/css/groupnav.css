@@ -4,11 +4,12 @@
   padding: 20px;
   border-radius: 8px; /* 둥근 모서리 */
   margin: 0 auto;
-  width: 50%;
+  width: 70%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
 }
 
 .button-group {
+  margin-top: 8vh; /* 화면 높이에 따라 조절 */
   display: flex;
   justify-content: center;
   gap: 10px;

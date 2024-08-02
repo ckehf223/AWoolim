@@ -1,17 +1,18 @@
+/* 전체 컨테이너 스타일 */
 #categoryDiv {
   width: 70%;
   margin: 0 auto;
 }
+
 #categorySpan {
   font-family: sans-serif;
   background-color: #fff;
   padding: 0 20px 10px;
-  margin-top: 90px;
+  margin-top: 8vh; /* 화면 높이에 따라 조절 */
   text-align: center;
 }
-
 #categorySpan span {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: bold;
   color: #222;
   margin-bottom: 20px;
@@ -20,72 +21,117 @@
 }
 #categoryA {
   margin: 15px auto 0 auto;
-  width: 760px;
+  width: 55%; /* 화면 너비에 따라 조절 */
+  max-width: 1000px; /* 최대 너비 제한 */
   display: flex;
   justify-content: space-between;
 }
-#categoryA a {
+
+#categoryA > a {
   text-decoration: none;
   padding: 11px 22px;
   border: 1px solid rgb(214, 214, 214);
   border-radius: 23px;
   color: #2e2e2e;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+#categoryA > a:hover {
+  background-color: #d2d2d2;
 }
 #categoryA a:focus {
   color: white;
   font-weight: 600;
-  background-color: #8e43e7;
+  background-color: #3879d4;
+  outline: none;
 }
+/* 슬라이드 컨테이너 스타일 */
 .categoryDiv {
-  display: flex;
-  margin-top: 40px;
-  flex-wrap: wrap; /* 이미지 개수에 따라 줄바꿈 */
-  justify-content: center;
-  gap: 43px; /* 이미지 간격 */
+  overflow-x: hidden;
   width: 100%;
+  margin-top: 20px;
+}
+
+.slide-container {
+  display: flex;
+  justify-content: space-between;
+  transition: transform 0.5s ease;
+  gap: 4%;
+}
+
+.slide-item {
+  margin-top: 5px;
+  width: 22%;
+  box-sizing: border-box;
+  flex-shrink: 0;
   border-radius: 13px;
 }
-.categoryDiv a {
+
+.categoryImg {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  transition: transform 0.3s ease;
+}
+.slide-item > a {
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: rgb(37, 37, 37);
   font-size: 15px;
   border-radius: 13px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 개선 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.categoryDiv a img {
-  height: 200px;
-  object-fit: cover;
-  border-top-left-radius: 13px;
-  border-top-right-radius: 13px;
-  transition: transform 0.3s ease; /* 호버 효과 개선 */
-}
-.categoryDiv a div {
-  height: 100%;
-  padding-top: 10px;
+.slide-item > a > div {
+  position: relative;
+  width: 100%;
+  height: 180px;
   border-bottom-left-radius: 13px;
   border-bottom-right-radius: 13px;
-  background-color: #f9f9f9; /* 배경색 추가 */
+  background-color: #fcefff;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* 그림자 효과 추가 */
 }
-.categoryDiv a div span {
-  position: relative;
-  left: 20px;
+
+.slide-item > a > div > span {
+  padding-left: 20px;
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.categoryDiv a:hover {
+.slide-item > a:hover {
   transform: translateY(-5px); /* 살짝 위로 이동 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 강조 */
 }
-.categoryButton {
+.categoryButtonL,
+.categoryButtonR {
+  position: absolute;
+  top: 915px;
+  transform: translateY(-50%);
   width: 27px;
   height: 27px;
   padding: 7px;
   border: 1px solid rgb(159, 159, 159);
   border-radius: 30px;
-  transition: background-color 0.2s ease; /* 호버 효과를 위한 트랜지션 */
-  opacity: 0.6;
+  transition: background-color 0.2s ease;
+  opacity: 0.8;
 }
-.categoryButton:hover {
-  background-color: #868686; /* 호버 시 배경색 변경 */
+.categoryButtonL {
+  left: 11vw; /* 왼쪽 여백을 vw 단위로 설정 */
+}
+.categoryButtonR {
+  right: 11vw; /* 오른쪽 여백을 vw 단위로 설정 */
+}
+.categoryButtonR:hover {
+  background-color: #d4d4d4; /* 호버 시 배경색 변경 */
+}
+.categoryButtonL:hover {
+  background-color: #d4d4d4; /* 호버 시 배경색 변경 */
 }

@@ -11,7 +11,7 @@ const images = [
     minAge: 23,
     maxAge: 35,
     type: "정기",
-    categories: ["스터디", "개발"],
+    categories: "스터디", // "개발" 제거
     daysOfWeek: ["화", "목"],
   },
   {
@@ -24,7 +24,7 @@ const images = [
     minAge: 19,
     maxAge: 45,
     type: "비정기",
-    categories: ["스포츠", "러닝"],
+    categories: "스포츠", // "러닝" 제거
     daysOfWeek: ["토"],
   },
   {
@@ -37,7 +37,7 @@ const images = [
     minAge: 25,
     maxAge: 50,
     type: "정기",
-    categories: ["독서", "소설"],
+    categories: "독서", // "소설" 제거
     daysOfWeek: ["일"],
   },
   {
@@ -50,7 +50,7 @@ const images = [
     minAge: 20,
     maxAge: 30,
     type: "비정기",
-    categories: ["맛집탐방", "친목"],
+    categories: "맛집탐방", // "친목" 제거
     daysOfWeek: ["금", "토"],
   },
   {
@@ -63,7 +63,7 @@ const images = [
     minAge: 18,
     maxAge: 35,
     type: "정기",
-    categories: ["취미", "보드게임"],
+    categories: "취미", // "보드게임" 제거
     daysOfWeek: ["수", "토"],
   },
   {
@@ -76,7 +76,7 @@ const images = [
     minAge: 25,
     maxAge: 31,
     type: "정기",
-    categories: ["운동"],
+    categories: "문화", // "운동"을 "문화"로 변경 (영화 감상에 더 적합)
     daysOfWeek: ["월"],
   },
   {
@@ -89,7 +89,7 @@ const images = [
     minAge: 29,
     maxAge: 35,
     type: "비정기",
-    categories: ["스포츠"],
+    categories: "취미", // "스포츠"를 "취미"로 변경 (요리에 더 적합)
     daysOfWeek: ["목"],
   },
   {
@@ -102,7 +102,7 @@ const images = [
     minAge: 21,
     maxAge: 39,
     type: "비정기",
-    categories: ["친목", "운동"],
+    categories: "친목", // "운동" 제거
     daysOfWeek: ["수"],
   },
   {
@@ -115,7 +115,7 @@ const images = [
     minAge: 25,
     maxAge: 33,
     type: "비정기",
-    categories: ["예술", "친목", "취미"],
+    categories: "취미", // "예술", "친목" 제거
     daysOfWeek: ["토", "일"],
   },
   {
@@ -128,7 +128,7 @@ const images = [
     minAge: 21,
     maxAge: 32,
     type: "정기",
-    categories: ["독서"],
+    categories: "스터디",
     daysOfWeek: ["금", "토", "수"],
   },
   {
@@ -141,7 +141,7 @@ const images = [
     minAge: 26,
     maxAge: 32,
     type: "비정기",
-    categories: ["예술", "취미"],
+    categories: "취미", // "예술" 제거
     daysOfWeek: ["월", "수"],
   },
   {
@@ -154,7 +154,7 @@ const images = [
     minAge: 21,
     maxAge: 37,
     type: "비정기",
-    categories: ["독서", "게임", "운동"],
+    categories: "스터디", // "게임", "운동" 제거
     daysOfWeek: ["금", "화", "월"],
   },
   {
@@ -167,7 +167,7 @@ const images = [
     minAge: 28,
     maxAge: 29,
     type: "정기",
-    categories: ["여행", "맛집탐방", "게임"],
+    categories: "문화", // "여행", "맛집탐방", "게임" 제거
     daysOfWeek: ["목"],
   },
   {
@@ -180,7 +180,7 @@ const images = [
     minAge: 23,
     maxAge: 26,
     type: "정기",
-    categories: ["독서"],
+    categories: "취미", // "독서"를 "취미"로 변경 (보드게임에 더 적합)
     daysOfWeek: ["토"],
   },
   {
@@ -193,7 +193,7 @@ const images = [
     minAge: 20,
     maxAge: 30,
     type: "정기",
-    categories: ["봉사"],
+    categories: "봉사",
     daysOfWeek: ["목", "금"],
   },
   {
@@ -206,7 +206,7 @@ const images = [
     minAge: 20,
     maxAge: 36,
     type: "비정기",
-    categories: ["게임", "친목"],
+    categories: "스포츠", // "게임", "친목" 제거
     daysOfWeek: ["일"],
   },
   {
@@ -219,7 +219,7 @@ const images = [
     minAge: 25,
     maxAge: 31,
     type: "비정기",
-    categories: ["취미", "맛집탐방"],
+    categories: "취미", // "맛집탐방" 제거
     daysOfWeek: ["금", "목"],
   },
   {
@@ -232,7 +232,7 @@ const images = [
     minAge: 27,
     maxAge: 33,
     type: "정기",
-    categories: ["봉사"],
+    categories: "봉사",
     daysOfWeek: ["목", "수"],
   },
   {
@@ -245,7 +245,7 @@ const images = [
     minAge: 29,
     maxAge: 29,
     type: "정기",
-    categories: ["스터디"],
+    categories: "취미", // "스터디"를 "취미"로 변경 (요리에 더 적합)
     daysOfWeek: ["수", "일", "토"],
   },
   {
@@ -258,7 +258,7 @@ const images = [
     minAge: 26,
     maxAge: 35,
     type: "정기",
-    categories: ["스포츠", "예술"],
+    categories: "스터디", // "스포츠", "예술" 제거
     daysOfWeek: ["수"],
   },
   {
@@ -271,7 +271,7 @@ const images = [
     minAge: 29,
     maxAge: 34,
     type: "비정기",
-    categories: ["친목", "맛집탐방", "운동"],
+    categories: "친목", // "맛집탐방", "운동" 제거
     daysOfWeek: ["일", "월", "수"],
   },
   {
@@ -284,7 +284,7 @@ const images = [
     minAge: 20,
     maxAge: 29,
     type: "비정기",
-    categories: ["스포츠", "봉사", "독서"],
+    categories: "예술", // "스포츠", "봉사", "독서" 제거
     daysOfWeek: ["일", "월"],
   },
   {
@@ -297,7 +297,7 @@ const images = [
     minAge: 23,
     maxAge: 40,
     type: "비정기",
-    categories: ["스포츠", "스터디", "맛집탐방"],
+    categories: "취미", // "스포츠", "스터디", "맛집탐방" 제거
     daysOfWeek: ["목", "일"],
   },
   {
@@ -310,7 +310,7 @@ const images = [
     minAge: 25,
     maxAge: 29,
     type: "비정기",
-    categories: ["스터디", "맛집탐방", "친목"],
+    categories: "봉사", // "스터디", "맛집탐방", "친목" 제거
     daysOfWeek: ["금"],
   },
   {
@@ -323,7 +323,7 @@ const images = [
     minAge: 30,
     maxAge: 33,
     type: "정기",
-    categories: ["친목"],
+    categories: "봉사", // "친목"을 "봉사"로 변경 (제목과 일치)
     daysOfWeek: ["월", "화", "수"],
   },
   {
@@ -336,7 +336,7 @@ const images = [
     minAge: 29,
     maxAge: 39,
     type: "정기",
-    categories: ["스터디", "취미"],
+    categories: "예술", // "스터디", "취미" 제거
     daysOfWeek: ["금", "일", "수"],
   },
   {
@@ -349,7 +349,7 @@ const images = [
     minAge: 26,
     maxAge: 37,
     type: "비정기",
-    categories: ["게임", "운동"],
+    categories: "스포츠", // "게임", "운동" 제거
     daysOfWeek: ["일"],
   },
   {
@@ -362,7 +362,7 @@ const images = [
     minAge: 26,
     maxAge: 38,
     type: "정기",
-    categories: ["봉사", "운동"],
+    categories: "취미", // "봉사", "운동" 제거
     daysOfWeek: ["수"],
   },
   {
@@ -375,7 +375,7 @@ const images = [
     minAge: 25,
     maxAge: 36,
     type: "정기",
-    categories: ["게임"],
+    categories: "취미", // "게임" 제거
     daysOfWeek: ["일", "월"],
   },
   {
@@ -388,10 +388,11 @@ const images = [
     minAge: 21,
     maxAge: 33,
     type: "정기",
-    categories: ["친목"],
+    categories: "스터디",
     daysOfWeek: ["화", "목", "수"],
   },
 ];
+
 function Groups() {
   const [imageRows, setImageRows] = useState([]);
 
@@ -416,244 +417,62 @@ function Groups() {
           <span>핫한 소셜 클럽! 오늘 뭐해?</span>
         </div>
         <div className="groupType">
-          <a href={images[5].link}>
-            <img src={images[5].src} alt={images[5].alt} />
-            <div>
-              <span>{images[5].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[11].link}>
-            <img src={images[11].src} alt={images[11].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[11].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[11].region}</span>
-              <br />
-              <span>{images[11].type} 모임</span>
-              <br />
-              <span>성별: {images[11].gender}</span>
-              <br />
-              <span>최소 나이: {images[11].minAge}</span>
-              <br />
-              <span>요일: {images[11].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[18].link}>
-            <img src={images[18].src} alt={images[18].alt} />
-            <div>
-              <span>{images[18].title}</span>
-              <br />
-              <span>카테고리: {images[18].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[18].region}</span>
-              <br />
-              <span>{images[18].type} 모임</span>
-              <br />
-              <span>성별: {images[18].gender}</span>
-              <br />
-              <span>최소 나이: {images[18].minAge}</span>
-              <br />
-              <span>요일: {images[18].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[29].link}>
-            <img src={images[29].src} alt={images[29].alt} />
-            <div>
-              <span>{images[29].title}</span>
-              <br />
-              <span>카테고리: {images[29].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[29].region}</span>
-              <br />
-              <span>{images[29].type} 모임</span>
-              <br />
-              <span>성별: {images[29].gender}</span>
-              <br />
-              <span>최소 나이: {images[29].minAge}</span>
-              <br />
-              <span>요일: {images[29].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
+          {/* 하드 코딩된 데이터 대신 실제 데이터 사용 */}
+          {images.slice(0, 4).map((image, index) => (
+            <a key={index} href={image.link}>
+              <img src={image.src} alt={image.alt} />
+              <div>
+                <span>{image.title}</span>
+                <span>카테고리: {image.categories}</span>{" "}
+                {/* categories 배열이 아닌 문자열로 수정 */}
+                <span>지역: {image.region}</span>
+                <span>{image.type} 모임</span>
+                <span>성별: {image.gender}</span>
+                <span>최소 나이: {image.minAge}</span>
+                <span>요일: {image.daysOfWeek.join(", ")}</span>
+              </div>
+            </a>
+          ))}
         </div>
         <div className="groupDiv">
           <span>망설이면 마감! 지금 바로 신청하세요!</span>
         </div>
         <div className="groupType">
-          <a href={images[4].link}>
-            <img src={images[4].src} alt={images[4].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[5].link}>
-            <img src={images[5].src} alt={images[5].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[6].link}>
-            <img src={images[6].src} alt={images[6].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[7].link}>
-            <img src={images[7].src} alt={images[7].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
+          {/* 하드 코딩된 데이터 및 잘못된 참조 수정 */}
+          {images.slice(4, 8).map((image, index) => (
+            <a key={index} href={image.link}>
+              <img src={image.src} alt={image.alt} />
+              <div>
+                <span>{image.title}</span>
+                <span>카테고리: {image.categories}</span>
+                <span>지역: {image.region}</span>
+                <span>{image.type} 모임</span>
+                <span>성별: {image.gender}</span>
+                <span>최소 나이: {image.minAge}</span>
+                <span>요일: {image.daysOfWeek.join(", ")}</span>
+              </div>
+            </a>
+          ))}
         </div>
         <div className="groupDiv">
           <span>우리 동네, 우리들의 이야기</span>
         </div>
         <div className="groupType">
-          <a href={images[8].link}>
-            <img src={images[8].src} alt={images[8].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[9].link}>
-            <img src={images[9].src} alt={images[9].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[10].link}>
-            <img src={images[10].src} alt={images[10].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
-          <a href={images[11].link}>
-            <img src={images[11].src} alt={images[11].alt} />
-            <div>
-              <span>{images[11].title}</span>
-              <br />
-              <span>카테고리: {images[5].categories.join(", ")}</span>
-              <br />
-              <span>지역: {images[5].region}</span>
-              <br />
-              <span>{images[5].type} 모임</span>
-              <br />
-              <span>성별: {images[5].gender}</span>
-              <br />
-              <span>최소 나이: {images[5].minAge}</span>
-              <br />
-              <span>요일: {images[5].daysOfWeek.join(", ")}</span>
-              <br />
-            </div>
-          </a>
+          {/* 하드 코딩된 데이터 및 잘못된 참조 수정 */}
+          {images.slice(8, 12).map((image, index) => (
+            <a key={index} href={image.link}>
+              <img src={image.src} alt={image.alt} />
+              <div>
+                <span>{image.title}</span>
+                <span>카테고리: {image.categories}</span>
+                <span>지역: {image.region}</span>
+                <span>{image.type} 모임</span>
+                <span>성별: {image.gender}</span>
+                <span>최소 나이: {image.minAge}</span>
+                <span>요일: {image.daysOfWeek.join(", ")}</span>
+              </div>
+            </a>
+          ))}
         </div>
         <div className="groupDiv">
           <span>모임 목록</span>
@@ -662,7 +481,12 @@ function Groups() {
           {imageRows.map((row, rowIndex) => (
             <div
               key={rowIndex}
-              style={{ display: "flex", flexWrap: "wrap", gap: "13px" }}
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "13px",
+                marginBottom: "70px",
+              }}
             >
               {row.map((image, imageIndex) => (
                 <div
@@ -672,30 +496,15 @@ function Groups() {
                 >
                   <div>
                     <a href={image.link}>
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        style={{
-                          width: "300px",
-                          height: "200px",
-                          objectFit: "cover",
-                        }}
-                      />
-                      <div style={{ height: "150px" }}>
+                      <img src={image.src} alt={image.alt} />
+                      <div>
                         <span>{image.title}</span>
-                        <br />
-                        <span>카테고리: {image.categories.join(", ")}</span>
-                        <br />
+                        <span>카테고리: {image.categories}</span>
                         <span>지역: {image.region}</span>
-                        <br />
                         <span>{image.type} 모임</span>
-                        <br />
                         <span>성별: {image.gender}</span>
-                        <br />
                         <span>최소 나이: {image.minAge}</span>
-                        <br />
                         <span>요일: {image.daysOfWeek.join(", ")}</span>
-                        <br />
                       </div>
                     </a>
                   </div>

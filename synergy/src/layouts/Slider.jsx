@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import "/src/css/slider.css";
 function ImageSlider() {
+  const slideImages = [
+    "./src/images/slideImage1.jpg",
+    "./src/images/slideImage3.jpg",
+    "./src/images/slideimage4.jpg",
+    "./src/images/slideImage2.jpg",
+  ];
   const images = [
-    "./src/images/slideImg1.png",
-    "./src/images/slideImg2.png",
-    "./src/images/slideImg3.png",
-    "./src/images/slideImg4.png",
+    "./src/images/slideImage1mini.png",
+    "./src/images/slideImage3mini.png",
+    "./src/images/slideimage4mini.png",
+    "./src/images/slideImage2mini.jpg",
   ];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const intervalRef = useRef(null); // 인터벌 ID를 저장할 ref
@@ -18,7 +24,7 @@ function ImageSlider() {
 
   const startSlider = () => {
     intervalRef.current = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % slideImages.length);
     }, 3000);
   };
 
@@ -49,7 +55,7 @@ function ImageSlider() {
         className="slide"
         style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
       >
-        {images.map((image, index) => (
+        {slideImages.map((image, index) => (
           <img key={index} src={image} alt={`Image ${index + 1}`} />
         ))}
       </div>

@@ -10,7 +10,7 @@ const Footer = () => {
             <div>
               <div className="footerA">
                 <a href="">
-                  <b>이용안내</b>
+                  <b>About Us</b>
                 </a>
               </div>
               <div className="footera">

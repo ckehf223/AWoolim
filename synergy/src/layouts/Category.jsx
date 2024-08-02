@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react"; // useEffect 추가
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "/src/css/category.css";
 
 function Category() {
-  const [currentCategory, setCurrentCategory] = useState("스포츠"); // 초기값 "스포츠"로 설정
+  const [currentCategory, setCurrentCategory] = useState("스포츠");
   const [currentSlide, setCurrentSlide] = useState(0);
-  const sliderRef = useRef(null);
+  const sliderContainerRef = useRef(null);
 
   const categoryData = {
     // 데이터 구조 변경: 이미지와 설명 함께 저장
@@ -17,7 +18,7 @@ function Category() {
         minAge: 21,
         maxAge: 33,
         type: "정기",
-        categories: ["친목"],
+        categories: "친목",
         daysOfWeek: ["화", "목", "수"],
       },
       {
@@ -28,7 +29,7 @@ function Category() {
         minAge: 25,
         maxAge: 36,
         type: "정기",
-        categories: ["게임"],
+        categories: "게임",
         daysOfWeek: ["일", "월"],
       },
       {
@@ -39,7 +40,7 @@ function Category() {
         minAge: 23,
         maxAge: 40,
         type: "비정기",
-        categories: ["스포츠", "스터디", "맛집탐방"],
+        categories: "스포츠", // "스터디", "맛집탐방" 제거
         daysOfWeek: ["목", "일"],
       },
       {
@@ -50,7 +51,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스포츠", // "러닝" 제거
         daysOfWeek: ["토"],
       },
       {
@@ -61,7 +62,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스포츠",
         daysOfWeek: ["토"],
       },
     ],
@@ -74,7 +75,7 @@ function Category() {
         minAge: 25,
         maxAge: 29,
         type: "비정기",
-        categories: ["스터디", "맛집탐방", "친목"],
+        categories: "봉사", // "스터디", "맛집탐방", "친목" 제거
         daysOfWeek: ["금"],
       },
       {
@@ -85,7 +86,7 @@ function Category() {
         minAge: 30,
         maxAge: 33,
         type: "정기",
-        categories: ["친목"],
+        categories: "친목",
         daysOfWeek: ["월", "화", "수"],
       },
       {
@@ -96,7 +97,7 @@ function Category() {
         minAge: 29,
         maxAge: 39,
         type: "정기",
-        categories: ["스터디", "취미"],
+        categories: "취미", // "스터디" 제거
         daysOfWeek: ["금", "일", "수"],
       },
       {
@@ -107,7 +108,7 @@ function Category() {
         minAge: 26,
         maxAge: 37,
         type: "비정기",
-        categories: ["게임", "운동"],
+        categories: "운동", // "게임" 제거
         daysOfWeek: ["일"],
       },
       {
@@ -118,7 +119,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스포츠", // "러닝" 제거
         daysOfWeek: ["토"],
       },
     ],
@@ -131,7 +132,7 @@ function Category() {
         minAge: 26,
         maxAge: 38,
         type: "정기",
-        categories: ["봉사", "운동"],
+        categories: "봉사", // "운동" 제거
         daysOfWeek: ["수"],
       },
       {
@@ -142,7 +143,7 @@ function Category() {
         minAge: 25,
         maxAge: 36,
         type: "정기",
-        categories: ["게임"],
+        categories: "게임",
         daysOfWeek: ["일", "월"],
       },
       {
@@ -153,7 +154,7 @@ function Category() {
         minAge: 23,
         maxAge: 35,
         type: "정기",
-        categories: ["스터디", "개발"],
+        categories: "스터디", // "개발" 제거
         daysOfWeek: ["화", "목"],
       },
       {
@@ -164,7 +165,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스포츠", // "러닝" 제거
         daysOfWeek: ["토"],
       },
       {
@@ -175,7 +176,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스포츠",
         daysOfWeek: ["토"],
       },
       {
@@ -186,7 +187,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스포츠",
         daysOfWeek: ["토"],
       },
     ],
@@ -199,7 +200,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스포츠",
         daysOfWeek: ["토"],
       },
       {
@@ -210,7 +211,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스포츠",
         daysOfWeek: ["토"],
       },
       {
@@ -221,7 +222,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "친목",
         daysOfWeek: ["토"],
       },
       {
@@ -232,7 +233,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "친목",
         daysOfWeek: ["토"],
       },
       {
@@ -243,7 +244,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "친목",
         daysOfWeek: ["토"],
       },
       {
@@ -254,7 +255,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "친목",
         daysOfWeek: ["토"],
       },
     ],
@@ -267,7 +268,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "전시",
         daysOfWeek: ["토"],
       },
       {
@@ -278,7 +279,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "전시",
         daysOfWeek: ["토"],
       },
       {
@@ -289,7 +290,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "전시",
         daysOfWeek: ["토"],
       },
       {
@@ -300,7 +301,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "전시",
         daysOfWeek: ["토"],
       },
       {
@@ -311,7 +312,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "전시",
         daysOfWeek: ["토"],
       },
       {
@@ -322,7 +323,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "전시",
         daysOfWeek: ["토"],
       },
     ],
@@ -335,7 +336,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "취미활동",
         daysOfWeek: ["토"],
       },
       {
@@ -346,7 +347,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "취미활동",
         daysOfWeek: ["토"],
       },
       {
@@ -357,7 +358,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "취미활동",
         daysOfWeek: ["토"],
       },
       {
@@ -368,7 +369,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "취미활동",
         daysOfWeek: ["토"],
       },
       {
@@ -379,7 +380,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "취미활동",
         daysOfWeek: ["토"],
       },
     ],
@@ -392,7 +393,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스터디",
         daysOfWeek: ["토"],
       },
       {
@@ -403,7 +404,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스터디",
         daysOfWeek: ["토"],
       },
       {
@@ -414,7 +415,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스터디",
         daysOfWeek: ["토"],
       },
       {
@@ -425,7 +426,7 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스터디",
         daysOfWeek: ["토"],
       },
       {
@@ -436,146 +437,123 @@ function Category() {
         minAge: 19,
         maxAge: 45,
         type: "비정기",
-        categories: ["스포츠", "러닝"],
+        categories: "스터디",
         daysOfWeek: ["토"],
       },
     ],
   };
+
+  const sportsLinkRef = useRef(null);
+
   useEffect(() => {
-    // useEffect 추가
-    // 컴포넌트가 처음 마운트될 때 실행
     setCurrentCategory("스포츠");
+
+    if (sportsLinkRef.current) {
+      sportsLinkRef.current.focus();
+    }
   }, []);
+
   const handleCategoryClick = (category) => {
     setCurrentCategory(category);
-    setCurrentSlide(0); // 카테고리 변경 시 슬라이드 초기화
+    setCurrentSlide(0);
   };
 
   const handlePrevClick = () => {
-    setCurrentSlide(currentSlide - 1);
+    setCurrentSlide((prev) => Math.max(prev - 1, 0)); // prev - 1과 0 중 더 큰 값을 반환
   };
 
   const handleNextClick = () => {
-    setCurrentSlide(currentSlide + 1);
+    setCurrentSlide((prev) =>
+      Math.min(prev + 1, categoryData[currentCategory].length - 4)
+    );
   };
 
-  const visibleImages = currentCategory
-    ? categoryData[currentCategory].slice(
-        currentSlide,
-        currentSlide +
-          (categoryData[currentCategory].length < 4
-            ? categoryData[currentCategory].length
-            : 4)
-      )
-    : [];
+  const categoryColors = {
+    스포츠: "#e7f4ff", // 연한 파란색 계열
+    맛집탐방: "#f4f4ff", // 연한 파란색 계열
+    독서: "#fff4f4", // 연한 핑크색 계열
+    친목: "#fff4ff", // 연한 핑크색 계열
+    전시: "#f4ffff", // 연한 하늘색 계열
+    취미활동: "rgb(241, 250, 241)", // 연한 연두색
+    스터디: "#fff4e6", // 연한 노란색
+  };
 
   return (
-    <>
-      <div id="categoryDiv">
-        <div id="categorySpan">
-          <span>카테고리</span>
-        </div>
-        <div id="categoryA">
-          {Object.keys(categoryData).map((category) => (
-            <a
-              key={category}
-              href="#"
-              onClick={() => handleCategoryClick(category)}
-            >
-              {category}
-            </a>
-          ))}
-        </div>
-        {currentCategory && (
-          <div
-            className="categoryDiv"
-            ref={sliderRef}
-            style={{ position: "relative" }}
+    <div id="categoryDiv">
+      <div id="categorySpan">
+        <span>카테고리</span>
+      </div>
+      <div id="categoryA">
+        {/* 카테고리 링크 */}
+        {Object.keys(categoryData).map((category) => (
+          <Link
+            key={category}
+            to="#"
+            onClick={() => handleCategoryClick(category)}
+            ref={category === "스포츠" ? sportsLinkRef : null}
           >
-            {visibleImages.map((item, index) => (
-              <div
-                key={item.image}
-                style={{
-                  display: "flex",
-                  flexDirection: "column", // flexDirection 변경: 세로 정렬
-                  justifyContent: "space-between",
-                  width:
-                    categoryData[currentCategory].length > 1 ? "300px" : "100%",
-                  marginBottom: "10px", // 이미지 간 간격 추가
-                }}
-              >
-                <a href="">
-                  <img
-                    src={item.image}
-                    alt={currentCategory}
-                    style={{
-                      width: "100%",
-                      height: "200px",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <div
-                    style={{
-                      height: "150px",
-                    }}
-                  >
-                    <span>{item.title}</span>
-                    <br />
-                    <span>카테고리: {item.categories.join(", ")}</span>
-                    <br />
-                    <span>지역: {item.region}</span>
-                    <br />
-                    <span>{item.type} 모임</span>
-                    <br />
-                    <span>성별: {item.gender}</span>
-                    <br />
-                    <span>최소 나이: {item.minAge}</span>
-                    <br />
-                    <span>요일: {item.daysOfWeek.join(", ")}</span>
-                    <br />
-                  </div>
-                </a>
-              </div>
-            ))}
+            {category}
+          </Link>
+        ))}
+      </div>
 
-            {categoryData[currentCategory].length > 4 && (
-              <>
-                {currentSlide > 0 && (
-                  <img
-                    src="/src/images/left-arrow.png" // 이전 버튼 이미지 경로
-                    alt="이전 버튼"
-                    className="categoryButton"
-                    onClick={handlePrevClick}
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "-70px",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer", // 이미지에 클릭 가능한 커서 스타일 추가
-                    }}
-                  />
-                )}
-                {currentSlide < categoryData[currentCategory].length - 4 && (
-                  <img
-                    src="/src/images/right-arrow.png" // 다음 버튼 이미지 경로
-                    alt="다음 버튼"
-                    className="categoryButton"
-                    onClick={handleNextClick}
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      right: "-70px",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer", // 이미지에 클릭 가능한 커서 스타일 추가
-                    }}
-                  />
-                )}
-              </>
+      {currentCategory && (
+        <>
+          <div className="categoryDiv" ref={sliderContainerRef}>
+            <div
+              className="slide-container"
+              style={{ transform: `translateX(-${currentSlide * 26}%)` }}
+            >
+              {categoryData[currentCategory].map((item) => (
+                <div key={item.id} className="slide-item">
+                  <Link to={`/details/${item.id}`}>
+                    <img
+                      className="categoryImg"
+                      src={item.image}
+                      alt={currentCategory}
+                    />
+                    <div
+                      style={{
+                        backgroundColor: categoryColors[currentCategory],
+                      }}
+                    >
+                      {/* 배경색 설정 */}
+                      <span>{item.title}</span>
+                      <span>카테고리: {item.categories}</span>
+                      <span>지역: {item.region}</span>
+                      <span>{item.type} 모임</span>
+                      <span>성별: {item.gender}</span>
+                      <span>최소 나이: {item.minAge}</span>
+                      <span>요일: {item.daysOfWeek.join(", ")}</span>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="categoryButtonContainer">
+            {currentSlide > 0 && (
+              <img
+                src="/src/images/left-arrow.png"
+                alt="이전 버튼"
+                className="categoryButtonL"
+                onClick={handlePrevClick}
+              />
+            )}
+            {currentSlide < categoryData[currentCategory].length - 4 && (
+              <img
+                src="/src/images/right-arrow.png"
+                alt="다음 버튼"
+                className="categoryButtonR"
+                onClick={handleNextClick}
+              />
             )}
           </div>
-        )}
-      </div>
-    </>
+        </>
+      )}
+    </div>
   );
 }
+
 export default Category;
