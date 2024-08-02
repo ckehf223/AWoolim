@@ -1,0 +1,89 @@
+.UserMadeClub{
+  margin: 0;
+  text-align: left;
+  min-height: 900px;
+}
+.UserMadeClubWrap{
+  margin: 0 auto;
+}
+.UserMadeClubContentBorder{
+  border-bottom: 3px solid #222;
+  padding-bottom: 16px;
+}
+.UserMadeClubTitle h4{
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+.UserMadeClubMainArea{
+  width: 100%;
+  margin-top: 30px;
+}
+.UserMadeClubArea{
+  margin: 0;
+  padding: 0;
+}
+.UserMadeClubSortBox{
+  padding: 10px;
+}
+.UserMadeClubBox{
+  align-items: center;
+  border-bottom: 1px solid rgb(0,0,0,0.3);
+  display: flex;
+  padding: 12px;
+  justify-content: space-between;
+}
+.UserMadeClubInfoBox{
+  display: flex;
+  gap: 30px;
+}
+.UserMadeClubMgBox{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  gap: 80px;
+  margin-left: 80px;
+}
+.UserMadeClubImageBox{
+  position: relative;
+}
+.UserMadeClubImageBox img{
+  width: 200px;
+  height: 115px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.UserMadeClubInfo{
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  gap: 15px;
+}
+.UserMadeClubCategory{
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+.UserMadeClubTitle{
+  font-size: 16px;
+  margin: 0;
+}
+.UserMadeClubButtonArea{
+  display: flex;
+  gap: 50px;
+}
+.UserMadeClubBoardImg,.UserMadeClubExitImg{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+ }
+.UserMadeClubNoneArea{
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.UserMadeClubNoneArea p{
+  font-size: 20px;
+}

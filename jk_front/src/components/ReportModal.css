@@ -1,0 +1,70 @@
+/* ModalComponent.css */
+.ReportModal .modal-dialog {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  top: 10%;
+}
+
+.ReportModal .modal-content {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ReportModalHeader {
+  position: relative;
+  background-color: rgb(24, 128, 203);
+  color: white;
+}
+.ReportModalCloseButton {
+  position: absolute;
+  top: 10px; 
+  right: 10px; 
+  border: none !important;
+  background: none !important;
+  color: #ff0000 !important; 
+  font-size: 1.5rem; 
+  cursor: pointer;
+}
+
+.ReportModalBody {
+  padding: 5px;
+}
+
+.ReportModalTargetIdArea{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  
+}
+.ReportModalTargetIdArea span{
+  font-size: 14px;
+  font-weight: 600;
+}
+.ReportModalContentArea{
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  gap: 5px;
+}
+.ReportModalContentArea p{
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+.ReportModalContentArea input{
+  height: 40px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid rgb(0,0,0,0.4);
+}
+.ReportModalSendButton{
+  width: 100px;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+}

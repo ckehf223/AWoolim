@@ -1,0 +1,24 @@
+.MyClubManager{
+  margin: 0;
+  text-align: left;
+  min-height: 900px;
+}
+.MyClubManagerWrap{
+  margin: 0 auto;
+}
+.MyClubManagerContentBorder{
+  border-bottom: 3px solid #222;
+  padding-bottom: 16px;
+}
+.MyClubManagerTitle h4{
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+.MyClubManagerMainArea{
+  width: 100%;
+  margin-top: 30px;
+}
+.MyClubManagerContentArea{
+  width: 100%;
+}

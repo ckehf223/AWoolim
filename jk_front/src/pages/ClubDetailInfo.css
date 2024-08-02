@@ -1,0 +1,239 @@
+.ClubDetailInfo{
+  width: 100%;
+  text-align: center;
+  margin: 35px 0;
+}
+.ClubDetailWrap{
+  position: relative;
+  width: 70%;
+  margin: 0px auto; 
+  border-bottom: 1px solid #ddd;
+}
+.ClubDetailTopArea{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 10px;
+}
+.ClubDetailTopTitleBox{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.ClubDetailHeader{
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  gap: 10px;
+}
+.ClubDetailHeaderBox{
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  width: 100%;
+}
+.ClubDetailHeaderIcon{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.ClubDetailCategoryIcon{
+  width: 30px;
+  height: 30px;
+}
+.ClubDetailReportBox{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.ClubDetailReportBox img{
+  width: 30px;
+  height: 30px;
+}
+.ClubDetailReportButton{
+  background-color: red;
+  border: 1px solid rgb(114, 114, 114);
+  border-radius: 5px;
+}
+.ClubDetailTopTitleBox h1{
+  padding-bottom:20px;
+  border-bottom: 2px solid rgb(0,0,0,0.15);
+}
+.ClubDetailTop_contentArea{
+  display: flex;
+  align-items: center;
+  padding: 10px 50px;
+  gap: 350px;
+  margin-bottom: 40px;
+}
+.ClubDetailTop_contentArea div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+}
+.ClubDetailTop_contentArea div img{
+  width: 40px;
+  height: 40px;
+}
+.ClubDetailTopMiddleBox{
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  gap: 100px;
+}
+.ClubDetailTopImageArea{
+  width: 600px;
+  height: 400px;
+  background-color: gray;
+  border-radius: 10px;
+}
+.ClubDetailTopImageArea img{
+  width: 100%;
+  height: 100%; 
+  border-radius: 10px;
+}
+.ClubDetailTop_middelContentArea{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-self: center;
+  padding: 30px 0;
+  gap: 50px;
+}
+.ClubDetailTop_middelContentArea div{
+  display: flex;
+  gap: 10px;
+  font-size: 22px;
+}
+.ClubDetailTop_middelContentArea div img{
+  width: 40px;
+  height: 40px;
+}
+.ClubDetailSectionArea{
+  display: flex;
+  justify-content: start;
+  margin: 20px 0 20px 20px;
+}
+.ClubDetailIntroDuceArea{
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.ClubDetailIntroDuceText{
+  border: 1px solid rgb(0,0,0,0.3);
+  padding: 20px;
+  border-radius: 10px;
+}
+.ClubDetailIntroDuceText::-webkit-scrollbar{
+  display: none;
+}
+.ClubDetailMemberArea{
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  width: 300px;
+  height: 400px;
+  margin-left: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: beige;
+  box-shadow: 1px 1px 1px 1px rgb(0,0,0,0.1);
+}
+.ClubDetailMemberArea h4{
+  margin: 0;
+  padding-bottom: 15px;
+  width: 100%;
+  text-align: left;
+}
+.ClucDetailMemberBox{
+  display: flex;
+  flex-direction: column;
+  height: 420px;
+  border-top: 1px solid rgb(0,0,0,0.15);
+  padding-top: 5px;
+  overflow: auto;
+  gap: 4px;
+}
+.ClucDetailMemberBox::-webkit-scrollbar{
+  display: none;
+}
+.ClubDetailMemberInfoBox{
+  display: flex;
+  align-items: center;
+  width: 280px;
+  padding: 3px;
+}
+.ClubDetailMemberInfoBox img{
+  width: 36px;
+  height: 36px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.ClubDetailMemberInfo{
+  padding: 2px;
+  margin-left: 10px;
+  text-align: left;
+}
+.ClubDetailMemberNickname{
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.ClubDetailMemberIntro{
+  margin: 0;
+  margin-top: 5px;
+  font-size: 11px;
+  color: rgb(114, 114, 114);
+}
+
+.ClubDetailBottomArea{
+  display: flex;
+  margin: 30px 0 30px 30px;
+  flex-direction: column;
+  align-items: start;
+}
+.ClubDetailPopGroup{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 30px;
+}
+.ClubDetailSignButtonArea{
+  display: flex;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  width: 400px;
+  height: 50px;
+  transform: translateX(-50%);
+  border: 1px solid rgb(218, 220, 224);
+  box-shadow: 0 4px 4px rgb(0,0,0,0.3);
+  background-color: white;
+  padding: 10px;
+  z-index: 2;
+  border-radius: 8px;
+}
+.ClubDetailSignButtonBox{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.ClubDetailSignButton{
+  width: 200px;
+  height: 45px;
+  border-radius: 8px;
+  background-color: black;
+  color: white;
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+}

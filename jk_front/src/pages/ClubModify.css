@@ -1,0 +1,276 @@
+.ClubModify{
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+}
+.ClubModifyWrap{
+  width: 100%;
+}
+.ClubModifyTopArea{
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  width: 100%;
+  padding: 10px;
+}
+.ClubModifyTopBox{
+  width: 100%;
+  display: flex;
+  gap: 60px;
+  margin-bottom: 20px;
+}
+.ClubModifyPreview{
+  position: relative;
+  width: 500px;
+  height: 320px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.ClubModifyPreview img{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  z-index: 1;
+}
+.ClubModifyupload-name {
+  display: inline-block;
+  width: 76%;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 5px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  color: #999999;
+  outline: none;
+}
+.ClubModifyfileBox label {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 5px;
+  vertical-align: middle;
+  background-color: #999999;
+  cursor: pointer;
+  margin-left: 10px;
+}
+#imageUpload{
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+.ClubModifyNcBox{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.ClubModifyStateBox{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: 5px;
+}
+.ClubModifyStateBox select{
+  border-radius: 10px;
+  height: 40px;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0 10px;
+}
+.ClubModifyNameBox{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.ClubModifyNameBox,.ClubModifyCategoryBox,.ClubModifyStateBox label{
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 1%;
+}
+.ClubModifyNameBox input{
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  outline: none;
+  font-size: 16px;
+  padding: 0 10px;
+}
+
+.ClubModifyCategoryBox{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: 5px;
+}
+.ClubModifyCategoryBox select{
+  border-radius: 10px;
+  height: 40px;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0 10px;
+}
+.ClubModifyChoiceArea{
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0;
+}
+.ClubModifyChoice{
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  border-bottom: 1px solid rgb(0,0,0,0.2);
+}
+
+.daySelect{
+  width: 160px;
+  height: 35px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+.ClubModifyChoiceSection{
+  display: flex;
+  gap: 50px;
+}
+  
+.ClubModifyChoiceBoxArea{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ClubModifyChoiceBox{
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+}
+.ClubModifyChoiceBox label{
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 1%;
+}
+.ClubModifyChoiceBox input{
+  text-align: end;
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  outline: none;
+  font-size: 16px;
+  padding: 0 10px;
+}
+.ClubModifyChoiceBox select{
+  text-align: end;
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  outline: none;
+  font-size: 16px;
+  padding: 0 10px;
+}
+
+.venueBox > h3{
+  margin: 18px 0 5px 5px;
+}
+.venueChoice{
+  display: flex;
+  width: 500px;
+}
+.venueChoice ul,li{
+  list-style-type: none;
+  padding: 0;
+}
+.venueChoiceLocal ul{
+  width: 150px;
+  height: 330px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: center;
+  border-top: 1px solid rgb(0,0,0,0.3);
+  border-bottom: 1px solid rgb(0,0,0,0.3);
+  padding: 10px 0 10px 10px;
+}
+.venueChoiceLocal ul::-webkit-scrollbar {
+  display: none; 
+}
+.venueChoiceLocal li{
+  flex: none;
+  padding: 2px;
+  width: 130px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: rgba(125, 122, 122, 0.169);
+  font-size: 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+.venueChoiceLocal li:hover{
+  background-color: skyblue;
+  color: white;
+}
+
+.venueChoiceCity ul{
+  display: flex;
+  align-content: start;
+  flex-wrap: wrap;
+  overflow: auto;
+  width: 270px;
+  height: 330px;
+  padding: 10px 0px 10px 20px;
+  border-left: 1px solid rgb(0,0,0,0.3);
+  border-top: 1px solid rgb(0,0,0,0.3);
+  border-bottom: 1px solid rgb(0,0,0,0.3);
+  gap: 10px;
+}
+.venueChoiceCity ul::-webkit-scrollbar {
+  display: none; 
+}
+.venueChoiceCity li {
+  flex: none;
+  padding: 2px;
+  width: 120px;
+  height: 25px;
+  font-size: 14px;
+  border-bottom: 1px solid rgb(0,0,0,0.3);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: gray;
+
+}
+.venueChoiceCity li:hover{
+  background-color: skyblue;
+  color: white;
+  border: none;
+}
+.ClubModifySection{
+  text-align: left;
+}
+
+.ClubModifyButtonArea{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin: 50px;
+}
+.modifyButton{
+  width: 210px;
+  height: 40px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
+  background-color: black;
+  border: 1px solid rgb(255,255,255);
+}

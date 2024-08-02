@@ -1,0 +1,13 @@
+.MyPage{
+  width: 100%;
+  text-align: center;
+  margin: 80px 0 80px 50px;
+}
+.MyPageWrap{
+  display: flex;
+  width: 65%;
+  margin: 0 auto;
+}
+.MyPageMainArea{
+  flex: 1;
+}
