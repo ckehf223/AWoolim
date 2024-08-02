@@ -9,19 +9,20 @@ const ClubManager = () => {
   const { clubs } = useContext(ClubContext);
   const initialClubs = clubs;
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchColumn, setSearchColumn] = useState('name');
-  const [filteredClubs, setFilteredClubs] = useState(initialClubs);
+  const [searchTerm, setSearchTerm] = useState('');                   //검색어 
+  const [searchColumn, setSearchColumn] = useState('name');           //검색할 열
+  const [filteredClubs, setFilteredClubs] = useState(initialClubs);   //필터링한 결과
 
   // -------------------------페이지네이션-------------------
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(clubs.length / itemsPerPage);
+  const itemsPerPage = 10;                                            //페이지당 아이템 수
+  const [currentPage, setCurrentPage] = useState(1);                  //현재 페이지
+  const totalPages = Math.ceil(clubs.length / itemsPerPage);          //총 페이지 수 계산
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   }
 
+  // 현재 페이지에 해당하는 아이템의 인덱스 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentClubs = filteredClubs.slice(indexOfFirstItem, indexOfLastItem);
@@ -29,6 +30,7 @@ const ClubManager = () => {
 
   //-------------------------검색기능-------------------------
   const handleSearch = () => {
+    // 검색어가 없으면 모든 모임을 보여줌
     if (searchTerm === '') {
       setFilteredClubs(initialClubs);
     } else {
@@ -43,7 +45,6 @@ const ClubManager = () => {
 
   return (
     <div className='ClubManager'>
-      <h1>Club Manager</h1>
       <div className='search-bar'>
         <FormGroup row className='form-group'>
           <Label for='searchColumn' sm={2}></Label>

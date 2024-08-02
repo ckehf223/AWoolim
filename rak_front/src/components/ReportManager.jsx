@@ -35,29 +35,43 @@ const ReportManager = () => {
     { id: 24, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
   ]
 
+  // 초기 신고 데이터 초기화
   const [reports, setReports] = useState(initialReports);
+  // 검색 결과를 담을 상태
   const [filteredReports, setFilteredReports] = useState(initialReports);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchColumn, setSearchColumn] = useState('reporter');
+
+  // 모달 상태 토글함수 가져오는 커스텀 훅
   const { isModalOpen, toggleModal } = useModal();
+
+  // 선택된 신고 저장
   const [selectedReport, setSelectedReport] = useState(null);
+
+  //모달에 입력된 메시지 저장
   const [message, setMessage] = useState('');
 
   // -------------------------페이지네이션-------------------
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(reports.length / itemsPerPage);
+  const itemsPerPage = 10;                                        //페이지당 아이템 수
+  const [currentPage, setCurrentPage] = useState(1);              //현재 페이지
+  const totalPages = Math.ceil(reports.length / itemsPerPage);    //총 페이지 수 계산
 
+  //페이지 변경
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   }
 
+  // 현재 페이지에 첫 번째와 마지막 아이템 인덱스
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // 현재 페이지에 보여줄 신고 목록
   const currentReports = filteredReports.slice(indexOfFirstItem, indexOfLastItem);
   // -------------------------페이지네이션-------------------
 
   //-------------------------검색기능-------------------------
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchColumn, setSearchColumn] = useState('reporter');
+
+  // 검색 버튼 클릭 시 호출
   const handleSearch = () => {
     if (searchTerm === '') {
       setFilteredReports(reports);
@@ -71,6 +85,7 @@ const ReportManager = () => {
   };
   //-------------------------검색기능-------------------------
 
+  // 모달에서 메시지 전송
   const handleSendMessage = () => {
     const updatedReports = reports.map(report =>
       report.id === selectedReport.id ? { ...report, result: '처리완료', message } : report
@@ -81,6 +96,7 @@ const ReportManager = () => {
     setMessage(''); // 메시지 초기화
   }
 
+  // 처리하기 
   const handleResultChange = (report) => {
     setSelectedReport(report);
     setMessage(''); // 이전 메시지 초기화
@@ -88,7 +104,7 @@ const ReportManager = () => {
   }
   return (
     <div className='ReportManager'>
-      <h1>Report Manager</h1>
+      {/* ************************검색바************************ */}
       <div className='search-bar'>
         <FormGroup row>
           <Label for='searchColumn' sm={2}></Label>
@@ -119,6 +135,9 @@ const ReportManager = () => {
           </Col>
         </FormGroup>
       </div>
+      {/* ************************검색바************************ */}
+
+      {/* ************************테이블************************ */}
       <Table bordered>
 
         <thead>
@@ -151,12 +170,16 @@ const ReportManager = () => {
           }
         </tbody>
       </Table>
+      {/* ************************테이블************************ */}
+
+      {/* 페이징 */}
       <PaginationComponent
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
 
+      {/* 모달 */}
       <ModalComponent
         isOpen={isModalOpen}
         toggle={toggleModal}

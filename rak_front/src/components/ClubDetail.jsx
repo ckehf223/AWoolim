@@ -7,18 +7,21 @@ import { Button } from 'reactstrap';
 
 
 const ClubDetail = () => {
+  // URL 파라미터에서 clubId를 가져옴
   const { clubId } = useParams();
   const navigate = useNavigate();
-  const { clubs, deleteClub } = useContext(ClubContext);
-  const club = clubs.find(club => club.id === parseInt(clubId, 10));
+  const { clubs, deleteClub } = useContext(ClubContext);              // ClubContext에서 clubs와 deleteClub 가져오기
+  const club = clubs.find(club => club.id === parseInt(clubId, 10));  // clubId에 해당하는 모임 찾기
 
   useEffect(() => {
+    // clubId에 해당하는 모임이 없으면 /club 페이지로 이동
     if (!club) {
       navigate('/club');
     }
   }, [club, navigate]);
 
   const handleDelete = () => {
+    // 삭제하고 /club 페이지로 이동
     if (window.confirm('정말로 삭제하시겠습니까?')) {
       deleteClub(club.id);
       navigate('/club');

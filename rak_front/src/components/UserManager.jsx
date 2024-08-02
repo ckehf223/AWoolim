@@ -33,7 +33,9 @@ const UserManager = () => {
     { id: 21, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
   ];
 
+  // 초기 유저 임시 데이터 초기화
   const [users, setUsers] = useState(initialUsers);
+  // 검색 결과를 담을 상태
   const [filteredUsers, setFilteredUsers] = useState(initialUsers);
 
   //-------------------------모달상태-------------------------
@@ -74,12 +76,13 @@ const UserManager = () => {
   };
   //-------------------------검색기능-------------------------
 
-
+  // 유저 상세정보 모달
   const openUserModal = (user) => {
     setSelectedUser(user);
     toggleModal();
   }
 
+  // 유저 삭제 
   const deleteUser = () => {
     if (selectedUser) {
       const userIndex = users.findIndex(user => user.id === selectedUser.id);
@@ -95,7 +98,7 @@ const UserManager = () => {
 
   return (
     <div className='UserManager'>
-      <h1>User Manager</h1>
+      {/* **********검색바********** */}
       <div className='search-bar'>
         <FormGroup row className='form-group'>
           <Label for='searchColumn' sm={2}></Label>
@@ -126,6 +129,8 @@ const UserManager = () => {
           </Col>
         </FormGroup>
       </div>
+      {/* **********검색바********** */}
+
       <Table bordered>
         <thead>
           <tr>

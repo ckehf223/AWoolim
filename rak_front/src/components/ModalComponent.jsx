@@ -25,16 +25,6 @@ const ModalComponent = ({ isOpen, toggle, title, children, onDelete, onSend, inp
 
       <ModalBody>
         {children}
-        {/* {
-          inputVisible && (
-            <Input
-              type='textarea'
-              placeholder='내용을 입력하세요'
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            ></Input>
-          )
-        } */}
       </ModalBody>
 
       <ModalFooter>
