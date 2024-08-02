@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import Notice from './Notice';
+import Notice from '/src/components/admin/Notice';
 
 export const NoticeContext = createContext();
 

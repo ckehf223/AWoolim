@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import './MyPageSide.css'
+import '/src/css/member/MyPageSide.css'
 const MyPageSide = () => {
   const nav = useNavigate();
   return (
@@ -8,7 +8,7 @@ const MyPageSide = () => {
         <h4>마이페이지</h4>
         <div className="MyPageInfoMenuArea">
           <div className="MyPageInfoHeader">
-            <img src="/src/images/user.png" />
+            <img src="/src/assets/images/user.png" />
             <h5>내 정보</h5>
           </div>
           <div className="MyPageInfoMenu">
@@ -19,7 +19,7 @@ const MyPageSide = () => {
 
         <div className="MyPageClubMenuArea">
           <div className="MyPageClubHeader">
-            <img src="/src/images/group2.png" />
+            <img src="/src/assets/images/group2.png" />
             <h5>모임 정보</h5>
           </div>
           <div className="MyPageClubMenu">
@@ -29,7 +29,7 @@ const MyPageSide = () => {
         </div>
 
         <div className="myPageReportMenu">
-          <img src="/src/images/warning.png" />
+          <img src="/src/assets/images/warning.png" />
           <h5 onClick={() => { nav('/mypage/report') }}>신고내역</h5>
         </div>
 

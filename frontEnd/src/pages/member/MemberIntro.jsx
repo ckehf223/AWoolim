@@ -1,4 +1,4 @@
-import './MemberIntro.css'
+import '/src/css/member/MemberIntro.css'
 import { useNavigate } from 'react-router-dom';
 
 const MemberIntro = () => {

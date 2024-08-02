@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import "/src/css/category.css";
+import "/src/css/member/category.css";
 
 function Category() {
   const [currentCategory, setCurrentCategory] = useState("스포츠");
@@ -11,7 +11,7 @@ function Category() {
     // 데이터 구조 변경: 이미지와 설명 함께 저장
     스포츠: [
       {
-        image: "./src/images/sport1.jpg",
+        image: "/src/assets/images/sport1.jpg",
         title: "스터디 카페 정복",
         region: "서울 신촌",
         gender: "여",
@@ -22,7 +22,7 @@ function Category() {
         daysOfWeek: ["화", "목", "수"],
       },
       {
-        image: "./src/images/sport2.jpg",
+        image: "/src/assets/images/sport2.jpg",
         title: "사진 출사 (초보 환영)",
         region: "서울 여의도",
         gender: "여",
@@ -33,7 +33,7 @@ function Category() {
         daysOfWeek: ["일", "월"],
       },
       {
-        image: "./src/images/sport3.jpg",
+        image: "/src/assets/images/sport3.jpg",
         title: "보드게임 정복! (초보/숙련자 모두 환영)",
         region: "서울 이태원",
         gender: "여",
@@ -44,7 +44,7 @@ function Category() {
         daysOfWeek: ["목", "일"],
       },
       {
-        image: "./src/images/slideImg1.png",
+        image: "/src/assets/images/slideImg1.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -55,7 +55,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/slideImg2.png",
+        image: "/src/assets/images/slideImg2.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -68,7 +68,7 @@ function Category() {
     ],
     맛집탐방: [
       {
-        image: "./src/images/food1.jpg",
+        image: "/src/assets/images/food1.jpg",
         title: "봉사활동 같이 해요",
         region: "서울 홍대",
         gender: "남",
@@ -79,7 +79,7 @@ function Category() {
         daysOfWeek: ["금"],
       },
       {
-        image: "./src/images/food2.jpg",
+        image: "/src/assets/images/food2.jpg",
         title: "봉사활동 같이 해요",
         region: "서울 건대",
         gender: "무관",
@@ -90,7 +90,7 @@ function Category() {
         daysOfWeek: ["월", "화", "수"],
       },
       {
-        image: "./src/images/food3.jpeg",
+        image: "/src/assets/images/food3.jpeg",
         title: "캘리그라피 배우기",
         region: "서울 홍대",
         gender: "무관",
@@ -101,7 +101,7 @@ function Category() {
         daysOfWeek: ["금", "일", "수"],
       },
       {
-        image: "./src/images/hobby3.jpg",
+        image: "/src/assets/images/hobby3.jpg",
         title: "농구 팀원 모집",
         region: "서울 종로",
         gender: "무관",
@@ -112,7 +112,7 @@ function Category() {
         daysOfWeek: ["일"],
       },
       {
-        image: "./src/images/slideImg2.png",
+        image: "/src/assets/images/slideImg2.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -125,7 +125,7 @@ function Category() {
     ],
     독서: [
       {
-        image: "./src/images/read3.jpeg",
+        image: "/src/assets/images/read3.jpeg",
         title: "사진 출사 (초보 환영)",
         region: "서울 강북",
         gender: "여",
@@ -136,7 +136,7 @@ function Category() {
         daysOfWeek: ["수"],
       },
       {
-        image: "./src/images/read4.jpg",
+        image: "/src/assets/images/read4.jpg",
         title: "사진 출사 (초보 환영)",
         region: "서울 여의도",
         gender: "여",
@@ -147,7 +147,7 @@ function Category() {
         daysOfWeek: ["일", "월"],
       },
       {
-        image: "./src/images/read5.jpg",
+        image: "/src/assets/images/read5.jpg",
         title: "알고리즘 스터디",
         region: "서울 강남",
         gender: "무관",
@@ -158,7 +158,7 @@ function Category() {
         daysOfWeek: ["화", "목"],
       },
       {
-        image: "./src/images/read6.jpg",
+        image: "/src/assets/images/read6.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -169,7 +169,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/read7.jpeg",
+        image: "/src/assets/images/read7.jpeg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -180,7 +180,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/read8.jpeg",
+        image: "/src/assets/images/read8.jpeg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -193,7 +193,7 @@ function Category() {
     ],
     친목: [
       {
-        image: "./src/images/friend1.jpg",
+        image: "/src/assets/images/friend1.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -204,7 +204,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/friend2.jpeg",
+        image: "/src/assets/images/friend2.jpeg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -215,7 +215,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/friend3.jpeg",
+        image: "/src/assets/images/friend3.jpeg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -226,7 +226,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/friend4.jpeg",
+        image: "/src/assets/images/friend4.jpeg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -237,7 +237,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/friend5.jpeg",
+        image: "/src/assets/images/friend5.jpeg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -248,7 +248,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/friend6.jpeg",
+        image: "/src/assets/images/friend6.jpeg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -261,7 +261,7 @@ function Category() {
     ],
     전시: [
       {
-        image: "./src/images/show1.jpg",
+        image: "/src/assets/images/show1.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -272,7 +272,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/show2.jpg",
+        image: "/src/assets/images/show2.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -283,7 +283,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/show3.jpg",
+        image: "/src/assets/images/show3.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -294,7 +294,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/show4.png",
+        image: "/src/assets/images/show4.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -305,7 +305,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/slideImg1.png",
+        image: "/src/assets/images/slideImg1.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -316,7 +316,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/slideImg2.png",
+        image: "/src/assets/images/slideImg2.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -329,7 +329,7 @@ function Category() {
     ],
     취미활동: [
       {
-        image: "./src/images/hobby1.jpg",
+        image: "/src/assets/images/hobby1.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -340,7 +340,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/hobby2.jpg",
+        image: "/src/assets/images/hobby2.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -351,7 +351,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/movie1.webp",
+        image: "/src/assets/images/movie1.webp",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -362,7 +362,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/movie2.webp",
+        image: "/src/assets/images/movie2.webp",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -373,7 +373,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/slideImg2.png",
+        image: "/src/assets/images/slideImg2.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -386,7 +386,7 @@ function Category() {
     ],
     스터디: [
       {
-        image: "./src/images/study1.jpg",
+        image: "/src/assets/images/study1.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -397,7 +397,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/study2.jpeg",
+        image: "/src/assets/images/study2.jpeg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -408,7 +408,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/study3.jpg",
+        image: "/src/assets/images/study3.jpg",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -419,7 +419,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/slideImg1.png",
+        image: "/src/assets/images/slideImg1.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -430,7 +430,7 @@ function Category() {
         daysOfWeek: ["토"],
       },
       {
-        image: "./src/images/slideImg2.png",
+        image: "/src/assets/images/slideImg2.png",
         title: "러닝 크루 모집 (초보 환영)",
         region: "서울 마포",
         gender: "무관",
@@ -535,7 +535,7 @@ function Category() {
           <div className="categoryButtonContainer">
             {currentSlide > 0 && (
               <img
-                src="/src/images/left-arrow.png"
+                src="/src/assets/images/left-arrow.png"
                 alt="이전 버튼"
                 className="categoryButtonL"
                 onClick={handlePrevClick}
@@ -543,7 +543,7 @@ function Category() {
             )}
             {currentSlide < categoryData[currentCategory].length - 4 && (
               <img
-                src="/src/images/right-arrow.png"
+                src="/src/assets/images/right-arrow.png"
                 alt="다음 버튼"
                 className="categoryButtonR"
                 onClick={handleNextClick}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "/src/css/chatroompage.css";
+import "/src/css/member/chatroompage.css";
 
 function ChatRoomPage({ room, onBack }) {
   const [message, setMessage] = useState("");
@@ -39,9 +39,8 @@ function ChatRoomPage({ room, onBack }) {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`message ${
-                msg.sender === "나" ? "my-message" : "other-message"
-              }`}
+              className={`message ${msg.sender === "나" ? "my-message" : "other-message"
+                }`}
             >
               {msg.sender !== "나" && (
                 <div className="profile-container">

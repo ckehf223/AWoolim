@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "/src/css/photogallery.css";
+import "/src/css/member/photogallery.css";
 
 function PhotoGallery() {
   const initialPhotos = [
-    "./src/images/slideImg1.png",
-    "./src/images/slideImg2.png",
-    "./src/images/slideImg3.png",
-    "./src/images/slideImg4.png",
+    "/src/assets/images/slideImg1.png",
+    "/src/assets/images/slideImg2.png",
+    "/src/assets/images/slideImg3.png",
+    "/src/assets/images/slideImg4.png",
   ]; // 데이터베이스 역할
 
   const [photos, setPhotos] = useState(initialPhotos); // 초기 상태를 initialPhotos로 설정

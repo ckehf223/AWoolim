@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
-import './ClubDetail.css';
-import { ClubContext } from '../ClubContext';
+import '/src/css/admin/ClubDetail.css';
+import { ClubContext } from '/src/components/admin/ClubProvider';
 import { Button } from 'reactstrap';
 
 
@@ -16,7 +16,7 @@ const ClubDetail = () => {
   useEffect(() => {
     // clubId에 해당하는 모임이 없으면 /club 페이지로 이동
     if (!club) {
-      navigate('/club');
+      navigate('/admin/club');
     }
   }, [club, navigate]);
 
@@ -24,7 +24,7 @@ const ClubDetail = () => {
     // 삭제하고 /club 페이지로 이동
     if (window.confirm('정말로 삭제하시겠습니까?')) {
       deleteClub(club.id);
-      navigate('/club');
+      navigate('/admin/club');
     }
   }
 

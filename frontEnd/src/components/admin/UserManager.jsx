@@ -1,11 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Table, Input, Button, FormGroup, Label, Col } from 'reactstrap'
-import './UserManager.css'
-import ModalComponent from './ModalComponent'
-import useModal from './useModal'
+import '/src/css/admin/UserManager.css'
+import ModalComponent from '/src/components/admin/ModalComponent'
+import useModal from '/src/common/useModal'
 import update from 'immutability-helper'
-import PaginationComponent from './PaginationComponent'
+import PaginationComponent from '/src/components/admin/PaginationComponent'
 
 const UserManager = () => {
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import './ClubMember.css'
+import '/src/css/member/ClubMember.css'
 import { useNavigate } from 'react-router-dom';
-import useModal from '../components/useModal';
-import UserProfileModal from '../components/UserProfileModal';
+import useModal from '/src/common/useModal';
+import UserProfileModal from '/src/components/member/UserProfileModal';
 const MemberData = [
   {
     no: 1,
@@ -91,8 +91,8 @@ const ClubAccept = () => {
                   </div>
                 </div>
                 <div className='ClubAcceptButtonBox'>
-                  <img src="/src/images/check.png" alt="신청 수락 이미지" />
-                  <img src="/src/images/remove.png" alt="신청 거절 이미지" />
+                  <img src="/src/assets/images/check.png" alt="신청 수락 이미지" />
+                  <img src="/src/assets/images/remove.png" alt="신청 거절 이미지" />
                 </div>
               </div>
             )

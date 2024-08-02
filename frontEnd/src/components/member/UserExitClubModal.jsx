@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap'
-import './UserExitClubModal.css'
+import '/src/css/member/UserExitClubModal.css'
 const UserExitClubModal = ({
   isOpen = false,
   toggle = () => { },

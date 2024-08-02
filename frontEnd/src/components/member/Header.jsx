@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "/src/css/header.css";
+import "/src/css/member/header.css";
 
 function Header() {
   useEffect(() => {
@@ -33,7 +33,7 @@ function Header() {
       {/* 로고 */}
       <div id="header-logo">
         <Link to="/">
-          <img src="./src/images/headerLogo.png" alt="로고" />
+          <img src="/src/assets/images/headerLogo.png" alt="로고" />
         </Link>
       </div>
 
@@ -41,7 +41,7 @@ function Header() {
       <div id="header-search">
         <input type="search" placeholder="검색어를 입력하세요" />
         <Link to="/search">
-          <img src="./src/images/search.png" alt="검색" />
+          <img src="/src/assets/images/search.png" alt="검색" />
         </Link>
       </div>
 
@@ -49,7 +49,7 @@ function Header() {
       <div id="header-icons">
         {/* 알림 */}
         <div onClick={handleAlarmClick}>
-          <img src="./src/images/notice.png" alt="알림" id="alarm-icon" />
+          <img src="/src/assets/images/notice.png" alt="알림" id="alarm-icon" />
         </div>
 
         {/* 알림 내용 표시 */}

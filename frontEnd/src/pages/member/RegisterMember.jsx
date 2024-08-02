@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react';
-import './RegisterMember.css';
+import '/src/css/member/RegisterMember.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { UserContext } from '../userContext/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterMember = () => {
-    const { users, addUser } = useContext(UserContext);
+    const { users, addUser } = useContext('');
     const [formData, setFormData] = useState({
         useremail: '',
         password: '',

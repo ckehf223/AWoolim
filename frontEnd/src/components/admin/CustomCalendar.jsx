@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
-import './CustomCalendar.css';
+import '/src/css/admin/CustomCalendar.css';
 import { CiCalendar } from "react-icons/ci";
 
 const CustomCalendar = () => {

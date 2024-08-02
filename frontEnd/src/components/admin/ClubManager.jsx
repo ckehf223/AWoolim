@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import './ClubManager.css'
+import '/src/css/admin/ClubManager.css'
 import { Table, Input, Label, Col, Button, FormGroup } from 'reactstrap'
 import { Link } from 'react-router-dom'
-import { ClubContext } from '../ClubContext'
-import PaginationComponent from './PaginationComponent'
+import { ClubContext } from '/src/components/admin/ClubProvider';
+import PaginationComponent from '/src/components/admin/PaginationComponent'
 
 const ClubManager = () => {
   const { clubs } = useContext(ClubContext);
@@ -94,7 +94,7 @@ const ClubManager = () => {
               <th scope='row'>{club.id}</th>
               <td>{club.category}</td>
               <td><Link to={{
-                pathname: `/club/${club.id}`,
+                pathname: `/admin/club/${club.id}`,
                 state: { club } // club 객체를 전달
               }}>{club.name}</Link></td>
               <td>{club.people}</td>

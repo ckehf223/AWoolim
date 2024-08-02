@@ -1,4 +1,4 @@
-import './NoticeRead.css'
+import '/src/css/admin/NoticeRead.css'
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -23,7 +23,7 @@ const NoticeRead = () => {
     }, [noticeNo]);
 
     const handleEdit = () => {
-        navi(`/noticeReWrite/${noticeNo}`);
+        navi(`/admin/noticeReWrite/${noticeNo}`);
     }
 
     return (
@@ -51,7 +51,7 @@ const NoticeRead = () => {
             <hr />
             <div className="NrFooter">
                 <button onClick={handleEdit}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;수정하기 </button>&nbsp;
-                <button onClick={() => { return navi('/') }}>목록</button>
+                <button onClick={() => { return navi('/admin/notice') }}>목록</button>
             </div>
         </div>
     )

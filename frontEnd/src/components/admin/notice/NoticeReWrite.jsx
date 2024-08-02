@@ -1,8 +1,8 @@
-import './NoticeWrite.css'
+import '/src/css/admin/NoticeWrite.css'
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import CustomQuill from "./CustomQuill";
+import CustomQuill from "/src/common/CustomQuill";
 
 const NoticeReWrite = () => {
     const { noticeNo } = useParams();
@@ -34,7 +34,7 @@ const NoticeReWrite = () => {
         notice.content = content;
         axios.put(`http://localhost:8080/notices/update/${noticeNo}`, notice)
             .then(() => {
-                navi(`/noticeRead/${noticeNo}`);
+                navi(`/admin/noticeRead/${noticeNo}`);
             })
             .catch(
                 error => {
@@ -71,7 +71,7 @@ const NoticeReWrite = () => {
                 </div>
                 <div className="NwFooter">
                     <button type="submit">작성</button>
-                    <button onClick={() => { navi(`/noticeRead/${noticeNo}`) }}> 취소</button>
+                    <button onClick={() => { navi(`/admin/noticeRead/${noticeNo}`) }}> 취소</button>
                 </div>
             </form>
         </div>

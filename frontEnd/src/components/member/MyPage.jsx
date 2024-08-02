@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom"
-import MyPageSide from "../components/MyPageSide"
-import MyProfile from "./MyProfile"
-import './MyPage.css'
-import UserModify from "./UserModify"
-import UserMyClub from "./UserMyClub"
-import UserMadeClub from "./UserMadeClub"
-import MyClubManager from "./MyClubManager"
-import UserReport from "./UserReport"
+import MyPageSide from "/src/components/member/MyPageSide"
+import MyProfile from "/src/components/member/MyProfile"
+import '/src/css/member/MyPage.css'
+import UserModify from "/src/components/member/UserModify"
+import UserMyClub from "/src/components/member/UserMyClub"
+import UserMadeClub from "/src/components/member/UserMadeClub"
+import MyClubManager from "/src/components/member/MyClubManager"
+import UserReport from "/src/components/member/UserReport"
 
 const MyPage = () => {
   return (

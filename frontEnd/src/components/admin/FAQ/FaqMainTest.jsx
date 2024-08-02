@@ -1,4 +1,4 @@
-import './FaqMain.css'
+import '/src/css/admin/FaqMain.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen, faQ } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';

@@ -1,24 +1,24 @@
 import { useState } from 'react';
-import './UserMadeClub.css'
+import '/src/css/member/UserMadeClub.css'
 import { useNavigate } from 'react-router-dom';
 const myClubData = [
   {
     clubNo: 1,
     category: '모집중',
     clubName: '오늘 다같이 미쳐보자',
-    clubImage: '/src/images/frankenstein.webp',
+    clubImage: '/src/assets/images/frankenstein.webp',
   },
   {
     clubNo: 2,
     category: '모집마감',
     clubName: '오늘 다같이 죽어보자',
-    clubImage: '/src/images/image.png',
+    clubImage: '/src/assets/images/image.png',
   },
   {
     clubNo: 3,
     category: '모집마감',
     clubName: '오늘 다같이 이겨보자',
-    clubImage: '/src/images/image.png',
+    clubImage: '/src/assets/images/image.png',
   },
 ];
 const UserMadeClub = () => {

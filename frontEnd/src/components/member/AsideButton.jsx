@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import "/src/css/asidebutton.css";
-import ChatListModal from "./ChatListModal";
-import firstImage from "/src/images/check-list.png";
-import secondImage from "/src/images/comments.png";
-import thirdImage from "/src/images/calendar.png";
-import cancelImage from "/src/images/cancel.png";
+import "/src/css/member/asidebutton.css";
+import ChatListModal from "/src/components/member/ChatListModal";
+import firstImage from "/src/assets/images/check-list.png";
+import secondImage from "/src/assets/images/comments.png";
+import thirdImage from "/src/assets/images/calendar.png";
+import cancelImage from "/src/assets/images/cancel.png";
 
 function AsideButton() {
   const imageRef = useRef(null);

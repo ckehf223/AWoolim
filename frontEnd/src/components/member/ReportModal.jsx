@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
-import './ReportModal.css'
+import '/src/css/member/ReportModal.css'
 const ReportModal = ({ isOpen = false,
   toggle = () => { },
   title = '',

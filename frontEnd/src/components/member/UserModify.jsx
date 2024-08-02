@@ -1,4 +1,4 @@
-import './UserModify.css'
+import '/src/css/member/UserModify.css'
 const UserModify = () => {
   return (
     <>

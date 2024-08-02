@@ -1,8 +1,8 @@
-import './NoticeWrite.css'
+import '/src/css/admin/NoticeWrite.css'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-import CustomQuill from './CustomQuill';
+import CustomQuill from '/src/common/CustomQuill';
 
 
 const NoticeWrite = () => {
@@ -28,7 +28,7 @@ const NoticeWrite = () => {
         e.preventDefault();
         axios.post('http://localhost:8080/notices/insert', notice)
             .then(() => {
-                navi('/');
+                navi('/admin/notice');
             })
             .catch(error => {
                 console.error("CREATE ERROR", error);
@@ -64,11 +64,11 @@ const NoticeWrite = () => {
                 </div>
 
                 <div className="NwMid">
-                    <CustomQuill content={content} setContent={setContent} />
+                    <CustomQuill content={content} setContent={setContent} width={'950'} height={'300'} />
                 </div>
                 <div className="NwFooter">
                     <button type="submit">등록</button>
-                    <button onClick={() => { navi('/') }}> 취소</button>
+                    <button onClick={() => { navi('/admin/notice') }}> 취소</button>
                 </div>
             </form>
         </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './MyProfile.css'
+import '/src/css/member/MyProfile.css'
 
 const MyProfile = () => {
   const [isNickNameEditing, setIsNickNameEditing] = useState(false);
@@ -49,7 +49,7 @@ const MyProfile = () => {
     setIntroMg(tempIntroMg);
   };
   const onDeleteImage = () => {
-    setImageSrc('/src/images/blank_image.png');
+    setImageSrc('/src/assets/images/blank_image.png');
   }
   const onBackDeleteImage = () => {
     setBackImageSrc('');

@@ -1,4 +1,4 @@
-import './FaqMain.css';
+import '/src/css/admin/FaqMain.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen, faQ, faA } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 const FaqMainCustom = () => {
     const [isAnswerVisible, setIsAnswerVisible] = useState(false);
-    const navi = useNavigate();
 
     const toggleAnswer = () => {
         setIsAnswerVisible(!isAnswerVisible);
@@ -15,7 +14,7 @@ const FaqMainCustom = () => {
     return (
         <div className="FaqMain">
             <div className="faqHeader">
-                <img src="src\assets\images\faqMain.png" alt="FaQ" style={{ height: "50px", marginRight: "8px" }} /><h2>자주하는 질문</h2>
+                <img src="/src/assets/images/faqMain.png" alt="FaQ" style={{ height: "50px", marginRight: "8px" }} /><h2>자주하는 질문</h2>
             </div>
             <hr style={{ color: 'lightgray' }}></hr>
             <div className='faqBtn'>

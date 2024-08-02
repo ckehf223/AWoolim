@@ -1,10 +1,10 @@
 import React from 'react'
-import './ReportManager.css'
+import '/src/css/admin/ReportManager.css'
 import { Table, Input, Button, Label, Col, FormGroup } from 'reactstrap'
 import { useState } from 'react'
-import PaginationComponent from './PaginationComponent'
-import useModal from './useModal'
-import ModalComponent from './ModalComponent'
+import PaginationComponent from '/src/components/admin/PaginationComponent'
+import useModal from '/src/common/useModal'
+import ModalComponent from '/src/components/admin/ModalComponent'
 
 const ReportManager = () => {
 

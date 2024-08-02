@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
-import './ClubRegister.css'
+import '/src/css/member/ClubRegister.css'
 import 'react-quill/dist/quill.snow.css'
-import CustomQuill from "../components/CustomQuill";
+import CustomQuill from "/src/common/CustomQuill";
 const ClubRegister = () => {
   const [type, setType] = useState('hidden');
   const [message, setMessage] = useState('');
@@ -9,7 +9,7 @@ const ClubRegister = () => {
   const [regularyType, setRegularyType] = useState(null);
   const [selectedButton, setSelectedButton] = useState(null);
   const [fileInput, setFileInput] = useState('');
-  const [imageSrc, setImageSrc] = useState('/src/images/image.png');
+  const [imageSrc, setImageSrc] = useState('/src/assets/images/image.png');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('');
   //react-quill 라이브러리 사용
@@ -135,8 +135,6 @@ const ClubRegister = () => {
       };
       setFileInput(file.name);
       reader.readAsDataURL(file);
-    } else {
-      setImageSrc('/src/images/image.png');
     }
   };
 

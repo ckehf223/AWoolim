@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './Notice.css'
+import '/src/css/admin/Notice.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -80,7 +80,7 @@ const Notice = () => {
             </div>
             <div className='searchBox'>
                 <div className='writeBtn'>
-                    <button onClick={() => navi('/noticeWrite')}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;작성하기 </button>&nbsp;
+                    <button onClick={() => navi('/admin/noticeWrite')}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;작성하기 </button>&nbsp;
                 </div>
                 <div className='SB'>
                     <input placeholder='검색' value={serchTerm} onChange={handelSearchChange} />

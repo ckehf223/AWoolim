@@ -1,25 +1,25 @@
 import { useState } from 'react';
-import './UserMyClub.css'
-import useModal from '../components/useModal';
-import UserExitClubModal from '../components/UserExitClubModal';
+import '/src/css/member/UserMyClub.css'
+import useModal from '/src/common/useModal';
+import UserExitClubModal from '/src/components/member/UserExitClubModal';
 const myClubData = [
   {
     clubNo: 1,
     category: '실내스포츠',
     clubName: '오늘 다같이 미쳐보자',
-    clubImage: '/src/images/frankenstein.webp',
+    clubImage: '/src/assets/images/frankenstein.webp',
   },
   {
     clubNo: 2,
     category: '친목모임',
     clubName: '오늘 다같이 죽어보자',
-    clubImage: '/src/images/headwik.webp',
+    clubImage: '/src/assets/images/headwik.webp',
   },
   {
     clubNo: 3,
     category: '야외스포츠',
     clubName: '오늘 다같이 이겨보자',
-    clubImage: '/src/images/image.png',
+    clubImage: '/src/assets/images/image.png',
   },
 ];
 
@@ -86,8 +86,8 @@ const UserMyClub = () => {
                           </div>
                         </div>
                         <div className='UserMyClubButtonArea'>
-                          <img className='UserMyClubBoardImg' src="/src/images/home.png" alt="모임 게시판 이미지" />
-                          <img className='UserMyClubExitImg' src="/src/images/exit.png" alt="모임 나가기 이미지" onClick={openExitModal} />
+                          <img className='UserMyClubBoardImg' src="/src/assets/images/home.png" alt="모임 게시판 이미지" />
+                          <img className='UserMyClubExitImg' src="/src/assets/images/exit.png" alt="모임 나가기 이미지" onClick={openExitModal} />
                         </div>
                       </div>
                     )

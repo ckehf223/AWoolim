@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import './ClubModify.css'
-import CustomQuill from '../components/CustomQuill';
+import '/src/css/member/ClubModify.css'
+import CustomQuill from '/src/common/CustomQuill';
 const oldData = {
   name: '오늘 한번 미쳐보자',
   category: '실내스포츠',
@@ -38,7 +38,7 @@ const ClubModify = () => {
   const [regularyType, setRegularyType] = useState(oldData.rtype);
   const [selectedButton, setSelectedButton] = useState(oldData.rtype);
   const [fileInput, setFileInput] = useState(oldData.img);
-  const [imageSrc, setImageSrc] = useState(`/src/images/${oldData.img}`);
+  const [imageSrc, setImageSrc] = useState(`/src/assets/images/${oldData.img}`);
   const [selectedCity, setSelectedCity] = useState(oldData.venue.split(' ')[0]);
   const [selectedDistrict, setSelectedDistrict] = useState(oldData.venue.split(' ')[1]);
   //react-quill 라이브러리 사용

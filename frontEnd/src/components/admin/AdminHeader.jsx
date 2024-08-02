@@ -1,5 +1,5 @@
 import React from "react";
-import "./AdminHeader.css";
+import "/src/css/admin/AdminHeader.css";
 import { Navbar, NavbarBrand, NavItem, Nav, NavLink } from "reactstrap";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
 
@@ -8,7 +8,7 @@ const AdminHeader = () => {
   return (
     <div className="AdminHeader">
       <Navbar light expand="md" className="navbar-custom my-navbar-color">
-        <NavbarBrand href="/" className="navbar-brand-custom"><img src="src/assets/headerLogo.png" /></NavbarBrand>
+        <NavbarBrand href="/admin" className="navbar-brand-custom"><img src="/src/assets/images/headerLogo.png" /></NavbarBrand>
         <Nav className="ml-auto" navbar >
           <NavItem>
             <NavLink href="#"><FaSignOutAlt />Logout</NavLink>

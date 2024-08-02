@@ -1,5 +1,5 @@
 import React from "react";
-import "/src/css/footer.css";
+import "/src/css/member/footer.css";
 
 const Footer = () => {
   return (
@@ -61,10 +61,10 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-right">
-          <img src="./src/images/insta.png" alt="" />
-          <img src="./src/images/kakao.png" alt="" />
-          <img src="./src/images/youtube.png" alt="" />
-          <img src="./src/images/github.png" alt="" />
+          <img src="/src/assets/images/insta.png" alt="" />
+          <img src="/src/assets/images/kakao.png" alt="" />
+          <img src="/src/assets/images/youtube.png" alt="" />
+          <img src="/src/assets/images/github.png" alt="" />
         </div>
       </div>
     </footer>

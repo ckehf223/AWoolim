@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "/src/css/groupnav.css";
-import CalendarPage from "./CalendarPage";
-import PhotoGallery from "./PhotoGallery";
+import "/src/css/member/groupnav.css";
+import CalendarPage from "/src/components/member/CalendarPage";
+import PhotoGallery from "/src/components/member/PhotoGallery";
 
 function GroupNav() {
   const [activeContent, setActiveContent] = useState("calendar"); // 초기 활성 콘텐츠 설정

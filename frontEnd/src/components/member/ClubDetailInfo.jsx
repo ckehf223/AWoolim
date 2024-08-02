@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import useModal from '../components/useModal';
-import './ClubDetailInfo.css'
-import UserProfileModal from '../components/UserProfileModal';
-import ReportModal from '../components/ReportModal';
+import useModal from '/src/common/useModal';
+import '/src/css/member/ClubDetailInfo.css'
+import UserProfileModal from '/src/components/member/UserProfileModal';
+import ReportModal from '/src/components/member/ReportModal';
 import DOMPurify from 'dompurify';
 const values = "<p>어렸을 때 부터 우리는 <span style='background-color: rgb(230, 0, 0);'>가난했었고</span>"
   + " 왜 이렇게 사는게 힘들기만 한지</p><p>누가 인생이 아름답다고 말한건지</p>"
@@ -47,11 +47,11 @@ const ClubDetailInfo = () => {
               <div className='ClubDetailHeader'>
                 <div className='ClubDetailHeaderBox'>
                   <div className='ClubDetailHeaderIcon'>
-                    <img className='ClubDetailCategoryIcon' src="/src/images/categoryIcon.png" />
+                    <img className='ClubDetailCategoryIcon' src="/src/assets/images/categoryIcon.png" />
                     <h3>카테고리 영역</h3>
                   </div>
                   <div className='ClubDetailReportBox'>
-                    <img src="/src/images/report6.png" alt="신고이미지" onClick={() => openReportModal({ nickName: '김춘자' })} />
+                    <img src="/src/assets/images/report6.png" alt="신고이미지" onClick={() => openReportModal({ nickName: '김춘자' })} />
                     <ReportModal
                       isOpen={isReportModalOpen}
                       toggle={reportToggleModal}
@@ -63,19 +63,19 @@ const ClubDetailInfo = () => {
               </div>
               <h1>미술관 친구들 - 저기, 나랑 전시보러 가지 않을래?</h1>
               <div className='ClubDetailTop_contentArea'>
-                <div><img src="/src/images/location.png" /><span>지역정보</span></div>
-                <div><img src="/src/images/timetable.png" /><span>모임 날짜</span></div>
-                <div><img src="/src/images/group.png" /><span>인원</span></div>
+                <div><img src="/src/assets/images/location.png" /><span>지역정보</span></div>
+                <div><img src="/src/assets/images/timetable.png" /><span>모임 날짜</span></div>
+                <div><img src="/src/assets/images/group.png" /><span>인원</span></div>
               </div>
             </div>
             <div className='ClubDetailTopMiddleBox'>
               <div className='ClubDetailTopImageArea'>
-                <img src="/src/images/frankenstein.webp" />
+                <img src="/src/assets/images/frankenstein.webp" />
               </div>
               <div className='ClubDetailTop_middelContentArea'>
-                <div><img src="/src/images/leader.png" /><strong>모임장:</strong><span>닉네임</span></div>
-                <div><img src="/src/images/age.png" /><strong>제한나이:</strong><span>22</span></div>
-                <div><img src="/src/images/gender.png" /><strong>제한성별:</strong><span>제한없음</span></div>
+                <div><img src="/src/assets/images/leader.png" /><strong>모임장:</strong><span>닉네임</span></div>
+                <div><img src="/src/assets/images/age.png" /><strong>제한나이:</strong><span>22</span></div>
+                <div><img src="/src/assets/images/gender.png" /><strong>제한성별:</strong><span>제한없음</span></div>
               </div>
             </div>
           </div>
@@ -99,7 +99,7 @@ const ClubDetailInfo = () => {
                     backgroundImage: 'frankenstein.webp',
                     profileImage: 'blank_image.png'
                   })}>
-                  <img src="/src/images/blank_image.png" />
+                  <img src="/src/assets/images/blank_image.png" />
                   <div className='ClubDetailMemberInfo'>
                     <p className='ClubDetailMemberNickname'>마봉팔</p>
                     <p className='ClubDetailMemberIntro'>집에가고싶다~</p>

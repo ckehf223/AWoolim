@@ -1,4 +1,4 @@
-import './FaqMain.css';
+import '/src/css/admin/FaqMain.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen, faQ, faA } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
@@ -15,11 +15,11 @@ const FaqMain = () => {
     return (
         <div className="FaqMain">
             <div className="faqHeader">
-                <img src="src\assets\images\faqMain.png" alt="FaQ" style={{ height: "50px", marginRight: "8px" }} /><h2>자주하는 질문</h2>
+                <img src="/src/assets/images/faqMain.png" alt="FaQ" style={{ height: "50px", marginRight: "8px" }} /><h2>자주하는 질문</h2>
             </div>
             <hr style={{ color: 'lightgray' }}></hr>
             <div className='faqBtn'>
-                <button onClick={() => { navi('/faqWrite') }}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;글쓰기 </button>&nbsp;
+                <button onClick={() => { navi('/admin/faqWrite') }}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;글쓰기 </button>&nbsp;
 
             </div>
             <div className="faqNav">
@@ -43,7 +43,7 @@ const FaqMain = () => {
                         </span>
                     </div>
                     <div className='fqBtn'>
-                        <button onClick={() => { navi('/faqReWrite') }}>수정하기 </button>
+                        <button onClick={() => { navi('/admin/faqReWrite') }}>수정하기 </button>
                     </div>
                 </div>
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import CountUp from 'react-countup';
-import './Dashboard.css';
+import '/src/css/admin/Dashboard.css';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 import 'react-calendar/dist/Calendar.css';
-import CustomCalendar from './CustomCalendar';
-import { Utils } from '../Utils';
+import CustomCalendar from '/src/components/admin/CustomCalendar';
+import { Utils } from '/src/components/admin/Utils';
 
 // Chart.js 모듈 등록
 ChartJS.register(

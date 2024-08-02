@@ -1,9 +1,9 @@
-import Header from "/src/layouts/Header";
-import Slider from "/src/layouts/Slider";
-import Category from "/src/layouts/Category";
-import Groups from "/src/layouts/Groups";
-import AsideButton from "/src/layouts/AsideButton";
-import Footer from "/src/layouts/Footer";
+import Header from "/src/components/member/Header";
+import Slider from "/src/components/member/Slider";
+import Category from "/src/components/member/Category";
+import Groups from "/src/components/member/Groups";
+import AsideButton from "/src/components/member/AsideButton";
+import Footer from "/src/components/member/Footer";
 
 function Home() {
   return (

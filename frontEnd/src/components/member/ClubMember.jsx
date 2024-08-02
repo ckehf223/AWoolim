@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import './ClubMember.css'
+import '/src/css/member/ClubMember.css'
 import { useNavigate } from 'react-router-dom';
-import useModal from '../components/useModal';
-import UserProfileModal from '../components/UserProfileModal';
+import useModal from '/src/common/useModal';
+import UserProfileModal from '/src/components/member/UserProfileModal';
 const MemberData = [
   {
     no: 1,
@@ -63,7 +63,7 @@ const ClubMember = () => {
         <div className='ClubMemberSearchArea'>
           <div className='ClubMemberSearchBox'>
             <input type="text" placeholder='멤버 검색' value={searchInput} onChange={onChangeSearch} />
-            <img src="/src/images/search.png" alt="검색이미지" onClick={onClickSearch} />
+            <img src="/src/assets/images/search.png" alt="검색이미지" onClick={onClickSearch} />
           </div>
         </div>
         <div className='ClubMemberHeaderArea'>
@@ -81,7 +81,7 @@ const ClubMember = () => {
               <div className='ClubMemberBox' key={member.no}>
                 <div className='ClubMemberInfoBox'>
                   <div className='ClubMemberImageBox'>
-                    <img src={`/src/images/${member.image}`} onClick={() => { openUserModal(member) }} />
+                    <img src={`/src/assets/images/${member.image}`} onClick={() => { openUserModal(member) }} />
                   </div>
                   <div className='ClubMemberProfileInfo'>
                     <p className='ClubMemberName'>{member.name !== '' ? member.name : member.id}</p>
@@ -98,7 +98,7 @@ const ClubMember = () => {
                   </div>
                 </div>
                 <div className='ClubMemberDeleteBox'>
-                  <img src="/src/images/deleteUser.png" alt="멤버 삭제 이미지" />
+                  <img src="/src/assets/images/deleteUser.png" alt="멤버 삭제 이미지" />
                 </div>
               </div>
             )

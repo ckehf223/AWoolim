@@ -1,9 +1,8 @@
 import React from 'react'
 import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap'
-import './UserProfileModal.css'
-import ModalComponent from './ModalComponent'
-import useModal from './useModal'
-import ReportModal from './ReportModal'
+import '/src/css/member/UserProfileModal.css'
+import useModal from '/src/common/useModal'
+import ReportModal from '/src/components/member/ReportModal'
 //내 아이디와 같으면 신고버튼 안보이게 하기
 const UserProfileModal = ({
   isOpen = false,
@@ -22,7 +21,7 @@ const UserProfileModal = ({
         <div className="modal-content">
           <ModalHeader
             className='UserProfileModalHeader'
-            style={{ backgroundImage: `url(/src/images/${backgroundImage})` }}>
+            style={{ backgroundImage: `url(/src/assets/images/${backgroundImage})` }}>
             <img className='UserProfileModalReportImage' src="/src/images/report4.png" alt="신고이미지" onClick={toggleModal} />
             <ReportModal
               isOpen={isModalOpen}
@@ -31,7 +30,7 @@ const UserProfileModal = ({
               targetId={name} >
             </ReportModal>
             <Button className='UserProfileModalCloseButton' onClick={toggle} >✖</Button>
-            <img src={`/src/images/${profileImage}`} alt="Profile" className='UserProfileModalProfileImage' />
+            <img src={`/src/assets/images/${profileImage}`} alt="Profile" className='UserProfileModalProfileImage' />
           </ModalHeader>
           <ModalBody className='UserProfileModalBody'>
             <div className='UserProfileModalProfileName'>{name}</div>

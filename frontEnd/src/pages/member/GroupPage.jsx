@@ -1,7 +1,5 @@
-import Header from "/src/layouts/Header";
-import Footer from "/src/layouts/Footer";
-import GroupNav from "/src/layouts/GroupNav";
-import AsideButton from "/src/layouts/AsideButton";
+import GroupNav from "/src/components/member/GroupNav";
+import AsideButton from "/src/components/member/AsideButton";
 function GroupPage() {
   return (
     <>

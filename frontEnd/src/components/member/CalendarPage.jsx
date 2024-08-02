@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
-import "/src/css/calendarpage.css";
+import "/src/css/member/calendarpage.css";
 
 function CalendarPage() {
   const today = new Date();

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "/src/css/groups.css";
+import "/src/css/member/groups.css";
 const images = [
   {
-    src: "./src/images/food1.jpg",
+    src: "/src/assets/images/food1.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "알고리즘 스터디",
@@ -15,7 +15,7 @@ const images = [
     daysOfWeek: ["화", "목"],
   },
   {
-    src: "./src/images/food2.jpg",
+    src: "/src/assets/images/food2.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "러닝 크루 모집 (초보 환영)",
@@ -28,7 +28,7 @@ const images = [
     daysOfWeek: ["토"],
   },
   {
-    src: "./src/images/food3.jpeg",
+    src: "/src/assets/images/food3.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "독서 토론 모임 (소설)",
@@ -41,7 +41,7 @@ const images = [
     daysOfWeek: ["일"],
   },
   {
-    src: "./src/images/friend1.jpg",
+    src: "/src/assets/images/friend1.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "힙스터 맛집 탐방!",
@@ -54,7 +54,7 @@ const images = [
     daysOfWeek: ["금", "토"],
   },
   {
-    src: "./src/images/friend2.jpeg",
+    src: "/src/assets/images/friend2.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "보드게임 정복! (초보/숙련자 모두 환영)",
@@ -67,7 +67,7 @@ const images = [
     daysOfWeek: ["수", "토"],
   },
   {
-    src: "./src/images/friend3.jpeg",
+    src: "/src/assets/images/friend3.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "영화 감상 모임",
@@ -80,7 +80,7 @@ const images = [
     daysOfWeek: ["월"],
   },
   {
-    src: "./src/images/friend4.jpeg",
+    src: "/src/assets/images/friend4.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "요리 교실 (한식)",
@@ -93,7 +93,7 @@ const images = [
     daysOfWeek: ["목"],
   },
   {
-    src: "./src/images/friend5.jpeg",
+    src: "/src/assets/images/friend5.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "반려동물 산책 모임",
@@ -106,7 +106,7 @@ const images = [
     daysOfWeek: ["수"],
   },
   {
-    src: "./src/images/friend6.jpeg",
+    src: "/src/assets/images/friend6.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "보드게임 정복! (초보/숙련자 모두 환영)",
@@ -119,7 +119,7 @@ const images = [
     daysOfWeek: ["토", "일"],
   },
   {
-    src: "./src/images/hobby1.jpg",
+    src: "/src/assets/images/hobby1.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "스터디 카페 정복",
@@ -132,7 +132,7 @@ const images = [
     daysOfWeek: ["금", "토", "수"],
   },
   {
-    src: "./src/images/hobby2.jpg",
+    src: "/src/assets/images/hobby2.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "베이킹 클래스",
@@ -145,7 +145,7 @@ const images = [
     daysOfWeek: ["월", "수"],
   },
   {
-    src: "./src/images/hobby3.jpg",
+    src: "/src/assets/images/hobby3.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "스터디 카페 정복",
@@ -158,7 +158,7 @@ const images = [
     daysOfWeek: ["금", "화", "월"],
   },
   {
-    src: "./src/images/movie1.webp",
+    src: "/src/assets/images/movie1.webp",
     alt: "Image 1",
     link: "/image1",
     title: "영화 감상 모임",
@@ -171,7 +171,7 @@ const images = [
     daysOfWeek: ["목"],
   },
   {
-    src: "./src/images/movie2.webp",
+    src: "/src/assets/images/movie2.webp",
     alt: "Image 1",
     link: "/image1",
     title: "보드게임 정복! (초보/숙련자 모두 환영)",
@@ -184,7 +184,7 @@ const images = [
     daysOfWeek: ["토"],
   },
   {
-    src: "./src/images/read3.jpeg",
+    src: "/src/assets/images/read3.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "보드게임 정복! (초보/숙련자 모두 환영)",
@@ -197,7 +197,7 @@ const images = [
     daysOfWeek: ["목", "금"],
   },
   {
-    src: "./src/images/read4.jpg",
+    src: "/src/assets/images/read4.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "축구/풋살 팀원 모집",
@@ -210,7 +210,7 @@ const images = [
     daysOfWeek: ["일"],
   },
   {
-    src: "./src/images/read5.jpg",
+    src: "/src/assets/images/read5.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "댄스 동아리",
@@ -223,7 +223,7 @@ const images = [
     daysOfWeek: ["금", "목"],
   },
   {
-    src: "./src/images/read6.jpg",
+    src: "/src/assets/images/read6.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "반려동물 산책 모임",
@@ -236,7 +236,7 @@ const images = [
     daysOfWeek: ["목", "수"],
   },
   {
-    src: "./src/images/read7.jpeg",
+    src: "/src/assets/images/read7.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "요리 교실 (한식)",
@@ -249,7 +249,7 @@ const images = [
     daysOfWeek: ["수", "일", "토"],
   },
   {
-    src: "./src/images/read8.jpeg",
+    src: "/src/assets/images/read8.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "외국어 스터디 (영어/일본어 등)",
@@ -262,7 +262,7 @@ const images = [
     daysOfWeek: ["수"],
   },
   {
-    src: "./src/images/show1.jpg",
+    src: "/src/assets/images/show1.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "보드게임 정복! (초보/숙련자 모두 환영)",
@@ -275,7 +275,7 @@ const images = [
     daysOfWeek: ["일", "월", "수"],
   },
   {
-    src: "./src/images/show2.jpg",
+    src: "/src/assets/images/show2.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "악기 연주 모임 (기타/피아노 등)",
@@ -288,7 +288,7 @@ const images = [
     daysOfWeek: ["일", "월"],
   },
   {
-    src: "./src/images/show3.jpg",
+    src: "/src/assets/images/show3.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "보드게임 정복! (초보/숙련자 모두 환영)",
@@ -301,7 +301,7 @@ const images = [
     daysOfWeek: ["목", "일"],
   },
   {
-    src: "./src/images/show4.png",
+    src: "/src/assets/images/show4.png",
     alt: "Image 1",
     link: "/image1",
     title: "봉사활동 같이 해요",
@@ -314,7 +314,7 @@ const images = [
     daysOfWeek: ["금"],
   },
   {
-    src: "./src/images/sport1.jpg",
+    src: "/src/assets/images/sport1.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "봉사활동 같이 해요",
@@ -327,7 +327,7 @@ const images = [
     daysOfWeek: ["월", "화", "수"],
   },
   {
-    src: "./src/images/sport2.jpg",
+    src: "/src/assets/images/sport2.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "캘리그라피 배우기",
@@ -340,7 +340,7 @@ const images = [
     daysOfWeek: ["금", "일", "수"],
   },
   {
-    src: "./src/images/sport3.jpg",
+    src: "/src/assets/images/sport3.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "농구 팀원 모집",
@@ -353,7 +353,7 @@ const images = [
     daysOfWeek: ["일"],
   },
   {
-    src: "./src/images/study1.jpg",
+    src: "/src/assets/images/study1.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "사진 출사 (초보 환영)",
@@ -366,7 +366,7 @@ const images = [
     daysOfWeek: ["수"],
   },
   {
-    src: "./src/images/study2.jpeg",
+    src: "/src/assets/images/study2.jpeg",
     alt: "Image 1",
     link: "/image1",
     title: "사진 출사 (초보 환영)",
@@ -379,7 +379,7 @@ const images = [
     daysOfWeek: ["일", "월"],
   },
   {
-    src: "./src/images/study3.jpg",
+    src: "/src/assets/images/study3.jpg",
     alt: "Image 1",
     link: "/image1",
     title: "스터디 카페 정복",

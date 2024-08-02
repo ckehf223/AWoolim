@@ -1,9 +1,9 @@
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import './MyClubManager.css'
-import ClubModify from './ClubModify'
+import '/src/css/member/MyClubManager.css'
+import ClubModify from '/src/components/member/ClubModify'
 import { Button } from 'reactstrap'
-import ClubMember from './ClubMember'
-import ClubAccept from './ClubAccept'
+import ClubMember from '/src/components/member/ClubMember'
+import ClubAccept from '/src/components/member/ClubAccept'
 const MyClubManager = () => {
   const nav = useNavigate();
   return (

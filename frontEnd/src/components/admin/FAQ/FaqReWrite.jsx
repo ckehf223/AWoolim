@@ -1,4 +1,4 @@
-import './FaqWrite.css'
+import '/src/css/admin/FaqWrite.css'
 import { useNavigate } from 'react-router-dom'
 
 const FaqReWrite = () => {
@@ -7,7 +7,7 @@ const FaqReWrite = () => {
     return (
         <div className="FaqWrite">
             <div className="FwHeader">
-                <h3><img src="src\assets\images\faqSmall.png" alt="" /> 자주하는 질문 수정</h3>
+                <h3><img src="/src/assets/images/faqSmall.png" alt="" /> 자주하는 질문 수정</h3>
             </div>
             <hr />
             <div className="fwQuestion">
