@@ -1,0 +1,68 @@
+.main-image {
+  position: fixed;
+  right: 3%;
+  bottom: 8%;
+  cursor: pointer;
+  z-index: 2;
+  width: 50px;
+  transition: opacity 0.15s ease;
+}
+
+.additional-images {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 3%;
+  bottom: 8%;
+  width: 50px;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease; /* transform 제거 */
+}
+
+.additional-images.show {
+  max-height: 1000px; /* 간격 변경에 따라 높이 조정 */
+  opacity: 1;
+}
+
+.additional-image {
+  transition: transform 0.4s ease; /* 각 이미지에 transition 추가 */
+}
+
+.additional-images.show .additional-image:nth-child(1) {
+  /* 두 번째 이미지 */
+  transform: translateY(-125px);
+}
+
+.additional-images.show .additional-image:nth-child(2) {
+  /* 세 번째 이미지 */
+  transform: translateY(-85px); /* 슬라이드 효과 늘리기 */
+}
+
+.modal-overlay {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: auto;
+  height: auto;
+  z-index: 10;
+  opacity: 0; /* 초기 투명도 0 */
+  visibility: hidden; /* 초기에는 숨김 */
+  transition: opacity 0.4s ease; /* 투명도 변화에 transition 적용 */
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+.main-image.fade-out {
+  opacity: 0; /* 이미지 변경 중 투명도 0 */
+}
+@media (max-width: 768px) {
+  .modal-overlay {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+    right: auto;
+  }
+}

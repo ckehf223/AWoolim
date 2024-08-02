@@ -1,0 +1,142 @@
+/* 헤더 스타일 */
+#header {
+  position: fixed; /* 헤더를 화면에 고정 */
+  top: 0; /* 초기 위치는 화면 상단 */
+  width: 100%; /* 너비는 화면 전체 */
+  transition: top 0.3s ease; /* top 속성 변화에 transition 적용 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  z-index: 10;
+}
+
+body.scrolled #header {
+  /* body에 scrolled 클래스가 추가되면 헤더 숨김 */
+  top: 0px; /* 헤더 높이만큼 위로 이동하여 숨김 (헤더 높이에 맞게 조정) */
+}
+
+#header-logo {
+  margin-left: 4%; /* 왼쪽 여백을 %로 설정 */
+}
+
+#header-logo img {
+  height: 3rem; /* rem 단위 사용 (root em, 브라우저 기본 폰트 크기에 상대적인 단위) */
+}
+
+#header-search {
+  flex-grow: 0.2; /* 예시: 0.8로 줄여서 너비 감소 */
+  margin-left: 12.5%;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 6px;
+}
+
+#header-search input {
+  padding: 6px 8px;
+  border: none;
+  margin: 0 8px;
+  width: 100%; /* 너비를 %로 설정하여 부모 요소에 맞게 조절 */
+  font-size: 17px;
+}
+
+#header-search input:focus {
+  outline: none;
+}
+
+#header-search input::placeholder {
+  color: rgb(174, 174, 174);
+  font-size: 14px;
+}
+
+#header-search a img {
+  width: 21px;
+  position: relative;
+  top: 1px;
+  right: 6px;
+}
+
+#header-icons {
+  margin-right: 4%; /* 오른쪽 여백을 %로 설정 */
+  width: 21%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#header-icons button {
+  color: #505050;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  background-color: white;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#header-icons button:hover {
+  background-color: #cacaca;
+}
+
+/* 알림 아이콘 스타일 */
+#alarm-icon {
+  margin-left: auto; /* 왼쪽 요소들과의 간격을 자동으로 조절 */
+  position: relative;
+  top: 2px;
+  max-height: 28px;
+  transition: transform 0.2s ease;
+  filter: brightness(88%); /* 밝기 조절 추가 */
+  cursor: pointer; /* 커서 스타일 변경 */
+}
+
+#alarm-icon:hover {
+  transform: scale(1.1);
+}
+
+/* 알림 내용 스타일 */
+.notifications {
+  position: absolute;
+  top: 4.2rem; /* rem 단위 사용 */
+  z-index: 1;
+  right: 10%; /* 오른쪽 여백을 %로 설정 */
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.notification-item {
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* 미디어 쿼리 */
+@media (max-width: 768px) {
+  #header-logo {
+    margin-left: 1%; /* 왼쪽 여백 조절 */
+  }
+
+  #header-logo img {
+    height: 3rem; /* 로고 크기 조절 */
+  }
+
+  #header-search {
+    margin: 0 1%; /* 좌우 여백 조절 */
+  }
+
+  #header-icons {
+    margin-right: 1%; /* 오른쪽 여백 조절 */
+  }
+}
