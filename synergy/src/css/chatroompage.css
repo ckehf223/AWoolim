@@ -75,7 +75,7 @@
   margin: 0 0 26px 37px;
   position: relative;
   bottom: 6px;
-  text-align: right; /* 예시 */
+  text-align: left; /* 예시 */
   padding: 6px 10px;
 }
 .chat-input {
