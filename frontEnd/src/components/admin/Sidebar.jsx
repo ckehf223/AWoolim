@@ -12,22 +12,22 @@ const Sidebar = () => {
         <div className=" border-right" style={{ minHeight: '100vh' }}>
           <Nav vertical>
             <NavItem className="nav-item-custom">
-              <Link className="nav-link" to="/">대시보드</Link>
+              <Link className="nav-link" to="/admin">대시보드</Link>
             </NavItem>
             <NavItem className="nav-item-custom">
-              <Link className="nav-link" to="/user">사용자관리</Link>
+              <Link className="nav-link" to="/admin/user">사용자관리</Link>
             </NavItem>
             <NavItem className="nav-item-custom">
-              <Link className="nav-link" to="/club">모임관리</Link>
+              <Link className="nav-link" to="/admin/club">모임관리</Link>
             </NavItem>
             <NavItem className="nav-item-custom">
-              <Link className="nav-link" to="/report">신고관리</Link>
+              <Link className="nav-link" to="/admin/report">신고관리</Link>
             </NavItem>
             <NavItem className="nav-item-custom">
-              <Link className="nav-link" to="#">공지사항</Link>
+              <Link className="nav-link" to="/admin/notice">공지사항</Link>
             </NavItem>
             <NavItem className="nav-item-custom">
-              <Link className="nav-link" to="#">고객지원</Link>
+              <Link className="nav-link" to="/admin/faq">고객지원</Link>
             </NavItem>
           </Nav>
         </div>
