@@ -1,0 +1,51 @@
+.ExitModal{
+  top: 30%; 
+  left: 23%; 
+}
+.ExitModal .modal-dialog {
+  margin: 0 auto;
+  max-width: 300px;
+  width: 100%;
+}
+
+.ExitModal .modal-content {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 300px;
+}
+
+.ExitModalHeader {
+  position: relative;
+  background-color: rgb(203, 24, 110);
+  color: white;
+}
+.ExitModalCloseButton {
+  position: absolute;
+  top: 10px; 
+  right: 10px; 
+  border: none !important;
+  background: none !important;
+  color: #ff0000 !important; 
+  font-size: 1.5rem; 
+  cursor: pointer;
+}
+.ExitModalBody {
+  padding: 5px;
+}
+.ExitModalSendButtonArea{
+  text-align: center;
+}
+.ExitModalSendButtonArea p{
+  font-size: 14px;
+  color: rgb(0,0,0,0.7);
+  margin-top: 10px;
+}
+.ExitModalSendButton{
+  width: 200px;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+}

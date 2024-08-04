@@ -1,0 +1,39 @@
+.NoticeWrite {
+    margin: 0 auto;
+}
+.NwTitle{
+    display: flex;
+    justify-content: flex-start;   
+}
+
+.NwTitle table{
+    flex: 1;
+    border: 1px solid lightgray;
+}
+
+
+.NwTitleInput{
+    padding: 10px;
+    width: 700px;
+    border: none;
+    outline: none;
+}
+
+.NwFooter {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.NwFooter button {
+    padding: 10px;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    border-right: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+    margin: 5px;
+    margin-top: 15px;
+}
+

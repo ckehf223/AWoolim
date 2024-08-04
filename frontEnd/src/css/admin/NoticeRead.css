@@ -1,0 +1,35 @@
+.NoticeRead {
+    width: 900px;
+}
+
+.NrTitle {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.NrTitle .Nt1 {
+    color : blue;
+    font-weight: bold;
+}
+.NrTitle h2{
+    margin-top: 5px;
+}
+
+.NrContents {
+    margin-left: 40px;
+    min-height: 300px;
+}
+.NrFooter {
+    text-align: right;
+}
+
+.NrFooter button {
+    padding: 7px;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid rgb(85, 84, 84);
+}
