@@ -26,7 +26,7 @@ const NoticeWrite = () => {
     const handleSubmit = (e) => {
         notice.content = content;
         e.preventDefault();
-        axios.post('http://localhost:8080/notices/insert', notice)
+        axios.post('http://localhost:8080/admin/notices/insert', notice)
             .then(() => {
                 navi('/admin/notice');
             })
