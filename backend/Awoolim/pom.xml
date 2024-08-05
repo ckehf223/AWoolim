@@ -31,10 +31,10 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>-->
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -77,11 +77,11 @@
 			<version>3.0.3</version>
 			<scope>test</scope>
 		</dependency>
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
-		</dependency>-->
+		</dependency>
 		<!-- jasper의존성 설정 jsp -> servlet 변환 -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -96,7 +96,7 @@
 			<groupId>jakarta.servlet.jsp.jstl</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
 		</dependency>
-		<!--<dependency>
+		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
 			<version>0.12.3</version>
@@ -116,7 +116,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>-->
+		</dependency>
+		<!--추가된 부분-->
+		<dependency>
+			<groupId>net.nurigo</groupId>
+			<artifactId>sdk</artifactId>
+			<version>4.3.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
