@@ -7,7 +7,7 @@ import CustomQuill from '/src/common/CustomQuill';
 
 const NoticeWrite = () => {
     const navi = useNavigate();
-    const [content, setContent] = useState();  //Quill 사용
+    const [content, setContent] = useState('');  //Quill 사용
 
     const [notice, setNotice] = useState({
         keyword: '',

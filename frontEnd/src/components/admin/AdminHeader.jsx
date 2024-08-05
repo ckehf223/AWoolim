@@ -14,7 +14,7 @@ const AdminHeader = () => {
             <NavLink href="#"><FaSignOutAlt />Logout</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#"><FaUser />고객사이트</NavLink>
+            <NavLink href="/"><FaUser />고객사이트</NavLink>
           </NavItem>
         </Nav>
       </Navbar>
