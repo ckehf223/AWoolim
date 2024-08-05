@@ -36,10 +36,12 @@ const FaqMain = () => {
                     <div className='fqContents'>
                         <span className='fq1'>[카테고리]</span>
                         <span className='fq2'>
-                            <a href='#' onClick={toggleAnswer}>
+                            {/* 수정할 부분 */}
+                            <button href='#' onClick={toggleAnswer}>
                                 <FontAwesomeIcon icon={faQ} style={{ color: "red", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />
                                 첫번째 질문입니다.
-                            </a>
+                            </button>
+                            {/* 수정할 부분 */}
                         </span>
                     </div>
                     <div className='fqBtn'>

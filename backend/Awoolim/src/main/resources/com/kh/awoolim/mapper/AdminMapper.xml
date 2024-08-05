@@ -4,6 +4,8 @@
     <select id="userList" resultType="com.kh.awoolim.domain.Member">
         select * from member
     </select>
-
+	<select id="findById" resultType="Admin" parameterType="String">
+		SELECT * FROM ADMIN WHERE ID = #{id}
+	</select>
 
 </mapper>

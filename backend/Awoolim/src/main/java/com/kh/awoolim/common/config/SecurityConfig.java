@@ -82,7 +82,7 @@ public class SecurityConfig {
 				.requestMatchers("/check-code").permitAll()
 				.requestMatchers("/auth/naver/**").permitAll()
 				.requestMatchers("/auth/google/**").permitAll()
-				.requestMatchers("/admin/**").hasRole("ADMIN")
+//				.requestMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().permitAll());
 
 		http.addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);

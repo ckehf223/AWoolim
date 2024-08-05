@@ -24,6 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		//관리자로그인 경우 로직 작성해야함
 		Member memberData = memberMapper.findByEmail(username);
+		
 		System.out.println(memberData.toString());
 		if (memberData != null) {
 			return new CustomUserDetails(memberData);

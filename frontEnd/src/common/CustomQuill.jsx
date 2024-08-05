@@ -8,6 +8,7 @@ const CustomQuill = ({ content, setContent, width, height }) => {
 
   const handleEditorChange = (value) => {
     setContent(value);
+    setEditorContent(value)
     console.log(value)
   };
 
