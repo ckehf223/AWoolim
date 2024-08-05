@@ -40,7 +40,7 @@ public class NoticeController {
 
 	@PostMapping("/update/{noticeNo}")
 	public void updateNotice(@PathVariable int noticeNo, @RequestBody Notice notice) {
-//		notice.setNoticeNo(noticeNo);
+		notice.setNoticeNo(noticeNo);
 		noticeService.updateNotice(notice);
 	}
 
