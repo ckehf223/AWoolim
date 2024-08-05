@@ -6,37 +6,48 @@ import ModalComponent from '/src/components/admin/ModalComponent'
 import useModal from '/src/common/useModal'
 import update from 'immutability-helper'
 import PaginationComponent from '/src/components/admin/PaginationComponent'
+import instance from '/src/common/auth/axios'
 
 const UserManager = () => {
 
-  const initialUsers = [
-    { id: 1, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
-    { id: 2, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
-    { id: 3, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
-    { id: 4, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
-    { id: 5, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
-    { id: 6, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
-    { id: 7, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
-    { id: 8, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
-    { id: 9, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
-    { id: 10, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
-    { id: 11, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
-    { id: 12, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
-    { id: 13, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
-    { id: 14, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
-    { id: 15, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
-    { id: 16, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
-    { id: 17, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
-    { id: 18, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
-    { id: 19, name: 'Name', email: 'name@example.com', userId: 'abc1', password: '1234', role: 'admin' },
-    { id: 20, name: 'Name', email: 'name@example.com', userId: 'abc2', password: '1234', role: 'admin' },
-    { id: 21, name: '이름', email: 'alice@example.com', userId: 'abc3', password: '1234', role: 'admin' },
-  ];
 
-  // 초기 유저 임시 데이터 초기화
-  const [users, setUsers] = useState(initialUsers);
+
+  // 초기 유저 데이터 초기화
+  const [users, setUsers] = useState([]);
   // 검색 결과를 담을 상태
-  const [filteredUsers, setFilteredUsers] = useState(initialUsers);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
+  //-------------------------유저정보-------------------------
+  const fetchUsers = async () => {
+    try {
+      const response = await instance.get('/admin/userlist');
+      setUsers(response.data);
+      setFilteredUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching users : ', error);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  //-------------------------유저정보-------------------------
+
+  //------------------------유저삭제-------------------------
+  const deleteUser = async () => {
+    if (selectedUser) {
+      try {
+        await instance.post('/admin/userdelete', selectedUser.userId);
+        fetchUsers();
+        window.confirm('정말 삭제하시겠습니까 ?');
+      } catch (error) {
+        console.error('Error deleting user : ', error);
+        window.alert('유저 삭제에 실패했습니다.');
+      }
+      toggleModal();
+    }
+  }
+  //------------------------유저삭제-------------------------
+
 
   //-------------------------모달상태-------------------------
   const { isModalOpen, toggleModal } = useModal();
@@ -67,9 +78,10 @@ const UserManager = () => {
     if (searchTerm === '') {
       setFilteredUsers(users);
     } else {
-      const newFilteredUsers = users.filter(user =>
-        user[searchColumn].toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const newFilteredUsers = users.filter(user => {
+        const value = user[searchColumn] ? user[searchColumn].toString() : '';
+        return value.toLowerCase().includes(searchTerm.toLowerCase());
+      });
       setFilteredUsers(newFilteredUsers);
     }
     setCurrentPage(1); // 검색 결과가 갱신될 때 페이지를 첫 번째로 설정
@@ -81,17 +93,6 @@ const UserManager = () => {
     setSelectedUser(user);
     toggleModal();
   }
-
-  // 유저 삭제 
-  const deleteUser = () => {
-    if (selectedUser) {
-      const userIndex = users.findIndex(user => user.id === selectedUser.id);
-      setUsers(update(users, { $splice: [[userIndex, 1]] }));
-      window.confirm('정말 삭제하시겠습니까 ?');
-      toggleModal();
-    }
-  }
-
 
   return (
     <div className='UserManager'>
@@ -107,8 +108,8 @@ const UserManager = () => {
               value={searchColumn}
               onChange={(e) => setSearchColumn(e.target.value)}
             >
-              <option value="name">이름</option>
-              <option value="email">이메일</option>
+              <option value="userName">이름</option>
+              <option value="userEmail">이메일</option>
               <option value="userId">아이디</option>
             </Input>
           </Col>
@@ -132,21 +133,23 @@ const UserManager = () => {
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>userId</th>
-            <th>Role</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>생년월일</th>
+            <th>핸드폰</th>
+            <th>성별</th>
             <th className='action-column'>상세정보</th>
           </tr>
         </thead>
         <tbody>
           {currentUsers.map(user => (
-            <tr key={user.id}>
-              <th scope="row">{user.id}</th>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.userId}</td>
-              <td>{user.role}</td>
+            <tr key={user.userId}>
+              <th scope="row">{user.userId}</th>
+              <td>{user.userName}</td>
+              <td>{user.userEmail}</td>
+              <td>{user.userBirth}</td>
+              <td>{user.userPhone}</td>
+              <td>{user.userGender}</td>
               <td><Button outline color='primary' onClick={() => openUserModal(user)}>정보보기</Button></td>
             </tr>
           ))}
@@ -161,11 +164,18 @@ const UserManager = () => {
 
       <ModalComponent isOpen={isModalOpen} toggle={toggleModal} title='유저정보' onDelete={deleteUser} >
         <div>
-          <div>이름: {selectedUser?.name}</div>
-          <div>이메일: {selectedUser?.email}</div>
-          <div>역할: {selectedUser?.role}</div>
-          <div>아이디: {selectedUser?.userId}</div>
-          <div>비밀번호: {selectedUser?.password}</div>
+          <div>이름: {selectedUser?.userName}</div>
+          <div>이메일: {selectedUser?.userEmail}</div>
+          <div>생년월일: {selectedUser?.userBirth}</div>
+          <div>전화번호: {selectedUser?.userPhone}</div>
+          <div>성별: {selectedUser?.userGender}</div>
+          <div>닉네임: {selectedUser?.nickname}</div>
+          <div>프로필 사진: {selectedUser?.userImage}</div>
+          <div>프로필 배경사진: {selectedUser?.userBackImage}</div>
+          <div>한줄 소개: {selectedUser?.userIntro}</div>
+          <div>경고 횟수: {selectedUser?.warningCount}</div>
+          <div>회원가입 방법: {selectedUser?.snsType}</div>
+          <div>권한: {selectedUser?.role}</div>
         </div>
       </ModalComponent>
 

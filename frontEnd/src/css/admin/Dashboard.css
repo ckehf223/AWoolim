@@ -33,7 +33,7 @@
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  width: 30%;
+  width: 23%;
   margin: 10px;
   padding: 20px;
   text-align: center;
@@ -59,6 +59,13 @@
 }
 .stat-card.card3:hover{
   box-shadow: 0 4px 8px rgba(231, 100, 152, 0.982), 0 0 20px rgba(231, 100, 152, 0.982);
+}
+.stat-card.card4{
+  box-shadow: 0 4px 8px rgba(58, 205, 126, 0.982);
+  transition: box-shadow 0.3s;
+}
+.stat-card.card4:hover{
+  box-shadow: 0 4px 8px rgba(58, 205, 126, 0.982), 0 0 20px rgba(58, 205, 126, 0.982);
 }
 
 .stat-card h3 {

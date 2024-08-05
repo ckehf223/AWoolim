@@ -6,6 +6,8 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement,
 import 'react-calendar/dist/Calendar.css';
 import CustomCalendar from '/src/components/admin/CustomCalendar';
 import { Utils } from '/src/components/admin/Utils';
+import { useState, useEffect } from 'react';
+import instance from '/src/common/auth/axios'
 
 // Chart.js 모듈 등록
 ChartJS.register(
@@ -47,24 +49,48 @@ const Dashboard = () => {
   };
 
 
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalReports: 0,
+    totalRegularClubs: 0,
+    totalOneTimeClubs: 0,
+  })
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await instance.get('/admin/stats');
+        setStats(response.data);
+      } catch (error) {
+        console.error('Error fetching stats : ', error);
+      }
+    }
+    fetchStats();
+  }, [])
+
+
   return (
     <div className="dashboard">
       <h1>Welcome</h1>
       <p>관리자님 안녕하세요👋</p>
       <div className="stats">
         <div className="stat-card card1">
-          <h3>방문자</h3>
-          <CountUp start={0} end={1643} duration={2.75} separator="," />명
+          <h3>누적 가입자 수</h3>
+          <CountUp start={0} end={stats.totalUsers} duration={2.75} separator="," />명
           <div className="percentage decrease">▼ -5.4%</div>
         </div>
         <div className="stat-card card2">
-          <h3>오늘의 모임</h3>
-          <CountUp start={0} end={158} duration={2.75} separator="," />건
+          <h3>총 정기 모임 횟수</h3>
+          <CountUp start={0} end={stats.totalRegularClubs} duration={2.75} separator="," />건
           <div className="percentage increase">▲ 19.6%</div>
         </div>
         <div className="stat-card card3">
-          <h3>신규 가입자</h3>
-          <CountUp start={0} end={142} duration={2.75} separator="," />명
+          <h3>총 일회 모임 횟수</h3>
+          <CountUp start={0} end={stats.totalOneTimeClubs} duration={2.75} separator="," />명
+          <div className="percentage increase">▲ 8.6%</div>
+        </div>
+        <div className="stat-card card4">
+          <h3>누적 신고 수</h3>
+          <CountUp start={0} end={stats.totalReports} duration={2.75} separator="," />명
           <div className="percentage increase">▲ 8.6%</div>
         </div>
       </div>
