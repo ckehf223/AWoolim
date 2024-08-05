@@ -24,11 +24,10 @@ const FaqMain = () => {
             </div>
             <div className="faqNav">
                 <button>모두보기</button>
-                <button>카테고리1</button>
-                <button>카테고리2</button>
-                <button>카테고리3</button>
-                <button>카테고리4</button>
-                <button>카테고리5</button>
+                <button>정기모임</button>
+                <button>소모임</button>
+                <button>회원가입</button>
+                <button>기타문의</button>
             </div>
 
             <div className='faqContents'>

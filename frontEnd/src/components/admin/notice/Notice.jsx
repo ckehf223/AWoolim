@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '/src/css/admin/Notice.css'
 import axios from 'axios';
+import instance from "/src/common/auth/axios";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullhorn, faMagnifyingGlass, faFilePen, faBackwardStep, faForwardStep, faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
@@ -41,7 +42,7 @@ const Notice = () => {
     const handleTitleClick = (noticeNo) => {
         axios.put(`http://localhost:8080/admin/notices/increaseView/${noticeNo}`)
             .then(response => {
-                navi(`/noticeRead/${noticeNo}`);
+                navi(`/admin/noticeRead/${noticeNo}`);
             })
             .catch(error => {
                 console.error("조회수 증가 오류", error);

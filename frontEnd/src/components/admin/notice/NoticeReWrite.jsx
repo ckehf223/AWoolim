@@ -30,9 +30,9 @@ const NoticeReWrite = () => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
         notice.content = content;
-        axios.put(`http://localhost:8080/admin/notices/update/${noticeNo}`, notice)
+        e.preventDefault();
+        axios.post(`http://localhost:8080/admin/notices/update/${noticeNo}`, notice)
             .then(() => {
                 navi(`/admin/noticeRead/${noticeNo}`);
             })

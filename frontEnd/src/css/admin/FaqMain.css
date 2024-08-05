@@ -55,6 +55,7 @@ a {
 .faqQuestion {
     display: flex;
     justify-content: space-between;
+    align-items: end;
     background-color: rgb(250, 247, 247);
     padding: 30px 10px 10px 30px;
     border-radius: 15px 15px 0px 0px;
@@ -67,6 +68,12 @@ a {
 .fqContents{
     display: flex;
     flex-direction: column;
+}
+
+.fq2 button{
+    background-color: transparent;
+    border: none;
+    text-align: left;
 }
 
 .fqBtn button{padding: 10px;
