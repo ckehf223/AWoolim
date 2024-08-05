@@ -9,7 +9,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry corsRegistry) {
-		///**으로 들어오는 요청은 어떤 방식이든 처리하고 localhost:5173 으로 들어오는 것을 허용한다.
-		corsRegistry.addMapping("/**").allowedOrigins("http://localhost:5173");
+		corsRegistry.addMapping("/**").allowedOrigins("http://localhost:5173").allowedMethods("*").allowedHeaders("*")
+				.allowCredentials(true).maxAge(6000L);
 	}
 }
