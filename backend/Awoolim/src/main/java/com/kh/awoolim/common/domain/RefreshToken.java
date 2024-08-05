@@ -8,7 +8,7 @@ import lombok.Setter;
 public class RefreshToken {
 
 	private Long id;
-	private String userName;
+	private String userEmail;
 	private String refresh;
 	private String expiration;
 }
