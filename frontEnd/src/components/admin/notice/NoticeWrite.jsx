@@ -1,7 +1,7 @@
 import '/src/css/admin/NoticeWrite.css'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
+import instance from "/src/common/auth/axios";
 import CustomQuill from '/src/common/CustomQuill';
 
 
@@ -26,12 +26,12 @@ const NoticeWrite = () => {
     const handleSubmit = (e) => {
         notice.content = content;
         e.preventDefault();
-        axios.post('http://localhost:8080/admin/notices/insert', notice)
+        instance.post('http://localhost:8080/admin/notices/insert', notice)
             .then(() => {
                 navi('/admin/notice');
             })
             .catch(error => {
-                console.error("CREATE ERROR", error);
+                console.error("CREATE NOTICE ERROR", error);
             });
     };
 

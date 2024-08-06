@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import '/src/css/admin/Notice.css'
-import axios from 'axios';
 import instance from "/src/common/auth/axios";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +18,7 @@ const Notice = () => {
 
     const fetchNotices = (query = '') => {
         const url = query ? `http://localhost:8080/admin/notices/search?query=${query}` : `http://localhost:8080/admin/notices/list`;
-        axios.get(url)
+        instance.get(url)
             .then(response => {
                 setNotices(response.data);
             })
@@ -40,7 +39,7 @@ const Notice = () => {
     }
 
     const handleTitleClick = (noticeNo) => {
-        axios.put(`http://localhost:8080/admin/notices/increaseView/${noticeNo}`)
+        instance.put(`http://localhost:8080/admin/notices/increaseView/${noticeNo}`)
             .then(response => {
                 navi(`/admin/noticeRead/${noticeNo}`);
             })

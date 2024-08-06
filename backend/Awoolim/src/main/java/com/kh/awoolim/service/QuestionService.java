@@ -10,26 +10,31 @@ import com.kh.awoolim.mapper.QuestionMapper;
 
 @Service
 public class QuestionService {
-	
-		@Autowired
-		private QuestionMapper questionMapper;
-		
-		List<Question> getQuestionList(){
-			return questionMapper.getQuestionList();
-		};
-		Question getQuestionByNo(int questionNo) {
-			return questionMapper.getQuestionByNo(questionNo);
-		};
-		List<Question> categoryOfQuestion(String query){
-			return questionMapper.categoryOfQuestion(query);
-		};
-		void inssertQuestion(Question question) {
-			questionMapper.inssertQuestion(question);
-		};
-		void updateQuestion(Question question) {
-			questionMapper.updateQuestion(question);
-		};
-		void deleteQuestion(int questionNo) {
-			questionMapper.deleteQuestion(questionNo);
-		};
+
+	@Autowired
+	private QuestionMapper questionMapper;
+
+	public List<Question> getQuestionList() {
+		return questionMapper.getQuestionList();
+	};
+
+	public Question getQuestionByNo(int questionNo) {
+		return questionMapper.getQuestionByNo(questionNo);
+	};
+
+	public List<Question> categoryOfQuestion(String query) {
+		return questionMapper.categoryOfQuestion(query);
+	};
+
+	public void inssertQuestion(Question question) {
+		questionMapper.inssertQuestion(question);
+	};
+
+	public void updateQuestion(Question question) {
+		questionMapper.updateQuestion(question);
+	};
+
+	public void deleteQuestion(int questionNo) {
+		questionMapper.deleteQuestion(questionNo);
+	};
 }

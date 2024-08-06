@@ -40,7 +40,7 @@ const Admin = () => {
               <Route path="/faq" element={<FaqMain />} />
               <Route path="/faqcus" element={<FaqMainCustom />} />
               <Route path="/faqWrite" element={<FaqWrite />} />
-              <Route path="/faqReWrite" element={<FaqReWrite />} />
+              <Route path="/faqReWrite/:questionNo" element={<FaqReWrite />} />
             </Routes>
           </ClubProvider>
         </div>

@@ -1,5 +1,5 @@
 import '/src/css/admin/NoticeRead.css'
-import axios from 'axios';
+import instance from "/src/common/auth/axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -15,7 +15,7 @@ const NoticeRead = () => {
     const [notice, setNotice] = useState({});
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
+        instance.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
             .then(response => {
                 setNotice(response.data);
             })
@@ -28,7 +28,7 @@ const NoticeRead = () => {
 
     const handleDelete = (e) => {
         e.preventDefault();
-        axios.delete(`http://localhost:8080/admin/notices/delete/${noticeNo}`, notice)
+        instance.delete(`http://localhost:8080/admin/notices/delete/${noticeNo}`, notice)
             .then(() => {
                 navi(`/admin/notice`);
             })

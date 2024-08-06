@@ -81,12 +81,12 @@ a {
     width: 100px;
     border: none;
     margin: 10px;
-    background-color:  rgb(3, 202, 3);
+    background-color:  #c6dafa;
     height: 40px;
 }
 
 .fqBtn button:hover{
-    background-color: green;
+    background-color: #5494FC;
     color : white;
     cursor: pointer;
 }

@@ -10,11 +10,26 @@
     align-items: center;
 }
 
+.fwCategory h4 {
+    color: rgb(3, 3, 129); 
+}
+
+#category{
+    width: 997px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    margin: 0px;
+    margin-bottom: 35px;
+}
+
 
 .fwQuestion {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 0px;
+    margin-bottom: 35px;
 }
 
 .fwQuestion textarea{

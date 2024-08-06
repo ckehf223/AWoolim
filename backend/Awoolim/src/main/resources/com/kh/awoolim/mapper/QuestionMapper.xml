@@ -19,14 +19,15 @@
 	</select>
 	
 	<!-- 카테고리별 검색 -->
-	<select id="categoryOfQuestion" parameterType="String" resultMap="questionMap">
+	<select id="categoryOfQuestion" resultMap="questionMap" parameterType="String">
 		SELECT * FROM QUESTION
 		WHERE CATEGORY LIKE '%'||#{query}||'%'
 		ORDER BY QUESTIONNO DESC
 	</select>
 	
 	<insert id="inssertQuestion">
-		INSERT INTO QUESTION VALUES(question_seq.NEXTVAL, #{category}, #{title}, #{answer})	
+		INSERT INTO QUESTION(QUESTIONNO, CATEGORY, TITLE, ANSWER) 
+		VALUES(question_seq.NEXTVAL, #{category}, #{title}, #{answer})	
 	</insert>
 	
 	<update id="updateQuestion">
@@ -35,7 +36,7 @@
 		WHERE QUESTIONNO=#{questionNo}
 	</update>
 	
-	<delete id="deletQuestion" parameterType="int">
+	<delete id="deleteQuestion" parameterType="int">
 		DELETE FROM QUESTION
 		WHERE QUESTIONNO = #{questionNo}
 	</delete>
