@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.awoolim.mapper.MemberMapper">
+
+	<select id="findById" parameterType="String" resultType="int">
+		SELECT CASE 
+        WHEN EXISTS (SELECT 1 
+                      FROM MEMBER 
+                      WHERE email = #{email}) 
+         THEN 1 
+         ELSE 0 
+       	END AS email_exists 
+		FROM dual;
+	</select>
+	
+	<insert id="create" parameterType="Member">
+		INSERT INTO MEMBER VALUES(
+			MEMBER_SEQ.NEXTVAL,
+			#{userEmail},
+			#{password},
+			#{userName},
+			#{userBirth},
+			#{userPhone},
+			#{userGender},
+			null,
+			null,
+			null,
+			null,
+			null,
+			#{snsType},
+			null);
+	</insert>
+	
+	<select id="findByEmail" resultType="Member">
+		SELECT * FROM MEMBER WHERE email = #{email}
+	</select>
+</mapper>
