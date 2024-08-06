@@ -1,53 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '/src/css/admin/ReportManager.css'
 import { Table, Input, Button, Label, Col, FormGroup } from 'reactstrap'
-import { useState } from 'react'
 import PaginationComponent from '/src/components/admin/PaginationComponent'
 import useModal from '/src/common/useModal'
 import ModalComponent from '/src/components/admin/ModalComponent'
+import instance from '/src/common/auth/axios'
 
 const ReportManager = () => {
 
-  const initialReports = [
-    { id: 1, reporter: '최성락', target: '이석진', date: '2024-07-25', result: '처리전' },
-    { id: 2, reporter: '최성락', target: '이석진2', date: '2024-07-25', result: '처리전' },
-    { id: 3, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
-    { id: 4, reporter: '최성락', target: '이석진', date: '2024-07-25', result: '처리전' },
-    { id: 5, reporter: '최성락', target: '이석진2', date: '2024-07-25', result: '처리전' },
-    { id: 6, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
-    { id: 7, reporter: '최성락', target: '이석진', date: '2024-07-25', result: '처리전' },
-    { id: 8, reporter: '최성락', target: '이석진2', date: '2024-07-25', result: '처리전' },
-    { id: 9, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
-    { id: 10, reporter: '최성락', target: '이석진', date: '2024-07-25', result: '처리전' },
-    { id: 11, reporter: '최성락', target: '이석진2', date: '2024-07-25', result: '처리전' },
-    { id: 12, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
-    { id: 13, reporter: '최성락', target: '이석진', date: '2024-07-25', result: '처리전' },
-    { id: 14, reporter: '최성락', target: '이석진2', date: '2024-07-25', result: '처리전' },
-    { id: 15, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
-    { id: 16, reporter: '최성락', target: '이석진', date: '2024-07-25', result: '처리전' },
-    { id: 17, reporter: '최성락', target: '이석진2', date: '2024-07-25', result: '처리전' },
-    { id: 18, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
-    { id: 19, reporter: '최성락', target: '이석진', date: '2024-07-25', result: '처리전' },
-    { id: 20, reporter: '최성락', target: '이석진2', date: '2024-07-25', result: '처리전' },
-    { id: 21, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
-    { id: 22, reporter: '최성락', target: '이석진', date: '2024-07-25', result: '처리전' },
-    { id: 23, reporter: '최성락', target: '이석진2', date: '2024-07-25', result: '처리전' },
-    { id: 24, reporter: '최성락', target: '이석진3', date: '2024-07-25', result: '처리전' },
-  ]
-
-  // 초기 신고 데이터 초기화
-  const [reports, setReports] = useState(initialReports);
+  // 신고 목록
+  const [reports, setReports] = useState([]);
   // 검색 결과를 담을 상태
-  const [filteredReports, setFilteredReports] = useState(initialReports);
+  const [filteredReports, setFilteredReports] = useState(reports);
 
   // 모달 상태 토글함수 가져오는 커스텀 훅
   const { isModalOpen, toggleModal } = useModal();
+  const { isModalOpen: isDetailModalOpen, toggleModal: toggleDetailModal } = useModal();
 
   // 선택된 신고 저장
   const [selectedReport, setSelectedReport] = useState(null);
 
   //모달에 입력된 메시지 저장
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        const response = await instance.get('/admin/report/list');
+        setReports(response.data);
+        setFilteredReports(response.data);
+      } catch (error) {
+        console.error('Error fetching reports : ', error);
+      }
+    }
+    fetchReports();
+  }, [])
 
   // -------------------------페이지네이션-------------------
   const itemsPerPage = 10;                                        //페이지당 아이템 수
@@ -69,7 +56,7 @@ const ReportManager = () => {
 
   //-------------------------검색기능-------------------------
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchColumn, setSearchColumn] = useState('reporter');
+  const [searchColumn, setSearchColumn] = useState('userId');
 
   // 검색 버튼 클릭 시 호출
   const handleSearch = () => {
@@ -85,23 +72,63 @@ const ReportManager = () => {
   };
   //-------------------------검색기능-------------------------
 
-  // 모달에서 메시지 전송
-  const handleSendMessage = () => {
-    const updatedReports = reports.map(report =>
-      report.id === selectedReport.id ? { ...report, result: '처리완료', message } : report
-    );
-    setReports(updatedReports);
-    setFilteredReports(updatedReports);
-    toggleModal();
-    setMessage(''); // 메시지 초기화
+  // 신고 상태 업데이트
+  const handleUpdate = async (result, resultMessage) => {
+    if (selectedReport) {
+      try {
+        await instance.post('/admin/report/update', {
+          reportNo: selectedReport.reportNo,
+          userId: selectedReport.userId,
+          targetId: selectedReport.targetId,
+          content: selectedReport.content,
+          regDate: selectedReport.regDate,
+          result,
+          resultMessage
+        });
+        const updateReports = reports.map(report =>
+          report.reportNo === selectedReport.reportNo ? { ...report, result, resultMessage } : report
+        );
+        setReports(updateReports);
+        setFilteredReports(updateReports);
+        toggleModal();
+      } catch (error) {
+        console.error('Error updating report : ', error);
+      }
+    }
   }
 
-  // 처리하기 
-  const handleResultChange = (report) => {
-    setSelectedReport(report);
-    setMessage(''); // 이전 메시지 초기화
+  // 신고 삭제
+  const handleDelete = async () => {
+    if (selectedReport) {
+      try {
+        await instance.post('/admin/report/delete', { reportNo: selectedReport.reportNo });
+        setReports(reports.filter(report => report.reportNo !== selectedReport.reportNo));
+        setFilteredReports(filteredReports.filter(report => report.reportNo !== selectedReport.reportNo));
+        toggleModal();
+      } catch (error) {
+        console.error('Error deleting report : ', error);
+      }
+    }
+  }
+
+  // 신고 조치 모달 열기
+  const openReportModal = (reports) => {
+    setSelectedReport(reports);
+    setMessage('');
     toggleModal();
   }
+
+  // 신고 상세보기 모달 열기
+  const openDetailModal = (reports) => {
+    setSelectedReport(reports);
+    toggleDetailModal();
+  }
+
+  // onSend
+  const handleSend = () => {
+    handleUpdate(selectedReport.result, message);
+  }
+
   return (
     <div className='ReportManager'>
       {/* ************************검색바************************ */}
@@ -116,8 +143,8 @@ const ReportManager = () => {
               value={searchColumn}
               onChange={(e) => setSearchColumn(e.target.value)}
             >
-              <option value="reporter">신고자</option>
-              <option value="target">신고대상</option>
+              <option value="userId">신고자</option>
+              <option value="targetId">신고대상</option>
               <option value="result">처리결과</option>
             </Input>
           </Col>
@@ -142,29 +169,30 @@ const ReportManager = () => {
 
         <thead>
           <tr>
-            <th>#</th>
+            <th>신고번호</th>
             <th>신고자</th>
             <th>신고대상</th>
-            <th>신고 날짜</th>
-            <th>처리결과</th>
-            <th>처리</th>
+            <th>신고내용</th>
+            <th>신고일</th>
+            <th>상태</th>
+            <th className='action-column'>조치</th>
+            <th className='action-column'>상세정보</th>
           </tr>
         </thead>
 
         <tbody>
           {
             currentReports.map(reports => (
-              <tr key={reports.id}>
-                <th scope='row'>{reports.id}</th>
-                <td>{reports.reporter}</td>
-                <td>{reports.target}</td>
-                <td>{reports.date}</td>
-                <td>{reports.result}</td>
-                <td className='action-column'>
-                  <Button outline color={reports.result === '처리전' ? 'warning' : 'success'} onClick={() => handleResultChange(reports)}>
-                    {reports.result === '처리전' ? '처리하기' : '처리완료'}
-                  </Button>
-                </td>
+              <tr key={reports.reportNo}>
+                <th scope='row'>{reports.reportNo}</th>
+                <td>{reports.userId}</td>
+                <td>{reports.targetId}</td>
+                <td>{reports.content}</td>
+                <td>{new Date(reports.regDate).toLocaleDateString()}</td>
+                <td className={reports.result === 1 ? 'warning' : reports.result === -1 ? 'pass' : 'before'}
+                >{reports.result === 1 ? '경고처리' : reports.result === -1 ? '넘어감' : '처리전'}</td>
+                <td><Button outline color='secondary' onClick={() => openReportModal(reports)}>조치하기</Button></td>
+                <td><Button outline color="primary" onClick={() => openDetailModal(reports)}>상세보기</Button></td>
               </tr>
             ))
           }
@@ -179,23 +207,52 @@ const ReportManager = () => {
         onPageChange={handlePageChange}
       />
 
-      {/* 모달 */}
+      {/* 신고 상세보기 모달 */}
+      <ModalComponent
+        isOpen={isDetailModalOpen}
+        toggle={toggleDetailModal}
+        title="신고 상세"
+        inputVisible={false}
+      >
+        {
+          selectedReport && (
+            <div className='modal-content'>
+              <div>신고자 : {selectedReport.userId}</div>
+              <div>신고대상 : {selectedReport.targetId}</div>
+              <div>신고내용 : {selectedReport.content}</div>
+              <div>신고일 : {new Date(selectedReport.regDate).toLocaleDateString()}</div>
+              <div>처리 상태 : {selectedReport.result === 1 ? '경고' : selectedReport.result === -1 ? '넘어감' : '처리전'}</div>
+              <div>처리 결과 메세지 : {selectedReport.resultMessage}</div>
+            </div>
+          )
+        }
+      </ModalComponent>
+
+      {/* 신고 조치하기 모달 */}
       <ModalComponent
         isOpen={isModalOpen}
         toggle={toggleModal}
-        title="신고 처리"
-        onSend={handleSendMessage}
+        title="신고 조치"
         inputVisible={true}
+        onSend={handleSend}
       >
-        <div>
-          <p>{selectedReport && `신고자: ${selectedReport.reporter}, 대상자: ${selectedReport.target}`}</p>
-          <Input
-            type="textarea"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="메시지를 입력하세요"
-          />
-        </div>
+        {
+          selectedReport && (
+            <div className='modal-content'>
+              <div>신고자 : {selectedReport.userId}</div>
+              <div>신고대상 : {selectedReport.targetId}</div>
+              <div>내용 : {selectedReport.content}</div>
+              <div>신고일 : {new Date(selectedReport.regDate).toLocaleDateString()}</div>
+              <div>상태 : {selectedReport.result === 1 ? '경고' : selectedReport.result === -1 ? '넘어감' : '처리전'}</div>
+              <Input type='textarea' placeholder='처리 결과 메시지' value={message} onChange={(e) => setMessage(e.target.value)}></Input>
+              <div className='modal-buttons'>
+                <Button outline color="danger" onClick={() => handleUpdate(1, message)}>경고</Button>
+                <Button outline color="success" onClick={() => handleUpdate(-1, message)}>넘어감</Button>
+                <Button outline color="secondary" onClick={handleDelete}>삭제</Button>
+              </div>
+            </div>
+          )
+        }
       </ModalComponent>
     </div >
   )
