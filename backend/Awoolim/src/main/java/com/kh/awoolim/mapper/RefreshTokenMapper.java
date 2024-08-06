@@ -9,5 +9,7 @@ public interface RefreshTokenMapper {
 	public RefreshToken read(String refresh);
 
 	public void delete(String refresh);
+	
+	public void deleteAll(String userEmail);
 
 }

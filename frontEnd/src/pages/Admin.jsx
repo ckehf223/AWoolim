@@ -17,6 +17,7 @@ import FaqMainCustom from '/src/components/admin/FAQ/FaqMainCustom';
 import FaqWrite from '/src/components/admin/FAQ/FaqWrite';
 import FaqReWrite from '/src/components/admin/FAQ/FaqReWrite';
 
+
 const Admin = () => {
   return (
     <div className='Admin'>
@@ -32,7 +33,7 @@ const Admin = () => {
               <Route path='/club' element={<ClubManager />} />
               <Route path='/club/:clubId' element={<ClubDetail />} />
               <Route path='/report' element={<ReportManager />} />
-              <Route path='/noice' element={<Notice />} />
+              <Route path='/notice' element={<Notice />} />
               <Route path="/noticeWrite" element={<NoticeWrite />} />
               <Route path="/noticeRead/:noticeNo" element={<NoticeRead />} />
               <Route path="/noticeReWrite/:noticeNo" element={<NoticeReWrite />} />

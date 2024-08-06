@@ -17,7 +17,7 @@ const Notice = () => {
     }, []);
 
     const fetchNotices = (query = '') => {
-        const url = query ? `http://localhost:8080/notices/search?query=${query}` : `http://localhost:8080/notices/list`;
+        const url = query ? `http://localhost:8080/admin/notices/search?query=${query}` : `http://localhost:8080/admin/notices/list`;
         axios.get(url)
             .then(response => {
                 setNotices(response.data);
@@ -39,7 +39,7 @@ const Notice = () => {
     }
 
     const handleTitleClick = (noticeNo) => {
-        axios.put(`http://localhost:8080/notices/increaseView/${noticeNo}`)
+        axios.put(`http://localhost:8080/admin/notices/increaseView/${noticeNo}`)
             .then(response => {
                 navi(`/noticeRead/${noticeNo}`);
             })

@@ -14,7 +14,7 @@ const NoticeReWrite = () => {
     });
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/notices/read/${noticeNo}`)
+        axios.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
             .then(reponse => {
                 setNotice(reponse.data);
             })
@@ -32,7 +32,7 @@ const NoticeReWrite = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         notice.content = content;
-        axios.put(`http://localhost:8080/notices/update/${noticeNo}`, notice)
+        axios.put(`http://localhost:8080/admin/notices/update/${noticeNo}`, notice)
             .then(() => {
                 navi(`/admin/noticeRead/${noticeNo}`);
             })

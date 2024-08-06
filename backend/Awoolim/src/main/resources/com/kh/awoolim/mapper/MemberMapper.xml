@@ -3,35 +3,33 @@
 <mapper namespace="com.kh.awoolim.mapper.MemberMapper">
 
 	<select id="findById" parameterType="String" resultType="int">
-		SELECT CASE 
-        WHEN EXISTS (SELECT 1 
-                      FROM MEMBER 
-                      WHERE email = #{email}) 
-         THEN 1 
-         ELSE 0 
-       	END AS email_exists 
+		SELECT
+		CASE
+		WHEN EXISTS (SELECT 1
+		FROM MEMBER
+		WHERE email = #{email})
+		THEN 1
+		ELSE 0
+		END AS email_exists
 		FROM dual;
 	</select>
-	
+
 	<insert id="create" parameterType="Member">
-		INSERT INTO MEMBER VALUES(
-			MEMBER_SEQ.NEXTVAL,
-			#{userEmail},
-			#{password},
-			#{userName},
-			#{userBirth},
-			#{userPhone},
-			#{userGender},
-			null,
-			null,
-			null,
-			null,
-			null,
-			#{snsType},
-			null);
+		INSERT INTO
+		MEMBER(USERID,USEREMAIL,PASSWORD,USERNAME,USERBIRTH,USERPHONE,USERGENDER,SNSTYPE)
+		VALUES(
+		MEMBER_SEQ.NEXTVAL,
+		#{userEmail},
+		#{password},
+		#{userName},
+		#{userBirth},
+		#{userPhone},
+		#{userGender},
+		#{snsType})
 	</insert>
-	
+
 	<select id="findByEmail" resultType="Member">
-		SELECT * FROM MEMBER WHERE email = #{email}
+		SELECT * FROM MEMBER WHERE
+		USEREMAIL = #{email}
 	</select>
 </mapper>

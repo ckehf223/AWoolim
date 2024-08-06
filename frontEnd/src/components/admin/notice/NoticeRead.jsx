@@ -15,7 +15,7 @@ const NoticeRead = () => {
     const [notice, setNotice] = useState({});
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/notices/read/${noticeNo}`)
+        axios.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
             .then(response => {
                 setNotice(response.data);
             })

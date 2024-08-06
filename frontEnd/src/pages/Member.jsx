@@ -7,6 +7,7 @@ import GroupPage from '/src/pages/member/GroupPage';
 import ClubRegister from '/src/components/member/ClubRegister';
 import ClubDetailInfo from '/src/components/member/ClubDetailInfo';
 import MyPage from '/src/components/member/MyPage';
+
 const Member = () => {
   return (
     <>
@@ -18,7 +19,7 @@ const Member = () => {
         <Route path="/newclub" element={<ClubRegister />} />
         <Route path="/club" element={<ClubDetailInfo />} />
         <Route path='/mypage/*' element={<MyPage />} />
-      </Routes>
+      </Routes >
       <Footer />
     </>
   )
