@@ -6,6 +6,11 @@
   
 }
 
+div.dashboard{
+  width: 80%;
+  margin: 0 auto;
+}
+
 .Dashboard .row > div {
   margin-bottom: 20px;
 }

@@ -35,15 +35,18 @@ const UserManager = () => {
   //------------------------유저삭제-------------------------
   const deleteUser = async () => {
     if (selectedUser) {
-      try {
-        await instance.post('/admin/userdelete', selectedUser.userId);
-        fetchUsers();
-        window.confirm('정말 삭제하시겠습니까 ?');
-      } catch (error) {
-        console.error('Error deleting user : ', error);
-        window.alert('유저 삭제에 실패했습니다.');
+      const isConfirmed = window.confirm('정말 삭제하시겠습니까?');
+      if (isConfirmed) {
+        try {
+          await instance.post('/admin/userdelete', selectedUser.userId);
+          fetchUsers();
+          window.alert('유저가 성공적으로 삭제되었습니다.');
+        } catch (error) {
+          console.error('Error deleting user : ', error);
+          window.alert('유저 삭제에 실패했습니다.');
+        }
+        toggleModal();
       }
-      toggleModal();
     }
   }
   //------------------------유저삭제-------------------------
@@ -146,7 +149,7 @@ const UserManager = () => {
             <tr key={user.userId}>
               <th scope="row">{user.userId}</th>
               <td>{user.userName}</td>
-              <td>{user.userEmail}</td>
+              <td className="user-table-email">{user.userEmail}</td>
               <td>{user.userBirth}</td>
               <td>{user.userPhone}</td>
               <td>{user.userGender}</td>

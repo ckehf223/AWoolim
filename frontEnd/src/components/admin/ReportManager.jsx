@@ -55,17 +55,34 @@ const ReportManager = () => {
   // -------------------------페이지네이션-------------------
 
   //-------------------------검색기능-------------------------
+  // 상태 변환 함수
+  const getResultText = (result) => {
+    switch (result) {
+      case 1:
+        return '경고';
+      case -1:
+        return '넘어감';
+      case 0:
+      default:
+        return '처리전';
+    }
+  };
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchColumn, setSearchColumn] = useState('userId');
+  const [searchColumn, setSearchColumn] = useState('userName');
 
   // 검색 버튼 클릭 시 호출
   const handleSearch = () => {
     if (searchTerm === '') {
       setFilteredReports(reports);
     } else {
-      const newFilteredReports = reports.filter(report =>
-        report[searchColumn].toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const newFilteredReports = reports.filter(report => {
+        if (searchColumn === 'result') {
+          return getResultText(report.result).toLowerCase().includes(searchTerm.toLowerCase());
+        } else {
+          return report[searchColumn].toLowerCase().includes(searchTerm.toLowerCase());
+        }
+      });
       setFilteredReports(newFilteredReports);
     }
     setCurrentPage(1); // 검색 결과가 갱신될 때 페이지를 첫 번째로 설정
@@ -143,9 +160,9 @@ const ReportManager = () => {
               value={searchColumn}
               onChange={(e) => setSearchColumn(e.target.value)}
             >
-              <option value="userId">신고자</option>
+              <option value="userName">신고자</option>
               <option value="targetId">신고대상</option>
-              <option value="result">처리결과</option>
+              <option value="result">신고결과</option>
             </Input>
           </Col>
           <Col sm={4}>
@@ -169,7 +186,7 @@ const ReportManager = () => {
 
         <thead>
           <tr>
-            <th>신고번호</th>
+            <th className='reportNo-column'>번호</th>
             <th>신고자</th>
             <th>신고대상</th>
             <th>신고내용</th>
@@ -185,7 +202,7 @@ const ReportManager = () => {
             currentReports.map(reports => (
               <tr key={reports.reportNo}>
                 <th scope='row'>{reports.reportNo}</th>
-                <td>{reports.userId}</td>
+                <td>{reports.userName}</td>
                 <td>{reports.targetId}</td>
                 <td>{reports.content}</td>
                 <td>{new Date(reports.regDate).toLocaleDateString()}</td>
@@ -217,7 +234,7 @@ const ReportManager = () => {
         {
           selectedReport && (
             <div className='modal-content'>
-              <div>신고자 : {selectedReport.userId}</div>
+              <div>신고자 : {selectedReport.userName}</div>
               <div>신고대상 : {selectedReport.targetId}</div>
               <div>신고내용 : {selectedReport.content}</div>
               <div>신고일 : {new Date(selectedReport.regDate).toLocaleDateString()}</div>
@@ -239,7 +256,7 @@ const ReportManager = () => {
         {
           selectedReport && (
             <div className='modal-content'>
-              <div>신고자 : {selectedReport.userId}</div>
+              <div>신고자 : {selectedReport.userName}</div>
               <div>신고대상 : {selectedReport.targetId}</div>
               <div>내용 : {selectedReport.content}</div>
               <div>신고일 : {new Date(selectedReport.regDate).toLocaleDateString()}</div>

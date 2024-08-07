@@ -1,3 +1,8 @@
+div.UserManager{
+  width: 80%;
+  margin: 0 auto;
+}
+
 
 .UserManager > table {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -8,7 +13,7 @@
   background-color: #6c757d;
   color: white;
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   padding: 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -21,12 +26,15 @@
 
 .UserManager > table th:first-child {
   border-top-left-radius: 5px;
+  text-align: center;
 }
+
 .UserManager > table th:last-child {
   border-top-right-radius: 5px;
 }
 .UserManager > table td {
   background-color: white;
+  text-align: center;
 }
 .UserManager > table tr {
   transition: all 0.2s ease;
@@ -55,4 +63,14 @@ input.mb-3.form-control {
 .action-column {
   width: 100px;
 }
+
+td > .btn.btn-outline-primary {
+  width: 90px;
+}
+
+td > .btn.btn-outline-secondary {
+  width: 90px;
+}
+
+
 
