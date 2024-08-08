@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import '/src/css/admin/Notice.css'
+import '/src/css/admin/NoticeCustom.css'
 import instance from "/src/common/auth/axios";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullhorn, faMagnifyingGlass, faFilePen, faBackwardStep, faForwardStep, faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
-const Notice = () => {
+const NoticeCustom = () => {
     const navi = useNavigate();
     const [notices, setNotices] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -41,7 +41,7 @@ const Notice = () => {
     const handleTitleClick = (noticeNo) => {
         instance.put(`http://localhost:8080/admin/notices/increaseView/${noticeNo}`)
             .then(response => {
-                navi(`/admin/noticeRead/${noticeNo}`);
+                navi(`/admin/noticeReadCustom/${noticeNo}`);
             })
             .catch(error => {
                 console.error("조회수 증가 오류", error);
@@ -74,20 +74,18 @@ const Notice = () => {
 
 
     return (
-        <div className="NoticeMain">
+        <div className="Notice">
             <div className="Notice_Header">
                 <h1><FontAwesomeIcon icon={faBullhorn} /> 공지사항</h1>
             </div>
             <div className='searchBox'>
-                <div className='writeBtn'>
-                    <button onClick={() => navi('/admin/noticeWrite')}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;작성하기 </button>&nbsp;
-                </div>
+                <div className='writeBtn' />
                 <div className='SB'>
                     <input placeholder='검색' value={serchTerm} onChange={handelSearchChange} />
                     <FontAwesomeIcon icon={faMagnifyingGlass} onClick={handelSearchSubmit} style={{ marginRight: "15px", color: "gray" }} />
                 </div>
             </div>
-            <div className='NoticeMainTable'>
+            <div className='NoticeTable'>
                 <table>
                     <thead>
                         <tr>
@@ -129,4 +127,4 @@ const Notice = () => {
     );
 };
 
-export default Notice;
+export default NoticeCustom;

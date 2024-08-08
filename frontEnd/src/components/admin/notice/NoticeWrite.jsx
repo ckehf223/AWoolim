@@ -35,14 +35,10 @@ const NoticeWrite = () => {
             });
     };
 
-
-
     return (
-
         <div className="NoticeWrite">
             <form onSubmit={handleSubmit}>
                 <div className="NwHeader">
-
                     <h2>▶ 공지사항 작성하기</h2>
                 </div>
                 <div className="NwTitle">
@@ -64,7 +60,7 @@ const NoticeWrite = () => {
                 </div>
 
                 <div className="NwMid">
-                    <CustomQuill content={content} setContent={setContent} width={'950'} height={'300'} />
+                    <CustomQuill content={content} setContent={setContent} width={'100%'} height={'500'} />
                 </div>
                 <div className="NwFooter">
                     <button type="submit">등록</button>

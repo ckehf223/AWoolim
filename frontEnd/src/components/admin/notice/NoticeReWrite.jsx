@@ -12,11 +12,14 @@ const NoticeReWrite = () => {
         title: '',
         content: '',
     });
+    const [content, setContent] = useState('');
 
     useEffect(() => {
         instance.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
-            .then(reponse => {
-                setNotice(reponse.data);
+            .then(response => {
+                setNotice(response.data);
+                setContent(response.data.content);    //Quill 데이터 직접 적용 
+                console.log(response.data);
             })
             .catch(error => console.log("NOTICE FETCHING ERROR", error));
     }, [noticeNo]);
@@ -42,12 +45,6 @@ const NoticeReWrite = () => {
                 });
     };
 
-    //Quill 활용
-    const [content, setContent] = useState(notice.content);
-    useEffect(() => {
-        setContent(notice.content);
-    }, [notice.content]);
-
     return (
         <div className="NoticeWrite">
             <form onSubmit={handleSubmit}>
@@ -67,7 +64,7 @@ const NoticeReWrite = () => {
 
                 <div className="NwMid">
                     {/* Quill활용 */}
-                    <CustomQuill content={content} setContent={setContent} width={'950'} height={'300'} />
+                    <CustomQuill content={content} setContent={setContent} width={'1200'} height={'500'} />
                 </div>
                 <div className="NwFooter">
                     <button type="submit">작성</button>

@@ -4,12 +4,9 @@ import 'react-quill/dist/quill.snow.css';
 import { CustomToolbar } from '/src/common/CustomToolbar';
 
 const CustomQuill = ({ content, setContent, width, height }) => {
-  const [editorContent, setEditorContent] = useState(content);
 
   const handleEditorChange = (value) => {
     setContent(value);
-    setEditorContent(value)
-    console.log(value)
   };
 
   const modules = {
@@ -27,9 +24,9 @@ const CustomQuill = ({ content, setContent, width, height }) => {
 
   return (
     <div className='CustomQuill'>
-      <CustomToolbar />
+      <CustomToolbar style={{ width: `${width}px` }} />
       <ReactQuill
-        value={editorContent}
+        value={content}
         onChange={handleEditorChange}
         modules={modules}
         formats={formats}

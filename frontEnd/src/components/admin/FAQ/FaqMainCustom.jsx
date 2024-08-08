@@ -1,10 +1,9 @@
-import '/src/css/admin/FaqMain.css';
-import axios from 'axios';
+import '/src/css/admin/FaqMainCustom.css';
 import instance from "/src/common/auth/axios";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePen, faQ, faA } from '@fortawesome/free-solid-svg-icons';
+import { faQ, faA } from '@fortawesome/free-solid-svg-icons';
 
 const FaqMainCustom = () => {
     const navi = useNavigate();

@@ -2,6 +2,7 @@ import '/src/css/admin/FaqMain.css';
 import instance from "/src/common/auth/axios";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen, faQ, faA } from '@fortawesome/free-solid-svg-icons';
 
@@ -43,7 +44,7 @@ const FaqMain = () => {
             <div className='faqBtn'>
                 <button onClick={() => { navi('/admin/faqWrite') }}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;글쓰기 </button>&nbsp;
             </div>
-            <div className="faqNav">
+            <div className="faqMainNav">
                 <button onClick={() => fetchQuestion("")}>모두보기</button>
                 <button onClick={() => fetchQuestion("정기모임")}>정기모임</button>
                 <button onClick={() => fetchQuestion("소모임")}>소모임</button>
@@ -52,7 +53,7 @@ const FaqMain = () => {
             </div>
             {questions.map((question, index) => (
                 <div className='faqContents' key={question.questionNo}>
-                    <div className='faqQuestion'>
+                    <div className='faqMainQuestion'>
                         <div className='fqContents'>
                             <span className='fq1'>[{question.category}]</span>
                             <span className='fq2'>
@@ -67,8 +68,14 @@ const FaqMain = () => {
                         </div>
                     </div>
 
-                    <div className={`faqAnswer ${visibleAnswers[index] ? 'show' : ''}`}>
-                        <span><FontAwesomeIcon icon={faA} style={{ color: "blue", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />{question.answer}</span>
+                    <div className={`faqMainAnswer ${visibleAnswers[index] ? 'show' : ''}`}>
+                        <span>
+                            <FontAwesomeIcon icon={faA} style={{ color: "blue", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />
+                            <span dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(question.answer),
+                            }}>
+                            </span
+                            ></span>
                     </div>
                 </div>
             ))}

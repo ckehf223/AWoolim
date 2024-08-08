@@ -41,20 +41,20 @@ const FaqWrite = () => {
                 <hr />
 
                 <div className="fwCategory">
-                    <h4>☞ 카테고리 입력</h4>
+                    <h5>☞ 카테고리 입력</h5>
                     <input name='category' id="category" value={question.category} onChange={handleChange} placeholder='카테고리를 입력하세요' />
                 </div>
 
                 <div className="fwQuestion">
-                    <h4>☞ 질문을 입력하세요</h4>
+                    <h5>☞ 질문을 입력하세요</h5>
                     <textarea name="title" id="title" value={question.title} onChange={handleChange}
-                        maxLength={"1000px"} rows={"10"} placeholder='질문을 입력하세요' />
+                        maxLength={"1000px"} rows={"7"} placeholder='질문을 입력하세요' />
                 </div>
 
                 <div className="fwAnswer">
-                    <h4>☞ 답변을 입력하세요</h4>
+                    <h5>☞ 답변을 입력하세요</h5>
                     <textarea name="answer" id="answer" value={question.answer} onChange={handleChange}
-                        maxLength={"1000px"} rows={"10"} placeholder='답변을 입력하세요' />
+                        maxLength={"1000px"} rows={"7"} placeholder='답변을 입력하세요' />
                 </div>
 
                 <div className='fwBtn'>

@@ -29,7 +29,6 @@ public class QuestionController {
 
 	@GetMapping("/read/{questionNo}")
 	public Question getQuestionByNo(@PathVariable("questionNo") int questionNo) throws Exception {
-		System.out.println("질문번호 : "+ questionNo);
 		return questionService.getQuestionByNo(questionNo);
 	}
 

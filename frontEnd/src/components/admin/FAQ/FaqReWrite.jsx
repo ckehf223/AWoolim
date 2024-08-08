@@ -37,14 +37,18 @@ const FaqReWrite = () => {
             .catch(error => console.log("UPDATE QUESTION ERROR", error));
     };
 
+
     const handleDelete = (e) => {
         e.preventDefault();
-        instance.post(`http://localhost:8080/admin/faq/delete/${questionNo}`, question)
-            .then(() => {
-                alert("삭제 성공");
-                navi(`/admin/faq`);
-            })
-            .catch(error => console.log("DELETE QUESTION ERROR", error));
+        const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
+        if (isConfirmed) {
+            instance.post(`http://localhost:8080/admin/faq/delete/${questionNo}`, question)
+                .then(() => {
+                    navi(`/admin/faq`);
+                    window.alert("삭제 완료되었습니다.")
+                })
+                .catch(error => console.log("DELETE QUESTION ERROR", error));
+        }
     }
 
 
@@ -58,18 +62,18 @@ const FaqReWrite = () => {
                 <hr />
 
                 <div className="fwCategory">
-                    <h4>☞ 카테고리 입력</h4>
+                    <h5>☞ 카테고리 입력</h5>
                     <input name='category' id="category" value={question.category} onChange={handleChange} />
                 </div>
 
                 <div className="fwQuestion">
-                    <h4>☞ 질문을 입력하세요</h4>
-                    <textarea name="title" id="title" value={question.title} onChange={handleChange} maxLength={"1000px"} rows={"10"} />
+                    <h5>☞ 질문을 입력하세요</h5>
+                    <textarea name="title" id="title" value={question.title} onChange={handleChange} maxLength={"1000px"} rows={"7"} />
                 </div>
 
                 <div className="fwAnswer">
-                    <h4>☞ 답변을 입력하세요</h4>
-                    <textarea name="answer" id="answer" value={question.answer} onChange={handleChange} maxLength={"1000px"} rows={"10"} />
+                    <h5>☞ 답변을 입력하세요</h5>
+                    <textarea name="answer" id="answer" value={question.answer} onChange={handleChange} maxLength={"1000px"} rows={"7"} />
                     <hr />
                 </div>
 

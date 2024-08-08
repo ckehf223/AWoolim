@@ -29,14 +29,14 @@ a {
     cursor: pointer;
 }
 
-.faqMainNav {
+.faqNav {
     display: flex;
     justify-content: center;
     margin: 10px 20px;
 
 }
 
-.faqMainNav button {
+.faqNav button {
     padding: 10px;
     border-radius: 25px;
     width: 100px;
@@ -45,19 +45,14 @@ a {
     height: 40px;
 }
 
-.faqMainNav button:hover {
+.faqNav button:hover {
     cursor: pointer;
 }
-
-
-.faqMainNav button:focus {
-    /* background-color : rgb(3, 202, 3); */
-    background-color : #5494FC;
-    color: white;
-    font-weight: bold;
+.faqNav button:focus {
+    background-color : rgb(3, 202, 3);
 }
 
-.faqMainQuestion {
+.faqQuestion {
     display: flex;
     justify-content: space-between;
     align-items: end;
@@ -65,7 +60,7 @@ a {
     padding: 30px 10px 10px 30px;
     border-radius: 15px 15px 0px 0px;
     margin-top: 20px;
-    border: 1px solid #5494FC;
+    border: 1px solid green;
     min-height: 100PX;
     font-weight: bold;
 }
@@ -75,60 +70,41 @@ a {
     flex-direction: column;
 }
 
-.fq2 button{
-    background-color: transparent;
-    border: none;
-    text-align: left;
-}
-
-.fqBtn button{padding: 10px;
-    border-radius: 5px;
-    width: 100px;
-    border: none;
-    margin: 10px;
-    background-color:  #c6dafa;
-    height: 40px;
-}
-
-.fqBtn button:hover{
-    background-color: #5494FC;
-    color : white;
-    cursor: pointer;
-}
-
-.faqMainQuestion span{
+.faqQuestion span{
     margin-bottom: 5px;
 }
 
-.faqMainQuestion .fq1{
+.faqQuestion .fq1{
     font-size: small;
     color: green;
     font-weight: bold;
 }
 
-.faqMainAnswer {
+.faqAnswer {
     display: flex;
     flex-direction: column;
     background-color: rgb(250, 247, 247);
     
     border-radius: 0px 0px 15px 15px;
     border: 1px solid white;
+    /* border: 1px solid orangered; */
     border-top: none;
     max-height: 0px;
     overflow: hidden;
     transition: max-height 0.2s, padding 0.2s ease-in-out;
 }
 
-.faqMainAnswer.show{
+.faqAnswer.show{
     display: flex;
     flex-direction: column;
     background-color: rgb(250, 247, 247);
     padding: 30px 10px 10px 30px;
     border-radius: 0px 0px 15px 15px;
-    border: 1px solid #5494FC;
+    border: 1px solid orangered;
     border-top: none;
     
     max-height: 1000PX;
     min-height: 100px;
+    margin-bottom: 10px;
 
 }
