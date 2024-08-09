@@ -30,18 +30,25 @@ public class JWTFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		String accessToken = request.getHeader("Authorization");
-
-		if(accessToken == null) {
+		log.info("JWTFIlter Enter");
+		String requestUri = request.getRequestURI();
+		if (requestUri.equals("/refresh") || requestUri.equals("/deleteRefresh")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 		
-		log.info("JWTFilter AccessToken" + accessToken);
+		String accessToken = request.getHeader("Authorization");
+		log.info("JWTFilter AccessToken=" + accessToken);
+		if(accessToken == null) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			filterChain.doFilter(request, response);
+			return;
+		}
+		
 		if (accessToken != null && accessToken.startsWith("Bearer ")) {
 			accessToken = accessToken.substring(7);
 		}
-
+		
 		try {
 			if (accessToken != null) {
 				log.info("JWTFilter isExpired 들어옴");

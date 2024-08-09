@@ -20,6 +20,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
 		logger.info("CORS configuration started at: {}", startTime);
 
 		corsRegistry.addMapping("/**").allowedOrigins("http://localhost:5173").allowedMethods("*").allowedHeaders("*")
+				.exposedHeaders("Authorization", "LoginId")
 				.allowCredentials(true).maxAge(6000L);
 
 		LocalDateTime endTime = LocalDateTime.now();

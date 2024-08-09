@@ -2,23 +2,27 @@ import React, { useEffect, useState } from 'react';
 import '/src/css/member/RegisterMember.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
 const RegisterMember = () => {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    console.log(queryParams);
     const [formData, setFormData] = useState({
-        useremail: '',
+        useremail: queryParams.get('email'),
         password: '',
         passwordCheck: '',
-        username: '',
+        username: queryParams.get('name'),
         usergender: '',
         userbirth: '',
         userphone: '',
         nickname: '',
         phoneCheckCode: '',
-        snsType: 'default',
+        snsType: queryParams.get('type'),
     });
+
     const [userEmailError, setUserEmailError] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [passwordCheckVisible, setPasswordCheckVisible] = useState(false);
@@ -32,7 +36,7 @@ const RegisterMember = () => {
     const [phoneCheckMessage, setPhoneCheckMessage] = useState('');
     const [userEmailSuccess, setUserEmailSuccess] = useState('');
 
-    const navi = useNavigate();
+    const nav = useNavigate();
 
     useEffect(() => {
         let interval;
@@ -69,18 +73,25 @@ const RegisterMember = () => {
     };
     const handleCodeCheck = async () => {
         try {
-            await axios.post('http://localhost:8080/check-code', { code: formData.phoneCheckCode },
+            await axios.post('http://localhost:8080/check-code',
+                {
+                    code: formData.phoneCheckCode,
+                    phoneNumber: formData.userphone
+                },
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
                 })
                 .then(response => {
                     if (response.status === 200) {
-                        setPhoneCheckSuccess(response.data);
-                        if (response.data) {
+                        setPhoneCheckSuccess(true);
+                        if (response.data === 1) {
                             setPhoneCheckMessage('인증되었습니다.');
                             setUserPhoneError('')
                             setIsActive(false);
+                        } else if (response.data === 0) {
+                            alert('이미 가입한 전화번호 입니다.');
+                            nav('/login', { replace: true })
                         } else {
                             setUserPhoneError('인증 번호를 확인해주세요')
                             setFormData({ ...formData, phoneCheckCode: '' });
@@ -111,7 +122,7 @@ const RegisterMember = () => {
         if (userEmailError === '' && userNameError === '' && passwordError === '' && phoneCheckSuccess) {
             // 회원가입 로직
             try {
-                await axios.post('http://localhost:8080/registerMember',
+                await axios.post('http://localhost:8080/member/registerMember',
                     {
                         userEmail: formData.useremail,
                         password: formData.password,
@@ -128,7 +139,7 @@ const RegisterMember = () => {
                 ).then(response => {
                     if (response.status === 200) {
                         alert('회원가입이 완료되었습니다.');
-                        navi('/login');
+                        nav('/login', { replace: true });
                     }
                 })
             } catch (error) {
@@ -147,7 +158,7 @@ const RegisterMember = () => {
             setUserEmailSuccess('')
         } else {
             try {
-                const response = await axios.post('http://localhost:8080/checkEmail', { userEmail: formData.useremail },
+                const response = await axios.post('http://localhost:8080/member/checkEmail', { userEmail: formData.useremail },
                     {
                         headers: { 'Content-Type': 'application/json' },
                         withCredentials: true,
@@ -216,7 +227,7 @@ const RegisterMember = () => {
                         <div className='RegisterMemberInputArea'>
                             <label htmlFor="useremail"><span className='InputStarSpan'>*</span> 이메일</label>
                             <input type="email" id="useremail" name="useremail" value={formData.useremail} placeholder='이메일 형식에 맞게 작성하세요.'
-                                onChange={handleChange} onBlur={validateEmail} required />
+                                onChange={handleChange} onBlur={validateEmail} required readOnly={queryParams != null} />
                         </div>
                         <div className='RegisterMemberErrorArea'>
                             {userEmailError && <span className="error">{userEmailError}</span>}
@@ -224,27 +235,28 @@ const RegisterMember = () => {
                         </div>
                     </div>
                     <div className="RegisterMemberInputBox">
-                        <div className='RegisterMemberInputArea'>
+                        {queryParams.size == 0 && (<div className='RegisterMemberInputArea'>
                             <label htmlFor="password"><span className='InputStarSpan'>*</span> 비밀번호</label>
                             <input type={passwordVisible ? "text" : "password"} name="password" value={formData.password}
                                 onChange={handleChange} onBlur={validatePasswordPatten} required placeholder='8~12자 영문,숫자,특수문자 혼합입니다.' />
                             <span className="password-toggle" onClick={togglePasswordVisibility}>
                                 <FontAwesomeIcon className='EyeSlashIcon' icon={passwordVisible ? faEyeSlash : faEye} />
                             </span>
-                        </div>
+                        </div>)}
                         <div className='RegisterMemberErrorArea'>
                             {passwordError && <span className='error'>{passwordError}</span>}
                         </div>
                     </div>
                     <div className="RegisterMemberInputBox">
-                        <div className='RegisterMemberInputArea'>
+                        {queryParams.size == 0 && <div className='RegisterMemberInputArea'>
                             <label htmlFor="passwordCheck"><span className='InputStarSpan'>*</span> 비밀번호 확인</label>
                             <input type={passwordCheckVisible ? "text" : "password"} name="passwordCheck" value={formData.passwordCheck}
                                 onChange={handleChange} onBlur={validatePasswordMatch} required />
                             <span className="password-toggle" onClick={togglePasswordCheckVisibility}>
                                 <FontAwesomeIcon className='EyeSlashIcon' icon={passwordCheckVisible ? faEyeSlash : faEye} />
                             </span>
-                        </div>
+                        </div>}
+
                         <div className='RegisterMemberErrorArea'>
                             {passwordCheckError && <span className='error' style={{ width: "24%", maginRight: "5px" }}>{passwordCheckError}</span>}
                         </div>
@@ -252,7 +264,8 @@ const RegisterMember = () => {
                     <div className="RegisterMemberInputBox">
                         <div className='RegisterMemberInputArea'>
                             <label htmlFor="username"><span className='InputStarSpan'>*</span> 이름</label>
-                            <input type="text" name="username" value={formData.username} onChange={handleChange} onBlur={validateUserNamePatten} required placeholder='2~7자 한글로 작성하세요.' />
+                            <input type="text" name="username" value={formData.username} onChange={handleChange} onBlur={validateUserNamePatten} required placeholder='2~7자 한글로 작성하세요.'
+                                readOnly={queryParams != null} />
                         </div>
                         <div className='RegisterMemberErrorArea'>
                             {userNameError && <span className='error' style={{ width: "23%", marginRight: "5px" }}>{userNameError}</span>}

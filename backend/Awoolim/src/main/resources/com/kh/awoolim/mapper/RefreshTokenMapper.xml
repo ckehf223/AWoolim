@@ -7,15 +7,15 @@
 	</select>
 	<insert id="create" parameterType="RefreshToken">
 		INSERT INTO REFRESHTOKEN
-		VALUES(refreshtoken_seq.nextVal,#{userEmail},#{refresh},#{expiration})
+		VALUES(refreshtoken_seq.nextVal,#{userId},#{userEmail},#{refresh},#{expiration})
 	</insert>
 	<delete id="delete" parameterType="String">
 		DELETE FROM REFRESHTOKEN
 		WHERE
 		refresh = #{refresh}
 	</delete>
-	<delete id="deleteAll" parameterType="String">
+	<delete id="deleteAll" parameterType="int">
 		DELETE FROM REFRESHTOKEN
-		WHERE USEREMAIL = #{userEmail}
+		WHERE USERID = #{userId}
 	</delete>
 </mapper>

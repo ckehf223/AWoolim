@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import '/src/css/member/ClubMember.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Button } from 'reactstrap'
 import useModal from '/src/common/useModal';
 import UserProfileModal from '/src/components/member/UserProfileModal';
 const MemberData = [
@@ -40,6 +41,8 @@ const MemberData = [
 ];
 
 const ClubAccept = () => {
+  const param = useParams();
+  const nav = useNavigate();
   const [data, setData] = useState(MemberData);
   const [searchInput, setSearchInput] = useState('');
   const { isModalOpen, toggleModal } = useModal();
@@ -58,55 +61,63 @@ const ClubAccept = () => {
   }
   return (
     <>
-      <div className='ClubMember'>
-        <div className='ClubMemberHeaderArea'>
-          <div className='ClubMemberProfile'>프로필</div>
-          <div className='ClubMemberGender'>성별</div>
-          <div className='ClubMemberAge'>나이</div>
-          <div className='ClubMemberDate'>신청일</div>
+      <div className='MyClubManagerMainArea'>
+        <div>
+          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/modify/${param.no}`)}>정보 수정</Button>{' '}
+          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/member/${param.no}`)}>모임 멤버</Button>{' '}
+          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/accept/${param.no}`)}>신청 관리</Button>{' '}
         </div>
-        <div className='ClubMemberArea'>
+        <div className='MyClubManagerContentArea'>
+          <div className='ClubMember'>
+            <div className='ClubMemberHeaderArea'>
+              <div className='ClubMemberProfile'>프로필</div>
+              <div className='ClubMemberGender'>성별</div>
+              <div className='ClubMemberAge'>나이</div>
+              <div className='ClubMemberDate'>신청일</div>
+            </div>
+            <div className='ClubMemberArea'>
 
-          {MemberData.length === 0 ? (<div className='UserMadeClubNoneArea'>
-            <p>모임 신청 내역이 없습니다.</p>
-          </div>) : (data.map((member) => {
-            return (
-              <div className='ClubMemberBox' key={member.no}>
-                <div className='ClubMemberInfoBox'>
-                  <div className='ClubMemberImageBox'>
-                    <img src={`/src/images/${member.image}`} onClick={() => { openUserModal(member) }} />
+              {MemberData.length === 0 ? (<div className='UserMadeClubNoneArea'>
+                <p>모임 신청 내역이 없습니다.</p>
+              </div>) : (data.map((member) => {
+                return (
+                  <div className='ClubMemberBox' key={member.no}>
+                    <div className='ClubMemberInfoBox'>
+                      <div className='ClubMemberImageBox'>
+                        <img src={`/src/images/${member.image}`} onClick={() => { openUserModal(member) }} />
+                      </div>
+                      <div className='ClubMemberProfileInfo'>
+                        <p className='ClubMemberName'>{member.name !== '' ? member.name : member.id}</p>
+                        <p className='ClubMemberMg'>{member.message}</p>
+                      </div>
+                      <div className='ClubMemberGenderArea'>
+                        <p>{member.gender}</p>
+                      </div>
+                      <div className='ClubMemberAgeArea'>
+                        <p>{member.age}세</p>
+                      </div>
+                      <div className='ClubMemberDateArea'>
+                        <p>{member.regdate}</p>
+                      </div>
+                    </div>
+                    <div className='ClubAcceptButtonBox'>
+                      <img src="/src/assets/images/check.png" alt="신청 수락 이미지" />
+                      <img src="/src/assets/images/remove.png" alt="신청 거절 이미지" />
+                    </div>
                   </div>
-                  <div className='ClubMemberProfileInfo'>
-                    <p className='ClubMemberName'>{member.name !== '' ? member.name : member.id}</p>
-                    <p className='ClubMemberMg'>{member.message}</p>
-                  </div>
-                  <div className='ClubMemberGenderArea'>
-                    <p>{member.gender}</p>
-                  </div>
-                  <div className='ClubMemberAgeArea'>
-                    <p>{member.age}세</p>
-                  </div>
-                  <div className='ClubMemberDateArea'>
-                    <p>{member.regdate}</p>
-                  </div>
-                </div>
-                <div className='ClubAcceptButtonBox'>
-                  <img src="/src/assets/images/check.png" alt="신청 수락 이미지" />
-                  <img src="/src/assets/images/remove.png" alt="신청 거절 이미지" />
-                </div>
-              </div>
-            )
-          }))}
-          <UserProfileModal
-            isOpen={isModalOpen}
-            toggle={toggleModal}
-            backgroundImage={selectedUser?.backImg}
-            profileImage={selectedUser?.image}
-            name={selectedUser?.name === '' ? selectedUser?.id : selectedUser?.name}
-            details={selectedUser?.message}
-          >
-          </UserProfileModal>
-
+                )
+              }))}
+              <UserProfileModal
+                isOpen={isModalOpen}
+                toggle={toggleModal}
+                backgroundImage={selectedUser?.backImg}
+                profileImage={selectedUser?.image}
+                name={selectedUser?.name === '' ? selectedUser?.id : selectedUser?.name}
+                details={selectedUser?.message}
+              >
+              </UserProfileModal>
+            </div>
+          </div>
         </div>
       </div>
     </>

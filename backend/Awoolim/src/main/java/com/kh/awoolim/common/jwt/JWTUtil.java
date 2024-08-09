@@ -44,17 +44,20 @@ public class JWTUtil {
 
 	// 토큰이 소멸되었는지, 시간이 지났는지 확인하는 method
 	public Boolean isExpired(String token) {
-
 		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration()
 				.before(new Date());
 	}
 
+	public int getUserId(String token) {
+		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("userId",Integer.class);
+	}
 	// jwt 토큰 생성하기
-	public String createJwt(String category, String username, String role, Long expiredMs) {
+	public String createJwt(String category, String username, String role, Long expiredMs,int userId) {
 
 		return Jwts.builder().claim("username", username) // claim 에 키 username value username
 				.claim("role", role) // claim 에 키 role value role
 				.claim("category", category)
+				.claim("userId", userId)
 				.issuedAt(new Date(System.currentTimeMillis())) // jwt 토큰이 생성된 시각
 				.expiration(new Date(System.currentTimeMillis() + expiredMs)) // jwt토큰의 만료 시한
 				.signWith(secretKey) // 시크릿 키를 가지고 암호화를 진행함

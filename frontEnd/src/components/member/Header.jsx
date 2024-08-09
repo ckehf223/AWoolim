@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "/src/css/member/header.css";
+import { useAuth } from "/src/common/AuthContext";
 
 function Header() {
+  const { isAuthenticated, logout } = useAuth();
+  const nav = useNavigate();
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -88,20 +91,33 @@ function Header() {
         <button
           id="mypage-button"
           onClick={() => {
-            navigate("/mypage"); // 마이페이지로 이동 (예시)
+            /* 마이페이지 이동 로직 추가 */
+            isAuthenticated ? nav('/mypage/profile') : nav('/login');
           }}
         >
           마이페이지
         </button>
 
-        <button
+        {!isAuthenticated ? (<button
           id="login-button"
           onClick={() => {
-            navigate("/login"); // 로그인 페이지로 이동 (예시)
+            /* 로그인 페이지 이동 로직 추가 */
+            nav('/login');
           }}
         >
           로그인
-        </button>
+        </button>) : (<button
+          id="login-button"
+          onClick={() => {
+            /* 로그인 페이지 이동 로직 추가 */
+            logout();
+          }}
+        >
+          로그아웃
+        </button>)}
+
+
+
       </div>
     </header>
   );
