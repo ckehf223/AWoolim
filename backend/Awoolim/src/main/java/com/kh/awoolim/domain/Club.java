@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Club {
-	private Long clubNo;
+	private int clubNo;
 	private String clubTitle;
 	private String clubGender;
 	private String ageLimit;

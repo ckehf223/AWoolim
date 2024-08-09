@@ -6,7 +6,7 @@ function ClubItem({ club, backgroundColor = "#ffffff" }) {
   const [imageData, setImageData] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/clubs/image/${club.clubImage}`)
+    fetch(`http://localhost:8080/api/club/image/${club.clubImage}`)
       .then((response) => response.blob())
       .then((blob) => {
         const imageURL = URL.createObjectURL(blob);

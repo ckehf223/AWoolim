@@ -10,26 +10,27 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     setIsAuthenticated(!!token);
-    if (token != null) {
-      fetchUserId(token);
-    }
+    // if (token != null) {
+    //   fetchUserId(token);
+    // }
   }, []);
 
-  const fetchUserId = async (token) => {
-    try {
-      const response = await instance.get('http://localhost:8080/getUserId', {
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': token,
-        }
-      })
-      setLoginId(response.data);
-    } catch (error) {
-      console.error('getUserId error', error);
-    }
-  }
+  // const fetchUserId = async (token) => {
+  //   try {
+  //     const response = await instance.get('http://localhost:8080/getUserId', {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         'Authorization': token,
+  //       }
+  //     })
+  //     setLoginId(response.data);
+  //   } catch (error) {
+  //     console.error('getUserId error', error);
+  //   }
+  // }
 
   const login = async (username, password) => {
+    console.log(username, password)
     try {
       const response = await loginService(username, password);
       const userId = response.headers['loginid'];

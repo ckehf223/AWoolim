@@ -122,11 +122,11 @@
 			<artifactId>sdk</artifactId>
 			<version>4.3.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.zeus</groupId>
+<!--		<dependency>
+			<groupId>com.kh.awoolim</groupId>>
 			<artifactId>SpringBootFileUpload</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency>-->
 		<!-- WebSocket dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

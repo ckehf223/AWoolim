@@ -51,7 +51,6 @@ public class JWTFilter extends OncePerRequestFilter {
 		
 		try {
 			if (accessToken != null) {
-				log.info("JWTFilter isExpired 들어옴");
 				jwtUtil.isExpired(accessToken);
 				String username = jwtUtil.getUsername(accessToken);
 				String role = jwtUtil.getRole(accessToken);

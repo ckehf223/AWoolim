@@ -75,16 +75,10 @@ public class SecurityConfig {
 			}
 		}));
 
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/refresh").permitAll()
-                .requestMatchers("/login").permitAll()
-                .requestMatchers("/auth/kakao/**").permitAll()
-                .requestMatchers("/send-sms").permitAll()
-                .requestMatchers("/check-code").permitAll()
-                .requestMatchers("/auth/naver/**").permitAll()
-                .requestMatchers("/auth/google/**").permitAll()
-                .anyRequest().permitAll());
+
+		http.csrf(auth -> auth.disable());
+		http.formLogin(auth -> auth.disable());
+		http.httpBasic(auth -> auth.disable());
 
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/").permitAll()

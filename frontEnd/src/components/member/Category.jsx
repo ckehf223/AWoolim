@@ -27,7 +27,7 @@ function Category() {
       sportsLinkRef.current.focus();
     }
 
-    fetch("http://localhost:8080/api/clubs")
+    fetch("http://localhost:8080/api/club")
       .then((response) => response.json())
       .then((data) => setClubs(data))
       .catch((error) => {
@@ -72,7 +72,7 @@ function Category() {
         {Array.from(new Set(clubs.map((club) => club.category))).map(
           (category) => (
             <Link
-              key={category}
+              key={clubs.clubNo}
               to="#"
               onClick={() => handleCategoryClick(category)}
             >
