@@ -1,3 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.awoolim.mapper.ClubMapper"></mapper>
+<mapper namespace="com.kh.awoolim.mapper.ClubMapper">
+
+	<select id="getAllClubs" resultType="com.kh.awoolim.domain.Club">
+		SELECT * FROM club
+	</select>
+
+	<select id="getImage" resultType="byte[]">
+		SELECT clubImage
+		FROM club
+		WHERE
+		clubImage = #{imageName}
+	</select>
+
+	<select id="searchClubs" resultType="com.kh.awoolim.domain.Club">
+		SELECT *
+		FROM club
+		<where>
+			<if test="searchTerm != null and searchTerm != ''">
+				AND (
+				club_title LIKE CONCAT('%', #{searchTerm}, '%')
+				OR
+				category LIKE CONCAT('%', #{searchTerm}, '%')
+				)
+			</if>
+			<if test="filters != null">
+				<foreach item="value" index="key"
+					collection="filters.entrySet()">
+					<if test="value != null and value != ''">
+						AND ${key} = #{value}
+					</if>
+				</foreach>
+			</if>
+		</where>
+	</select>
+</mapper>

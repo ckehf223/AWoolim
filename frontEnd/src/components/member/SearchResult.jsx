@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "/src/css/member/searchresult.css";
+import ClubItem from "./ClubItem";
 
 const areaData = [
   {
-    city: "서울",
+    city: "서울시",
     data: [
       "전체",
       "강남구",
@@ -304,404 +305,74 @@ const areaData = [
     data: ["전체", "서귀포시", "제주시"],
   },
 ];
-const images = [
-  {
-    src: "/src/assets/images/food1.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "알고리즘 스터디",
-    region: "서울 강남구",
-    gender: "무관",
-    minAge: 23,
-    type: "정기",
-    category: "스터디",
-    daysOfWeek: ["화", "목"],
-    key: 1,
-  },
-  {
-    src: "/src/assets/images/food2.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "러닝 크루 모집 (초보 환영)",
-    region: "서울 마포구",
-    gender: "무관",
-    minAge: 19,
-    type: "비정기",
-    category: "스포츠",
-    daysOfWeek: ["토"],
-    key: 2,
-  },
-  {
-    src: "/src/assets/images/food3.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "독서 토론 모임 (소설)",
-    region: "서울 종로구",
-    gender: "무관",
-    minAge: 25,
-    type: "정기",
-    category: "독서",
-    daysOfWeek: ["일"],
-    key: 3,
-  },
-  {
-    src: "/src/assets/images/friend1.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "힙스터 맛집 탐방!",
-    region: "서울 용산구",
-    gender: "무관",
-    minAge: 20,
-    type: "비정기",
-    category: "맛집탐방",
-    daysOfWeek: ["금", "토"],
-    key: 4,
-  },
-  {
-    src: "/src/assets/images/friend2.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "보드게임 정복! (초보/숙련자 모두 환영)",
-    region: "서울 마포구",
-    gender: "무관",
-    minAge: 18,
-    type: "정기",
-    category: "취미",
-    daysOfWeek: ["수", "토"],
-    key: 5,
-  },
-  {
-    src: "/src/assets/images/friend3.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "영화 감상 모임",
-    region: "서울 서대문구",
-    gender: "여",
-    minAge: 25,
-    type: "정기",
-    category: "운동",
-    daysOfWeek: ["월"],
-    key: 6,
-  },
-  {
-    src: "/src/assets/images/friend4.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "요리 교실 (한식)",
-    region: "서울 종로구",
-    gender: "남",
-    minAge: 29,
-    type: "비정기",
-    category: "스포츠",
-    daysOfWeek: ["목"],
-    key: 7,
-  },
-  {
-    src: "/src/assets/images/friend5.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "반려동물 산책 모임",
-    region: "서울 영등포구",
-    gender: "남",
-    minAge: 21,
-    type: "비정기",
-    category: "친목",
-    daysOfWeek: ["수"],
-    key: 8,
-  },
-  {
-    src: "/src/assets/images/friend6.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "보드게임 정복! (초보/숙련자 모두 환영)",
-    region: "서울 마포구",
-    gender: "여",
-    minAge: 25,
-    type: "비정기",
-    category: "예술",
-    daysOfWeek: ["토", "일"],
-    key: 9,
-  },
-  {
-    src: "/src/assets/images/hobby1.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "스터디 카페 정복",
-    region: "서울 광진구",
-    gender: "무관",
-    minAge: 21,
-    type: "정기",
-    category: "독서",
-    daysOfWeek: ["금", "토", "수"],
-    key: 10,
-  },
-  {
-    src: "/src/assets/images/hobby2.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "베이킹 클래스",
-    region: "서울 강북구",
-    gender: "무관",
-    minAge: 26,
-    type: "비정기",
-    category: "예술",
-    daysOfWeek: ["월", "수"],
-    key: 11,
-  },
-  {
-    src: "/src/assets/images/hobby3.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "스터디 카페 정복",
-    region: "서울 강남구",
-    gender: "남",
-    minAge: 21,
-    type: "비정기",
-    category: "독서",
-    daysOfWeek: ["금", "화", "월"],
-    key: 12,
-  },
-  {
-    src: "/src/assets/images/movie1.webp",
-    alt: "Image 1",
-    link: "/image1",
-    title: "영화 감상 모임",
-    region: "서울 광진구",
-    gender: "여",
-    minAge: 28,
-    type: "정기",
-    category: "여행",
-    daysOfWeek: ["목"],
-    key: 13,
-  },
-  {
-    src: "/src/assets/images/movie2.webp",
-    alt: "Image 1",
-    link: "/image1",
-    title: "보드게임 정복! (초보/숙련자 모두 환영)",
-    region: "서울 용산구",
-    gender: "무관",
-    minAge: 23,
-    type: "정기",
-    category: "독서",
-    daysOfWeek: ["토"],
-    key: 14,
-  },
-  {
-    src: "/src/assets/images/read3.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "보드게임 정복! (초보/숙련자 모두 환영)",
-    region: "서울 마포구",
-    gender: "남",
-    minAge: 20,
-    type: "정기",
-    category: "봉사",
-    daysOfWeek: ["목", "금"],
-    key: 15,
-  },
-  {
-    src: "/src/assets/images/read4.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "축구/풋살 팀원 모집",
-    region: "서울 용산구",
-    gender: "남",
-    minAge: 20,
-    type: "비정기",
-    category: "게임",
-    daysOfWeek: ["일"],
-    key: 16,
-  },
-  {
-    src: "/src/assets/images/read5.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "댄스 동아리",
-    region: "서울 용산구",
-    gender: "무관",
-    minAge: 25,
-    type: "비정기",
-    category: "취미",
-    daysOfWeek: ["금", "목"],
-    key: 17,
-  },
-  {
-    src: "/src/assets/images/read7.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "요리 교실 (한식)",
-    region: "서울 강북구",
-    gender: "무관",
-    minAge: 29,
-    type: "정기",
-    category: "스터디",
-    daysOfWeek: ["수", "일", "토"],
-    key: 18,
-  },
-  {
-    src: "/src/assets/images/read8.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "외국어 스터디 (영어/일본어 등)",
-    region: "서울 마포구",
-    gender: "남",
-    minAge: 26,
-    type: "정기",
-    category: "스터디",
-    daysOfWeek: ["수"],
-    key: 19,
-  },
-  {
-    src: "/src/assets/images/show1.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "보드게임 정복! (초보/숙련자 모두 환영)",
-    region: "서울 용산구",
-    gender: "여",
-    minAge: 29,
-    type: "비정기",
-    category: "친목",
-    daysOfWeek: ["일", "월", "수"],
-    key: 20,
-  },
-  {
-    src: "/src/assets/images/show2.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "악기 연주 모임 (기타/피아노 등)",
-    region: "서울 마포구",
-    gender: "무관",
-    minAge: 20,
-    type: "비정기",
-    category: "스포츠",
-    daysOfWeek: ["일", "월"],
-    key: 21,
-  },
-  {
-    src: "/src/assets/images/show3.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "보드게임 정복! (초보/숙련자 모두 환영)",
-    region: "서울 용산구",
-    gender: "여",
-    minAge: 23,
-    type: "비정기",
-    category: "스포츠",
-    daysOfWeek: ["목", "일"],
-    key: 22,
-  },
-  {
-    src: "/src/assets/images/show4.png",
-    alt: "Image 1",
-    link: "/image1",
-    title: "봉사활동 같이 해요",
-    region: "서울 마포구",
-    gender: "남",
-    minAge: 25,
-    type: "비정기",
-    category: "스터디",
-    daysOfWeek: ["금"],
-    key: 23,
-  },
-  {
-    src: "/src/assets/images/sport1.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "봉사활동 같이 해요",
-    region: "서울 광진구",
-    gender: "무관",
-    minAge: 30,
-    type: "정기",
-    category: "친목",
-    daysOfWeek: ["월", "화", "수"],
-    key: 24,
-  },
-  {
-    src: "/src/assets/images/sport2.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "캘리그라피 배우기",
-    region: "서울 마포구",
-    gender: "무관",
-    minAge: 29,
-    type: "정기",
-    category: "스터디",
-    daysOfWeek: ["금", "일", "수"],
-    key: 25,
-  },
-  {
-    src: "/src/assets/images/sport3.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "농구 팀원 모집",
-    region: "서울 종로구",
-    gender: "무관",
-    minAge: 26,
-    type: "비정기",
-    category: "게임",
-    daysOfWeek: ["일"],
-    key: 26,
-  },
-  {
-    src: "/src/assets/images/study1.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "사진 출사 (초보 환영)",
-    region: "서울 강북구",
-    gender: "여",
-    minAge: 26,
-    type: "정기",
-    category: "봉사",
-    daysOfWeek: ["수"],
-    key: 27,
-  },
-  {
-    src: "/src/assets/images/study2.jpeg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "사진 출사 (초보 환영)",
-    region: "서울 영등포구",
-    gender: "여",
-    minAge: 25,
-    type: "정기",
-    category: "게임",
-    daysOfWeek: ["일", "월"],
-    key: 28,
-  },
-  {
-    src: "/src/assets/images/study3.jpg",
-    alt: "Image 1",
-    link: "/image1",
-    title: "스터디 카페 정복",
-    region: "서울 서대문구",
-    gender: "여",
-    minAge: 21,
-    type: "정기",
-    category: "친목",
-    daysOfWeek: ["화", "목", "수"],
-    key: 29,
-  },
-];
+
 function SearchPage() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation();
+  const initialSearchTerm = location.state?.searchTerm || "";
+
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [filters, setFilters] = useState({
-    region: "",
+    city: "",
+    district: "",
     gender: "",
     minAge: "",
     type: "",
     categories: [],
     daysOfWeek: [],
   });
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
-  const [selectedData, setSelectedData] = useState("");
-  const [applyFilter, setApplyFilter] = useState(false);
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [showFilterSection, setShowFilterSection] = useState(false);
+  const [clubs, setClubs] = useState([]);
+  const [uniqueCategories, setUniqueCategories] = useState([]);
+  const [filteredResults, setFilteredResults] = useState([]); // 상태로 정의
+
+  let latestFilters = useRef(filters); // 최신 필터 값 저장
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("http://localhost:8080/api/clubs/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            searchTerm,
+            filters: latestFilters.current,
+          }),
+        });
+        const data = await response.json();
+        if (isMounted) {
+          setClubs(data);
+          const categoriesSet = new Set(data.map((club) => club.category));
+          setUniqueCategories(Array.from(categoriesSet));
+          setFilteredResults(data); // 기본적으로 모든 클럽을 보여줍니다.
+        }
+      } catch (error) {
+        console.error("클럽 데이터 가져오기 오류:", error);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchData(); // 컴포넌트 마운트 시 또는 검색어 변경 시 데이터 가져오기
+
+    return () => {
+      isMounted = false;
+    };
+  }, [searchTerm]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
   const handleFilterChange = (name, value) => {
+    latestFilters.current = { ...latestFilters.current, [name]: value };
     setFilters({
       ...filters,
       [name]: value,
@@ -709,191 +380,276 @@ function SearchPage() {
   };
 
   const handleCityChange = (event) => {
-    const city = event.target.value;
-    setSelectedCity(city);
-    setSelectedData(""); // 도시 변경 시 데이터 선택 초기화
+    const value = event.target.value;
+    setSelectedCity(value);
+    setSelectedDistrict("");
+    handleFilterChange("city", value);
   };
 
-  const handleDataChange = (event) => {
-    setSelectedData(event.target.value);
+  const handleDistrictChange = (event) => {
+    const value = event.target.value;
+    setSelectedDistrict(value);
+    handleFilterChange("district", value);
   };
 
   const handleApplyFilter = () => {
-    setApplyFilter(!applyFilter);
+    setShowFilterSection(!showFilterSection);
   };
 
-  const filteredResults = applyFilter
-    ? images.filter((result) => {
-      const searchTerms = searchTerm.toLowerCase().split(" "); // 검색어를 단어 단위로 분리
-      const titleWords = result.title.toLowerCase().split(" "); // 제목을 단어 단위로 분리
+  const handleFilterSubmit = () => {
+    const results = applyFiltersToClubs(
+      clubs,
+      searchTerm,
+      latestFilters.current
+    );
+    setFilteredResults(results); // 상태 업데이트
+  };
 
-      // 검색어의 단어 중 하나라도 제목에 포함되는지 확인
-      const matchesSearchTerm = searchTerms.every((term) =>
-        titleWords.some((word) => word === term)
-      );
-      const matchesRegion =
-        !filters.region || result.region === filters.region;
+  // 필터링 로직을 별도의 함수로 분리
+  const applyFiltersToClubs = (clubsData, searchTerm, filters) => {
+    return clubsData.filter((club) => {
+      const searchTerms = searchTerm.toLowerCase().split(" ");
+      const titleWords = club.clubTitle.toLowerCase().split(" ");
+
+      const matchesSearchTerm =
+        searchTerm === "" ||
+        searchTerms.every((term) =>
+          titleWords.some((word) => word.includes(term))
+        );
+
+      const matchesCity = filters.city === "" || club.city === filters.city;
+      const matchesDistrict =
+        filters.district === "" || club.district === filters.district;
+
+      const matchesRegion = matchesCity && matchesDistrict;
+
       const matchesGender =
-        !filters.gender || result.gender === filters.gender;
-      const matchesAge = !filters.minAge || result.minAge >= filters.minAge;
-      const matchesType = !filters.type || result.type === filters.type;
+        filters.gender === "" || club.clubGender === filters.gender;
+
+      const matchesMinAge =
+        filters.minAge === "" ||
+        club.clubMinAge >= parseInt(filters.minAge, 10);
+
+      const matchesType =
+        filters.type === "" || club.clubType === parseInt(filters.type, 10);
+
       const matchesCategories =
-        filters.category.length === 0 ||
-        filters.category.some((cat) => result.category.includes(cat));
+        filters.categories.length === 0 ||
+        filters.categories.some((category) => club.category === category);
+
       const matchesDaysOfWeek =
         filters.daysOfWeek.length === 0 ||
-        filters.daysOfWeek.some((day) => result.daysOfWeek.includes(day));
-      const matchesCityAndData =
-        (selectedCity === "" && selectedData === "") ||
-        (selectedCity !== "" &&
-          result.region.startsWith(selectedCity) &&
-          (selectedData === "전체" || result.region.endsWith(selectedData)));
+        filters.daysOfWeek.some((day) => club.activityDays.includes(day));
 
       return (
         matchesSearchTerm &&
         matchesRegion &&
         matchesGender &&
-        matchesAge &&
+        matchesMinAge &&
         matchesType &&
         matchesCategories &&
-        matchesDaysOfWeek &&
-        matchesCityAndData
+        matchesDaysOfWeek
       );
-    })
-    : images;
+    });
+  };
+
+  // 기본 클럽 목록을 filteredResults로 설정
+  useEffect(() => {
+    setFilteredResults(clubs);
+  }, [clubs]);
 
   return (
     <section className="search-page">
-      <div className="filter-section">
-        <div className="filter-header">
-          <h3 className="filter-title">상세 조회</h3>
-        </div>
-        <div className="filter-body">
-          <div className="filter-row">
-            <label htmlFor="word">모임명 검색:</label>
+      <div className="search-header">
+        <h3>검색 및 필터</h3>
+        <button id="filterButton" onClick={handleApplyFilter}>
+          {showFilterSection ? "필터 사용 중" : "필터 사용"}
+        </button>
+      </div>
+
+      {showFilterSection && (
+        <div className="filter-section">
+          <div className="filter-header">
+            <h3 className="filter-title">상세 조회</h3>
+          </div>
+          <div className="filter-body">
+            {/* 검색어 입력 */}
             <input
-              id="word"
               type="text"
               value={searchTerm}
               onChange={handleSearch}
-              placeholder="모임명을 입력하세요"
+              placeholder="검색어를 입력하세요"
             />
-          </div>
-          <div className="filter-row">
-            <label htmlFor="city">도시:</label>
-            <select id="city" value={selectedCity} onChange={handleCityChange}>
-              <option value="">전체</option>
-              {areaData.map((area) => (
-                <option key={area.city} value={area.city}>
-                  {area.city}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="data">상세 지역:</label>
-            <select id="data" value={selectedData} onChange={handleDataChange}>
-              <option value="">전체</option>
-              {areaData
-                .find((area) => area.city === selectedCity)
-                ?.data.map((dataItem) => (
-                  <option key={dataItem} value={dataItem}>
-                    {dataItem}
+            {/* 지역 (시/도) 필터 */}
+            <div className="filter-row">
+              <label htmlFor="city">지역 (시/도):</label>
+              <select
+                id="city"
+                value={selectedCity}
+                onChange={handleCityChange}
+              >
+                <option value="">전체</option>
+                {areaData.map((item) => (
+                  <option key={item.city} value={item.city}>
+                    {item.city}
                   </option>
                 ))}
-            </select>
-          </div>
+              </select>
+            </div>
 
-          <div className="filter-row">
-            <label htmlFor="gender">성별:</label>
-            <select
-              id="gender"
-              value={filters.gender}
-              onChange={(e) => handleFilterChange("gender", e.target.value)}
+            {/* 지역 (시/군/구) 필터 */}
+            <div className="filter-row">
+              <label htmlFor="district">지역 (시/군/구):</label>
+              <select
+                id="district"
+                value={selectedDistrict}
+                onChange={handleDistrictChange}
+                disabled={!selectedCity}
+              >
+                <option value="">전체</option>
+                {selectedCity &&
+                  areaData
+                    .find((item) => item.city === selectedCity)
+                    ?.data.map((district) => (
+                      <option key={district} value={district}>
+                        {district}
+                      </option>
+                    ))}
+              </select>
+            </div>
+            {/* 성별 필터 */}
+            <div className="filter-row">
+              <label>성별:</label>
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value=""
+                  checked={filters.gender === ""}
+                  onChange={() => handleFilterChange("gender", "")}
+                />
+                전체
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="남"
+                  checked={filters.gender === "남"}
+                  onChange={() => handleFilterChange("gender", "남")}
+                />
+                남
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="여"
+                  checked={filters.gender === "여"}
+                  onChange={() => handleFilterChange("gender", "여")}
+                />
+                여
+              </label>
+            </div>
+
+            {/* 나이 필터 */}
+            <div className="filter-row">
+              <label htmlFor="minAge">나이:</label>
+              <input
+                type="number"
+                id="minAge"
+                min="1"
+                value={filters.minAge}
+                onChange={(e) => handleFilterChange("minAge", e.target.value)}
+              />
+              세 이상
+            </div>
+
+            {/* 모임 유형 필터 */}
+            <div className="filter-row">
+              <label htmlFor="type">모임 유형:</label>
+              <select
+                id="type"
+                value={filters.type}
+                onChange={(e) => handleFilterChange("type", e.target.value)}
+              >
+                <option value="">전체</option>
+                <option value="1">정기모임</option>
+                <option value="0">1회모임</option>
+              </select>
+            </div>
+
+            {/* 카테고리 필터 */}
+            <div className="filter-row">
+              <label>카테고리:</label>
+              {uniqueCategories.map((category) => (
+                <label key={category}>
+                  <input
+                    type="checkbox"
+                    value={category}
+                    checked={filters.categories.includes(category)}
+                    onChange={(e) => {
+                      const newCategories = e.target.checked
+                        ? [...filters.categories, category]
+                        : filters.categories.filter((c) => c !== category);
+                      handleFilterChange("categories", newCategories);
+                    }}
+                  />
+                  {category}
+                </label>
+              ))}
+            </div>
+
+            {/* 활동 요일 필터 */}
+            <div className="filter-row">
+              <label>활동 요일:</label>
+              <label>
+                <input
+                  type="checkbox"
+                  value="일요일"
+                  checked={filters.daysOfWeek.includes("일요일")}
+                  onChange={(e) => {
+                    const newDaysOfWeek = e.target.checked
+                      ? [...filters.daysOfWeek, "일요일"]
+                      : filters.daysOfWeek.filter((day) => day !== "일요일");
+                    handleFilterChange("daysOfWeek", newDaysOfWeek);
+                  }}
+                />
+                일요일
+              </label>
+              {/* 다른 요일들도 같은 방식으로 추가 */}
+            </div>
+            <button
+              className="filter-apply-button"
+              onClick={handleFilterSubmit}
             >
-              <option value="">무관</option>
-              <option value="남성">남성</option>
-              <option value="여성">여성</option>
-            </select>
-          </div>
-          <div className="filter-row">
-            <label htmlFor="minAge">나이:</label>
-            <input
-              type="number"
-              id="minAge"
-              value={filters.minAge}
-              onChange={(e) => {
-                const newMinAge = parseInt(e.target.value, 10);
-                handleFilterChange(
-                  "minAge",
-                  isNaN(newMinAge) || newMinAge < 0 ? 0 : newMinAge
-                );
-              }}
-              placeholder="최소 나이"
-              min="0" // 최소값 설정 추가
-            />
-          </div>
-          <div className="filter-row">
-            <label htmlFor="type">모임 유형:</label>
-            <select
-              id="type"
-              value={filters.type}
-              onChange={(e) => handleFilterChange("type", e.target.value)}
-            >
-              <option value="">전체</option>
-              <option value="정기">정기</option>
-              <option value="일회성">일회성</option>
-            </select>
-          </div>
-          <div className="filter-row">
-            <label>카테고리:</label>
-            {/* ... (카테고리 체크박스들) */}
-          </div>
-          <div className="filter-row">
-            <label>요일:</label>
-            {/* ... (요일 체크박스들) */}
+              필터 적용
+            </button>
           </div>
         </div>
-        <div className="filter-footer">
-          <button id="filterButton" onClick={handleApplyFilter}>
-            {applyFilter ? "필터 해제" : "필터 적용"}
-          </button>
-          <button
-            onClick={() =>
-              setFilters({
-                region: "",
-                gender: "",
-                minAge: "",
-                type: "",
-                category: "",
-                daysOfWeek: [],
-              })
-            }
-          >
-            Reset
-          </button>
-        </div>
-      </div>
+      )}
 
       <div className="search-results">
-        <span className="result-list-title">모임 목록</span>
-
-        <ul>
-          {filteredResults.map((result) => (
-            <li key={result.title} className="search-result-item">
-              <Link to={result.link}>
-                <img src={result.src} alt={result.alt} />
+        <div>
+          <h3>검색 결과</h3>
+        </div>
+        <div className="club-results">
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : filteredResults.length > 0 ? (
+            filteredResults.map((club) => (
+              <Link
+                key={club.clubId}
+                to={`/club/${club.clubId}`}
+                className="club-link"
+              >
+                <ClubItem club={club} />
               </Link>
-              <div>
-                <h4>{result.title}</h4>
-                <p>{result.region}</p>
-                <p>{result.gender}</p>
-                <p>{result.minAge}세 이상</p>
-                <p>{result.type}</p>
-                <p>{result.category}</p>
-                <p>{result.daysOfWeek.join(", ")}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+            ))
+          ) : (
+            <p>검색 결과가 없습니다.</p>
+          )}
+        </div>
       </div>
     </section>
   );
