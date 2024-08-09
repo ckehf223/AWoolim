@@ -1,11 +1,13 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '/src/common/AuthContext';
+// import React from 'react';
+// import { Navigate, useNavigate } from 'react-router-dom';
+// import { useAuth } from '/src/common/AuthContext';
+// import Admin from '../pages/Admin';
 
-const PrivateRoute = ({ element }) => {
-  const { isAuthenticated } = useAuth();
 
-  return isAuthenticated ? element : <Navigate to="/admin/login" />;
-};
+// // const PrivateRoute = ({ element }) => {
+// //   const { isAuthenticated } = useAuth();
+// //   console.log(element);
 
-export default PrivateRoute;
+// // };
+
+// export default PrivateRoute;
