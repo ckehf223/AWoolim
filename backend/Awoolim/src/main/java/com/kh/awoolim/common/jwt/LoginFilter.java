@@ -35,8 +35,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 	private final AuthenticationManager authenticationManager;
 	private final JWTUtil jwtUtil;
 	private final RefreshTokenMapper refreshTokenMapper;
-	@Autowired
-	private FilterChain chain;
 
 	public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil,
 			RefreshTokenMapper refreshTokenMapper) {
@@ -53,9 +51,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		try {
 			log.info("loginFilterAttempt");
 			String requestUri = request.getRequestURI();
-			if (!"/login".equals(requestUri) || !"POST".equals(request.getMethod())) {
-				chain.doFilter(request, response);
-			}
+			log.info(requestUri);
 			log.info("loginFilterReturn no");
 			// 요청 본문을 읽어 JSON 객체로 변환
 			BufferedReader reader = request.getReader();
@@ -70,6 +66,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 			JSONObject json = new JSONObject(requestBody);
 			String username = json.getString("username");
 			String password = json.getString("password");
+			
+			log.info(username);
+			log.info(password);
 
 			// 인증 토큰 생성 및 인증 시도
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,
@@ -89,6 +88,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		CustomUserDetails member = (CustomUserDetails) authentication.getPrincipal();
 		log.info("successFul " + member.getUserEmail());
 		String userEmail = member.getUserEmail();
+		int userId = member.getUserId();
+		if(userEmail == null) {
+			userEmail = member.getUsername();
+		}
 
 		Collection<? extends GrantedAuthority> authorities = member.getAuthorities();
 		Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -96,24 +99,19 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		String role = auth.getAuthority();
 
 		// 토큰 생성
-		String access = jwtUtil.createJwt("access", userEmail, role, 10000L);
-		String refresh = jwtUtil.createJwt("refresh", userEmail, role, 86400000L);
+		String access = jwtUtil.createJwt("access", userEmail, role, 3600000L,userId);
+		String refresh = jwtUtil.createJwt("refresh", userEmail, role, 86400000L,userId);
 
-		deleteRefreshToken(userEmail);
+		deleteRefreshToken(userId);
 		// Refresh 토큰 저장
-		addRefreshToken(userEmail, refresh, 86400000L);
+		addRefreshToken(userEmail, refresh, 86400000L,userId);
 
 		// 응답 설정
 		response.setHeader("Authorization", "Bearer " + access);
+		response.setHeader("LoginId",String.valueOf(userId));
 		response.addCookie(createCookie("refresh", refresh));
 		response.setStatus(HttpStatus.OK.value());
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-
-		// 응답 본문에 데이터 추가
-		PrintWriter writer = response.getWriter();
-		writer.write("{\"refresh\": \"" + refresh + "\"}");
-		writer.flush();
+		
 	}
 
 	@Override
@@ -127,20 +125,22 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		Cookie cookie = new Cookie(key, value);
 		cookie.setMaxAge(24 * 60 * 60);
 		cookie.setPath("/");
+		cookie.setHttpOnly(true);
 		return cookie;
 	}
 
 	@Transactional
-	private void addRefreshToken(String username, String refresh, Long expiredMs) {
+	private void addRefreshToken(String username, String refresh, Long expiredMs,int userId) {
 		RefreshToken refreshToken = new RefreshToken();
 		refreshToken.setUserEmail(username);
 		refreshToken.setRefresh(refresh);
+		refreshToken.setUserId(userId);
 		refreshToken.setExpiration(new Date(System.currentTimeMillis() + expiredMs).toString());
 		refreshTokenMapper.create(refreshToken);
 	}
 
 	@Transactional
-	private void deleteRefreshToken(String username) {
-		refreshTokenMapper.deleteAll(username);
+	private void deleteRefreshToken(int userId) {
+		refreshTokenMapper.deleteAll(userId);
 	}
 }

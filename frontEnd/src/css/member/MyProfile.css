@@ -15,9 +15,8 @@
 .MyProfileInfoArea{
   border-bottom: 1px solid #ebebeb;
   display: flex;
-  gap: 50px;
-  height: 400px;
-  padding-left: 30px;
+  gap: 30px;
+  height: 370px;
   padding-bottom: 20px;
   margin-top: 20px;
 }
@@ -34,41 +33,56 @@
   width: 600px;
   height: 350px;
   position: relative;
-  background-color: #ebe9e9;
+  background-color: #779999;
   border-radius: 10px;
+  object-fit: cover;
+  background-size: cover;
 }
+
 .MyProfileBackImage{
   position: relative;
   height: 200px;
-  background-color: rgb(135, 192, 187); 
   background-size: cover;
   background-position: center;
   border-radius: 10px;
 }
-.MyProfileImageArea img{
+.MyProfileUserIamge{
   position: absolute;
   top: 45%;
   left: 50%;
   transform: translateX(-50%);
-  /* border: 3px solid white; */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  z-index: 2;
+}
+
+.MyProfilebaseImage{
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
   border-radius: 50%;
   width: 100px;
   height: 100px;
   background-color: rgba(255, 255, 255, 0.989);
+  z-index: 1;
 }
 .MyProfileIntroArea{
-  margin-top: 50px;
+  margin-top: 60px;
   text-align: center;
 }
 .MyProfileNickName{
-  font-size: 1.5rem;
+  font-size: 20px;
   margin-top: 10px;
   font-weight: bold;
+  color: white;
 }
 .MyProfileIntroMg{
   margin-top: 10px;
-  color: #666;
-  font-size: 1rem;
+  color: rgba(255, 255, 255,0.89);
+  font-size: 15px;
+  font-weight: 500;
 }
 .MyProfileImgEditor{
   display: flex;
@@ -79,7 +93,6 @@
   display: flex;
   flex-direction: column;
   justify-content: end;
-  margin-bottom: 50px;
   height: 100%;
   gap: 20px;
 }
@@ -88,11 +101,26 @@
   display: flex;
   gap: 10px;
 }
-.MyProfileChangeButton,.MyProfileDeleteButton{
+.MyProfileChangeButton{
   border: 1px solid #d3d3d3;
   color: rgba(34, 34, 34, .8);
   border-radius: 10px;
   font-size: 12px;
+  text-align: center;
+  width: 140px;
+  height: 34px;
+  padding: 0 14px;
+  background-color: white;
+  align-content: center;
+  cursor: pointer;
+}
+.MyProfileDeleteButton{
+  border: 1px solid #d3d3d3;
+  color: rgba(34, 34, 34, .8);
+  border-radius: 10px;
+  font-size: 12px;
+  text-align: center;
+  width: 60px;
   height: 34px;
   padding: 0 14px;
   background-color: white;
@@ -101,11 +129,15 @@
 }
 .MyProfileUpdateInfoArea{
   max-width: 480px;
-  padding: 38px 0 0 10px;
+  padding: 20px 0 0 10px;
 }
 .MyProfileUpdateInfoArea h4, h5,h6, p{
   margin: 0;
   padding: 0;
+}
+.MyProfileUpdateInfoArea h4{
+  font-weight: 600;
+  font-size: 20px;
 }
 .MyProfileUpdateInfoArea h5{
   color: rgba(34, 34, 34, .5);
@@ -204,4 +236,17 @@
   font-size: 14px;
   height: 42px;
   cursor: pointer;
+}
+.MyProfileModifySaveButtonArea{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.MyProfileModifySaveButtonArea button{
+  border-radius: 8px;
+  padding: 10px;
+  width: 250px;
+  color: white;
+  background-color: black;
 }

@@ -61,7 +61,7 @@
   display: flex;
   align-self: center;
   flex-direction: column;
-  width: 100%;
+  width: 100px;
   gap: 15px;
 }
 .UserMyClubCategory{
@@ -72,6 +72,14 @@
 .UserMyClubTitle{
   font-size: 16px;
   margin: 0;
+}
+.UserMyClubDisaArea{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  width: 200px;
 }
 .UserMyClubButtonArea{
   display: flex;
@@ -91,4 +99,13 @@
 }
 .UserMyClubNoneArea p{
   font-size: 20px;
+}
+.UserMyClubExitButton{
+  border: none;
+  color: white;
+  background-color: rgb(247, 88, 88);
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
 }

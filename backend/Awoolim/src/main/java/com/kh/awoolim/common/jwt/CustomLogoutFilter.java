@@ -39,7 +39,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
 			throws IOException, ServletException {
 
 		String requestUri = request.getRequestURI();
-		if (!"/logout".equals(requestUri) || !"POST".equals(request.getMethod())) {
+		if (!"/api/auth/logout".equals(requestUri) || !"POST".equals(request.getMethod())) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -61,7 +61,13 @@ public class CustomLogoutFilter extends GenericFilterBean {
 		try {
 			jwtUtil.isExpired(refresh);
 		} catch (ExpiredJwtException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			deleteRefreshToken(refresh);
+			// 리프레시 토큰 쿠키 삭제
+			Cookie cookie = new Cookie("refresh", null);
+			cookie.setMaxAge(0);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+			response.setStatus(HttpServletResponse.SC_OK);
 			return;
 		}
 

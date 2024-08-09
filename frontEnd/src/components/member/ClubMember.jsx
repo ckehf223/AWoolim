@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '/src/css/member/ClubMember.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useModal from '/src/common/useModal';
+import { Button } from 'reactstrap'
 import UserProfileModal from '/src/components/member/UserProfileModal';
+import instance from '/src/common/auth/axios';
 const MemberData = [
   {
     no: 1,
@@ -40,11 +42,19 @@ const MemberData = [
 ];
 
 const ClubMember = () => {
+  const param = useParams();
   const [data, setData] = useState(MemberData);
   const [searchInput, setSearchInput] = useState('');
   const nav = useNavigate();
   const { isModalOpen, toggleModal } = useModal();
   const [selectedUser, setSelectedUser] = useState(null);
+
+  // useEffect(() => {
+  //   const getClubMembers = async () => {
+  //     await instance.get('http://localhost:8080/api/club')
+  //   }
+  // })
+
 
   const openUserModal = (member) => {
     setSelectedUser(member);
@@ -59,60 +69,68 @@ const ClubMember = () => {
   }
   return (
     <>
-      <div className='ClubMember'>
-        <div className='ClubMemberSearchArea'>
-          <div className='ClubMemberSearchBox'>
-            <input type="text" placeholder='멤버 검색' value={searchInput} onChange={onChangeSearch} />
-            <img src="/src/assets/images/search.png" alt="검색이미지" onClick={onClickSearch} />
-          </div>
+      <div className='MyClubManagerMainArea'>
+        <div>
+          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/modify/${param.no}`)}>정보 수정</Button>{' '}
+          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/member/${param.no}`)}>모임 멤버</Button>{' '}
+          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/accept/${param.no}`)}>신청 관리</Button>{' '}
         </div>
-        <div className='ClubMemberHeaderArea'>
-          <div className='ClubMemberProfile'>프로필</div>
-          <div className='ClubMemberGender'>성별</div>
-          <div className='ClubMemberAge'>나이</div>
-          <div className='ClubMemberDate'>가입일</div>
-        </div>
-        <div className='ClubMemberArea'>
-
-          {MemberData.length === 0 ? (<div className='UserMadeClubNoneArea'>
-            <p>모임 멤버가 없습니다.</p>
-          </div>) : (data.map((member) => {
-            return (
-              <div className='ClubMemberBox' key={member.no}>
-                <div className='ClubMemberInfoBox'>
-                  <div className='ClubMemberImageBox'>
-                    <img src={`/src/assets/images/${member.image}`} onClick={() => { openUserModal(member) }} />
-                  </div>
-                  <div className='ClubMemberProfileInfo'>
-                    <p className='ClubMemberName'>{member.name !== '' ? member.name : member.id}</p>
-                    <p className='ClubMemberMg'>{member.message}</p>
-                  </div>
-                  <div className='ClubMemberGenderArea'>
-                    <p>{member.gender}</p>
-                  </div>
-                  <div className='ClubMemberAgeArea'>
-                    <p>{member.age}세</p>
-                  </div>
-                  <div className='ClubMemberDateArea'>
-                    <p>{member.regdate}</p>
-                  </div>
-                </div>
-                <div className='ClubMemberDeleteBox'>
-                  <img src="/src/assets/images/deleteUser.png" alt="멤버 삭제 이미지" />
-                </div>
+        <div className='MyClubManagerContentArea'>
+          <div className='ClubMember'>
+            <div className='ClubMemberSearchArea'>
+              <div className='ClubMemberSearchBox'>
+                <input type="text" placeholder='멤버 검색' value={searchInput} onChange={onChangeSearch} />
+                <img src="/src/assets/images/search.png" alt="검색이미지" onClick={onClickSearch} />
               </div>
-            )
-          }))}
-          <UserProfileModal
-            isOpen={isModalOpen}
-            toggle={toggleModal}
-            backgroundImage={selectedUser?.backImg}
-            profileImage={selectedUser?.image}
-            name={selectedUser?.name === '' ? selectedUser?.id : selectedUser?.name}
-            details={selectedUser?.message}
-          >
-          </UserProfileModal>
+            </div>
+            <div className='ClubMemberHeaderArea'>
+              <div className='ClubMemberProfile'>프로필</div>
+              <div className='ClubMemberGender'>성별</div>
+              <div className='ClubMemberAge'>나이</div>
+              <div className='ClubMemberDate'>가입일</div>
+            </div>
+            <div className='ClubMemberArea'>
 
+              {MemberData.length === 0 ? (<div className='UserMadeClubNoneArea'>
+                <p>모임 멤버가 없습니다.</p>
+              </div>) : (data.map((member) => {
+                return (
+                  <div className='ClubMemberBox' key={member.no}>
+                    <div className='ClubMemberInfoBox'>
+                      <div className='ClubMemberImageBox'>
+                        <img src={`/src/assets/images/${member.image}`} onClick={() => { openUserModal(member) }} />
+                      </div>
+                      <div className='ClubMemberProfileInfo'>
+                        <p className='ClubMemberName'>{member.name !== '' ? member.name : member.id}</p>
+                        <p className='ClubMemberMg'>{member.message}</p>
+                      </div>
+                      <div className='ClubMemberGenderArea'>
+                        <p>{member.gender}</p>
+                      </div>
+                      <div className='ClubMemberAgeArea'>
+                        <p>{member.age}세</p>
+                      </div>
+                      <div className='ClubMemberDateArea'>
+                        <p>{member.regdate}</p>
+                      </div>
+                    </div>
+                    <div className='ClubMemberDeleteBox'>
+                      <img src="/src/assets/images/deleteUser.png" alt="멤버 삭제 이미지" />
+                    </div>
+                  </div>
+                )
+              }))}
+              <UserProfileModal
+                isOpen={isModalOpen}
+                toggle={toggleModal}
+                backgroundImage={selectedUser?.backImg}
+                profileImage={selectedUser?.image}
+                name={selectedUser?.name === '' ? selectedUser?.id : selectedUser?.name}
+                details={selectedUser?.message}
+              >
+              </UserProfileModal>
+            </div>
+          </div>
         </div>
       </div>
     </>

@@ -7,7 +7,6 @@
   position: relative;
   width: 70%;
   margin: 0px auto; 
-  border-bottom: 1px solid #ddd;
 }
 .ClubDetailTopArea{
   width: 100%;
@@ -33,10 +32,11 @@
   justify-content: space-between;
   width: 100%;
 }
-.ClubDetailHeaderIcon{
+.ClubDatailCategoryWrapDiv{
   display: flex;
   gap: 10px;
-  align-items: center;
+  margin: 10px 5px 0 0;
+  align-content: center;
 }
 .ClubDetailCategoryIcon{
   width: 30px;
@@ -192,9 +192,17 @@
 
 .ClubDetailBottomArea{
   display: flex;
-  margin: 30px 0 30px 30px;
   flex-direction: column;
   align-items: start;
+  margin: 50px 0;
+}
+.ClubDetailBottomArea h3{
+  text-align: left;
+  width: 100%;
+  padding: 10px 0;
+  border-bottom: 1px solid black;
+  font-size: 28px;
+  font-weight: bold;
 }
 .ClubDetailPopGroup{
   display: flex;
@@ -202,13 +210,38 @@
   width: 100%;
   gap: 30px;
 }
+.ClubDetailPopGroupInfoBox{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #ddd;
+}
+.ClubDetailPopGroupImage img{
+  width: 300px;
+  height: 200px;
+  cursor: pointer;
+}
+.ClubDetailPopGroupInfo{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding-left: 20px;
+  width: 300px;
+  height: 250px;
+  gap: 5px;
+}
+.ClubDetailPopGroupInfo span{
+  font-weight: 600;
+  
+}
+
 .ClubDetailSignButtonArea{
   display: flex;
   position: fixed;
   bottom: 20px;
   left: 50%;
-  width: 400px;
-  height: 50px;
+  width: 500px;
+  height: 90px;
   transform: translateX(-50%);
   border: 1px solid rgb(218, 220, 224);
   box-shadow: 0 4px 4px rgb(0,0,0,0.3);
@@ -220,14 +253,25 @@
 .ClubDetailSignButtonBox{
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 20px;
   font-size: 20px;
   font-weight: bold;
 }
+.ClubDetailSignTextArea{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.ClubDetailSignTextArea p{
+  margin: 0;
+}
+.ClubDetailSignTextArea span{
+  color: red;
+  font-size: 22px;
+}
 .ClubDetailSignButton{
-  width: 200px;
+  width: 230px;
   height: 45px;
   border-radius: 8px;
   background-color: black;

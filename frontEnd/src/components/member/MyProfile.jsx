@@ -1,16 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '/src/css/member/MyProfile.css'
+import instance from '/src/common/auth/axios'
+import { useNavigate } from 'react-router-dom';
 
 const MyProfile = () => {
   const [isNickNameEditing, setIsNickNameEditing] = useState(false);
   const [isIntroEditing, setIsIntroEditing] = useState(false);
-  const [nickName, setNickName] = useState('마봉팔');
-  const [introMg, setIntroMg] = useState('안녕하세요~');
-  const [imageSrc, setImageSrc] = useState('/src/images/blank_image.png');
+  const [nickName, setNickName] = useState('');
+  const [introMg, setIntroMg] = useState('');
+  const [imageSrc, setImageSrc] = useState('');
   const [backImageSrc, setBackImageSrc] = useState('');
   const [tempNickName, setTempNickName] = useState(nickName);
   const [tempIntroMg, setTempIntroMg] = useState(introMg);
-
+  const [file, setFile] = useState('');
+  const [backFile, setBackFile] = useState('');
+  const [userData, setUserData] = useState();
+  const nav = useNavigate();
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const response = await instance.get('http://localhost:8080/member/getProfile', {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        setUserData(response.data);
+        setNickName(response.data.nickName !== null ? response.data.nickName : response.data.userName);
+        setIntroMg(response.data.userIntro);
+        setImageSrc('data:image/jpeg;base64,' + response.data.userImage);
+        setBackImageSrc('data:image/jpeg;base64,' + response.data.userBackImage);
+        setTempNickName(response.data.nickName !== null ? response.data.nickName : response.data.userName);
+        setTempIntroMg(response.data.userIntro);
+      } catch (error) {
+        console.error("마이페이지 프로필 로딩중 오류" + error)
+      }
+    }
+    getProfile();
+  }, [])
   const onChangeNickNameInput = (e) => {
     setTempNickName(e.target.value);
   }
@@ -54,8 +80,9 @@ const MyProfile = () => {
   const onBackDeleteImage = () => {
     setBackImageSrc('');
   }
-  //이미지 미리보기 
+
   const handleImageChange = (event) => {
+    setFile(event.target.files[0])
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
@@ -65,9 +92,8 @@ const MyProfile = () => {
       reader.readAsDataURL(file);
     }
   };
-
-  //이미지 미리보기 
   const handleBackImageChange = (event) => {
+    setBackFile(event.target.files[0])
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
@@ -78,6 +104,49 @@ const MyProfile = () => {
     }
   };
 
+  const changeProfil = async () => {
+    if (file === '' && backFile === '' &&
+      ((userData.nickName !== null ? userData.nickName : userData.userName) === nickName)
+      && userData.userImage === imageSrc.split('base64,')[1] && (userData.userBackImage !== null ? userData.userBackImage === backImageSrc.split('base64,')[1] : "null" === backImageSrc.split('base64,')[1])
+      && userData.userIntro === introMg) {
+      alert('변경된 데이터가 없습니다.');
+    } else {
+      try {
+        const formData = new FormData();
+        formData.append('nickName', nickName);
+        formData.append('userImage', file);
+        formData.append('userBackImage', backFile);
+        formData.append('userIntro', introMg);
+        if (imageSrc !== '/src/assets/images/blank_image.png' && imageSrc.split('base64,')[1] !== userData.userImage) {
+          formData.append('checkImage', '1');
+        } else if (imageSrc === '/src/assets/images/blank_image.png') {
+          formData.append('checkImage', '0');
+        } else {
+          formData.append('checkImage', '-1');
+        }
+        if (backImageSrc !== '' && (userData.userBackImage !== null ? userData.userBackImage !== backImageSrc.split('base64,')[1] : "null" !== backImageSrc.split('base64,')[1])) {
+          formData.append('checkBack', '1');
+        } else if (backImageSrc === '') {
+          formData.append('checkBack', '0');
+        } else {
+          formData.append('checkBack', '-1');
+        }
+        await instance.post('http://localhost:8080/member/updateProfile', formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        )
+        alert('프로필이 변경되었습니다.');
+        nav('/mypage/profile');
+      } catch (error) {
+        console.error("프로필 변경 중 오류 발생" + error);
+      }
+    }
+  }
+
+
   return (
     <>
       <div className="MyProfile">
@@ -87,9 +156,9 @@ const MyProfile = () => {
         <div className="MyProfileInfoArea">
           <input type="file" id="MyProfileFile" name='MyProfileFile' accept=".jpg, .jpeg, .png, .gif, .webp" onChange={handleImageChange} />
           <input type="file" id="MyProfileBackFile" name='MyProfileBackFile' accept=".jpg, .jpeg, .png, .gif, .webp" onChange={handleBackImageChange} />
-          <div className="MyProfileImageArea">
-            <div className='MyProfileBackImage' style={{ backgroundImage: `url(${backImageSrc})` }}></div>
-            <img src={imageSrc} alt="미리보기" />
+          <div className="MyProfileImageArea" style={{ backgroundImage: `url(${backImageSrc})` }}>
+            <div className='MyProfileBackImage' ></div>
+            <img className='MyProfileUserIamge' src={imageSrc} />
             <div className='MyProfileIntroArea'>
               <div className='MyProfileNickName'>{nickName}</div>
               <div className='MyProfileIntroMg'>{introMg}</div>
@@ -161,6 +230,9 @@ const MyProfile = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className='MyProfileModifySaveButtonArea'>
+          <button onClick={() => { changeProfil() }}>프로필 변경</button>
         </div>
       </div>
     </>

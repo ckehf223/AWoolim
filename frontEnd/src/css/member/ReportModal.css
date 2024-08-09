@@ -48,10 +48,16 @@
   margin: 10px 0;
   gap: 5px;
 }
-.ReportModalContentArea p{
+.ReportModalContentAreaTitle{
   margin: 0;
   font-size: 16px;
   font-weight: bold;
+}
+.ReportModalWarningMessage{
+  font-size:13px;
+  margin: 0;
+  font-weight: bold;
+  color: rgb(114, 114, 114,0.5);
 }
 .ReportModalContentArea input{
   height: 40px;
@@ -67,4 +73,8 @@
   border: none;
   padding: 10px;
   border-radius: 8px;
+}
+.ReportModalSuccessMessage{
+  font-size: 18px;
+  font-weight: bold;
 }

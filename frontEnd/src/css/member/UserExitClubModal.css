@@ -1,18 +1,14 @@
-.ExitModal{
-  top: 30%; 
-  left: 23%; 
-}
-.ExitModal .modal-dialog {
-  margin: 0 auto;
-  max-width: 300px;
+
+.ExitModal-dialog {
+  max-width: 600px;
   width: 100%;
+  margin: 0 auto;
+  top: 10%;
 }
 
-.ExitModal .modal-content {
+.ExitModal-content {
   border: none;
-  border-radius: 10px;
   overflow: hidden;
-  width: 300px;
 }
 
 .ExitModalHeader {
@@ -32,6 +28,24 @@
 }
 .ExitModalBody {
   padding: 5px;
+}
+.ExitModalInputBox {
+  padding-top: 10px;
+  border-top: 1px solid rgba(167, 167, 167, 0.509) ;
+}
+.ExitModalInputBox p{
+  margin: 5px 0;
+  font-size: 14px;
+}
+.ExitModalInputBox input{
+  width: 400px;
+  height: 40px;
+  margin: 20px 0;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid rgb(0,0,0,0.7);
+  padding-left: 10px;
+  font-size: 15px;
 }
 .ExitModalSendButtonArea{
   text-align: center;
