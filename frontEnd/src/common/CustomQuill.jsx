@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { CustomToolbar } from '/src/common/CustomToolbar';
 
 const CustomQuill = ({ content, setContent, width, height }) => {
-
+  const quillRef = useRef(null);
   const handleEditorChange = (value) => {
     setContent(value);
   };
@@ -26,6 +26,7 @@ const CustomQuill = ({ content, setContent, width, height }) => {
     <div className='CustomQuill'>
       <CustomToolbar style={{ width: `${width}px` }} />
       <ReactQuill
+        ref={quillRef}
         value={content}
         onChange={handleEditorChange}
         modules={modules}
