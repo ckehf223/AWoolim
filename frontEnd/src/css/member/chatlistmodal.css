@@ -27,9 +27,9 @@
 .modal-header span {
   font-size: 16px;
   font-weight: 600;
-  position: absolute; /* span 요소를 absolute positioning으로 변경 */
-  left: 50%; /* 왼쪽에서 50% 위치 */
-  transform: translateX(-50%); /* 자신의 너비만큼 왼쪽으로 이동 (가운데 정렬) */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .modal-header button {
@@ -42,7 +42,7 @@
 .modal-header button:nth-child(1) {
   margin-left: 16px;
 }
-/* 채팅방 목록 스타일 */
+
 .room-list {
   border-top: 1px solid rgb(220, 220, 220);
 }

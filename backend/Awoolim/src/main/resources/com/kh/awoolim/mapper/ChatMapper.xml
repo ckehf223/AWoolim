@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.awoolim.mapper.ChatMapper"></mapper>
+<mapper namespace="com.kh.awoolim.mapper.ChatMapper">
+	 <select id="getMessagesByClub" resultType="com.kh.awoolim.domain.Chat">
+        SELECT CHATNO, CLUBNO, USERID, MESSAGE, REGDATE
+        FROM CHAT
+        WHERE CLUBNO = #{clubNo}
+        ORDER BY REGDATE ASC
+    </select>
+
+    <insert id="saveMessage">
+        INSERT INTO CHAT (CHATNO, CLUBNO, USERID, MESSAGE, REGDATE)
+        VALUES (#{chat.chatNo}, #{chat.clubNo}, #{chat.userId}, #{chat.message}, SYSDATE)
+    </insert>
+</mapper>

@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class Member {
-	
 	private int userId;
 	private String userEmail;
 	private String password;
@@ -19,5 +18,4 @@ public class Member {
 	private int warningCount;
 	private String snsType;
 	private String role;
-	
 }

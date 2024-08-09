@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "/src/css/member/header.css";
 
 function Header() {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
-        // 예시: 100px 이상 스크롤하면 헤더 숨김
         document.body.classList.add("scrolled");
       } else {
         document.body.classList.remove("scrolled");
@@ -16,7 +15,11 @@ function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   const [showNotifications, setShowNotifications] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
+  const navigate = useNavigate();
+  const searchInputRef = useRef(null);
 
   const sampleNotifications = [
     { message: "새로운 모임 초대가 있습니다." },
@@ -28,32 +31,42 @@ function Header() {
     setShowNotifications(!showNotifications);
   };
 
+  const handleSearchClick = (event) => {
+    event.preventDefault();
+    const searchTerm = searchInputRef.current.value;
+    if (searchTerm.trim() === "") {
+      return; // 검색어가 비어있으면 함수 종료
+    }
+    navigate("/search", { state: { searchTerm } }); // 검색어를 state에 담아 SearchPage로 이동
+  };
+
   return (
     <header id="header">
-      {/* 로고 */}
       <div id="header-logo">
         <Link to="/">
           <img src="/src/assets/images/headerLogo.png" alt="로고" />
         </Link>
       </div>
 
-      {/* 검색창 */}
       <div id="header-search">
-        <input type="search" placeholder="검색어를 입력하세요" />
-        <Link to="/search">
+        <input
+          type="search"
+          placeholder="검색어를 입력하세요"
+          ref={searchInputRef}
+          value={searchTerm} // input 값을 state와 연결
+          onChange={(e) => setSearchTerm(e.target.value)} // input 값 변경 시 state 업데이트
+        />
+        <Link to="/search" onClick={handleSearchClick}>
           <img src="/src/assets/images/search.png" alt="검색" />
         </Link>
       </div>
 
-      {/* 아이콘 */}
       <div id="header-icons">
-        {/* 알림 */}
         <div onClick={handleAlarmClick}>
           <img src="/src/assets/images/notice.png" alt="알림" id="alarm-icon" />
         </div>
 
-        {/* 알림 내용 표시 */}
-        {showNotifications && (
+        {showNotifications && ( // 알림 내용 조건부 렌더링
           <div className="notifications">
             {sampleNotifications.map((notification, index) => (
               <div key={index} className="notification-item">
@@ -62,10 +75,11 @@ function Header() {
             ))}
           </div>
         )}
+
         <button
           id="mypage-button"
           onClick={() => {
-            /* 고객센터 페이지 이동 로직 추가 */
+            navigate("/customercenter"); // 고객센터 페이지로 이동 (예시)
           }}
         >
           고객센터
@@ -74,7 +88,7 @@ function Header() {
         <button
           id="mypage-button"
           onClick={() => {
-            /* 마이페이지 이동 로직 추가 */
+            navigate("/mypage"); // 마이페이지로 이동 (예시)
           }}
         >
           마이페이지
@@ -83,7 +97,7 @@ function Header() {
         <button
           id="login-button"
           onClick={() => {
-            /* 로그인 페이지 이동 로직 추가 */
+            navigate("/login"); // 로그인 페이지로 이동 (예시)
           }}
         >
           로그인

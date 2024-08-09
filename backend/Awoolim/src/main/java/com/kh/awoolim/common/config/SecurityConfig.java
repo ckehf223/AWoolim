@@ -24,75 +24,70 @@ import com.kh.awoolim.mapper.RefreshTokenMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-//configuration 선언
-//security를 위한 config 때문에 enableWebSecurity 를 선언한다
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-	private final AuthenticationConfiguration authenticationConfiguration;
-	private final JWTUtil jwtUtil;
-	private final RefreshTokenMapper refreshTokenMapper;
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
+    private final RefreshTokenMapper refreshTokenMapper;
 
-	public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil,
-			RefreshTokenMapper refreshTokenMapper) {
-		this.authenticationConfiguration = authenticationConfiguration;
-		this.jwtUtil = jwtUtil;
-		this.refreshTokenMapper = refreshTokenMapper;
-	}
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil,
+                          RefreshTokenMapper refreshTokenMapper) {
+        this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
+        this.refreshTokenMapper = refreshTokenMapper;
+    }
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-		return configuration.getAuthenticationManager();
-	}
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
-	        @Override
-	        public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-	            CorsConfiguration configuration = new CorsConfiguration();
-	            configuration.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
-	            configuration.setAllowedMethods(Collections.singletonList("*"));
-	            configuration.setAllowCredentials(true);
-	            configuration.setAllowedHeaders(Collections.singletonList("*"));
-	            configuration.setMaxAge(6000L);
-	            configuration.setExposedHeaders(Collections.singletonList("Authorization"));
-	            return configuration;
-	        }
-	    }));
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
+            @Override
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
+                configuration.setAllowedMethods(Collections.singletonList("*"));
+                configuration.setAllowCredentials(true);
+                configuration.setAllowedHeaders(Collections.singletonList("*"));
+                configuration.setMaxAge(6000L);
+                configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                return configuration;
+            }
+        }));
 
+        http.csrf(auth -> auth.disable());
+        http.formLogin(auth -> auth.disable());
+        http.httpBasic(auth -> auth.disable());
 
-		http.csrf(auth -> auth.disable());
-		http.formLogin(auth -> auth.disable());
-		http.httpBasic(auth -> auth.disable());
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/refresh").permitAll()
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/auth/kakao/**").permitAll()
+                .requestMatchers("/send-sms").permitAll()
+                .requestMatchers("/check-code").permitAll()
+                .requestMatchers("/auth/naver/**").permitAll()
+                .requestMatchers("/auth/google/**").permitAll()
+                .anyRequest().permitAll());
 
-		http.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/").permitAll()
-				.requestMatchers("/refresh").permitAll()
-				.requestMatchers("/login").permitAll()
-				.requestMatchers("/auth/kakao/**").permitAll()
-				.requestMatchers("/send-sms").permitAll()
-				.requestMatchers("/check-code").permitAll()
-				.requestMatchers("/auth/naver/**").permitAll()
-				.requestMatchers("/auth/google/**").permitAll()
-//				.requestMatchers("/admin/**").hasRole("ADMIN")
-				.anyRequest().permitAll());
+        http.addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(
+                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshTokenMapper),
+                UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshTokenMapper), LogoutFilter.class);
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		http.addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
-		http.addFilterAt(
-				new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshTokenMapper),
-				UsernamePasswordAuthenticationFilter.class);
-		http.addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshTokenMapper), LogoutFilter.class);
-		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-		return http.build();
-	}
+        return http.build();
+    }
 
 }

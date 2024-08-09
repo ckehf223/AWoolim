@@ -1,5 +1,12 @@
 package com.kh.awoolim.mapper;
 
-public interface ChatRoomMapper {
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.kh.awoolim.domain.ChatRoom;
+
+@Mapper
+public interface ChatRoomMapper {
+	List<ChatRoom> findAll();
 }
