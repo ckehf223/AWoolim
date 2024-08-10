@@ -2,6 +2,7 @@ package com.kh.awoolim.mapper;
 
 import java.util.List;
 
+import com.kh.awoolim.domain.Club;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.awoolim.domain.Admin;
@@ -29,4 +30,13 @@ public interface AdminMapper {
 
     // 총 일회성모임 수
     int getTotalOneTimeClubs();
+
+    // 모임 목록 조회
+    List<Club> clubList();
+
+    // 모임 상세 정보 조회
+    Club clubDetail(int clubNo);
+
+    // 모임 참여 회원 조회
+    List<Member> selectClubMembers(int clubNo);
 }

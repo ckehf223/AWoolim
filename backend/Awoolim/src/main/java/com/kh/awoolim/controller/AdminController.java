@@ -1,5 +1,6 @@
 package com.kh.awoolim.controller;
 
+import com.kh.awoolim.domain.Club;
 import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,22 @@ public class AdminController {
         stats.put("totalRegularClubs", adminService.getTotalRegularClubs());
         stats.put("totalOneTimeClubs", adminService.getTotalOneTimeClubs());
         return stats;
+    }
 
+    @GetMapping("/clublist")
+    public List<Club> clubList() {
+        List<Club> clubs = adminService.clubList();
+        return clubs;
+    }
+
+    @GetMapping("/club/{clubNo}")
+    public Club clubDetail(@PathVariable int clubNo) {
+        return adminService.clubDetail(clubNo);
+    }
+
+    @GetMapping("/club/{clubNo}/members")
+    public List<Member> getClubMembers(@PathVariable("clubNo") int clubNo) {
+        return adminService.selectClubMembers(clubNo);
     }
 
 }

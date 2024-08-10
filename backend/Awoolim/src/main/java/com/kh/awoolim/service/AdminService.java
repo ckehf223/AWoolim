@@ -1,5 +1,6 @@
 package com.kh.awoolim.service;
 
+import com.kh.awoolim.domain.Club;
 import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.mapper.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,12 @@ public class AdminService {
         adminMapper.deleteUser(userId);
     }
 
-    //총 회원 수
+    // 총 회원 수
     public int getTotalUsers() {
         return adminMapper.getTotalUsers();
     }
 
-    //총 신고 수
+    // 총 신고 수
     public int getTotalReports() {
         return adminMapper.getTotalReports();
     }
@@ -38,10 +39,26 @@ public class AdminService {
         return adminMapper.getTotalRegularClubs();
     }
 
-    //총 일회성모임 수
+    // 총 일회성모임 수
     public int getTotalOneTimeClubs() {
         return adminMapper.getTotalOneTimeClubs();
     }
+
+    // 모임 목록 조회
+    public List<Club> clubList() {
+        return adminMapper.clubList();
+    }
+
+    // 모임 상세 정보 조회
+    public Club clubDetail(int clubNo) {
+        return adminMapper.clubDetail(clubNo);
+    }
+
+    // 모임 참여 회원 조회
+    public List<Member> selectClubMembers(int clubNo) {
+        return adminMapper.selectClubMembers(clubNo);
+    }
+
 
 
 }
