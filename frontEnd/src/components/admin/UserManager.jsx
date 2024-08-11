@@ -75,7 +75,7 @@ const UserManager = () => {
 
   //-------------------------검색기능-------------------------
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchColumn, setSearchColumn] = useState('name');
+  const [searchColumn, setSearchColumn] = useState('userName');
 
   const handleSearch = () => {
     if (searchTerm === '') {
@@ -87,7 +87,7 @@ const UserManager = () => {
       });
       setFilteredUsers(newFilteredUsers);
     }
-    setCurrentPage(1); // 검색 결과가 갱신될 때 페이지를 첫 번째로 설정
+    setCurrentPage(1);
   };
   //-------------------------검색기능-------------------------
 
@@ -113,7 +113,7 @@ const UserManager = () => {
             >
               <option value="userName">이름</option>
               <option value="userEmail">이메일</option>
-              <option value="userId">아이디</option>
+              <option value="userPhone">핸드폰</option> {/* 아이디 대신 핸드폰 검색 */}
             </Input>
           </Col>
           <Col sm={4}>

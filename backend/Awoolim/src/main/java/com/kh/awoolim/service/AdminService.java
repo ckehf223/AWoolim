@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminService {
@@ -57,6 +58,21 @@ public class AdminService {
     // 모임 참여 회원 조회
     public List<Member> selectClubMembers(int clubNo) {
         return adminMapper.selectClubMembers(clubNo);
+    }
+
+    // 남녀 성비를 가져오는 서비스 메서드
+    public Map<String, Integer> selectGenderRatio() {
+        return adminMapper.selectGenderRatio();
+    }
+
+    // 카테고리별 모임 수를 가져오는 서비스 메서드
+    public List<Map<String, Object>> getCategoryCounts() {
+        return adminMapper.selectCategoryCounts();
+    }
+
+    // 유저별 모임 참여 분포를 가져오는 서비스 메서드
+    public List<Map<String, Object>> getUserParticipationStats() {
+        return adminMapper.getUserParticipationStats();
     }
 
 

@@ -32,16 +32,21 @@ const ClubManager = () => {
 
   //-------------------------검색기능-------------------------
   const handleSearch = () => {
-    // 검색어가 없으면 모든 모임을 보여줌
     if (searchTerm === '') {
       setFilteredClubs(clubs);
     } else {
-      const newFilteredClubs = clubs.filter(club =>
-        club[searchColumn].toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const newFilteredClubs = clubs.filter(club => {
+        // "정기/일회" 검색은 정기모임과 일회모임으로 변환 후 비교
+        if (searchColumn === 'regularType') {
+          const typeText = getRegularTypeText(club[searchColumn]);
+          return typeText.toLowerCase().includes(searchTerm.toLowerCase());
+        } else {
+          return club[searchColumn].toLowerCase().includes(searchTerm.toLowerCase());
+        }
+      });
       setFilteredClubs(newFilteredClubs);
     }
-    setCurrentPage(1); // 검색 결과가 갱신될 때 페이지를 첫 번째로 설정
+    setCurrentPage(1);
   };
   //-------------------------검색기능-------------------------
 
@@ -65,8 +70,6 @@ const ClubManager = () => {
             >
               <option value="clubTitle">모임 이름</option>
               <option value="category">카테고리</option>
-              <option value="maxMember">참여인원</option>
-              <option value="dDay">개설일</option>
               <option value="regularType">정기/일회</option>
             </Input>
           </Col>

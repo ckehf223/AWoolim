@@ -4,6 +4,7 @@ import com.kh.awoolim.domain.Club;
 import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -56,4 +57,19 @@ public class AdminController {
         return adminService.selectClubMembers(clubNo);
     }
 
+    @GetMapping("/gender")
+    public ResponseEntity<Map<String, Integer>> getGenderRatio() {
+        Map<String, Integer> genderRatio = adminService.selectGenderRatio();
+        return ResponseEntity.ok(genderRatio);
+    }
+
+    @GetMapping("/categorycounts")
+    public List<Map<String, Object>> getCategoryCounts() {
+        return adminService.getCategoryCounts();
+    }
+
+    @GetMapping("/user-participation-stats")
+    public List<Map<String, Object>> getUserParticipationStats() {
+        return adminService.getUserParticipationStats();
+    }
 }

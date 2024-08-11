@@ -1,6 +1,7 @@
 package com.kh.awoolim.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.awoolim.domain.Club;
 import org.apache.ibatis.annotations.Mapper;
@@ -39,4 +40,13 @@ public interface AdminMapper {
 
     // 모임 참여 회원 조회
     List<Member> selectClubMembers(int clubNo);
+
+    // 남녀 성비 조회
+    Map<String, Integer> selectGenderRatio();
+
+    // 카테고리별 모임 수 조회
+    List<Map<String, Object>> selectCategoryCounts();
+
+    // 유저별 모임 참여 분포
+    List<Map<String, Object>> getUserParticipationStats();
 }

@@ -31,7 +31,6 @@ public class ReportController {
     // 신고 결과 처리
     @PostMapping("/update")
     public void updateReportResult(@RequestBody Report report) {
-        System.out.println(report);
         reportService.updateReportResult(report);
     }
 

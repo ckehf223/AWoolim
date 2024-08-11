@@ -58,5 +58,36 @@
           AND cm.ISACCEPT = 1
     </select>
 
+    <!-- 남녀 성비를 가져오는 SQL -->
+    <select id="selectGenderRatio" resultType="map">
+        SELECT
+            SUM(CASE WHEN userGender = 'M' THEN 1 ELSE 0 END) AS maleCount,
+            SUM(CASE WHEN userGender = 'W' THEN 1 ELSE 0 END) AS femaleCount
+        FROM MEMBER
+    </select>
+
+    <!--카테고리별 모임 수 조회-->
+    <select id="selectCategoryCounts" resultType="java.util.Map">
+        SELECT CATEGORY, COUNT(*) AS categoryCount
+        FROM CLUB
+        GROUP BY CATEGORY
+        ORDER BY categoryCount DESC
+    </select>
+
+    <!--유저별 모임참여 분포-->
+    <select id="getUserParticipationStats" resultType="map">
+        SELECT
+            CASE
+                WHEN COUNT(cm.CLUBNO) = 1 THEN '1개 모임 참여'
+                WHEN COUNT(cm.CLUBNO) BETWEEN 2 AND 3 THEN '2~3개 모임 참여'
+                ELSE '4개 이상 모임 참여'
+                END AS participation_level,
+            COUNT(DISTINCT cm.USERID) AS user_count
+        FROM
+            CLUBMEMBER cm
+        GROUP BY
+            cm.USERID
+    </select>
+
 
 </mapper>
