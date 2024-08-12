@@ -2,7 +2,9 @@ package com.kh.awoolim.controller;
 
 import com.kh.awoolim.domain.Club;
 import com.kh.awoolim.domain.Member;
+import com.kh.awoolim.domain.Report;
 import com.kh.awoolim.service.AdminService;
+import com.kh.awoolim.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -71,5 +73,26 @@ public class AdminController {
     @GetMapping("/user-participation-stats")
     public List<Map<String, Object>> getUserParticipationStats() {
         return adminService.getUserParticipationStats();
+    }
+
+    @Autowired
+    private ReportService reportService;
+
+    // 신고 목록 조회
+    @GetMapping("/report/list")
+    public List<Report> selectReportList() {
+        return reportService.selectReportList();
+    }
+
+    // 신고 삭제
+    @PostMapping("/report/delete")
+    public void deleteReport(@RequestBody int reportNo) {
+        reportService.deleteReport(reportNo);
+    }
+
+    // 신고 결과 처리
+    @PostMapping("/report/update")
+    public void updateReportResult(@RequestBody Report report) {
+        reportService.updateReportResult(report);
     }
 }

@@ -7,7 +7,7 @@
     </select>
 
     <select id="findById" resultType="Admin" parameterType="String">
-        SELECT * FROM ADMIN WHERE ID = #{id}
+        SELECT * FROM ADMIN WHERE userEmail = #{email}
     </select>
 
     <!--회원 삭제-->
@@ -41,13 +41,32 @@
     </select>
 
     <!-- 모임 상세 정보 조회 -->
-    <select id="clubDetail" resultType="com.kh.awoolim.domain.Club">
+    <resultMap id="ClubResultMap" type="com.kh.awoolim.domain.Club">
+        <id property="clubNo" column="CLUBNO"/>
+        <result property="clubTitle" column="CLUBTITLE"/>
+        <result property="clubGender" column="CLUBGENDER"/>
+        <result property="ageLimit" column="AGELIMIT"/>
+        <result property="category" column="CATEGORY"/>
+        <result property="city" column="CITY"/>
+        <result property="district" column="DISTRICT"/>
+        <result property="regularType" column="REGULARTYPE"/>
+        <result property="maxMember" column="MAXMEMBER"/>
+        <result property="userId" column="USERID"/>
+        <result property="dDay" column="DDAY"/>
+        <result property="clubImage" column="CLUBIMAGE"/>
+        <result property="detailInfo" column="DETAILINFO"/>
+        <result property="recruitment" column="RECRUITMENT"/>
+        <!-- leaderName은 무시합니다 -->
+    </resultMap>
+
+    <select id="clubDetail" resultMap="ClubResultMap">
         SELECT c.CLUBNO, c.CLUBTITLE, c.CLUBGENDER, c.AGELIMIT, c.CATEGORY, c.CITY, c.DISTRICT, c.REGULARTYPE,
                c.MAXMEMBER, c.USERID, c.DDAY, c.CLUBIMAGE, c.DETAILINFO, c.RECRUITMENT, m.USERNAME as leaderName
         FROM CLUB c
                  JOIN MEMBER m ON c.USERID = m.USERID
         WHERE c.CLUBNO = #{clubNo}
     </select>
+
 
     <!--모임 참여 회원 목록 조회-->
     <select id="selectClubMembers" resultType="Member">

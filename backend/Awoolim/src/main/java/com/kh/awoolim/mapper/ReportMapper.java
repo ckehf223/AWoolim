@@ -16,7 +16,4 @@ public interface ReportMapper {
     // 신고 결과 처리
     void updateReportResult(Report report);
 
-    // 경고 카운트 증가
-    int increaseWarningCount(String targetId);
-
 }

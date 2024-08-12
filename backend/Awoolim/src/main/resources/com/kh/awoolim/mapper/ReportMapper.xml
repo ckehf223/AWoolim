@@ -16,14 +16,13 @@
 
     <!--신고 처리-->
     <update id="updateReportResult">
-        UPDATE REPORT SET result = #{result}, resultMessage = #{resultMessage} WHERE reportNo = #{reportNo}
-    </update>
+        BEGIN
+        UPDATE REPORT SET result = #{result}, resultMessage = #{resultMessage} WHERE reportNo = #{reportNo};
 
-    <!--WarningCount 증가-->
-    <update id="increaseWarningCount">
-        UPDATE MEMBER
-        SET warningCount = warningCount + 1
-        WHERE userName = #{targetId} or userEmail = #{targetId} OR nickName = #{targetId}
+        IF #{result} = 1 THEN
+            process_warning(#{targetId});
+        END IF;
+        END;
     </update>
 
 

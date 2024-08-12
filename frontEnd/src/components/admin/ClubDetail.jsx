@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import '/src/css/admin/ClubDetail.css';
 import instance from '/src/common/auth/axios';
+import DOMPurify from 'dompurify';
 
 const ClubDetail = () => {
   // URL 파라미터에서 clubId를 가져옴
@@ -42,7 +43,7 @@ const ClubDetail = () => {
         <div className="select-boxes">
           <div className="select-box">카테고리: {club.category}</div>
           <div className="select-box">참여인원: {club.maxMember}</div>
-          <div className="select-box">지정날짜: {new Date(club.dDay).toLocaleDateString()}</div>
+          <div className="select-box">지정날짜: {club.dday}</div>
           <div className="select-box">정기/일회: {club.regularType === 1 ? '정기모임' : '일회모임'}</div>
           <div className="select-box">모임장: {club.leaderName}</div>
           <div className="select-box">성별제한: {club.clubGender}</div>
@@ -53,7 +54,7 @@ const ClubDetail = () => {
       </div>
       <div className="club-info">
         <h3>상세정보</h3>
-        <p>{club.detailInfo}</p>
+        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(club.detailInfo) }}></p>
       </div>
 
       <div className="club-members">
