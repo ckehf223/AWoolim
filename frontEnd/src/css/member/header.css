@@ -53,10 +53,14 @@ body.scrolled #header {
   font-size: 14px;
 }
 
-#header-search a img {
+#header-search button {
+  border: none;
+  background-color: transparent;
+}
+#header-search img {
   width: 21px;
   position: relative;
-  top: 1px;
+  bottom: 1px;
   right: 6px;
 }
 

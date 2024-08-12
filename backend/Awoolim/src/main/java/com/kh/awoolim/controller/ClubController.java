@@ -48,34 +48,34 @@ public class ClubController {
 	private ClubService clubService;
 
 	private ClubMemberService clubMemberService;
-	
+
 	private AlarmService alarmService;
-	
+
 	private MemberService memberService;
 
-	public ClubController(JWTUtil jwtUtil, ClubService clubService, ClubMemberService clubMemberService, AlarmService alarmService,MemberService memberService) {
+	public ClubController(JWTUtil jwtUtil, ClubService clubService, ClubMemberService clubMemberService,
+			AlarmService alarmService, MemberService memberService) {
 		this.jwtUtil = jwtUtil;
 		this.clubService = clubService;
 		this.clubMemberService = clubMemberService;
 		this.alarmService = alarmService;
 		this.memberService = memberService;
 	}
-	
+
 	@GetMapping("/")
-    public ResponseEntity<List<Club>> getAllClubs() {
-        log.info("getAllClubs");
-        List<Club> clubs = clubService.getAllClubs();
-        return ResponseEntity.ok(clubs);
-    }
-	
+	public ResponseEntity<List<Club>> getAllClubs() {
+		log.info("getAllClubs");
+		List<Club> clubs = clubService.getAllClubs();
+		return ResponseEntity.ok(clubs);
+	}
+
 	@PostMapping("/search")
-    public ResponseEntity<List<Club>> searchClubs(
-            @RequestParam(value = "searchTerm", required = false) String searchTerm,
-            @RequestParam Map<String, Object> filters) {
-        List<Club> clubs = clubService.searchClubs(searchTerm, filters);
-        return ResponseEntity.ok(clubs);
-    }
-	
+	public ResponseEntity<List<Club>> searchClubs(
+			@RequestParam(value = "searchTerm", required = false) String searchTerm,
+			@RequestParam Map<String, Object> filters) {
+		List<Club> clubs = clubService.searchClubs(searchTerm, filters);
+		return ResponseEntity.ok(clubs);
+	}
 
 	@PostMapping("/register")
 	public ResponseEntity<Integer> registerClub(@RequestParam("clubTitle") String clubTitle,
@@ -162,16 +162,17 @@ public class ClubController {
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
 			int check = clubMemberService.signUp(userId, clubNo);
-			if(check == 0) {
+			if (check == 0) {
 				Club club = clubService.readByClub(clubNo);
 				Member member = memberService.readMember(userId);
 				Alarm alarm = new Alarm();
 				alarm.setUserId(club.getUserId());
-				String userName = member.getNickName() != "null" && member.getNickName() != null ? member.getNickName():member.getUserName();
+				String userName = member.getNickName() != "null" && member.getNickName() != null ? member.getNickName()
+						: member.getUserName();
 				System.out.println(userName);
 				System.out.println(member.getNickName());
 				System.out.println(member.getUserName());
-				alarm.setMessage("`"+userName+"` 님이 모임 참여 신청 하셨습니다.");
+				alarm.setMessage("`" + userName + "` 님이 모임 참여 신청 하셨습니다.");
 				alarmService.register(alarm);
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(check);
@@ -194,8 +195,6 @@ public class ClubController {
 		}
 	}
 
-
-
 	@GetMapping("/read/madeClubList")
 	public ResponseEntity<Map<String, Object>> readMadeClubList(HttpServletRequest request) {
 		log.info("madeClubList GET ENTER");
@@ -203,13 +202,13 @@ public class ClubController {
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
 			Map<String, Object> clubMap = clubService.readMyMadeClubList(userId);
-			if(clubMap == null || clubMap.size() <= 0 || clubMap.isEmpty()) {
+			if (clubMap == null || clubMap.size() <= 0 || clubMap.isEmpty()) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(clubMap);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-			
+
 		}
 	}
 
@@ -225,11 +224,11 @@ public class ClubController {
 	}
 
 	@PostMapping("/modify")
-	public void updateClub(@RequestParam("clubNo") int clubNo,@RequestParam("clubTitle") String clubTitle, @RequestParam("clubGender") String clubGender,
-			@RequestParam("category") String category, @RequestParam("city") String city,
-			@RequestParam("district") String district, @RequestParam("regularType") int regularType,
-			@RequestParam("maxMember") int maxMember, @RequestParam("dDay") String dDay,
-			@RequestParam("checkImage") String checkImage,
+	public void updateClub(@RequestParam("clubNo") int clubNo, @RequestParam("clubTitle") String clubTitle,
+			@RequestParam("clubGender") String clubGender, @RequestParam("category") String category,
+			@RequestParam("city") String city, @RequestParam("district") String district,
+			@RequestParam("regularType") int regularType, @RequestParam("maxMember") int maxMember,
+			@RequestParam("dDay") String dDay, @RequestParam("checkImage") String checkImage,
 			@RequestParam(value = "clubImage", required = false) MultipartFile clubImage,
 			@RequestParam("detailInfo") String detailInfo, @RequestParam("ageLimit") String ageLimit,
 			 @RequestParam("recruitment") int recruitment,
@@ -255,7 +254,7 @@ public class ClubController {
 			if (!Files.exists(uploadPath)) {
 				Files.createDirectories(uploadPath);
 			}
-			if(checkImage.equals("1")) {
+			if (checkImage.equals("1")) {
 				// UUID 생성
 				String uuid = UUID.randomUUID().toString();
 				// 파일 확장자 추출
@@ -270,39 +269,41 @@ public class ClubController {
 				Files.write(path, bytes);
 				path.toFile().getCanonicalPath();
 			}
-			
+
 			clubService.modifyClub(club);
 		} catch (Exception e) {
 
 		}
 	}
+
 	@GetMapping("/getClubMemberList/{clubNo}")
-	public ResponseEntity<List<Map<String, Object>>> getClubMemberList(@PathVariable("clubNo") int clubNo){
+	public ResponseEntity<List<Map<String, Object>>> getClubMemberList(@PathVariable("clubNo") int clubNo) {
 		log.info("getClubMemberList GET ENTER");
 		try {
-			List<Map<String, Object>> mapList = clubService.getClubMemberList(clubNo,1);
-			if(mapList != null) {
+			List<Map<String, Object>> mapList = clubService.getClubMemberList(clubNo, 1);
+			if (mapList != null) {
 				return ResponseEntity.status(HttpStatus.OK).body(mapList);
 			}
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
-	
+
 	@GetMapping("/getAcceptMemberList/{clubNo}")
-	public ResponseEntity<List<Map<String, Object>>> getAcceptMemberList(@PathVariable("clubNo") int clubNo){
+	public ResponseEntity<List<Map<String, Object>>> getAcceptMemberList(@PathVariable("clubNo") int clubNo) {
 		log.info("getAcceptMemberList GET ENTER");
 		try {
-			List<Map<String, Object>> mapList = clubService.getClubMemberList(clubNo,0);
-			if(mapList != null) {
+			List<Map<String, Object>> mapList = clubService.getClubMemberList(clubNo, 0);
+			if (mapList != null) {
 				return ResponseEntity.status(HttpStatus.OK).body(mapList);
 			}
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
+
 	@PostMapping("/exitClub")
 	public ResponseEntity<Void> exitClub(@RequestBody Map<String, Integer> requestBody, HttpServletRequest request) {
 
@@ -316,7 +317,7 @@ public class ClubController {
 			System.out.println(userId);
 			System.out.println(isAccept);
 			clubMemberService.deleteClubMember(userId, clubNo);
-			if(isAccept == 1) {
+			if (isAccept == 1) {
 				clubService.minusClubCount(clubNo);
 			}
 			return ResponseEntity.ok().build();
@@ -324,66 +325,65 @@ public class ClubController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
 	@PostMapping("/exitClubMember")
-	public void deleteClubMember(@RequestBody Map<String,Integer> requestBody,HttpServletResponse response ) {
+	public void deleteClubMember(@RequestBody Map<String, Integer> requestBody, HttpServletResponse response) {
 		log.info("exitClubMember POST ENTER");
 		try {
 			int userId = requestBody.get("userId");
 			int clubNo = requestBody.get("clubNo");
 			clubMemberService.deleteClubMember(userId, clubNo);
 			clubService.minusClubCount(clubNo);
-			Club club =clubService.readByClub(clubNo);
+			Club club = clubService.readByClub(clubNo);
 			Alarm alarm = new Alarm();
 			alarm.setUserId(userId);
-			alarm.setMessage("`"+club.getClubTitle()+"` 모임에서 퇴출되었습니다.");
+			alarm.setMessage("`" + club.getClubTitle() + "` 모임에서 퇴출되었습니다.");
 			alarmService.register(alarm);
 			response.setStatus(HttpStatus.OK.value());
-		}catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		}
 	}
-	
+
 	@PostMapping("/acceptClubMember")
-	public ResponseEntity<Integer> acceptClubMember(@RequestBody Map<String,Integer> requestBody) {
+	public ResponseEntity<Integer> acceptClubMember(@RequestBody Map<String, Integer> requestBody) {
 		log.info("acceptClubMember POST ENTER");
 		try {
 			int userId = requestBody.get("userId");
 			int clubNo = requestBody.get("clubNo");
-			Club club =clubService.readByClub(clubNo);
-			if(club.getMemberCount() < club.getMaxMember()) {
-				clubMemberService.acceptClubMember(userId,clubNo);
+			Club club = clubService.readByClub(clubNo);
+			if (club.getMemberCount() < club.getMaxMember()) {
+				clubMemberService.acceptClubMember(userId, clubNo);
 				Alarm alarm = new Alarm();
 				alarm.setUserId(userId);
-				alarm.setMessage("`"+club.getClubTitle()+"` 모임 신청이 수락되었습니다.");
+				alarm.setMessage("`" + club.getClubTitle() + "` 모임 신청이 수락되었습니다.");
 				alarmService.register(alarm);
 				clubService.addClubCount(clubNo);
 				return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(1));
-			}else {
+			} else {
 				club.setRecruitment(0);
 				clubService.modifyClub(club);
 				return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(0));
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
-	
-	
+
 	@PostMapping("/refuseClubMember")
-	public void refuseClubMember(@RequestBody Map<String,Integer> requestBody,HttpServletResponse response) {
+	public void refuseClubMember(@RequestBody Map<String, Integer> requestBody, HttpServletResponse response) {
 		log.info("refuseClubMember POST ENTER");
 		try {
 			int userId = requestBody.get("userId");
 			int clubNo = requestBody.get("clubNo");
-			clubMemberService.deleteClubMember(userId,clubNo);
-			Club club =clubService.readByClub(clubNo);
+			clubMemberService.deleteClubMember(userId, clubNo);
+			Club club = clubService.readByClub(clubNo);
 			Alarm alarm = new Alarm();
 			alarm.setUserId(userId);
-			alarm.setMessage("`"+club.getClubTitle()+"` 모임 신청이 거절되었습니다.");
+			alarm.setMessage("`" + club.getClubTitle() + "` 모임 신청이 거절되었습니다.");
 			alarmService.register(alarm);
 			response.setStatus(HttpStatus.OK.value());
-		}catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		}
 	}

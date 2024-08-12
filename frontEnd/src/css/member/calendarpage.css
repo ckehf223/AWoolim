@@ -113,3 +113,14 @@
   resize: vertical;
   box-sizing: border-box;
 }
+.react-calendar__tile.event-date {
+  background-color: #ffdfba; /* 일정이 있는 날짜의 배경색 */
+  color: #333;
+  border-radius: 4px;
+}
+
+.react-calendar__tile.event-date:enabled:hover,
+.react-calendar__tile.event-date:enabled:focus {
+  background-color: #ffa726; /* 일정이 있는 날짜에 호버 시 색상 */
+  color: white;
+}

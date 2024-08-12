@@ -11,54 +11,80 @@ function Header() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [notifications, setNotifications] = useState([]);
-  const [profile, setProfile] = useState(null); // 프로필 정보를 위한 상태 추가
+  const [searchTerm, setSearchTerm] = useState(""); // searchTerm 상태 정의 및 초기화
+  const [notifications, setNotifications] = useState([]); // 초기값을 빈 배열로 설정
   const searchInputRef = useRef(null);
   const socketRef = useRef(null);
 
-  // 프로필 정보를 가져오는 함수
-  const fetchProfile = async () => {
+  // 서버로부터 읽지 않은 알림 데이터를 가져오는 함수
+  const fetchUnreadNotifications = async () => {
     try {
-      const response = await instance.get("/member/getProfile", {
+      const response = await instance.get("/api/notifications/read", {
         headers: {
-          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
 
-      setProfile(response.data);
+      const data = Array.isArray(response.data) ? response.data : []; // 배열로 강제 변환
+      setNotifications(data);
+
+      if (data.length === 0) {
+        console.log("읽지 않은 알림이 없습니다.");
+      }
     } catch (error) {
-      console.error("프로필 정보 가져오기 오류:", error);
-      alert("프로필 정보를 가져오는 데 실패했습니다.");
+      console.error("Failed to fetch unread notifications:", error);
     }
   };
 
-  // 웹소켓 연결 및 알림 수신
+  // 알림을 읽음 처리하는 함수
+  const markAlarmAsRead = async (alarmNo) => {
+    try {
+      const response = await instance.post(
+        "/api/notifications/mark-as-read",
+        [alarmNo],
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // 알림 목록에서 해당 알림을 제거
+        setNotifications((prevNotifications) =>
+          prevNotifications.filter((n) => n.alarmNo !== alarmNo)
+        );
+      } else {
+        console.error("Failed to mark notification as read");
+      }
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+    }
+  };
+
+  // 웹소켓 연결 및 초기 알림 데이터 가져오기
   useEffect(() => {
     if (isAuthenticated) {
-      fetchProfile(); // 로그인된 상태에서만 프로필 정보를 가져옴
-
-      // 웹소켓 연결
       socketRef.current = new WebSocket(SOCKET_URL);
 
       socketRef.current.onopen = () => {
         console.log("Connected to WebSocket for notifications");
+        fetchUnreadNotifications(); // 서버로부터 데이터를 가져옴
       };
 
       socketRef.current.onmessage = (event) => {
         const message = event.data;
+        console.log("WebSocket message received:", message);
 
         try {
-          // 메시지가 JSON 형식인지 확인
-          const jsonMessage = JSON.parse(message);
-
-          // 메시지가 JSON 형식인 경우 알림으로 추가
+          const alarm = JSON.parse(message); // JSON 형식으로 파싱
+          console.log("Parsed alarm message:", alarm);
           setNotifications((prevNotifications) => [
             ...prevNotifications,
-            jsonMessage,
+            alarm, // 새로운 알림 추가
           ]);
         } catch (error) {
-          // 메시지가 JSON이 아닌 경우
           console.warn("Received a non-JSON message:", message);
         }
       };
@@ -79,50 +105,12 @@ function Header() {
     }
   }, [isAuthenticated]);
 
-  const handleAlarmClick = () => {
-    setShowNotifications(!showNotifications);
-
-    // 알림 읽음 처리 로직 추가
-    if (!showNotifications) {
-      markNotificationsAsRead();
-    }
-  };
-
-  const markNotificationsAsRead = async () => {
-    try {
-      // 'alarmNos'를 서버에 전송할 준비
-      const alarmNos = notifications.map((n) => n.alarmNo);
-
-      const response = await instance.post(
-        "/api/notifications/read",
-        alarmNos, // 숫자 배열을 서버로 전송
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        setNotifications((prevNotifications) =>
-          prevNotifications.map((n) => ({ ...n, isRead: 1 }))
-        );
-      } else {
-        console.error("Failed to mark notifications as read");
-      }
-    } catch (error) {
-      console.error("Error marking notifications as read:", error);
-    }
-  };
-
   const handleSearchClick = (event) => {
     event.preventDefault();
-    const searchTerm = searchInputRef.current.value.trim(); // 검색어의 공백 제거
-    if (searchTerm === "") {
-      return;
+    const trimmedSearchTerm = searchTerm.trim();
+    if (trimmedSearchTerm) {
+      navigate("/search", { state: { searchTerm: trimmedSearchTerm } });
     }
-    navigate("/search", { state: { searchTerm } });
   };
 
   return (
@@ -137,18 +125,22 @@ function Header() {
         <input
           type="search"
           placeholder="검색어를 입력하세요"
-          ref={searchInputRef}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Link to="/search" onClick={handleSearchClick}>
+        <button onClick={handleSearchClick}>
           <img src="/src/assets/images/search.png" alt="검색" />
-        </Link>
+        </button>
       </div>
 
       <div id="header-icons">
-        <div onClick={handleAlarmClick}>
-          <img src="/src/assets/images/notice.png" alt="알림" id="alarm-icon" />
+        <div>
+          <img
+            src="/src/assets/images/notice.png"
+            alt="알림"
+            id="alarm-icon"
+            onClick={() => setShowNotifications(!showNotifications)}
+          />
           {notifications.filter((n) => n.isRead === 0).length > 0 && (
             <span className="notification-count">
               {notifications.filter((n) => n.isRead === 0).length}
@@ -159,13 +151,17 @@ function Header() {
         {showNotifications && (
           <div className="notifications">
             {notifications.length > 0 ? (
-              notifications
-                .filter((notification) => notification.isRead === 0)
-                .map((notification, index) => (
-                  <div key={index} className="notification-item">
-                    {notification.message}
-                  </div>
-                ))
+              notifications.map((notification, index) => (
+                <div
+                  key={index}
+                  className={`notification-item ${
+                    notification.isRead === 0 ? "unread" : ""
+                  }`}
+                  onClick={() => markAlarmAsRead(notification.alarmNo)} // 클릭 시 알림을 읽음 처리
+                >
+                  {notification.message}
+                </div>
+              ))
             ) : (
               <div className="no-notifications">읽지 않은 알림이 없습니다.</div>
             )}
