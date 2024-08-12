@@ -1,18 +1,33 @@
 package com.kh.awoolim.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kh.awoolim.domain.Report;
 import com.kh.awoolim.mapper.ReportMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ReportService {
 
-	@Autowired
-	private ReportMapper mapper;
-	
-	public void register(Report report) {
-		mapper.create(report);
-	}
+    @Autowired
+    ReportMapper reportMapper;
+
+    // 신고 목록 조회
+    public List<Report> selectReportList() {
+        return reportMapper.selectReportList();
+    }
+
+    // 신고 삭제
+    public void deleteReport(int reportNo) {
+        reportMapper.deleteReport(reportNo);
+    }
+
+    // 신고 결과 처리, 경고 카운트 증가
+    public void updateReportResult(Report report) {
+        reportMapper.updateReportResult(report);
+    }
+
+
 }

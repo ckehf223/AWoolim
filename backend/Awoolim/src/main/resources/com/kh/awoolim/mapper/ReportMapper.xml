@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.ReportMapper">
-	<insert id="create" parameterType="Report">
-		INSERT INTO REPORT (REPORTNO,USERID,TARGETID,TYPE,CONTENT) 
-		VALUES(
-			REPORT_SEQ.NEXTVAL,#{userId},#{targetId},#{type},#{content})
-	</insert>
+
+    <!--신고 목록 조회-->
+    <select id="selectReportList" resultType="com.kh.awoolim.domain.Report">
+        SELECT r.reportNo, m.userId AS userId, m.userName AS userName, r.targetId, r.content, r.regDate, r.result, r.resultMessage
+        FROM report r
+                 JOIN member m ON r.userId = m.userId
+    </select>
+
+    <!--신고 삭제-->
+    <delete id="deleteReport">
+        DELETE FROM REPORT WHERE reportNo = #{reportNo};
+    </delete>
+
+    <!--신고 처리-->
+    <update id="updateReportResult">
+        BEGIN
+        UPDATE REPORT SET result = #{result}, resultMessage = #{resultMessage} WHERE reportNo = #{reportNo};
+
+        IF #{result} = 1 THEN
+            process_warning(#{targetId});
+        END IF;
+        END;
+    </update>
+
 
 </mapper>
