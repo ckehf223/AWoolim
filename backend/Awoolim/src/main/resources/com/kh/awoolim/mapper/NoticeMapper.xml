@@ -38,8 +38,7 @@
 
 	<update id="updateNotice">
 		UPDATE NOTICE
-		SET KEYWORD=#{keyword}, TITLE=#{title}, CONTENT=#{content},
-		COUNT=#{count}
+		SET KEYWORD=#{keyword}, TITLE=#{title}, CONTENT=#{content},	COUNT=#{count}
 		WHERE NOTICENO=#{noticeNo}
 	</update>
 

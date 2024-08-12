@@ -1,77 +1,55 @@
 import axios from 'axios';
+import { getAccessToken, setAccessToken, removeAccessToken, clearRefreshToken } from '/src/common/auth/Auth';
 
-// Create an Axios instance
 const instance = axios.create({
   baseURL: 'http://localhost:8080',
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  withCredentials: true,
 });
 
-// Add a request interceptor to include the access token
 instance.interceptors.request.use(
-  config => {
-    const accessToken = localStorage.getItem('accessToken');
+  async config => {
+    const accessToken = getAccessToken();
     if (accessToken) {
-      config.headers['Authorization'] = `${accessToken}`;
-    }
-    const refreshToken = getCookie('refresh');
-    if(refreshToken){
-      config.headers['']
-    }
+      config.headers.Authorization = `${accessToken}`;
+    } 
     return config;
   },
   error => Promise.reject(error)
 );
 
-// Add a response interceptor to handle token refresh
 instance.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config;
-    console.log("refreshTokenError"+error);
-    console.log("refreshTokenError"+ error.response.status);
-    if (error.response.status === 401 || error.response.status == 403) {
+    if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
       originalRequest._retry = true;
-
-      // Get refresh token from cookies
-      console.log(error.response.status);
-      const refreshToken = getCookie('refresh');
-      console.log(refreshToken);
-      if (refreshToken) {
-        try {
-          console.log("refreshToken Enter");
-          // Request a new access token using the refresh token
-          const response = await axios.post('http://localhost:8080/refresh', {}, {
-            headers: {
-              'Authorization': `Bearer ${refreshToken}`,
-              'Content-Type': 'application/json'
-            },
-          });
-          // Save new access token to local storage
+      try {
+        const response = await axios.post('http://localhost:8080/refresh', {}, { withCredentials: true });
+        if (response.status === 200) {
           const newAccessToken = response.headers['authorization'];
-          localStorage.setItem('accessToken', newAccessToken);
-          console.log("newAccessToken"+newAccessToken);
-
-          // Retry the original request with the new access token
-          instance.defaults.headers['Authorization'] = `${newAccessToken}`;
-          console.log(originalRequest);
+          setAccessToken(newAccessToken);
+          instance.defaults.headers.Authorization = `${newAccessToken}`;
+          originalRequest.headers.Authorization = `${newAccessToken}`;
           return instance(originalRequest);
-        } catch (refreshError) {
-          console.error('Failed to refresh token', refreshError);
-          // Handle token refresh failure (e.g., redirect to login page)
         }
+      } catch (refreshError) {
+        await axios.post('http://localhost:8080/deleteRefresh',
+           {}, 
+           { withCredentials: true 
+
+           }).then(response =>{
+            removeAccessToken();
+            clearRefreshToken();
+            window.location.href = '/login';
+           }).catch(error =>{
+            removeAccessToken();
+            clearRefreshToken();
+            window.location.href = '/login';
+           });
       }
     }
-
     return Promise.reject(error);
   }
 );
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
 
 export default instance;

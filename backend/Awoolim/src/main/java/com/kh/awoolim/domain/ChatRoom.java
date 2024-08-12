@@ -1,5 +1,14 @@
 package com.kh.awoolim.domain;
 
-public class ChatRoom {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
+public class ChatRoom {
+	private int chatNo;
+	private int clubNo;
+	private String chatRoomName;
 }

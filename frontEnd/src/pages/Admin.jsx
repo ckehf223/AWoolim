@@ -16,6 +16,9 @@ import FaqMain from '/src/components/admin/FAQ/FaqMain';
 import FaqMainCustom from '/src/components/admin/FAQ/FaqMainCustom';
 import FaqWrite from '/src/components/admin/FAQ/FaqWrite';
 import FaqReWrite from '/src/components/admin/FAQ/FaqReWrite';
+import AdminLoginMain from '../components/admin/adminLogin/AdminLoginMain';
+import NoticeCustom from '../components/admin/notice/NoticeCustom';
+import NoticeReadCustom from '../components/admin/notice/NoticeReadCustom';
 
 
 const Admin = () => {
@@ -28,19 +31,21 @@ const Admin = () => {
           <ClubProvider>
             <Routes>
               {/* 렌더링할 페이지  */}
-              <Route path='/' element={<Dashboard />} />
+              <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/user' element={<UserManager />} />
               <Route path='/club' element={<ClubManager />} />
               <Route path='/club/:clubId' element={<ClubDetail />} />
               <Route path='/report' element={<ReportManager />} />
               <Route path='/notice' element={<Notice />} />
+              <Route path='/noticeCustom' element={<NoticeCustom />} />
               <Route path="/noticeWrite" element={<NoticeWrite />} />
               <Route path="/noticeRead/:noticeNo" element={<NoticeRead />} />
+              <Route path="/noticeReadCustom/:noticeNo" element={<NoticeReadCustom />} />
               <Route path="/noticeReWrite/:noticeNo" element={<NoticeReWrite />} />
               <Route path="/faq" element={<FaqMain />} />
-              <Route path="/faqcus" element={<FaqMainCustom />} />
+              <Route path="/faqCustom" element={<FaqMainCustom />} />
               <Route path="/faqWrite" element={<FaqWrite />} />
-              <Route path="/faqReWrite" element={<FaqReWrite />} />
+              <Route path="/faqReWrite/:questionNo" element={<FaqReWrite />} />
             </Routes>
           </ClubProvider>
         </div>

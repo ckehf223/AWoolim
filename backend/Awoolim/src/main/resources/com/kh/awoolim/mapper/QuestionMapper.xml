@@ -1,3 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.awoolim.mapper.QuestionMapper"></mapper>
+<mapper namespace="com.kh.awoolim.mapper.QuestionMapper">
+
+	<resultMap type="com.kh.awoolim.domain.Question" id="questionMap">
+		<id property="questionNo" column="QUESTIONNO" />
+		<result property="category" column="CATEGORY" />
+		<result property="title" column="TITLE" />
+		<result property="answer" column="ANSWER" />
+	</resultMap>
+	
+	<select id="getQuestionList" resultMap="questionMap">
+		SELECT * FROM QUESTION
+		ORDER BY QUESTIONNO DESC
+	</select>
+	
+	<select id="getQuestionByNo" parameterType="int" resultMap="questionMap">
+		SELECT * FROM QUESTION WHERE QUESTIONNO = #{questionNo}
+	</select>
+	
+	<!-- 카테고리별 검색 -->
+	<select id="categoryOfQuestion" resultMap="questionMap" parameterType="String">
+		SELECT * FROM QUESTION
+		WHERE CATEGORY LIKE '%'||#{query}||'%'
+		ORDER BY QUESTIONNO DESC
+	</select>
+	
+	<insert id="inssertQuestion">
+		INSERT INTO QUESTION(QUESTIONNO, CATEGORY, TITLE, ANSWER) 
+		VALUES(question_seq.NEXTVAL, #{category}, #{title}, #{answer})	
+	</insert>
+	
+	<update id="updateQuestion">
+		UPDATE QUESTION
+		SET CATEGORY=#{category}, TITLE=#{title}, ANSWER=#{answer}
+		WHERE QUESTIONNO=#{questionNo}
+	</update>
+	
+	<delete id="deleteQuestion" parameterType="int">
+		DELETE FROM QUESTION
+		WHERE QUESTIONNO = #{questionNo}
+	</delete>
+	
+</mapper>

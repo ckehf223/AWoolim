@@ -4,7 +4,7 @@ a {
 }
 
 .FaqMain {
-    width: 1000px;
+    width: 70%;
     margin: 0 auto;
     font-family: Arial, sans-serif;
     color: #333;
@@ -29,14 +29,14 @@ a {
     cursor: pointer;
 }
 
-.faqNav {
+.faqMainNav {
     display: flex;
     justify-content: center;
     margin: 10px 20px;
 
 }
 
-.faqNav button {
+.faqMainNav button {
     padding: 10px;
     border-radius: 25px;
     width: 100px;
@@ -45,21 +45,27 @@ a {
     height: 40px;
 }
 
-.faqNav button:hover {
+.faqMainNav button:hover {
     cursor: pointer;
 }
-.faqNav button:focus {
-    background-color : rgb(3, 202, 3);
+
+
+.faqMainNav button:focus {
+    /* background-color : rgb(3, 202, 3); */
+    background-color : #5494FC;
+    color: white;
+    font-weight: bold;
 }
 
-.faqQuestion {
+.faqMainQuestion {
     display: flex;
     justify-content: space-between;
+    align-items: end;
     background-color: rgb(250, 247, 247);
     padding: 30px 10px 10px 30px;
     border-radius: 15px 15px 0px 0px;
     margin-top: 20px;
-    border: 2px solid green;
+    border: 1px solid #5494FC;
     min-height: 100PX;
     font-weight: bold;
 }
@@ -69,51 +75,57 @@ a {
     flex-direction: column;
 }
 
+.fq2 button{
+    background-color: transparent;
+    border: none;
+    text-align: left;
+}
+
 .fqBtn button{padding: 10px;
     border-radius: 5px;
     width: 100px;
     border: none;
     margin: 10px;
-    background-color:  rgb(3, 202, 3);
+    background-color:  #c6dafa;
     height: 40px;
 }
 
 .fqBtn button:hover{
-    background-color: green;
+    background-color: #5494FC;
     color : white;
     cursor: pointer;
 }
 
-.faqQuestion span{
+.faqMainQuestion span{
     margin-bottom: 5px;
 }
 
-.faqQuestion .fq1{
+.faqMainQuestion .fq1{
     font-size: small;
     color: green;
     font-weight: bold;
 }
 
-.faqAnswer {
+.faqMainAnswer {
     display: flex;
     flex-direction: column;
     background-color: rgb(250, 247, 247);
     
     border-radius: 0px 0px 15px 15px;
-    border: 2px solid orangered;
+    border: 1px solid white;
     border-top: none;
     max-height: 0px;
     overflow: hidden;
     transition: max-height 0.2s, padding 0.2s ease-in-out;
 }
 
-.faqAnswer.show{
+.faqMainAnswer.show{
     display: flex;
     flex-direction: column;
     background-color: rgb(250, 247, 247);
     padding: 30px 10px 10px 30px;
     border-radius: 0px 0px 15px 15px;
-    border: 2px solid orangered;
+    border: 1px solid #5494FC;
     border-top: none;
     
     max-height: 1000PX;

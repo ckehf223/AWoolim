@@ -2,21 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.MemberMapper">
 
-	<select id="findById" parameterType="String" resultType="int">
-		SELECT
-		CASE
-		WHEN EXISTS (SELECT 1
-		FROM MEMBER
-		WHERE email = #{email})
-		THEN 1
-		ELSE 0
-		END AS email_exists
-		FROM dual;
+	<select id="findById" parameterType="int" resultType="Member">
+		SELECT *
+		FROM MEMBER WHERE USERID = #{userId}
 	</select>
-
+	<select id="profile" parameterType="int" resultType="Member">
+		SELECT
+		USERID,USERNAME,NICKNAME,USERIMAGE,USERBACKIMAGE,USERINTRO FROM MEMBER
+		WHERE USERID = #{userId}
+	</select>
 	<insert id="create" parameterType="Member">
 		INSERT INTO
-		MEMBER(USERID,USEREMAIL,PASSWORD,USERNAME,USERBIRTH,USERPHONE,USERGENDER,SNSTYPE)
+		MEMBER(USERID,USEREMAIL,PASSWORD,USERNAME,USERBIRTH,USERPHONE,USERGENDER,SNSTYPE,USERIMAGE,USERBACKIMAGE)
 		VALUES(
 		MEMBER_SEQ.NEXTVAL,
 		#{userEmail},
@@ -25,11 +22,37 @@
 		#{userBirth},
 		#{userPhone},
 		#{userGender},
-		#{snsType})
+		#{snsType},
+		#{userImage},
+		#{userBackImage})
 	</insert>
 
 	<select id="findByEmail" resultType="Member">
 		SELECT * FROM MEMBER WHERE
 		USEREMAIL = #{email}
 	</select>
+	<!-- 추가된 부분 -->
+	<select id="findByPhone" resultType="Member"
+		parameterType="String">
+		SELECT * FROM MEMBER 
+		WHERE USERPHONE=#{phone}
+	</select>
+	<select id="findByEmailType" resultType="Member">
+		SELECT * FROM MEMBER
+		WHERE USEREMAIL = #{email} AND SNSTYPE = #{type}
+	</select>
+	<update id="updatePassword" parameterType="String">
+		UPDATE MEMBER SET
+		PASSWORD = #{password} WHERE USEREMAIL = #{email}
+	</update>
+	<update id="updateProfile" parameterType="Member">
+		UPDATE MEMBER SET
+		NICKNAME = #{nickName}, USERINTRO = #{userIntro}, USERIMAGE = #{userImage}, USERBACKIMAGE = #{userBackImage}
+		WHERE USERID = #{userId}
+	</update>
+	<update id="updateUser" parameterType="Member">
+		UPDATE MEMBER SET
+		USEREMAIL = #{userEmail},USERPHONE = #{userPhone}, PASSWORD = #{password}
+		WHERE USERID = #{userId}
+	</update>
 </mapper>

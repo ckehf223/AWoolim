@@ -1,11 +1,11 @@
 import '/src/css/admin/NoticeRead.css'
-import axios from 'axios';
+import instance from "/src/common/auth/axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import DOMPurify from 'dompurify';          //Quill데이터 가져오기
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePen } from '@fortawesome/free-solid-svg-icons';
+import { faFilePen, faTrash, faList } from '@fortawesome/free-solid-svg-icons';
 // import { NoticeContext } from './NoticeContext';
 
 const NoticeRead = () => {
@@ -15,7 +15,7 @@ const NoticeRead = () => {
     const [notice, setNotice] = useState({});
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
+        instance.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
             .then(response => {
                 setNotice(response.data);
             })
@@ -24,6 +24,23 @@ const NoticeRead = () => {
 
     const handleEdit = () => {
         navi(`/admin/noticeReWrite/${noticeNo}`);
+    }
+
+    const handleDelete = (e) => {
+        e.preventDefault();
+        const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
+        if (isConfirmed) {
+            instance.delete(`http://localhost:8080/admin/notices/delete/${noticeNo}`, notice)
+                .then(() => {
+                    navi(`/admin/notice`);
+                    window.alert("삭제 완료되었습니다.")
+                })
+                .catch(
+                    error => {
+                        console.error("Delete Notice error", error);
+                    }
+                )
+        }
     }
 
     return (
@@ -50,8 +67,9 @@ const NoticeRead = () => {
 
             <hr />
             <div className="NrFooter">
-                <button onClick={handleEdit}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;수정하기 </button>&nbsp;
-                <button onClick={() => { return navi('/admin/notice') }}>목록</button>
+                <button onClick={handleEdit}><FontAwesomeIcon icon={faFilePen} />&nbsp;수정 </button>&nbsp;
+                <button type="button" onClick={handleDelete}><FontAwesomeIcon icon={faTrash} />&nbsp;삭제</button>&nbsp;
+                <button onClick={() => { return navi('/admin/notice') }}><FontAwesomeIcon icon={faList} />&nbsp;목록</button>
             </div>
         </div>
     )

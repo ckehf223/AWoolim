@@ -39,29 +39,33 @@ public class CustomLogoutFilter extends GenericFilterBean {
 			throws IOException, ServletException {
 
 		String requestUri = request.getRequestURI();
-		if (!"/logout".equals(requestUri) || !"POST".equals(request.getMethod())) {
+		if (!"/api/auth/logout".equals(requestUri) || !"POST".equals(request.getMethod())) {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		String refresh = null;
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if ("refresh".equals(cookie.getName())) {
-					refresh = cookie.getValue();
-				}
-			}
-		}
 
+		String refresh = getRefreshTokenFromCookies(request.getCookies());
 		if (refresh == null) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
 
 		try {
-			jwtUtil.isExpired(refresh);
+			if (jwtUtil.isExpired(refresh)) {
+				deleteRefreshToken(refresh);
+				removeRefreshTokenCookie(response);
+				response.setStatus(HttpServletResponse.SC_OK);
+				return;
+			}
 		} catch (ExpiredJwtException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.warn("Refresh token is expired. Deleting refresh token.");
+			deleteRefreshToken(refresh);
+			removeRefreshTokenCookie(response);
+			response.setStatus(HttpServletResponse.SC_OK);
+			return;
+		} catch (Exception e) {
+			log.error("An error occurred while processing the logout: {}", e.getMessage());
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
 
@@ -78,16 +82,30 @@ public class CustomLogoutFilter extends GenericFilterBean {
 		}
 
 		deleteRefreshToken(refresh);
-
-		Cookie cookie = new Cookie("refresh", null);
-		cookie.setMaxAge(0);
-		cookie.setPath("/");
-		response.addCookie(cookie);
+		removeRefreshTokenCookie(response);
 		response.setStatus(HttpServletResponse.SC_OK);
+	}
+
+	private String getRefreshTokenFromCookies(Cookie[] cookies) {
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if ("refresh".equals(cookie.getName())) {
+					return cookie.getValue();
+				}
+			}
+		}
+		return null;
 	}
 
 	@Transactional
 	private void deleteRefreshToken(String refresh) {
 		refreshTokenMapper.delete(refresh);
+	}
+
+	private void removeRefreshTokenCookie(HttpServletResponse response) {
+		Cookie cookie = new Cookie("refresh", null);
+		cookie.setMaxAge(0); // Remove cookie
+		cookie.setPath("/"); // Set path to root to ensure the cookie is removed
+		response.addCookie(cookie);
 	}
 }

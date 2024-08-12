@@ -1,7 +1,7 @@
 import '/src/css/admin/NoticeWrite.css'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
+import instance from "/src/common/auth/axios";
 import CustomQuill from '/src/common/CustomQuill';
 
 
@@ -26,23 +26,19 @@ const NoticeWrite = () => {
     const handleSubmit = (e) => {
         notice.content = content;
         e.preventDefault();
-        axios.post('http://localhost:8080/admin/notices/insert', notice)
+        instance.post('http://localhost:8080/admin/notices/insert', notice)
             .then(() => {
                 navi('/admin/notice');
             })
             .catch(error => {
-                console.error("CREATE ERROR", error);
+                console.error("CREATE NOTICE ERROR", error);
             });
     };
 
-
-
     return (
-
         <div className="NoticeWrite">
             <form onSubmit={handleSubmit}>
                 <div className="NwHeader">
-
                     <h2>▶ 공지사항 작성하기</h2>
                 </div>
                 <div className="NwTitle">
@@ -64,7 +60,7 @@ const NoticeWrite = () => {
                 </div>
 
                 <div className="NwMid">
-                    <CustomQuill content={content} setContent={setContent} width={'950'} height={'300'} />
+                    <CustomQuill content={content} setContent={setContent} width={'100%'} height={'500'} />
                 </div>
                 <div className="NwFooter">
                     <button type="submit">등록</button>

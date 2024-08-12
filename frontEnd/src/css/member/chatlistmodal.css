@@ -1,4 +1,4 @@
-.chat-list-modal {
+.chatlistmodal-chat-list-modal {
   width: 350px;
   height: 550px;
   border-radius: 10px;
@@ -8,7 +8,7 @@
   z-index: 11;
 }
 
-.modal-header {
+.chatlistmodal-modal-header {
   background-color: #f0f0f0;
   display: flex;
   justify-content: space-between;
@@ -19,35 +19,35 @@
   border-bottom: 1px solid rgb(212, 212, 212);
 }
 
-.modal-header img {
+.chatlistmodal-modal-header img {
   height: 33px;
   padding-left: 5px;
 }
 
-.modal-header span {
+.chatlistmodal-modal-header span {
   font-size: 16px;
   font-weight: 600;
-  position: absolute; /* span 요소를 absolute positioning으로 변경 */
-  left: 50%; /* 왼쪽에서 50% 위치 */
-  transform: translateX(-50%); /* 자신의 너비만큼 왼쪽으로 이동 (가운데 정렬) */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.modal-header button {
+.chatlistmodal-modal-header button {
   position: relative;
   margin-right: 16px;
   font-size: 12px;
   padding: 2px 7px;
   cursor: pointer;
 }
-.modal-header button:nth-child(1) {
+.chatlistmodal-modal-header button:nth-child(1) {
   margin-left: 16px;
 }
-/* 채팅방 목록 스타일 */
-.room-list {
+
+.chatlistmodal-room-list {
   border-top: 1px solid rgb(220, 220, 220);
 }
 
-.room-item {
+.chatlistmodal-room-item {
   padding: 10px 10px 10px 15px;
   cursor: pointer;
   font-size: 17px;
@@ -56,6 +56,6 @@
   border-bottom: 1px solid rgb(220, 220, 220);
 }
 
-.room-item:hover {
+.chatlistmodal-room-item:hover {
   background-color: #c1c1c1;
 }

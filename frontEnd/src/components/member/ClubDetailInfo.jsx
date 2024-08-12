@@ -1,145 +1,388 @@
-import { useState } from 'react';
-import useModal from '/src/common/useModal';
-import '/src/css/member/ClubDetailInfo.css'
-import UserProfileModal from '/src/components/member/UserProfileModal';
-import ReportModal from '/src/components/member/ReportModal';
-import DOMPurify from 'dompurify';
-const values = "<p>어렸을 때 부터 우리는 <span style='background-color: rgb(230, 0, 0);'>가난했었고</span>"
-  + " 왜 이렇게 사는게 힘들기만 한지</p><p>누가 인생이 아름답다고 말한건지</p>"
-  + "<p>태어났을 때부터</p><p>삶이 내게 준 건 끝없이</p>"
-  + "<p>이겨내야 했던 고난들 뿐인걸</p><p>그럴때마다 나는 거울 속에</p>"
-  + "<p>나에게 물어봤지 무얼 잘못했지</p>"
-  + "</p><p><span style='color: rgb(255, 255, 0); background-color: rgb(0, 0, 0);'>내게만이래 달라질 것 같지 않아</span>"
-  + "</p><p><span style='color: rgb(255, 255, 0); background-color: rgb(0, 0, 0);'>내일 또 모레</span>"
-  + "</p><p><br ></p><p>하지만 그러면 안돼</p><p>주저앉으면 안돼 세상이 주는대로</p>"
-  + "<p>그저 주어진 대로</p><p>이렇게 불공평한 세상이 주는대로</p><p>그저 받기만 하면 모든 것은 그대로</p>"
-  + "<p><br /></p><p><em style='background-color: rgb(255, 153, 0); color: rgb(255, 255, 255);'>싸울텐가 포기할텐가</em></p>"
-  + "<p><em style='background-color: rgb(255, 153, 0); color: rgb(255, 255, 255);'>주어진 운명에 굴복하고 말텐가</em></p>"
-  + "<p><em style='background-color: rgb(255, 153, 0); color: rgb(255, 255, 255);'>세상 앞에 고개 숙이지마라</em></p>"
-  + "<p><em style='background-color: rgb(255, 153, 0); color: rgb(255, 255, 255);'>기죽지 마라</em></p>"
-  + "<p>이겨내야 했던 고난들 뿐인걸</p><p>그럴때마다 나는 거울 속에</p>"
-  + "<p><em style='background-color: rgb(255, 153, 0); color: rgb(255, 255, 255);'>그리고 우릴 봐라</em></p>"
-  + "<p><br ></p><p>지치고 힘들 땐 내게 기대</p><p>언제나 네 곁에 서 있을게</p>"
-  + "<p>혼자라는 생각이 들지 않게</p><p><u>내가 너의 손잡아 줄게</u></p><p><br /></p><p><br /></p>";
+import React, { useEffect, useState } from "react";
+import useModal from "/src/common/useModal";
+import "/src/css/member/ClubDetailInfo.css";
+import UserProfileModal from "/src/components/member/UserProfileModal";
+import ReportModal from "/src/components/member/ReportModal";
+import DOMPurify from "dompurify";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import instance from "/src/common/auth/axios";
+import { useAuth } from "/src/common/AuthContext";
 
 const ClubDetailInfo = () => {
+  const { isAuthenticated, loginId } = useAuth();
+  const nav = useNavigate();
+  const param = useParams();
+  const [isLoading, setIsLoading] = useState(true);
   const { isModalOpen, toggleModal } = useModal();
   const [isReportModalOpen, setReportIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [clubData, setClubData] = useState(null);
+  const [clubManager, setClubManager] = useState(null);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [isRecruitment, setIsRecruitment] = useState(false);
 
-  const openUserModal = ({ nickName, message, backgroundImage, profileImage }) => {
-    setSelectedUser({ nickName, message, backgroundImage, profileImage });
+  useEffect(() => {
+    const fetchClubData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/club/read/${param.no}`,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        setClubData(response.data);
+        setClubManager(
+          response.data.memberList.find(
+            (member) => member.userId === response.data.club.userId
+          )
+        );
+        setIsRecruitment(response.data.club.recruitment === 1);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("클럽 정보 로딩 중 오류", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchClubData();
+  }, [param]);
+
+  const clubSignUp = async () => {
+    if (!isAuthenticated) {
+      nav("/login");
+    } else if (
+      clubData.memberList.find(
+        (member) => String(member.userId) === String(loginId)
+      )
+    ) {
+      alert("이미 참여중인 모임입니다.");
+    } else {
+      try {
+        const response = await instance.post(
+          `http://localhost:8080/api/club/clubmember/signUp/${clubData.club.clubNo}`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        switch (response.data) {
+          case 1:
+            alert("이미 신청한 모임입니다.");
+            break;
+          case 0:
+            alert(
+              "신청이 완료되었습니다. 모임장의 승인이 완료되면 참여하실 수 있습니다."
+            );
+            setIsSignUp(true);
+            break;
+          case -1:
+            alert("신청 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+        }
+      } catch (error) {
+        console.error("clubSignUp Error", error);
+      }
+    }
+  };
+
+  const openUserModal = ({
+    nickName,
+    message,
+    backgroundImage,
+    profileImage,
+    userId,
+  }) => {
+    setSelectedUser({
+      nickName,
+      message,
+      backgroundImage,
+      profileImage,
+      userId,
+    });
     toggleModal();
   };
 
   const reportToggleModal = () => setReportIsModalOpen(!isReportModalOpen);
 
-  const openReportModal = ({ nickName }) => {
-    setSelectedUser({ nickName });
+  const openReportModal = ({ nickName, userId, targetId }) => {
+    setSelectedUser({ nickName, userId, targetId });
     reportToggleModal();
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!clubData || !clubData.club) {
+    return <div>클럽 정보를 불러오는 중 오류가 발생했습니다.</div>;
+  }
+
   return (
-    <>
-      <div className='ClubDetailInfo'>
-        <div className='ClubDetailWrap'>
-          <div className='ClubDetailTopArea'>
-            <div className='ClubDetailTopTitleBox'>
-              <div className='ClubDetailHeader'>
-                <div className='ClubDetailHeaderBox'>
-                  <div className='ClubDetailHeaderIcon'>
-                    <img className='ClubDetailCategoryIcon' src="/src/assets/images/categoryIcon.png" />
-                    <h3>카테고리 영역</h3>
+    <div className="ClubDetailInfo">
+      <div className="ClubDetailWrap">
+        <div className="ClubDetailTopArea">
+          <div className="ClubDetailTopTitleBox">
+            <div className="ClubDetailHeader">
+              <div className="ClubDetailHeaderBox">
+                <div className="ClubDetailHeaderIcon">
+                  <div className="ClubDatailCategoryWrapDiv">
+                    <img
+                      className="ClubDetailCategoryIcon"
+                      src="/src/assets/images/categoryIcon.png"
+                      alt="Category Icon"
+                    />
+                    <h3>
+                      {clubData.club.category}{" "}
+                      <span>({isRecruitment ? "모집중" : "모집마감"})</span>
+                    </h3>
                   </div>
-                  <div className='ClubDetailReportBox'>
-                    <img src="/src/assets/images/report6.png" alt="신고이미지" onClick={() => openReportModal({ nickName: '김춘자' })} />
-                    <ReportModal
-                      isOpen={isReportModalOpen}
-                      toggle={reportToggleModal}
-                      title='신고하기'
-                      targetId={selectedUser?.nickName} >
-                    </ReportModal>
+                </div>
+                <div className='ClubDetailTopMiddleBox'>
+                  <div className='ClubDetailTopImageArea'>
+                    <img src={`data:image/jpeg;base64,${clubData.imageData['clubImage0']}`} />
+                  </div>
+                  <div className='ClubDetailTop_middelContentArea'>
+                    <div><img src="/src/assets/images/leader.png" /><strong>모임장:</strong><span>{clubManager.nickName ? clubManager.nickName : clubManager.userName}</span></div>
+                    <div><img src="/src/assets/images/age.png" /><strong>제한나이:</strong><span>{clubData.club.ageLimit}</span></div>
+                    <div><img src="/src/assets/images/gender.png" /><strong>제한성별:</strong><span>{clubData.club.clubGender}</span></div>
                   </div>
                 </div>
               </div>
-              <h1>미술관 친구들 - 저기, 나랑 전시보러 가지 않을래?</h1>
-              <div className='ClubDetailTop_contentArea'>
-                <div><img src="/src/assets/images/location.png" /><span>지역정보</span></div>
-                <div><img src="/src/assets/images/timetable.png" /><span>모임 날짜</span></div>
-                <div><img src="/src/assets/images/group.png" /><span>인원</span></div>
+
+              <div className='ClubDetailSectionArea'>
+                <div className='ClubDetailIntroDuceArea'>
+                  <h3>모임 소개</h3>
+                  <div className='ClubDetailIntroDuceText' dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(clubData.club.detailInfo),
+                  }}>
+                  </div>
+                </div>
+                <div className='ClubDetailMemberArea'>
+                  <h4>모임 멤버 ({clubData.club.memberCount})</h4>
+                  <div className='ClucDetailMemberBox'>
+
+                    {clubData.memberList.map((member) =>
+                      <div className='ClubDetailMemberInfoBox'
+                        key={member.userId}
+                        onClick={() => openUserModal({
+                          userId: member.userId,
+                          nickName: member.nickName ? member.nickName : member.userName,
+                          message: member.userIntro,
+                          backgroundImage: `data:image/jpeg;base64,${clubData.imageData['backImage' + member.userId]}`,
+                          profileImage: `data:image/jpeg;base64,${clubData.imageData['userImage' + member.userId]}`
+                        })}>
+                        <img src={`data:image/jpeg;base64,${clubData.imageData['userImage' + member.userId]}`} />
+                        <div className='ClubDetailMemberInfo'>
+                          <p className='ClubDetailMemberNickname'>{member.nickName ? member.nickName : member.userName} <span>{clubData.club.userId === member.userId ? '(모임장)' : ''}</span></p>
+                          <p className='ClubDetailMemberIntro'>{member.userIntro}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <UserProfileModal
+                      userId={selectedUser?.userId}
+                      targetName={selectedUser?.nickName}
+                      type="club"
+                    />
+                  </div>
+                </div>
+              </div>
+              <h1>{clubData.club.clubTitle}</h1>
+              <div className="ClubDetailTop_contentArea">
+                <div>
+                  <img src="/src/assets/images/location.png" alt="Location" />
+                  <span>
+                    {clubData.club.city} {clubData.club.district}
+                  </span>
+                </div>
+                <div>
+                  <img src="/src/assets/images/timetable.png" alt="Timetable" />
+                  <span>{clubData.club.dday}</span>
+                </div>
+                <div>
+                  <img src="/src/assets/images/group.png" alt="Group" />
+                  <span>
+                    {clubData.club.memberCount} / {clubData.club.maxMember}명
+                  </span>
+                </div>
               </div>
             </div>
-            <div className='ClubDetailTopMiddleBox'>
-              <div className='ClubDetailTopImageArea'>
-                <img src="/src/assets/images/frankenstein.webp" />
+            <div className="ClubDetailTopMiddleBox">
+              <div className="ClubDetailTopImageArea">
+                <img
+                  src={`data:image/jpeg;base64,${clubData.imageData["clubImage0"]}`}
+                  alt={clubData.club.clubTitle}
+                />
               </div>
-              <div className='ClubDetailTop_middelContentArea'>
-                <div><img src="/src/assets/images/leader.png" /><strong>모임장:</strong><span>닉네임</span></div>
-                <div><img src="/src/assets/images/age.png" /><strong>제한나이:</strong><span>22</span></div>
-                <div><img src="/src/assets/images/gender.png" /><strong>제한성별:</strong><span>제한없음</span></div>
+              <div className="ClubDetailTop_middelContentArea">
+                <div>
+                  <img src="/src/assets/images/leader.png" alt="Leader" />
+                  <strong>모임장:</strong>
+                  <span>
+                    {clubManager.nickName
+                      ? clubManager.nickName
+                      : clubManager.userName}
+                  </span>
+                </div>
+                <div>
+                  <img src="/src/assets/images/age.png" alt="Age Limit" />
+                  <strong>제한나이:</strong>
+                  <span>{clubData.club.ageLimit}</span>
+                </div>
+                <div>
+                  <img src="/src/assets/images/gender.png" alt="Gender Limit" />
+                  <strong>제한성별:</strong>
+                  <span>{clubData.club.clubGender}</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className='ClubDetailSectionArea'>
-            <div className='ClubDetailIntroDuceArea'>
+          <div className="ClubDetailSectionArea">
+            <div className="ClubDetailIntroDuceArea">
               <h3>모임 소개</h3>
-              <div className='ClubDetailIntroDuceText' dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(values),
-              }}>
-              </div>
+              <div
+                className="ClubDetailIntroDuceText"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(clubData.club.detailInfo),
+                }}
+              ></div>
             </div>
-            <div className='ClubDetailMemberArea'>
-              <h4>모임 멤버 (100)</h4>
-              <div className='ClucDetailMemberBox'>
-
-                <div className='ClubDetailMemberInfoBox'
-                  onClick={() => openUserModal({
-                    nickName: '마봉팔',
-                    message: '집에가고싶다~',
-                    backgroundImage: 'frankenstein.webp',
-                    profileImage: 'blank_image.png'
-                  })}>
-                  <img src="/src/assets/images/blank_image.png" />
-                  <div className='ClubDetailMemberInfo'>
-                    <p className='ClubDetailMemberNickname'>마봉팔</p>
-                    <p className='ClubDetailMemberIntro'>집에가고싶다~</p>
+            <div className="ClubDetailMemberArea">
+              <h4>모임 멤버 ({clubData.club.memberCount})</h4>
+              <div className="ClucDetailMemberBox">
+                {clubData.memberList.map((member) => (
+                  <div
+                    className="ClubDetailMemberInfoBox"
+                    key={member.userId}
+                    onClick={() =>
+                      openUserModal({
+                        userId: member.userId,
+                        nickName: member.nickName
+                          ? member.nickName
+                          : member.userName,
+                        message: member.userIntro,
+                        backgroundImage: `data:image/jpeg;base64,${clubData.imageData["backImage" + member.userId]
+                          }`,
+                        profileImage: `data:image/jpeg;base64,${clubData.imageData["userImage" + member.userId]
+                          }`,
+                      })
+                    }
+                  >
+                    <img
+                      src={`data:image/jpeg;base64,${clubData.imageData["userImage" + member.userId]
+                        }`}
+                      alt={member.nickName ? member.nickName : member.userName}
+                    />
+                    <div className="ClubDetailMemberInfo">
+                      <p className="ClubDetailMemberNickname">
+                        {member.nickName ? member.nickName : member.userName}{" "}
+                        <span>
+                          {clubData.club.userId === member.userId
+                            ? "(모임장)"
+                            : ""}
+                        </span>
+                      </p>
+                      <p className="ClubDetailMemberIntro">{member.userIntro}</p>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
               <div>
                 <UserProfileModal
+                  userId={selectedUser?.userId}
                   isOpen={isModalOpen}
                   toggle={toggleModal}
                   backgroundImage={selectedUser?.backgroundImage}
                   profileImage={selectedUser?.profileImage}
                   name={selectedUser?.nickName}
                   details={selectedUser?.message}
-                >
-                </UserProfileModal>
+                />
               </div>
-
-            </div>
-          </div>
-          <div className='ClubDetailBottomArea'>
-            <h3>같은 카테고리 인기 모임!</h3>
-            <div className='ClubDetailPopGroup'>
-              <div>인기 컨텐츠 1</div>
-              <div>인기 컨텐츠 1</div>
-              <div>인기 컨텐츠 1</div>
-              <div>인기 컨텐츠 1</div>
-              <div>인기 컨텐츠 1</div>
             </div>
           </div>
 
-          <div className='ClubDetailSignButtonArea'>
-            <div className='ClubDetailSignButtonBox'>
-              <div>바로 신청하기</div>
-              <button className='ClubDetailSignButton'>신청하기</button>
+          <div className="ClubDetailBottomArea">
+            <h3>실시간 인기 모임</h3>
+            <div className="ClubDetailPopGroup">
+              {clubData.clubList.map((club) => (
+                <div key={club.clubNo} className="ClubDetailPopGroupInfoBox">
+                  <div className="ClubDetailPopGroupImage">
+                    <img
+                      src={`data:image/jpeg;base64,${clubData.imageData["clubImage" + club.clubNo]
+                        }`}
+                      alt={club.clubTitle}
+                      onClick={() => {
+                        nav(`/club/${club.clubNo}`);
+                      }}
+                    />
+                  </div>
+                  <div className="ClubDetailPopGroupInfo">
+                    <span>{club.clubTitle}</span>
+                    <span>카테고리: {club.category}</span>
+                    <span>
+                      지역: {club.city} {club.district}
+                    </span>
+                    <span>{club.regularType === 0 ? "하루" : "정기"} 모임</span>
+                    <span>성별: {club.clubGender}</span>
+                    <span>나이 제한: {club.ageLimit}</span>
+                    <span>모임 날짜: {club.dday}</span>
+                    <span>모집인원: {club.maxMember}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
+
+          {loginId !== clubData.club.userId && (
+            <div>
+              {isRecruitment &&
+                clubData.club.maxMember - clubData.club.memberCount > 0 ? (
+                <div className="ClubDetailSignButtonArea">
+                  <div className="ClubDetailSignButtonBox">
+                    <div className="ClubDetailSignTextArea">
+                      <p>참여 모집중!</p>
+                      <p>
+                        남은 자리{" "}
+                        <span>
+                          {clubData.club.maxMember - clubData.club.memberCount}
+                        </span>
+                      </p>
+                    </div>
+                    {!isSignUp && (
+                      <button
+                        className="ClubDetailSignButton"
+                        onClick={clubSignUp}
+                      >
+                        신청하기
+                      </button>
+                    )}
+                    {isSignUp && (
+                      <button className="ClubDetailSignButton">신청 완료</button>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="ClubDetailSignButtonArea">
+                  <div className="ClubDetailSignButtonBox">
+                    <div className="ClubDetailSignTextArea">
+                      <p>모집 마감</p>
+                    </div>
+                    <button className="ClubDetailSignButton">신청 불가</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
-    </>
+    </div>
   )
 }
-export default ClubDetailInfo
+
+export default ClubDetailInfo;

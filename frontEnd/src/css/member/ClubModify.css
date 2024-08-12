@@ -3,7 +3,7 @@
   text-align: center;
   margin-top: 50px;
 }
-.ClubModifyWrap{
+.ClubModify .ClubModifyWrap{
   width: 100%;
 }
 .ClubModifyTopArea{
@@ -137,7 +137,7 @@
 
 .ClubModifyChoiceSection{
   display: flex;
-  gap: 50px;
+  gap: 70px;
 }
   
 .ClubModifyChoiceBoxArea{
@@ -176,18 +176,18 @@
   padding: 0 10px;
 }
 
-.venueBox > h3{
+.ClubModifyVenueBox > h3{
   margin: 18px 0 5px 5px;
 }
-.venueChoice{
+.ClubModifyVenueChoice{
   display: flex;
   width: 500px;
 }
-.venueChoice ul,li{
+.ClubModifyVenueChoice ul,li{
   list-style-type: none;
   padding: 0;
 }
-.venueChoiceLocal ul{
+.ClubModifyVenueChoiceLocal ul{
   width: 150px;
   height: 330px;
   overflow: auto;
@@ -199,10 +199,10 @@
   border-bottom: 1px solid rgb(0,0,0,0.3);
   padding: 10px 0 10px 10px;
 }
-.venueChoiceLocal ul::-webkit-scrollbar {
+.ClubModifyVenueChoiceLocal ul::-webkit-scrollbar {
   display: none; 
 }
-.venueChoiceLocal li{
+.ClubModifyVenueChoiceLocal li{
   flex: none;
   padding: 2px;
   width: 130px;
@@ -214,41 +214,40 @@
   font-size: 14px;
   font-weight: bold;
 }
-.venueChoiceLocal li:hover{
+.ClubModifyVenueChoiceLocal li:hover{
   background-color: skyblue;
   color: white;
 }
-
-.venueChoiceCity ul{
+.ClubModifyVenueChoiceCity ul{
+  width: 100%;
   display: flex;
+  flex-direction: row;
   align-content: start;
   flex-wrap: wrap;
   overflow: auto;
-  width: 270px;
+  padding: 10px 0 10px 10px;
   height: 330px;
-  padding: 10px 0px 10px 20px;
   border-left: 1px solid rgb(0,0,0,0.3);
   border-top: 1px solid rgb(0,0,0,0.3);
   border-bottom: 1px solid rgb(0,0,0,0.3);
   gap: 10px;
 }
-.venueChoiceCity ul::-webkit-scrollbar {
+.ClubModifyVenueChoiceCity ul::-webkit-scrollbar {
   display: none; 
 }
-.venueChoiceCity li {
-  flex: none;
+.ClubModifyVenueChoiceCity li {
   padding: 2px;
-  width: 120px;
+  width: 150px;
   height: 25px;
   font-size: 14px;
   border-bottom: 1px solid rgb(0,0,0,0.3);
-  cursor: pointer;
   font-size: 12px;
   font-weight: 600;
   color: gray;
+  cursor: pointer;
 
 }
-.venueChoiceCity li:hover{
+.ClubModifyVenueChoiceCity li:hover{
   background-color: skyblue;
   color: white;
   border: none;

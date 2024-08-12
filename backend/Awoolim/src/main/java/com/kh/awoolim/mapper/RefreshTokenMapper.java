@@ -10,6 +10,6 @@ public interface RefreshTokenMapper {
 
 	public void delete(String refresh);
 	
-	public void deleteAll(String userEmail);
+	public void deleteAll(int userId);
 
 }

@@ -1,5 +1,5 @@
 .FaqWrite{
-    width: 1000px;
+    width: 70%;
     margin: 0 auto;
     font-family: Arial, sans-serif;
     color: #333;
@@ -8,6 +8,21 @@
 .FwHeader {
     display: flex;
     align-items: center;
+    
+}
+
+.fwCategory h5 {
+    color: rgb(3, 3, 129); 
+}
+
+#category{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    margin: 0px;
+    margin-bottom: 35px;
+    margin-top: 10px;
 }
 
 
@@ -15,6 +30,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 0px;
+    margin-bottom: 35px;
 }
 
 .fwQuestion textarea{
@@ -22,7 +39,7 @@
     padding: 10px;
 }
 
-.fwQuestion h4 {
+.fwQuestion h5 {
     color: rgb(3, 3, 129);  
 }
 
@@ -32,7 +49,7 @@
     justify-content: center;
 }
 
-.fwAnswer h4{
+.fwAnswer h5{
     color: rgb(3, 3, 129);
 }
 

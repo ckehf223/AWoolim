@@ -1,3 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.awoolim.mapper.ClubMemberMapper"></mapper>
+<mapper namespace="com.kh.awoolim.mapper.ClubMemberMapper">
+	<select id="readClubMember" resultType="Member" parameterType="int">
+    SELECT m.USERID as userId, 
+      m.USERNAME as userName,
+      m.NICKNAME as nickName, 
+      m.USERIMAGE as userImage, 
+      m.USERBACKIMAGE as userBackImage, 
+      m.USERINTRO as userIntro
+    FROM 
+      CLUBMEMBER cm
+    JOIN 
+      MEMBER m ON cm.USERID = m.USERID
+    WHERE 
+      cm.CLUBNO = #{clubNo} 
+      AND cm.ISACCEPT = 1
+  </select>
+  <select id="readClubMemberList" resultType="Map" parameterType="int">
+ 	SELECT M.USERID,M.USERNAME,M.USEREMAIL,M.USERBIRTH,M.USERGENDER,
+  	M.USERPHONE,M.NICKNAME,M.USERIMAGE,M.USERBACKIMAGE,M.USERINTRO,
+  	TO_CHAR(CM.REGDATE,'YY.MM.DD') AS REGDATE 
+  	FROM MEMBER M JOIN CLUBMEMBER CM
+  	ON M.USERID = CM.USERID
+  	WHERE CM.CLUBNO = #{clubNo} AND CM.USERID != #{userId} AND CM.ISACCEPT = #{isAccept}
+  </select>
+	<select id="findById" resultType="int" parameterType="int">
+		SELECT COUNT(MEMBERNO) FROM CLUBMEMBER
+		WHERE CLUBNO = #{clubNo} AND USERID = #{userId} AND ISACCEPT = 0
+	</select>
+	<insert id="create" parameterType="int">
+		INSERT INTO CLUBMEMBER VALUES(
+		CLUBMEMBER_SEQ.NEXTVAL,#{clubNo},#{userId},SYSDATE,0)
+	</insert>
+	<delete id="delete" parameterType="int">
+		DELETE FROM CLUBMEMBER 
+		WHERE CLUBNO = #{clubNo} AND USERID = #{userId}
+	</delete>
+	<update id="update" parameterType="int">
+		UPDATE CLUBMEMBER SET ISACCEPT = 1
+		WHERE CLUBNO= #{clubNo} AND USERID = #{userId}
+	</update>
+	<select id="myClubSignupCount" resultType="int" parameterType="int">
+		SELECT COUNT(MEMBERNO) FROM CLUBMEMBER
+		WHERE CLUBNO = #{clubNo} AND ISACCEPT = 0
+	</select>
+</mapper>

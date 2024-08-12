@@ -1,5 +1,8 @@
 .NoticeWrite {
+    width:1200px;
     margin: 0 auto;
+    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+    /* font-family: Arial, Helvetica, sans-serif; */
 }
 .NwTitle{
     display: flex;

@@ -1,3 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.awoolim.mapper.ClubMapper"></mapper>
+<mapper namespace="com.kh.awoolim.mapper.ClubMapper">
+
+	<insert id="create" parameterType="Club">
+		INSERT INTO CLUB VALUES(
+		club_seq.nextVal,#{clubTitle},#{clubGender},
+		#{ageLimit},#{category},#{city}
+		,#{district},#{regularType},#{maxMember}
+		,#{userId},#{dDay},#{clubImage}
+		,#{detailInfo},#{recruitment},#{memberCount})
+	</insert>
+
+	<select id="readClub" resultType="Club" parameterType="int">
+		SELECT *
+		FROM CLUB WHERE CLUBNO = #{clubNo}
+	</select>
+
+	<select id="readPopularTop4" resultType="Club">
+		SELECT * FROM CLUB ORDER
+		BY MEMBERCOUNT DESC,CLUBNO ASC
+		FETCH FIRST 4 ROWS
+		ONLY
+	</select>
+	<select id="clubCount" resultType="int">
+		SELECT COUNT(CLUBNO) FROM CLUB
+		WHERE USERID = #{userId}
+	</select>
+	<select id="readMyApprovalClubList" parameterType="int"
+		resultType="Club">
+		SELECT c.* FROM
+		CLUB c JOIN CLUBMEMBER cm
+		ON c.CLUBNO =
+		cm.CLUBNO
+		WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND
+		cm.ISACCEPT = 1
+	</select>
+	<select id="readMyClubDisapprovalList" parameterType="int"
+		resultType="Club">
+		SELECT c.* FROM
+		CLUB c JOIN CLUBMEMBER cm
+		ON c.CLUBNO =
+		cm.CLUBNO
+		WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND
+		cm.ISACCEPT = 0
+	</select>
+	<update id="addClubCount" parameterType="int">
+		UPDATE CLUB SET
+		MEMBERCOUNT = MEMBERCOUNT + 1
+		WHERE CLUBNO = #{clubNo}
+	</update>
+	<update id="minusClubCount" parameterType="int">
+		UPDATE CLUB SET
+		MEMBERCOUNT = MEMBERCOUNT - 1
+		WHERE CLUBNO = #{clubNo}
+	</update>
+	<select id="readMyMadeClubList" parameterType="int"
+		resultType="Club">
+		SELECT * FROM CLUB WHERE USERID = #{userId}
+	</select>
+	<update id="modifyClub" parameterType="Club">
+		UPDATE CLUB SET CLUBTITLE = #{clubTitle},CATEGORY = #{category},
+		CLUBGENDER = #{clubGender}, DDAY = #{dDay}, REGULARTYPE = #{regularType},
+		MAXMEMBER = #{maxMember}, CITY = #{city}, DISTRICT = #{district},
+		DETAILINFO = #{detailInfo}, AGELIMIT = #{ageLimit}, CLUBIMAGE = #{clubImage},
+		RECRUITMENT = #{recruitment}
+		WHERE CLUBNO = #{clubNo}
+	</update>
+	<select id="getAllClubs" resultType="Club">
+		SELECT * FROM club
+	</select>
+
+	<select id="getImage" resultType="byte[]">
+		SELECT clubImage
+		FROM club
+		WHERE
+		clubImage = #{imageName}
+	</select>
+
+	<select id="searchClubs" resultType="Club">
+		SELECT *
+		FROM club
+		<where>
+			<if test="searchTerm != null and searchTerm != ''">
+				AND (
+				club_title LIKE CONCAT('%', #{searchTerm}, '%')
+				OR
+				category LIKE CONCAT('%', #{searchTerm}, '%')
+				)
+			</if>
+			<if test="filters != null">
+				<foreach item="value" index="key"
+					collection="filters.entrySet()">
+					<if test="value != null and value != ''">
+						AND ${key} = #{value}
+					</if>
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+</mapper>

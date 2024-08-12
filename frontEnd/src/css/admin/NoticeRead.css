@@ -1,5 +1,8 @@
 .NoticeRead {
-    width: 900px;
+    width: 70%;
+    margin: 0 auto;
+    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+    /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 .NrTitle {

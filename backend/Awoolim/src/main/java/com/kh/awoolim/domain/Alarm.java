@@ -1,5 +1,11 @@
 package com.kh.awoolim.domain;
 
-public class Alarm {
+import lombok.Data;
 
+@Data
+public class Alarm {
+	private int alarmNo;
+	private int userId;
+	private String message;
+	private int isRead;
 }

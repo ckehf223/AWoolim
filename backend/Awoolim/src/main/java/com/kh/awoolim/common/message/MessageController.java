@@ -2,11 +2,18 @@ package com.kh.awoolim.common.message;
 
 import java.security.SecureRandom;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.awoolim.domain.Member;
+import com.kh.awoolim.service.MemberService;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
@@ -20,6 +27,9 @@ public class MessageController {
 
 	final DefaultMessageService messageService;
 
+	@Autowired
+	private MemberService memberService;
+
 	@Value("${coolsms.api.sendNumber}")
 	private String sendNumber;
 
@@ -29,7 +39,7 @@ public class MessageController {
 	}
 
 	@PostMapping("send-sms")
-	public void sendSms(@RequestBody MessageRequest messageRequest, HttpSession session) {
+	public void sendSms(@RequestBody MessageRequest messageRequest, HttpSession session, HttpServletResponse response) {
 		String code = randomCode();
 		session.setAttribute("authenticationCode", code);
 
@@ -40,7 +50,8 @@ public class MessageController {
 
 		try {
 			messageService.send(message);
-			log.info("message"+message);
+			log.info("message" + message);
+			response.setStatus(HttpStatus.OK.value());
 		} catch (NurigoMessageNotReceivedException exception) {
 			throw new RuntimeException("message error " + exception.getMessage());
 		} catch (Exception exception) {
@@ -49,11 +60,31 @@ public class MessageController {
 	}
 
 	@PostMapping("/check-code")
-	public boolean checkCode(@RequestBody CodeRequest codeRequest, HttpSession session) {
+	public ResponseEntity<Integer> checkCode(@RequestBody CodeRequest codeRequest, HttpSession session) {
+		log.info("check=code ENter");
 		String storedCode = (String) session.getAttribute("authenticationCode");
-		session.invalidate();
-		return storedCode != null && storedCode.equals(codeRequest.getCode());
-	
+
+		if (storedCode == null) {
+			log.info("Stored code is null");
+			return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(-1));
+		}
+
+		if (storedCode.equals(codeRequest.getCode())) {
+			try {
+				Member member = memberService.findByPhone(codeRequest.getPhoneNumber());
+				if (member == null) {
+					return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(1));
+				} else {
+					return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(0));
+				}
+			} catch (Exception e) {
+				log.error("Error occurred while checking code", e);
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Integer.valueOf(-1));
+			}
+		} else {
+			log.info("Codes do not match");
+			return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(-1));
+		}
 	}
 
 	private String randomCode() {

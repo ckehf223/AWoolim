@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import '/src/css/member/RegisterMember.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import { useAuth } from '/src/common/AuthContext'
 
 const RegisterMember = () => {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const { isAuthenticated } = useAuth();
+
+
     const [formData, setFormData] = useState({
         useremail: '',
         password: '',
@@ -17,8 +22,9 @@ const RegisterMember = () => {
         userphone: '',
         nickname: '',
         phoneCheckCode: '',
-        snsType: 'default',
+        snsType: '',
     });
+
     const [userEmailError, setUserEmailError] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [passwordCheckVisible, setPasswordCheckVisible] = useState(false);
@@ -32,7 +38,21 @@ const RegisterMember = () => {
     const [phoneCheckMessage, setPhoneCheckMessage] = useState('');
     const [userEmailSuccess, setUserEmailSuccess] = useState('');
 
-    const navi = useNavigate();
+    const nav = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            nav('/');
+        } else {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                useremail: queryParams.get('email') || '',
+                username: queryParams.get('name') || '',
+                snsType: queryParams.get('type') || 'default',
+            }));
+        }
+    }, [location.search, isAuthenticated]);
+
 
     useEffect(() => {
         let interval;
@@ -47,49 +67,70 @@ const RegisterMember = () => {
         return () => clearInterval(interval);
     }, [isActive, timeLeft]);
 
-    const handleButtonClick = async () => {
-        try {
-            const response = await axios.post('http://localhost:8080/send-sms', {
-                phoneNumber: formData.userphone,
-                message: "Hello!"
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
-            });
 
-            if (response.status === 200) {
-                setTimeLeft(180);
-                setIsActive(true);
-                setUserPhoneError('인증번호가 전송되었습니다.');
+    const handleButtonClick = async () => {
+        if (formData.userphone === '' || formData.userphone === null) {
+            setUserPhoneError('전화번호를 입력해주세요');
+        } else {
+            try {
+                const response = await axios.post('http://localhost:8080/send-sms', {
+                    phoneNumber: formData.userphone,
+                    message: "Hello!"
+                }, {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                });
+
+                if (response.status === 200) {
+                    setTimeLeft(180);
+                    setIsActive(true);
+                    setUserPhoneError('인증번호가 전송되었습니다.');
+                }
+            } catch (error) {
+                setUserPhoneError('인증번호 전송에 실패했습니다.');
+                console.log("인증번호 전송 오류: " + error);
             }
-        } catch (error) {
-            setUserPhoneError('인증번호 전송에 실패했습니다.');
-            console.log("인증번호 전송 오류: " + error);
         }
     };
     const handleCodeCheck = async () => {
-        try {
-            await axios.post('http://localhost:8080/check-code', { code: formData.phoneCheckCode },
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true,
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        setPhoneCheckSuccess(response.data);
-                        if (response.data) {
-                            setPhoneCheckMessage('인증되었습니다.');
-                            setUserPhoneError('')
-                            setIsActive(false);
-                        } else {
-                            setUserPhoneError('인증 번호를 확인해주세요')
-                            setFormData({ ...formData, phoneCheckCode: '' });
-                        }
-                    }
-                })
-        } catch (error) {
-            setPhoneCheckMessage('인증번호 확인에 실패했습니다.');
+        if (formData.phoneCheckCode === null || formData.phoneCheckCode === '') {
+            setPhoneCheckMessage('인증번호를 입력해주세요')
+        } else {
+            try {
+                const response = await axios.post('http://localhost:8080/check-code',
+                    {
+                        code: formData.phoneCheckCode,
+                        phoneNumber: formData.userphone
+                    },
+                    {
+                        headers: { 'Content-Type': 'application/json' },
+                        withCredentials: true,
+                    })
+                if (response.data === 1) {
+                    setPhoneCheckMessage('인증되었습니다.');
+                    setUserPhoneError('');
+                    setIsActive(false);
+                    setPhoneCheckSuccess(true);
+                    console.log("1번");
+                } else if (response.data === 0) {
+                    alert('이미 가입한 전화번호 입니다.');
+                    setPhoneCheckSuccess(false);
+                    console.log("0번")
+                    nav('/login', { replace: true })
+                } else {
+                    console.log("else번")
+                    setPhoneCheckMessage('인증번호를 확인해주세요')
+                    setFormData({ ...formData, phoneCheckCode: '' });
+                    setPhoneCheckSuccess(false);
+                }
+
+            } catch (error) {
+                console.log("인증번호 확인실패")
+                phoneCheckSuccess(false);
+                setPhoneCheckMessage('인증번호 확인에 실패했습니다.');
+            }
         }
+
     };
 
     const formatTime = (seconds) => {
@@ -108,10 +149,14 @@ const RegisterMember = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (userEmailError === '' && userNameError === '' && passwordError === '' && phoneCheckSuccess) {
+        console.log(userEmailError);
+        console.log(userNameError);
+        console.log(passwordError);
+        console.log(phoneCheckSuccess);
+        if ((userEmailError === '' || userEmailError === null) && (userNameError === '' || userNameError === null) && (passwordError === '' || passwordError === null) && phoneCheckSuccess) {
             // 회원가입 로직
             try {
-                await axios.post('http://localhost:8080/registerMember',
+                await axios.post('http://localhost:8080/member/registerMember',
                     {
                         userEmail: formData.useremail,
                         password: formData.password,
@@ -128,7 +173,7 @@ const RegisterMember = () => {
                 ).then(response => {
                     if (response.status === 200) {
                         alert('회원가입이 완료되었습니다.');
-                        navi('/login');
+                        nav('/login', { replace: true });
                     }
                 })
             } catch (error) {
@@ -147,7 +192,7 @@ const RegisterMember = () => {
             setUserEmailSuccess('')
         } else {
             try {
-                const response = await axios.post('http://localhost:8080/checkEmail', { userEmail: formData.useremail },
+                const response = await axios.post('http://localhost:8080/member/checkEmail', { userEmail: formData.useremail },
                     {
                         headers: { 'Content-Type': 'application/json' },
                         withCredentials: true,
@@ -216,7 +261,7 @@ const RegisterMember = () => {
                         <div className='RegisterMemberInputArea'>
                             <label htmlFor="useremail"><span className='InputStarSpan'>*</span> 이메일</label>
                             <input type="email" id="useremail" name="useremail" value={formData.useremail} placeholder='이메일 형식에 맞게 작성하세요.'
-                                onChange={handleChange} onBlur={validateEmail} required />
+                                onChange={handleChange} onBlur={validateEmail} required readOnly={queryParams.get('email') !== null} />
                         </div>
                         <div className='RegisterMemberErrorArea'>
                             {userEmailError && <span className="error">{userEmailError}</span>}
@@ -224,27 +269,28 @@ const RegisterMember = () => {
                         </div>
                     </div>
                     <div className="RegisterMemberInputBox">
-                        <div className='RegisterMemberInputArea'>
+                        {queryParams.size == 0 && (<div className='RegisterMemberInputArea'>
                             <label htmlFor="password"><span className='InputStarSpan'>*</span> 비밀번호</label>
                             <input type={passwordVisible ? "text" : "password"} name="password" value={formData.password}
                                 onChange={handleChange} onBlur={validatePasswordPatten} required placeholder='8~12자 영문,숫자,특수문자 혼합입니다.' />
                             <span className="password-toggle" onClick={togglePasswordVisibility}>
                                 <FontAwesomeIcon className='EyeSlashIcon' icon={passwordVisible ? faEyeSlash : faEye} />
                             </span>
-                        </div>
+                        </div>)}
                         <div className='RegisterMemberErrorArea'>
                             {passwordError && <span className='error'>{passwordError}</span>}
                         </div>
                     </div>
                     <div className="RegisterMemberInputBox">
-                        <div className='RegisterMemberInputArea'>
+                        {queryParams.size == 0 && <div className='RegisterMemberInputArea'>
                             <label htmlFor="passwordCheck"><span className='InputStarSpan'>*</span> 비밀번호 확인</label>
                             <input type={passwordCheckVisible ? "text" : "password"} name="passwordCheck" value={formData.passwordCheck}
                                 onChange={handleChange} onBlur={validatePasswordMatch} required />
                             <span className="password-toggle" onClick={togglePasswordCheckVisibility}>
                                 <FontAwesomeIcon className='EyeSlashIcon' icon={passwordCheckVisible ? faEyeSlash : faEye} />
                             </span>
-                        </div>
+                        </div>}
+
                         <div className='RegisterMemberErrorArea'>
                             {passwordCheckError && <span className='error' style={{ width: "24%", maginRight: "5px" }}>{passwordCheckError}</span>}
                         </div>
@@ -252,7 +298,8 @@ const RegisterMember = () => {
                     <div className="RegisterMemberInputBox">
                         <div className='RegisterMemberInputArea'>
                             <label htmlFor="username"><span className='InputStarSpan'>*</span> 이름</label>
-                            <input type="text" name="username" value={formData.username} onChange={handleChange} onBlur={validateUserNamePatten} required placeholder='2~7자 한글로 작성하세요.' />
+                            <input type="text" name="username" value={formData.username} onChange={handleChange} onBlur={validateUserNamePatten} required placeholder='2~7자 한글로 작성하세요.'
+                                readOnly={queryParams.get('name') !== null} />
                         </div>
                         <div className='RegisterMemberErrorArea'>
                             {userNameError && <span className='error' style={{ width: "23%", marginRight: "5px" }}>{userNameError}</span>}
@@ -294,7 +341,8 @@ const RegisterMember = () => {
                         </div>
                         }
                         <div className='RegisterMemberErrorArea'>
-                            {phoneCheckSuccess && <span className="error" id='phoneCheckMessage'>{phoneCheckMessage}</span>}
+                            {!phoneCheckSuccess && <span className="error" >{phoneCheckMessage}</span>}
+                            {phoneCheckSuccess && <span className="success">{phoneCheckMessage}</span>}
                         </div>
                     </div>
                     <button type="submit" className="register-button" onClick={handleSubmit}>회원 가입</button>

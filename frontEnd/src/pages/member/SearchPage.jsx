@@ -1,7 +1,7 @@
 import SearchResult from "/src/components/member/SearchResult";
 import AsideButton from "/src/components/member/AsideButton";
 
-function Home() {
+function SearchPage() {
   return (
     <>
       <SearchResult />
@@ -9,4 +9,4 @@ function Home() {
     </>
   );
 }
-export default Home;
+export default SearchPage;
