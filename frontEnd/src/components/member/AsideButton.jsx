@@ -55,7 +55,6 @@ function AsideButton() {
   };
 
   useEffect(() => {
-    console.log("Current image changed:", currentImage);
     setCurrentImage(showAdditionalImages ? cancelImage : firstImage);
   }, [showAdditionalImages]);
 

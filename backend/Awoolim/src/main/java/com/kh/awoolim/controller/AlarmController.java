@@ -26,6 +26,7 @@ public class AlarmController {
 	// 특정 유저의 읽지 않은 알림 가져오기
 	@GetMapping
 	public ResponseEntity<List<Alarm>> getUnreadAlarms(Principal principal) {
+		System.out.println("Principal Name: " + principal.getName()); // Principal 이름 로그 출력
 		int userId = Integer.parseInt(principal.getName());
 		List<Alarm> alarms = alarmService.getUnreadAlarms(userId);
 
@@ -41,6 +42,9 @@ public class AlarmController {
 		if (alarmNos == null || alarmNos.isEmpty()) {
 			return ResponseEntity.badRequest().body("Invalid or missing alarm IDs."); // 상태 코드 400
 		}
+
+		// 데이터 확인
+		System.out.println("Received alarmNos: " + alarmNos);
 
 		alarmService.markAlarmsAsRead(alarmNos);
 		return ResponseEntity.ok("Notifications marked as read."); // 상태 코드 200

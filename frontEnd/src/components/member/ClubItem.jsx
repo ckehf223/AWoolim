@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "/src/css/member/clubitem.css";
 
@@ -9,7 +9,7 @@ function ClubItem({ club, backgroundColor = "#ffffff" }) {
         {club.clubImage ? (
           <img
             className="categoryImg"
-            src={`data:image/jpeg;base64,${club.clubImage}`}
+            src={`http://localhost:8080/api/club/image/${club.clubImage}`} // 이미지 파일 경로 사용
             alt={club.clubTitle}
           />
         ) : (

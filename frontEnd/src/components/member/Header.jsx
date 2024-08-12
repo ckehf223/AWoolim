@@ -29,7 +29,6 @@ function Header() {
       setProfile(response.data);
     } catch (error) {
       console.error("프로필 정보 가져오기 오류:", error);
-      alert("프로필 정보를 가져오는 데 실패했습니다.");
     }
   };
 
@@ -49,16 +48,16 @@ function Header() {
         const message = event.data;
 
         try {
-          // 메시지가 JSON 형식인지 확인
+          // JSON으로 파싱을 시도
           const jsonMessage = JSON.parse(message);
 
-          // 메시지가 JSON 형식인 경우 알림으로 추가
+          // JSON 파싱에 성공한 경우 알림으로 처리
           setNotifications((prevNotifications) => [
             ...prevNotifications,
             jsonMessage,
           ]);
         } catch (error) {
-          // 메시지가 JSON이 아닌 경우
+          // 메시지가 JSON이 아닐 경우 처리
           console.warn("Received a non-JSON message:", message);
         }
       };
@@ -90,12 +89,20 @@ function Header() {
 
   const markNotificationsAsRead = async () => {
     try {
-      // 'alarmNos'를 서버에 전송할 준비
-      const alarmNos = notifications.map((n) => n.alarmNo);
+      const alarmNos = notifications
+        .filter((n) => n.isRead === 0)
+        .map((n) => n.alarmNo);
+
+      if (alarmNos.length === 0) {
+        console.warn("No unread notifications to mark as read.");
+        return;
+      }
+
+      console.log("Sending alarmNos:", alarmNos);
 
       const response = await instance.post(
         "/api/notifications/read",
-        alarmNos, // 숫자 배열을 서버로 전송
+        alarmNos,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
