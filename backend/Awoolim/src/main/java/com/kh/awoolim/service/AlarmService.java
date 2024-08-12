@@ -25,22 +25,4 @@ public class AlarmService {
     public void markAlarmsAsRead(List<Integer> alarmNos) {
     	mapper.markAlarmsAsRead(alarmNos);
     }
-
-	@Autowired
-	private AlarmMapper alarmMapper;
-
-	// 특정 유저의 읽지 않은 알림 가져오기
-	public List<Alarm> getUnreadAlarms(int userId) {
-		return alarmMapper.findUnreadAlarmsByUserId(userId);
-	}
-
-	// 알림 읽음 처리
-	public void markAlarmsAsRead(List<Integer> alarmNos) {
-		alarmMapper.markAlarmsAsRead(alarmNos);
-	}
-
-	// 알림 추가
-	public void createAlarm(Alarm alarm) {
-		alarmMapper.insertAlarm(alarm);
-	}
 }

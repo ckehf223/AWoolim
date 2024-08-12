@@ -29,6 +29,7 @@ const ReportManager = () => {
         const response = await instance.get('/admin/report/list');
         setReports(response.data);
         setFilteredReports(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching reports : ', error);
       }
@@ -199,13 +200,13 @@ const ReportManager = () => {
 
         <tbody>
           {
-            currentReports.map(reports => (
+            currentReports.map((reports, index) => (
               <tr key={reports.reportNo}>
-                <th scope='row'>{reports.reportNo}</th>
+                <th scope='row'>{index + 1}</th>
                 <td>{reports.userName}</td>
                 <td>{reports.targetId}</td>
                 <td>{reports.content}</td>
-                <td>{new Date(reports.regDate).toLocaleDateString()}</td>
+                <td>{new Date(reports.regdate).toLocaleDateString()}</td>
                 <td className={reports.result === 1 ? 'warning' : reports.result === -1 ? 'pass' : 'before'}
                 >{reports.result === 1 ? '경고처리' : reports.result === -1 ? '넘어감' : '처리전'}</td>
                 <td><Button outline color='secondary' onClick={() => openReportModal(reports)}>조치하기</Button></td>
