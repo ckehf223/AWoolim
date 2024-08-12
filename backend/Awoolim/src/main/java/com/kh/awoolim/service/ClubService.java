@@ -55,7 +55,18 @@ public class ClubService {
 	}
 
 	public List<Club> searchClubs(String searchTerm, Map<String, Object> filters) {
-		return clubMapper.searchClubs(searchTerm, filters);
+		List<Club> list = clubMapper.searchClubs(searchTerm, filters);
+		for (Club data : list) {
+			try {
+				if (data.getClubImage() != null && !data.getClubImage().isEmpty()) {
+					String clubImage = (String) encodeImageToBase64("/static/images/" + data.getClubImage().trim());
+					data.setClubImage(clubImage);
+				}
+			} catch (Exception e) {
+				System.err.println("Error encoding image for club " + data.getClubNo() + ": " + e.getMessage());
+			}
+		}
+		return list;
 	}
 
 	public Club readByClub(int clubNo) {

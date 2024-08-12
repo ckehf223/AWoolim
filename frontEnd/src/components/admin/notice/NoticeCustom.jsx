@@ -41,7 +41,7 @@ const NoticeCustom = () => {
     const handleTitleClick = (noticeNo) => {
         instance.put(`http://localhost:8080/admin/notices/increaseView/${noticeNo}`)
             .then(response => {
-                navi(`/admin/noticeReadCustom/${noticeNo}`);
+                navi(`/service/noticeRead/${noticeNo}`);
             })
             .catch(error => {
                 console.error("조회수 증가 오류", error);
@@ -74,18 +74,18 @@ const NoticeCustom = () => {
 
 
     return (
-        <div className="Notice">
-            <div className="Notice_Header">
+        <div className="NoticeCustom">
+            <div className="NoticeCustom_Header">
                 <h1><FontAwesomeIcon icon={faBullhorn} /> 공지사항</h1>
             </div>
             <div className='searchBox'>
                 <div className='writeBtn' />
                 <div className='SB'>
                     <input placeholder='검색' value={serchTerm} onChange={handelSearchChange} />
-                    <FontAwesomeIcon icon={faMagnifyingGlass} onClick={handelSearchSubmit} style={{ marginRight: "15px", color: "gray" }} />
+                    <FontAwesomeIcon icon={faMagnifyingGlass} onClick={handelSearchSubmit} style={{ marginRight: "15px", color: "gray", cursor: 'pointer' }} />
                 </div>
             </div>
-            <div className='NoticeTable'>
+            <div className='NoticeCustomTable'>
                 <table>
                     <thead>
                         <tr>

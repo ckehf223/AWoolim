@@ -35,7 +35,7 @@ const FaqMainCustom = () => {
     };
 
     return (
-        <div className="FaqMain">
+        <div className="ServiceFAQMain">
             <div className="faqHeader">
                 <img src="/src/assets/images/faqMain.png" alt="FaQ" style={{ height: "50px", marginRight: "8px" }} /><h2>자주하는 질문</h2>
             </div>

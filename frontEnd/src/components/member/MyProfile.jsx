@@ -17,6 +17,7 @@ const MyProfile = () => {
   const [backFile, setBackFile] = useState('');
   const [userData, setUserData] = useState();
   const nav = useNavigate();
+
   useEffect(() => {
     const getProfile = async () => {
       try {
@@ -26,11 +27,11 @@ const MyProfile = () => {
           }
         })
         setUserData(response.data);
-        setNickName(response.data.nickName !== null ? response.data.nickName : response.data.userName);
+        setNickName(response.data.nickName ? response.data.nickName : response.data.userName);
         setIntroMg(response.data.userIntro);
         setImageSrc('data:image/jpeg;base64,' + response.data.userImage);
         setBackImageSrc('data:image/jpeg;base64,' + response.data.userBackImage);
-        setTempNickName(response.data.nickName !== null ? response.data.nickName : response.data.userName);
+        setTempNickName(response.data.nickName ? response.data.nickName : response.data.userName);
         setTempIntroMg(response.data.userIntro);
       } catch (error) {
         console.error("마이페이지 프로필 로딩중 오류" + error)
@@ -38,6 +39,7 @@ const MyProfile = () => {
     }
     getProfile();
   }, [])
+
   const onChangeNickNameInput = (e) => {
     setTempNickName(e.target.value);
   }
@@ -129,8 +131,8 @@ const MyProfile = () => {
 
   const changeProfil = async () => {
     if (file === '' && backFile === '' &&
-      ((userData.nickName !== null ? userData.nickName : userData.userName) === nickName)
-      && userData.userImage === imageSrc.split('base64,')[1] && (userData.userBackImage !== null ? userData.userBackImage === backImageSrc.split('base64,')[1] : "null" === backImageSrc.split('base64,')[1])
+      ((userData.nickName ? userData.nickName : userData.userName) === nickName)
+      && userData.userImage === imageSrc.split('base64,')[1] && (userData.userBackImage ? userData.userBackImage === backImageSrc.split('base64,')[1] : "null" === backImageSrc.split('base64,')[1])
       && userData.userIntro === introMg) {
       alert('변경된 데이터가 없습니다.');
     } else {
@@ -151,7 +153,7 @@ const MyProfile = () => {
         } else {
           formData.append('checkImage', '-1');
         }
-        if (backImageSrc !== '' && (userData.userBackImage !== null ? userData.userBackImage !== backImageSrc.split('base64,')[1] : "null" !== backImageSrc.split('base64,')[1])) {
+        if (backImageSrc !== '' && (userData.userBackImage ? userData.userBackImage !== backImageSrc.split('base64,')[1] : "null" !== backImageSrc.split('base64,')[1])) {
           formData.append('checkBack', '1');
         } else if (backImageSrc === '') {
           formData.append('checkBack', '0');

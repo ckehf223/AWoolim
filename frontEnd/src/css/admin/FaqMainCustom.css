@@ -3,8 +3,8 @@ a {
     color: initial;
 }
 
-.FaqMain {
-    width: 70%;
+.ServiceFAQMain {
+    width: 85%;
     margin: 0 auto;
     font-family: Arial, sans-serif;
     color: #333;
@@ -78,19 +78,19 @@ a {
     font-size: small;
     color: green;
     font-weight: bold;
+    text-align: left;
 }
 
 .faqAnswer {
     display: flex;
     flex-direction: column;
     background-color: rgb(250, 247, 247);
-    
     border-radius: 0px 0px 15px 15px;
     border: 1px solid white;
-    /* border: 1px solid orangered; */
     border-top: none;
     max-height: 0px;
     overflow: hidden;
+    text-align: left;
     transition: max-height 0.2s, padding 0.2s ease-in-out;
 }
 
@@ -102,7 +102,7 @@ a {
     border-radius: 0px 0px 15px 15px;
     border: 1px solid orangered;
     border-top: none;
-    
+    text-align: left;
     max-height: 1000PX;
     min-height: 100px;
     margin-bottom: 10px;

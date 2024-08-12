@@ -21,7 +21,7 @@ const UserProfileModal = ({
   return (
     <Modal className='UserProfileModal' isOpen={isOpen} toggle={toggle} centered>
       <div className="UserProfileModal-dialog">
-        <div className="UserProfileModal-content">
+        <div className="UserProfileModalContent">
           <ModalBody className='UserProfileModalHeader'
             style={{ backgroundImage: `url(${backgroundImage})` }}>
             {(isAuthenticated && loginId !== userId) && <img className='UserProfileModalReportImage' src="/src/assets/images/report4.png" alt="신고이미지" onClick={toggleModal} />}

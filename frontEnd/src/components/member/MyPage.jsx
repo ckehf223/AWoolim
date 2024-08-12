@@ -11,13 +11,15 @@ import { useEffect } from "react"
 import { useAuth } from "/src/common/AuthContext";
 
 const MyPage = () => {
-  // const { isAuthenticated } = useAuth();
-  // const nav = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const nav = useNavigate();
 
-  // useEffect(() => {
-  //   if (!isAuthenticated)
-  //     nav('/login');
-  // })
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      nav('/login');
+    }
+  }, []);
+
   return (
     <>
       <div className="MyPage">

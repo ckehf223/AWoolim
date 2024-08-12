@@ -2,7 +2,7 @@ import '/src/css/admin/NoticeReadCustom.css'
 import instance from "/src/common/auth/axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
+import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import DOMPurify from 'dompurify';          //Quill데이터 가져오기
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
@@ -22,15 +22,16 @@ const NoticeReadCustom = () => {
     }, [noticeNo]);
 
     return (
-        <div className="NoticeRead">
+        <div className="NoticeReadCustom">
             <div className="NrHeader">
-                <h1>공지사항</h1>
-                <hr />
+                <div className="NoticeCustom_Header">
+                    <h1><FontAwesomeIcon icon={faBullhorn} /> 공지사항</h1>
+                </div>
             </div>
 
             <div >
                 <div className="NrTitle">
-                    <span className='Nt1'>{notice.keyword}</span>
+                    <span className='Nt1'>[{notice.keyword}]</span>
                     <span><h2>{notice.title}</h2></span>
                     <span>관리자  {new Date(notice.regDate).toLocaleDateString()}</span>
                 </div>
@@ -45,7 +46,7 @@ const NoticeReadCustom = () => {
 
             <hr />
             <div className="NrFooter">
-                <button onClick={() => { return navi('/admin/noticeCustom') }}><FontAwesomeIcon icon={faList} />&nbsp;목록</button>
+                <button onClick={() => { return navi('/service/notice') }}><FontAwesomeIcon icon={faList} />&nbsp;목록</button>
             </div>
         </div>
     )

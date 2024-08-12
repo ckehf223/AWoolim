@@ -5,11 +5,12 @@ import Home from "/src/pages/member/Home";
 import SearchPage from "/src/pages/member/SearchPage";
 import GroupPage from "/src/pages/member/GroupPage";
 import ClubRegister from "/src/components/member/ClubRegister";
-import ClubDetailInfo from "/src/components/member/ClubInfo";
+import ClubDetailInfo from "/src/components/member/ClubDetailInfo";
 import ClubInfo from "/src/components/member/ClubInfo";
 import MyPage from "/src/components/member/MyPage";
 import AsideButton from "/src/components/member/AsideButton";
-
+import ServicePage from "/src/components/member/ServicePage";
+import GroupNav from "/src/components/member/GroupNav";
 const Member = () => {
   return (
     <>
@@ -22,7 +23,10 @@ const Member = () => {
         <Route path="/club/:no" element={<ClubDetailInfo />} />
         <Route path="/myclub/:no" element={<ClubInfo />} />
         <Route path="/mypage/*" element={<MyPage />} />
+        <Route path="/service/*" element={<ServicePage />} />
+        <Route path="mycreateclub/:no" element={<GroupNav />} />
       </Routes>
+      <AsideButton />
       <Footer />
     </>
   );

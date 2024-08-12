@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [loginId, setLoginId] = useState();
   const [role, setRole] = useState();
 
@@ -18,8 +18,7 @@ export const AuthProvider = ({ children }) => {
       setRole(decodeToken.role);
     }
   }, []);
-
-
+  console.log(isAuthenticated)
   const login = async (username, password) => {
     try {
       const reponse = await loginService(username, password);

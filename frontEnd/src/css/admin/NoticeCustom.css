@@ -1,28 +1,28 @@
 /* Notice.css */
-.Notice {
-    width: 70%;
+.NoticeCustom {
+    width: 100%;
     margin: 0 auto;
-    /* font-family: Arial, sans-serif; */
     color: #333;
 }
 
-.Notice_Header {
+.NoticeCustom_Header {
     margin: 20px 0;
     margin-left: 20px;
     margin-bottom: 30px;
+    margin-right: 180px;
 }
 
-.Notice_Header h1 {
+.NoticeCustom_Header h1 {
     font-size: 24px;
     color: #28522a;
 }
 
-.Notice .searchBox {
+.NoticeCustom .searchBox {
     display: flex;
     justify-content: space-between;
 }
 
-.Notice .searchBox .SB {
+.NoticeCustom .searchBox .SB {
     width: 250px;
     margin-bottom: 20px;
     border: 1px solid #ccc; 
@@ -32,7 +32,7 @@
     justify-content: center;
 }
 
-.Notice .searchBox input {
+.NoticeCustom .searchBox input {
     width: 200px;
     padding: 8px;
     margin-right: 5px;
@@ -40,7 +40,7 @@
     outline: none;
 }
 
-.NoticeTable {
+.NoticeCustomTable {
     width: 100%;
     min-height: 419px;
     border-collapse: collapse;
@@ -48,13 +48,13 @@
     border-radius: 5px;
 }
 
-.NoticeTable table {
+.NoticeCustomTable table {
     width: 100%;
     border-collapse: collapse;
     border-radius: 5px;
 }
 
-.NoticeTable th, .NoticeTable td {
+.NoticeCustomTable th, .NoticeCustomTable td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
@@ -62,7 +62,7 @@
     height: 40px;
 }
 
-.NoticeTable th {
+.NoticeCustomTable th {
     background-color: #f2f2f2;
     color: #333;
     border-radius: 5px;

@@ -1,0 +1,42 @@
+.ServicePage{
+  width: 100%;
+  text-align: center;  
+}
+.ServicePageWrap{
+  width: 70%;
+  display: flex;
+  margin: 150px auto;
+}
+.ServiceMainArea{
+  width: 100%;
+}
+.ServiceSideBox{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 225px;
+  gap: 10px;
+  margin-top: 10px;
+}
+.ServiceSideBox h4{
+  font-size: 26px;
+  font-weight: bold;
+}
+.ServiceSideMenuArea{
+  width: 100%;
+}
+.ServiceSideMenu{
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(34, 34, 34, 0.5);
+}
+.ServiceSideMenu span:hover{
+  color: rgb(84, 83, 83);
+}
+.ServiceSideMenu span{
+  cursor: pointer;
+}

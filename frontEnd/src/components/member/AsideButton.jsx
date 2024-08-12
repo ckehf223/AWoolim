@@ -7,6 +7,7 @@ import secondImage from "/src/assets/images/comments.png";
 import thirdImage from "/src/assets/images/calendar.png";
 import cancelImage from "/src/assets/images/cancel.png";
 import instance from "/src/common/auth/axios"; // Axios 인스턴스 가져오기
+import { useAuth } from "/src/common/AuthContext";
 
 function AsideButton() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ function AsideButton() {
   const [showAdditionalImages, setShowAdditionalImages] = useState(false);
   const [currentImage, setCurrentImage] = useState(firstImage);
   const [profile, setProfile] = useState(null);
+  const { isAuthenticated } = useAuth();
 
   // 프로필 정보를 가져오는 함수
   const fetchProfile = async () => {
@@ -28,17 +30,17 @@ function AsideButton() {
       setProfile(response.data);
     } catch (error) {
       console.error("프로필 정보 가져오기 오류:", error);
-      alert("프로필 정보를 가져오는 데 실패했습니다.");
     }
   };
 
   useEffect(() => {
-    fetchProfile(); // 컴포넌트 마운트 시 프로필 정보 가져오기
+    if (isAuthenticated) {
+      fetchProfile(); // 컴포넌트 마운트 시 프로필 정보 가져오기
+    }
   }, []);
 
   const openChatListModal = () => {
-    if (!profile) {
-      alert("프로필 정보가 없습니다. 다시 시도해 주세요.");
+    if (!isAuthenticated) {
       return;
     }
     console.log("Opening Chat List Modal");
@@ -66,49 +68,51 @@ function AsideButton() {
   }, [currentImage]);
 
   return (
-    <div className="main-page">
-      <img
-        ref={imageRef}
-        src={currentImage}
-        alt="Main Image"
-        className="main-image"
-        onClick={toggleAdditionalImages}
-      />
-
-      <div
-        className={`additional-images ${showAdditionalImages ? "show" : ""}`}
-      >
+    <>
+      {isAuthenticated && (<div className="main-page">
         <img
-          src={secondImage}
-          alt="Second Image"
-          className="additional-image"
-          onClick={openChatListModal}
+          ref={imageRef}
+          src={currentImage}
+          alt="Main Image"
+          className="main-image"
+          onClick={toggleAdditionalImages}
         />
-        <img
-          src={thirdImage}
-          alt="Third Image"
-          className="additional-image"
-          onClick={handleThirdImageClick} // thirdImage 클릭 시 handleThirdImageClick 실행
-        />
-      </div>
 
-      {isModalOpen && (
         <div
-          className="modal-overlay show"
-          onClick={() => {
-            console.log("Modal close triggered");
-            setIsModalOpen(false);
-          }}
+          className={`additional-images ${showAdditionalImages ? "show" : ""}`}
         >
-          <div onClick={(e) => e.stopPropagation()}>
-            <ChatListModal
-              onClose={() => setIsModalOpen(false)}
-              profile={profile} // ChatListModal에 profile 전달
-            />
-          </div>
+          <img
+            src={secondImage}
+            alt="Second Image"
+            className="additional-image"
+            onClick={openChatListModal}
+          />
+          <img
+            src={thirdImage}
+            alt="Third Image"
+            className="additional-image"
+            onClick={handleThirdImageClick} // thirdImage 클릭 시 handleThirdImageClick 실행
+          />
         </div>
-      )}
-    </div>
+
+        {isModalOpen && (
+          <div
+            className="modal-overlay show"
+            onClick={() => {
+              console.log("Modal close triggered");
+              setIsModalOpen(false);
+            }}
+          >
+            <div onClick={(e) => e.stopPropagation()}>
+              <ChatListModal
+                onClose={() => setIsModalOpen(false)}
+                profile={profile} // ChatListModal에 profile 전달
+              />
+            </div>
+          </div>
+        )}
+      </div>)}
+    </>
   );
 }
 

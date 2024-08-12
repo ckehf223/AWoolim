@@ -175,7 +175,7 @@ function Header() {
         <button
           id="mypage-button"
           onClick={() => {
-            navigate("/customercenter");
+            navigate("/service/FAQ");
           }}
         >
           고객센터

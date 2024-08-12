@@ -27,7 +27,7 @@ const ClubModify = () => {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   const [file, setFile] = useState('');
-
+  const [recruitment, setRecruitment] = useState('');
 
   useEffect(() => {
     const clubData = async () => {
@@ -52,7 +52,7 @@ const ClubModify = () => {
         setSelectedCity(response.data.city);
         setSelectedDistrict(response.data.district);
         setContent(response.data.detailInfo);
-        console.log(response.data);
+        setRecruitment(response.data.recruitment);
       } catch (error) {
         console.error("클럽 정보 로딩 중 오류", error);
       }
@@ -134,7 +134,7 @@ const ClubModify = () => {
     }
   };
 
-  const onRegisterClub = () => {
+  const onRegisterClub = async () => {
     if (dayValue === '' || regularyType === '' || selectedButton === '' || selectedCity === ''
       || clubTitle === '' || !category === '' || ageLimit === '' || maxMember === '') {
       alert('모임명,카테고리,모임주기,정원,모집 나이,지역은 필수입력 사항입니다.');
@@ -151,7 +151,10 @@ const ClubModify = () => {
         formData.append('maxMember', maxMember);
         formData.append('dDay', dayValue);
         formData.append('detailInfo', content);
-        formData.append('clubImage', file, file.name);
+        formData.append('recruitment', recruitment);
+        if (file) {
+          formData.append('clubImage', file, file.name);
+        }
 
         if (selectedDistrict === '') {
           formData.append('district', '전체');
@@ -164,7 +167,7 @@ const ClubModify = () => {
           formData.append('checkImage', '0');
         }
 
-        instance.post('/api/club/modify', formData, {
+        await instance.post('/api/club/modify', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -214,7 +217,7 @@ const ClubModify = () => {
                   <div className="ClubModifyNcBox">
                     <div className="ClubModifyStateBox">
                       <label htmlFor="ClubState">모집 상태</label>
-                      <select type="text" name="ClubState" id="ClubState" >
+                      <select type="text" name="ClubState" id="ClubState" value={recruitment} onChange={(e) => { setRecruitment(e.target.value) }} >
                         <option value={1}>모집 중</option>
                         <option value={0}>모집 마감</option>
                       </select>

@@ -169,7 +169,6 @@ public class MemberController {
 				// UUID 생성
 				if (!member.getUserImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
 					deleteFile(member.getUserImage());
-					member.setUserImage("dce899f2-eca3-4886-8400-f31bfd64de1f.png");
 				}
 				String uuid = UUID.randomUUID().toString();
 				String originalFilename = userImage.getOriginalFilename();
@@ -191,7 +190,7 @@ public class MemberController {
 
 			switch (checkBack) {
 			case "1":
-				if (!member.getUserBackImage().trim().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
+				if (member.getUserBackImage() != "null" && member.getUserBackImage()!= null &&!member.getUserBackImage().trim().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
 					deleteFile(member.getUserBackImage());
 				}
 				String uuid = UUID.randomUUID().toString();

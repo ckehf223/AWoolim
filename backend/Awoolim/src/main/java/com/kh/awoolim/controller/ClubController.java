@@ -232,6 +232,7 @@ public class ClubController {
 			@RequestParam("checkImage") String checkImage,
 			@RequestParam(value = "clubImage", required = false) MultipartFile clubImage,
 			@RequestParam("detailInfo") String detailInfo, @RequestParam("ageLimit") String ageLimit,
+			 @RequestParam("recruitment") int recruitment,
 			HttpServletRequest request, HttpServletResponse response) {
 		log.info("modify POST Enter");
 
@@ -247,6 +248,7 @@ public class ClubController {
 			club.setDistrict(district);
 			club.setDetailInfo(detailInfo);
 			club.setAgeLimit(ageLimit);
+			club.setRecruitment(recruitment);
 			
 			// 디렉토리가 존재하지 않으면 생성
 			Path uploadPath = Paths.get(uploadDir);
