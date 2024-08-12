@@ -1,42 +1,30 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { login as loginService, logout as logoutService, adminLogout as adminLogoutService } from '/src/common/auth/authService';
-import instance from '/src/common/auth/axios';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginId, setLoginId] = useState();
+  const [role, setRole] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     setIsAuthenticated(!!token);
-    // if (token != null) {
-    //   fetchUserId(token);
-    // }
+    if (token != null) {
+      const decodeToken = jwtDecode(token);
+      setLoginId(decodeToken.userId)
+      setRole(decodeToken.role);
+    }
   }, []);
 
-  // const fetchUserId = async (token) => {
-  //   try {
-  //     const response = await instance.get('http://localhost:8080/getUserId', {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         'Authorization': token,
-  //       }
-  //     })
-  //     setLoginId(response.data);
-  //   } catch (error) {
-  //     console.error('getUserId error', error);
-  //   }
-  // }
 
   const login = async (username, password) => {
-    console.log(username, password)
     try {
-      const response = await loginService(username, password);
-      const userId = response.headers['loginid'];
-      setLoginId(userId);
+      const reponse = await loginService(username, password);
       setIsAuthenticated(true);
+      return reponse;
     } catch (error) {
       console.error('Login error:', error);
       setIsAuthenticated(false);
@@ -59,6 +47,7 @@ export const AuthProvider = ({ children }) => {
       await logoutService();
       setIsAuthenticated(false);
       setLoginId('');
+      setRole('');
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -69,12 +58,13 @@ export const AuthProvider = ({ children }) => {
       await adminLogoutService();
       setIsAuthenticated(false);
       setLoginId('');
+      setRole('');
     } catch (error) {
       console.error('Logout error:', error);
     }
   }
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, adminLogout, socialLogin, loginId }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, adminLogout, socialLogin, loginId, role }}>
       {children}
     </AuthContext.Provider>
   );

@@ -30,7 +30,7 @@ const ModalComponent = ({ isOpen, toggle, title, children, onDelete, onSend, inp
       <ModalFooter>
         {onDelete && <Button outline color='danger' onClick={onDelete}>삭제</Button>}
         <Button outline color='secondary' onClick={toggle}>✖</Button>
-        {inputVisible && <Button outline color='primary' onClick={() => onSend(message)}>전송</Button>}
+        {inputVisible && <Button outline color='primary' onClick={() => onSend(handleSend)}>전송</Button>}
       </ModalFooter>
     </Modal >
   )

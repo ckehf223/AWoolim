@@ -76,6 +76,7 @@ public class MemberController {
 
 	@PostMapping("/registerMember")
 	public void registerMember(@RequestBody Member member, HttpServletResponse response) {
+		log.info("registerMember POST ENTER");
 		log.info(member.toString());
 		try {
 			service.register(member);
@@ -159,28 +160,29 @@ public class MemberController {
 			if (!Files.exists(uploadPath)) {
 				Files.createDirectories(uploadPath);
 			}
-
+			System.out.println(checkImage);
+			System.out.println(checkBack);
+			System.out.println(userImage);
+			System.out.println(userBackImage);
 			switch (checkImage) {
 			case "1":
 				// UUID 생성
-				if (!member.getUserImage().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
+				if (!member.getUserImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
 					deleteFile(member.getUserImage());
 					member.setUserImage("dce899f2-eca3-4886-8400-f31bfd64de1f.png");
 				}
 				String uuid = UUID.randomUUID().toString();
-				// 파일 확장자 추출
 				String originalFilename = userImage.getOriginalFilename();
 				String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-				// 새로운 파일 이름 생성
 				String newFileName = uuid + fileExtension;
-				log.info(newFileName);
 				member.setUserImage(newFileName);
 				byte[] bytes = userImage.getBytes();
 				Path path = Paths.get(uploadDir + File.separator + newFileName);
 				Files.write(path, bytes);
+				path.toFile().getCanonicalPath();
 				break;
 			case "0":
-				if (!member.getUserImage().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
+				if (!member.getUserImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
 					deleteFile(member.getUserImage());
 					member.setUserImage("dce899f2-eca3-4886-8400-f31bfd64de1f.png");
 				}
@@ -189,24 +191,21 @@ public class MemberController {
 
 			switch (checkBack) {
 			case "1":
-				if (!member.getUserImage().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
+				if (!member.getUserBackImage().trim().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
 					deleteFile(member.getUserBackImage());
 				}
-
 				String uuid = UUID.randomUUID().toString();
-				// 파일 확장자 추출
 				String originalFilename = userBackImage.getOriginalFilename();
 				String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-				// 새로운 파일 이름 생성
 				String newFileName = uuid + fileExtension;
-				log.info(newFileName);
 				member.setUserBackImage(newFileName);
 				byte[] bytes = userBackImage.getBytes();
 				Path path = Paths.get(uploadDir + File.separator + newFileName);
 				Files.write(path, bytes);
+				path.toFile().getCanonicalPath();
 				break;
 			case "0":
-				if (!member.getUserImage().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
+				if (!member.getUserBackImage().trim().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
 					deleteFile(member.getUserBackImage());
 				}
 				member.setUserBackImage("");
@@ -228,11 +227,8 @@ public class MemberController {
 			int userId = jwtUtil.getUserId(accessToken);
 			Member member = service.readMember(userId);
 			String userEmail = requestBody.get("userEmail");
-			System.out.println("userEmail ="+userEmail);
 			String userPhone = requestBody.get("userPhone");
-			System.out.println("userPhone ="+userPhone);
 			String password = requestBody.get("password");
-			System.out.println("password ="+password);
 			if(userEmail != null && userEmail != "") {
 				member.setUserEmail(userEmail);
 			}
@@ -242,7 +238,6 @@ public class MemberController {
 			if(password != null && password != "") {
 				member.setPassword(bCryptPasswordEncoder.encode(password));
 			}
-			System.out.println(member);
 			service.updateUser(member);
 			response.setStatus(HttpStatus.OK.value());
 		} catch (Exception e) {

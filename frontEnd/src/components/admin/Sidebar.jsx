@@ -12,7 +12,7 @@ const Sidebar = () => {
         <div className=" border-right" style={{ minHeight: '100vh' }}>
           <Nav vertical>
             <NavItem className="nav-item-custom">
-              <Link className="nav-link" to="/admin">대시보드</Link>
+              <Link className="nav-link" to="/admin/dashboard">대시보드</Link>
             </NavItem>
             <NavItem className="nav-item-custom">
               <Link className="nav-link" to="/admin/user">사용자관리</Link>
