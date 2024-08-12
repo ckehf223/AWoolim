@@ -1,11 +1,9 @@
 package com.kh.awoolim.controller;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,33 +18,37 @@ import com.kh.awoolim.service.AlarmService;
 @RequestMapping("/api/notifications")
 public class AlarmController {
 
-	@Autowired
-	private AlarmService alarmService;
+    @Autowired
+    private AlarmService alarmService;
 
-	// 특정 유저의 읽지 않은 알림 가져오기
-	@GetMapping
-	public ResponseEntity<List<Alarm>> getUnreadAlarms(Principal principal) {
-		System.out.println("Principal Name: " + principal.getName()); // Principal 이름 로그 출력
-		int userId = Integer.parseInt(principal.getName());
-		List<Alarm> alarms = alarmService.getUnreadAlarms(userId);
+    @GetMapping("/read")
+    public ResponseEntity<List<Alarm>> getUnreadAlarms(Principal principal) {
+        String email = principal.getName();
+        System.out.println("Principal Email: " + email);
 
-		if (alarms.isEmpty()) {
-			return ResponseEntity.noContent().build(); // 상태 코드 204
-		}
+        int userId = alarmService.getUserIdByEmail(email);
 
-		return ResponseEntity.ok(alarms); // 상태 코드 200과 함께 알림 반환
-	}
+        List<Alarm> alarms = alarmService.getUnreadAlarms(userId);
 
-	@PostMapping("/read")
-	public ResponseEntity<String> markAlarmsAsRead(@RequestBody List<Integer> alarmNos) {
-		if (alarmNos == null || alarmNos.isEmpty()) {
-			return ResponseEntity.badRequest().body("Invalid or missing alarm IDs."); // 상태 코드 400
-		}
+        if (alarms == null || alarms.isEmpty()) {
+            System.out.println("No unread alarms found for userId: " + userId);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        }
 
-		// 데이터 확인
-		System.out.println("Received alarmNos: " + alarmNos);
+        return ResponseEntity.ok(alarms); // 200 OK
+    }
 
-		alarmService.markAlarmsAsRead(alarmNos);
-		return ResponseEntity.ok("Notifications marked as read."); // 상태 코드 200
+    @PostMapping("/mark-as-read")
+    public ResponseEntity<String> markAlarmsAsRead(@RequestBody List<Integer> alarmNos) {
+        System.out.println("Received alarmNos: " + alarmNos);
+
+        if (alarmNos == null || alarmNos.isEmpty()) {
+            System.out.println("No alarmNos received or alarmNos is empty.");
+            return ResponseEntity.badRequest().body("Invalid or missing alarm IDs."); // 400 Bad Request
+        }
+
+        alarmService.markAlarmsAsRead(alarmNos);
+
+		return ResponseEntity.ok("Notifications marked as read."); // 200 OK
 	}
 }

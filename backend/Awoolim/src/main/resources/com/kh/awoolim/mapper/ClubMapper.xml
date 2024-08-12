@@ -2,105 +2,95 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.ClubMapper">
 
-	<!-- 클럽 생성 -->
 	<insert id="create" parameterType="Club">
-		INSERT INTO CLUB (
-		CLUBNO, CLUBTITLE, CLUBGENDER, AGELIMIT, CATEGORY, CITY, DISTRICT,
-		REGULARTYPE, MAXMEMBER, USERID, DDAY, CLUBIMAGE, DETAILINFO,
-		RECRUITMENT, MEMBERCOUNT
-		) VALUES (
-		club_seq.nextVal, #{clubTitle}, #{clubGender}, #{ageLimit}, #{category}, #{city},
-		#{district}, #{regularType}, #{maxMember}, #{userId}, #{dDay},
-		#{clubImage}, #{detailInfo},
-		#{recruitment}, #{memberCount}
-		)
+		INSERT INTO CLUB VALUES(
+		club_seq.nextVal,#{clubTitle},#{clubGender},
+		#{ageLimit},#{category},#{city}
+		,#{district},#{regularType},#{maxMember}
+		,#{userId},#{dDay},#{clubImage}
+		,#{detailInfo},#{recruitment},#{memberCount})
 	</insert>
 
-	<!-- 클럽 조회 by 클럽 번호 -->
 	<select id="readClub" resultType="Club" parameterType="int">
-		SELECT * FROM CLUB WHERE CLUBNO = #{clubNo}
+		SELECT *
+		FROM CLUB WHERE CLUBNO = #{clubNo}
 	</select>
 
-	<!-- 인기 클럽 TOP 4 조회 -->
 	<select id="readPopularTop4" resultType="Club">
-		SELECT * FROM CLUB ORDER BY MEMBERCOUNT DESC, CLUBNO ASC FETCH FIRST 4 ROWS
+		SELECT * FROM CLUB ORDER
+		BY MEMBERCOUNT DESC,CLUBNO ASC
+		FETCH FIRST 4 ROWS
 		ONLY
 	</select>
-
-	<!-- 유저별 클럽 카운트 -->
-	<select id="clubCount" resultType="int" parameterType="int">
-		SELECT COUNT(CLUBNO) FROM CLUB WHERE USERID = #{userId}
+	<select id="clubCount" resultType="int">
+		SELECT COUNT(CLUBNO) FROM CLUB
+		WHERE USERID = #{userId}
 	</select>
-
-	<!-- 승인된 클럽 리스트 조회 -->
-	<select id="readMyApprovalClubList" resultType="Club"
-		parameterType="int">
-		SELECT c.*
-		FROM CLUB c
-		JOIN CLUBMEMBER cm ON c.CLUBNO = cm.CLUBNO
-		WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND cm.ISACCEPT = 1
+	<select id="readMyApprovalClubList" parameterType="int"
+		resultType="Club">
+		SELECT c.* FROM
+		CLUB c JOIN CLUBMEMBER cm
+		ON c.CLUBNO =
+		cm.CLUBNO
+		WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND
+		cm.ISACCEPT = 1
 	</select>
-
-	<!-- 미승인 클럽 리스트 조회 -->
-	<select id="readMyClubDisapprovalList" resultType="Club"
-		parameterType="int">
-		SELECT c.*
-		FROM CLUB c
-		JOIN CLUBMEMBER cm ON c.CLUBNO = cm.CLUBNO
-		WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND cm.ISACCEPT = 0
+	<select id="readMyClubDisapprovalList" parameterType="int"
+		resultType="Club">
+		SELECT c.* FROM
+		CLUB c JOIN CLUBMEMBER cm
+		ON c.CLUBNO =
+		cm.CLUBNO
+		WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND
+		cm.ISACCEPT = 0
 	</select>
-
-	<!-- 클럽 멤버 카운트 증가 -->
 	<update id="addClubCount" parameterType="int">
-		UPDATE CLUB SET MEMBERCOUNT = MEMBERCOUNT + 1 WHERE CLUBNO = #{clubNo}
-	</update>
-
-	<!-- 클럽 멤버 카운트 감소 -->
-	<update id="minusClubCount" parameterType="int">
-		UPDATE CLUB SET MEMBERCOUNT = MEMBERCOUNT - 1 WHERE CLUBNO = #{clubNo}
-	</update>
-
-	<!-- 유저가 만든 클럽 리스트 조회 -->
-	<select id="readMyMadeClubList" resultType="Club"
-		parameterType="int">
-		SELECT * FROM CLUB WHERE USERID = #{userId}
-	</select>
-
-	<!-- 클럽 수정 -->
-	<update id="modifyClub" parameterType="Club">
 		UPDATE CLUB SET
-		CLUBTITLE = #{clubTitle},
-		CATEGORY = #{category},
-		CLUBGENDER = #{clubGender},
-		DDAY = #{dDay},
-		REGULARTYPE = #{regularType},
-		MAXMEMBER = #{maxMember},
-		CITY = #{city},
-		DISTRICT = #{district},
-		DETAILINFO = #{detailInfo},
-		AGELIMIT = #{ageLimit},
-		CLUBIMAGE = #{clubImage}
+		MEMBERCOUNT = MEMBERCOUNT + 1
 		WHERE CLUBNO = #{clubNo}
 	</update>
-
-	<!-- 모든 클럽 조회 -->
+	<update id="minusClubCount" parameterType="int">
+		UPDATE CLUB SET
+		MEMBERCOUNT = MEMBERCOUNT - 1
+		WHERE CLUBNO = #{clubNo}
+	</update>
+	<select id="readMyMadeClubList" parameterType="int"
+		resultType="Club">
+		SELECT * FROM CLUB WHERE USERID = #{userId}
+	</select>
+	<update id="modifyClub" parameterType="Club">
+		UPDATE CLUB SET CLUBTITLE
+		= #{clubTitle},CATEGORY = #{category},
+		CLUBGENDER = #{clubGender}, DDAY
+		= #{dDay}, REGULARTYPE = #{regularType},
+		MAXMEMBER = #{maxMember}, CITY
+		= #{city}, DISTRICT = #{district},
+		DETAILINFO = #{detailInfo}, AGELIMIT
+		= #{ageLimit}, CLUBIMAGE = #{clubImage},
+		RECRUITMENT = #{recruitment}
+		WHERE CLUBNO = #{clubNo}
+	</update>
 	<select id="getAllClubs" resultType="Club">
-		SELECT * FROM CLUB
+		SELECT * FROM club
 	</select>
 
-	<!-- 클럽 이미지 조회 -->
-	<select id="getImage" resultType="byte[]" parameterType="String">
-		SELECT clubImage FROM CLUB WHERE clubImage = #{imageName}
+	<select id="getImage" resultType="byte[]">
+		SELECT clubImage
+		FROM club
+		WHERE
+		clubImage = #{imageName}
 	</select>
 
-	<!-- 클럽 검색 -->
 	<select id="searchClubs" resultType="Club">
 		SELECT *
-		FROM CLUB
+		FROM club
 		<where>
 			<if test="searchTerm != null and searchTerm != ''">
-				AND (CLUBTITLE LIKE CONCAT('%', #{searchTerm}, '%') OR CATEGORY LIKE
-				CONCAT('%', #{searchTerm}, '%'))
+				AND (
+				club_title LIKE CONCAT('%', #{searchTerm}, '%')
+				OR
+				category LIKE CONCAT('%', #{searchTerm}, '%')
+				)
 			</if>
 			<if test="filters != null">
 				<foreach item="value" index="key"

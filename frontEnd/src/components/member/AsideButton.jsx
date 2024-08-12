@@ -28,7 +28,6 @@ function AsideButton() {
       setProfile(response.data);
     } catch (error) {
       console.error("프로필 정보 가져오기 오류:", error);
-      alert("프로필 정보를 가져오는 데 실패했습니다.");
     }
   };
 
@@ -38,7 +37,6 @@ function AsideButton() {
 
   const openChatListModal = () => {
     if (!profile) {
-      alert("프로필 정보가 없습니다. 다시 시도해 주세요.");
       return;
     }
     console.log("Opening Chat List Modal");

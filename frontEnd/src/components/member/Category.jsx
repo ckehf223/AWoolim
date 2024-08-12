@@ -24,9 +24,6 @@ function Category() {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080/api/club/");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const data = await response.json();
         setClubs(data);
         setCategoryList([

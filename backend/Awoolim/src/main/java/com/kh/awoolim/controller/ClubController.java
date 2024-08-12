@@ -16,15 +16,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.awoolim.common.jwt.JWTUtil;
+import com.kh.awoolim.domain.Alarm;
 import com.kh.awoolim.domain.Club;
+import com.kh.awoolim.domain.Member;
+import com.kh.awoolim.service.AlarmService;
 import com.kh.awoolim.service.ClubMemberService;
 import com.kh.awoolim.service.ClubService;
+import com.kh.awoolim.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,13 +44,22 @@ public class ClubController {
 	private String uploadDir;
 
 	private final JWTUtil jwtUtil;
-	private final ClubService clubService;
-	private final ClubMemberService clubMemberService;
 
-	public ClubController(JWTUtil jwtUtil, ClubService clubService, ClubMemberService clubMemberService) {
+	private ClubService clubService;
+
+	private ClubMemberService clubMemberService;
+
+	private AlarmService alarmService;
+
+	private MemberService memberService;
+
+	public ClubController(JWTUtil jwtUtil, ClubService clubService, ClubMemberService clubMemberService,
+			AlarmService alarmService, MemberService memberService) {
 		this.jwtUtil = jwtUtil;
 		this.clubService = clubService;
 		this.clubMemberService = clubMemberService;
+		this.alarmService = alarmService;
+		this.memberService = memberService;
 	}
 
 	@GetMapping("/")
@@ -53,48 +67,6 @@ public class ClubController {
 		log.info("getAllClubs");
 		List<Club> clubs = clubService.getAllClubs();
 		return ResponseEntity.ok(clubs);
-	}
-
-	@GetMapping("/image/{imageName}")
-	public ResponseEntity<byte[]> getImage(@PathVariable String imageName) {
-		try {
-			Path imagePath = Paths.get(uploadDir, imageName);
-
-			if (!Files.exists(imagePath)) {
-				log.error("Image not found: " + imageName);
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-			}
-
-			byte[] imageData = Files.readAllBytes(imagePath);
-			MediaType mediaType = determineMediaType(imageName);
-
-			return ResponseEntity.ok().contentType(mediaType).body(imageData);
-		} catch (IOException e) {
-			log.error("Failed to load image: " + imageName, e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
-	}
-
-	private MediaType determineMediaType(String imageName) {
-		String fileExtension = getFileExtension(imageName).toLowerCase();
-		switch (fileExtension) {
-		case "jpg":
-		case "jpeg":
-			return MediaType.IMAGE_JPEG;
-		case "png":
-			return MediaType.IMAGE_PNG;
-		case "gif":
-			return MediaType.IMAGE_GIF;
-		case "webp":
-			return MediaType.valueOf("image/webp");
-		default:
-			return MediaType.APPLICATION_OCTET_STREAM;
-		}
-	}
-
-	private String getFileExtension(String fileName) {
-		int lastIndexOfDot = fileName.lastIndexOf(".");
-		return (lastIndexOfDot == -1) ? "" : fileName.substring(lastIndexOfDot + 1);
 	}
 
 	@PostMapping("/search")
@@ -116,8 +88,8 @@ public class ClubController {
 			HttpServletRequest request) {
 
 		log.info("club register POST Enter");
-
 		try {
+
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
 
@@ -134,61 +106,80 @@ public class ClubController {
 			club.setDetailInfo(detailInfo);
 			club.setRecruitment(1);
 			club.setAgeLimit(ageLimit);
-			club.setClubImage("default-image.png");
-			club.setMemberCount(0);
+			club.setClubImage("305d04e5-e53d-4419-8beb-555330a6a3d4.png");
+			club.setMemberCount(1);
 
-			// 파일 업로드 처리
-			if (clubImage != null && !clubImage.isEmpty()) {
-				String newFileName = saveImageFile(clubImage);
+			// 디렉토리가 존재하지 않으면 생성
+			Path uploadPath = Paths.get(uploadDir);
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+
+			if (clubImage != null && !clubImage.isEmpty() && clubImage.getSize() > 0) {
+				// UUID 생성
+				String uuid = UUID.randomUUID().toString();
+				// 파일 확장자 추출
+				String originalFilename = clubImage.getOriginalFilename();
+				String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+				// 새로운 파일 이름 생성
+				String newFileName = uuid + fileExtension;
 				club.setClubImage(newFileName);
+				byte[] bytes = clubImage.getBytes();
+				Path path = Paths.get(uploadDir + File.separator + newFileName);
+				Files.write(path, bytes);
+				path.toFile().getCanonicalPath();
 			}
 
 			int success = clubService.register(club);
-			return ResponseEntity.ok(success);
+			return ResponseEntity.status(HttpStatus.OK).body(success);
 		} catch (IOException e) {
-			log.error("Error during club registration", e);
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
-	}
-
-	private String saveImageFile(MultipartFile clubImage) throws IOException {
-		String uuid = UUID.randomUUID().toString();
-		String originalFilename = clubImage.getOriginalFilename();
-		String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-		String newFileName = uuid + fileExtension;
-		log.info("Saving image as: " + newFileName);
-
-		Path path = Paths.get(uploadDir + File.separator + newFileName);
-		Files.write(path, clubImage.getBytes());
-
-		return newFileName;
 	}
 
 	@GetMapping("/read/{clubNo}")
 	public ResponseEntity<Map<String, Object>> readClub(@PathVariable("clubNo") int clubNo) {
-		log.info("read Club Enter");
+		log.info("read Club GET Enter");
 		try {
+
 			Map<String, Object> clubData = clubService.readClub(clubNo);
-			return ResponseEntity.ok(clubData);
+			if (clubData != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(clubData);
+			}
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} catch (Exception e) {
-			log.error("Error reading club data", e);
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
+
 	}
 
 	@PostMapping("/clubmember/signUp/{clubNo}")
 	public ResponseEntity<Integer> clubMemberSignUp(@PathVariable("clubNo") int clubNo, HttpServletRequest request) {
-		log.info("clubmemberSignUp POST ENTER");
 		try {
+			log.info("clubmemberSingup POST ENTER");
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
-
 			int check = clubMemberService.signUp(userId, clubNo);
-			return ResponseEntity.ok(check);
+			if (check == 0) {
+				Club club = clubService.readByClub(clubNo);
+				Member member = memberService.readMember(userId);
+				Alarm alarm = new Alarm();
+				alarm.setUserId(club.getUserId());
+				String userName = member.getNickName() != "null" && member.getNickName() != null ? member.getNickName()
+						: member.getUserName();
+				System.out.println(userName);
+				System.out.println(member.getNickName());
+				System.out.println(member.getUserName());
+				alarm.setMessage("`" + userName + "` 님이 모임 참여 신청 하셨습니다.");
+				alarmService.register(alarm);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(check);
 		} catch (Exception e) {
-			log.error("Error during club member sign up", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
+
 	}
 
 	@GetMapping("/readMyClub")
@@ -198,26 +189,9 @@ public class ClubController {
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
 			Map<String, Object> clubMap = clubService.readMyClubList(userId);
-			return ResponseEntity.ok(clubMap);
+			return ResponseEntity.status(HttpStatus.OK).body(clubMap);
 		} catch (Exception e) {
-			log.error("Error reading my clubs", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
-	}
-
-	@PostMapping("/exitClub/{clubNo}")
-	public ResponseEntity<Void> exitClub(@PathVariable("clubNo") int clubNo, HttpServletRequest request) {
-		log.info("exitClub POST ENTER");
-		try {
-			String accessToken = request.getHeader("Authorization").substring(7);
-			int userId = jwtUtil.getUserId(accessToken);
-
-			clubMemberService.deleteClubMember(userId, clubNo);
-			clubService.minusClubCount(clubNo);
-			return ResponseEntity.ok().build();
-		} catch (Exception e) {
-			log.error("Error exiting club", e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -228,10 +202,13 @@ public class ClubController {
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
 			Map<String, Object> clubMap = clubService.readMyMadeClubList(userId);
-			return ResponseEntity.ok(clubMap);
+			if (clubMap == null || clubMap.size() <= 0 || clubMap.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(clubMap);
 		} catch (Exception e) {
-			log.error("Error reading made club list", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+
 		}
 	}
 
@@ -240,22 +217,21 @@ public class ClubController {
 		log.info("modify GET ENTER");
 		try {
 			Club club = clubService.readByClubNo(clubNo);
-			return ResponseEntity.ok(club);
+			return ResponseEntity.status(HttpStatus.OK).body(club);
 		} catch (Exception e) {
-			log.error("Error getting club for modification", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
 
 	@PostMapping("/modify")
-	public ResponseEntity<Void> updateClub(@RequestParam("clubNo") int clubNo,
-			@RequestParam("clubTitle") String clubTitle, @RequestParam("clubGender") String clubGender,
-			@RequestParam("category") String category, @RequestParam("city") String city,
-			@RequestParam("district") String district, @RequestParam("regularType") int regularType,
-			@RequestParam("maxMember") int maxMember, @RequestParam("dDay") String dDay,
-			@RequestParam("checkImage") String checkImage,
+	public void updateClub(@RequestParam("clubNo") int clubNo, @RequestParam("clubTitle") String clubTitle,
+			@RequestParam("clubGender") String clubGender, @RequestParam("category") String category,
+			@RequestParam("city") String city, @RequestParam("district") String district,
+			@RequestParam("regularType") int regularType, @RequestParam("maxMember") int maxMember,
+			@RequestParam("dDay") String dDay, @RequestParam("checkImage") String checkImage,
 			@RequestParam(value = "clubImage", required = false) MultipartFile clubImage,
-			@RequestParam("detailInfo") String detailInfo, @RequestParam("ageLimit") String ageLimit) {
+			@RequestParam("detailInfo") String detailInfo, @RequestParam("ageLimit") String ageLimit,
+			HttpServletRequest request, HttpServletResponse response) {
 		log.info("modify POST Enter");
 
 		try {
@@ -271,22 +247,142 @@ public class ClubController {
 			club.setDetailInfo(detailInfo);
 			club.setAgeLimit(ageLimit);
 
-			if ("1".equals(checkImage) && clubImage != null && !clubImage.isEmpty()) {
-				// 기존 이미지 삭제 로직 추가 (필요 시)
-				if (club.getClubImage() != null) {
-					Path oldImagePath = Paths.get(uploadDir, club.getClubImage());
-					Files.deleteIfExists(oldImagePath);
-				}
-
-				String newFileName = saveImageFile(clubImage);
+			// 디렉토리가 존재하지 않으면 생성
+			Path uploadPath = Paths.get(uploadDir);
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+			if (checkImage.equals("1")) {
+				// UUID 생성
+				String uuid = UUID.randomUUID().toString();
+				// 파일 확장자 추출
+				String originalFilename = clubImage.getOriginalFilename();
+				String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+				// 새로운 파일 이름 생성
+				String newFileName = uuid + fileExtension;
+				log.info(newFileName);
 				club.setClubImage(newFileName);
+				byte[] bytes = clubImage.getBytes();
+				Path path = Paths.get(uploadDir + File.separator + newFileName);
+				Files.write(path, bytes);
+				path.toFile().getCanonicalPath();
 			}
 
 			clubService.modifyClub(club);
+		} catch (Exception e) {
+
+		}
+	}
+
+	@GetMapping("/getClubMemberList/{clubNo}")
+	public ResponseEntity<List<Map<String, Object>>> getClubMemberList(@PathVariable("clubNo") int clubNo) {
+		log.info("getClubMemberList GET ENTER");
+		try {
+			List<Map<String, Object>> mapList = clubService.getClubMemberList(clubNo, 1);
+			if (mapList != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(mapList);
+			}
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+	}
+
+	@GetMapping("/getAcceptMemberList/{clubNo}")
+	public ResponseEntity<List<Map<String, Object>>> getAcceptMemberList(@PathVariable("clubNo") int clubNo) {
+		log.info("getAcceptMemberList GET ENTER");
+		try {
+			List<Map<String, Object>> mapList = clubService.getClubMemberList(clubNo, 0);
+			if (mapList != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(mapList);
+			}
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+	}
+
+	@PostMapping("/exitClub")
+	public ResponseEntity<Void> exitClub(@RequestBody Map<String, Integer> requestBody, HttpServletRequest request) {
+
+		log.info("exitClub POST ENTER");
+		try {
+			int clubNo = requestBody.get("clubNo");
+			int isAccept = requestBody.get("isAccept");
+			String accessToken = request.getHeader("Authorization").substring(7);
+			int userId = jwtUtil.getUserId(accessToken);
+			System.out.println(clubNo);
+			System.out.println(userId);
+			System.out.println(isAccept);
+			clubMemberService.deleteClubMember(userId, clubNo);
+			if (isAccept == 1) {
+				clubService.minusClubCount(clubNo);
+			}
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
-			log.error("Error modifying club", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@PostMapping("/exitClubMember")
+	public void deleteClubMember(@RequestBody Map<String, Integer> requestBody, HttpServletResponse response) {
+		log.info("exitClubMember POST ENTER");
+		try {
+			int userId = requestBody.get("userId");
+			int clubNo = requestBody.get("clubNo");
+			clubMemberService.deleteClubMember(userId, clubNo);
+			clubService.minusClubCount(clubNo);
+			Club club = clubService.readByClub(clubNo);
+			Alarm alarm = new Alarm();
+			alarm.setUserId(userId);
+			alarm.setMessage("`" + club.getClubTitle() + "` 모임에서 퇴출되었습니다.");
+			alarmService.register(alarm);
+			response.setStatus(HttpStatus.OK.value());
+		} catch (Exception e) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}
+	}
+
+	@PostMapping("/acceptClubMember")
+	public ResponseEntity<Integer> acceptClubMember(@RequestBody Map<String, Integer> requestBody) {
+		log.info("acceptClubMember POST ENTER");
+		try {
+			int userId = requestBody.get("userId");
+			int clubNo = requestBody.get("clubNo");
+			Club club = clubService.readByClub(clubNo);
+			if (club.getMemberCount() < club.getMaxMember()) {
+				clubMemberService.acceptClubMember(userId, clubNo);
+				Alarm alarm = new Alarm();
+				alarm.setUserId(userId);
+				alarm.setMessage("`" + club.getClubTitle() + "` 모임 신청이 수락되었습니다.");
+				alarmService.register(alarm);
+				clubService.addClubCount(clubNo);
+				return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(1));
+			} else {
+				club.setRecruitment(0);
+				clubService.modifyClub(club);
+				return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(0));
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+	}
+
+	@PostMapping("/refuseClubMember")
+	public void refuseClubMember(@RequestBody Map<String, Integer> requestBody, HttpServletResponse response) {
+		log.info("refuseClubMember POST ENTER");
+		try {
+			int userId = requestBody.get("userId");
+			int clubNo = requestBody.get("clubNo");
+			clubMemberService.deleteClubMember(userId, clubNo);
+			Club club = clubService.readByClub(clubNo);
+			Alarm alarm = new Alarm();
+			alarm.setUserId(userId);
+			alarm.setMessage("`" + club.getClubTitle() + "` 모임 신청이 거절되었습니다.");
+			alarmService.register(alarm);
+			response.setStatus(HttpStatus.OK.value());
+		} catch (Exception e) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		}
 	}
 }

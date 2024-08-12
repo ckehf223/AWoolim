@@ -1,3 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.awoolim.mapper.ClubScheduleMapper"></mapper>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.awoolim.mapper.ClubScheduleMapper">
+
+	<!-- 클럽 번호로 일정 목록을 가져오는 SQL -->
+	<select id="getSchedulesByClubNo"
+		resultType="com.kh.awoolim.domain.ClubSchedule">
+		SELECT SCHEDULENO, CLUBNO, DDAY, CONTENT
+		FROM CLUBSCHEDULE
+		WHERE CLUBNO = #{clubNo}
+	</select>
+
+</mapper>

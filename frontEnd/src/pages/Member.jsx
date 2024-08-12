@@ -5,11 +5,10 @@ import Home from "/src/pages/member/Home";
 import SearchPage from "/src/pages/member/SearchPage";
 import GroupPage from "/src/pages/member/GroupPage";
 import ClubRegister from "/src/components/member/ClubRegister";
-import ClubDetailInfo from "/src/components/member/ClubInfo";
-import ClubInfo from "/src/components/member/ClubInfo";
+import ClubDetailInfo from "/src/components/member/ClubDetailInfo";
 import MyPage from "/src/components/member/MyPage";
 import AsideButton from "/src/components/member/AsideButton";
-
+import GroupNav from "/src/components/member/GroupNav";
 const Member = () => {
   return (
     <>
@@ -19,10 +18,11 @@ const Member = () => {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/group" element={<GroupPage />} />
         <Route path="/newclub" element={<ClubRegister />} />
-        <Route path="/club/:no" element={<ClubDetailInfo />} />
-        <Route path="/myclub/:no" element={<ClubInfo />} />
+        <Route path="/club/:no" element={<ClubDetailInfo />} />{" "}
         <Route path="/mypage/*" element={<MyPage />} />
+        <Route path="mycreateclub/:no" element={<GroupNav />} />
       </Routes>
+      <AsideButton />
       <Footer />
     </>
   );

@@ -1,61 +1,82 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import "/src/css/member/photogallery.css";
+import instance from "/src/common/auth/axios";
+import imageCompression from "browser-image-compression";
 
 function PhotoGallery() {
-  const initialPhotos = [
-    "/src/assets/images/slideImg1.png",
-    "/src/assets/images/slideImg2.png",
-    "/src/assets/images/slideImg3.png",
-    "/src/assets/images/slideImg4.png",
-  ]; // 데이터베이스 역할
-
-  const [photos, setPhotos] = useState(initialPhotos); // 초기 상태를 initialPhotos로 설정
+  const param = useParams(); // URL 파라미터에서 클럽 번호 가져오기
+  const [photos, setPhotos] = useState([]); // 초기 상태를 빈 배열로 설정
   const photosPerRow = 4;
 
+  console.log(param.no);
   useEffect(() => {
-    // 페이지 로드 시 로컬 스토리지 초기화 (선택 사항)
-    localStorage.removeItem("photos");
-    // 로컬 스토리지에서 데이터 불러오기 (없으면 빈 배열)
-    const storedPhotos = JSON.parse(localStorage.getItem("photos")) || [];
+    const fetchPhotos = async () => {
+      try {
+        const response = await instance.get(
+          `http://localhost:8080/api/photoGallery/${param.no}`
+        );
+        setPhotos(response.data); // 서버에서 가져온 사진 리스트로 상태 업데이트
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching photos:", error);
+      }
+    };
+    fetchPhotos();
+  }, [param.no]);
 
-    // 로컬 스토리지 데이터와 초기 데이터 합치기
-    const combinedPhotos = [...initialPhotos, ...storedPhotos];
-
-    // 중복 제거 (선택 사항)
-    const uniquePhotos = Array.from(new Set(combinedPhotos));
-
-    setPhotos(uniquePhotos); // 상태 업데이트
-  }, []);
-
-  const handleFileChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        handleAddPhoto(reader.result);
+    console.log(file.name);
+    if (file && file.type.startsWith("image/")) {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
       };
-      reader.readAsDataURL(file);
-    }
-  };
+      try {
+        const compressedFile = await imageCompression(file, options);
+        console.log(compressedFile.name);
+        const formData = new FormData();
+        const reader = new FileReader();
 
-  const handleAddPhoto = (newPhoto) => {
-    setPhotos((prevPhotos) => {
-      const updatedPhotos = [newPhoto, ...prevPhotos];
-      localStorage.setItem("photos", JSON.stringify(updatedPhotos));
-      return updatedPhotos;
-    });
+        reader.onload = (e) => {
+          setPhotos((prevPhotos) => [e.target.result, ...prevPhotos]);
+        };
+        formData.append("clubno", param.no);
+        formData.append("file", compressedFile, compressedFile.name);
+
+        await instance.post("/api/photoGallery/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        reader.readAsDataURL(file);
+      } catch (error) {
+        console.error("이미지 리사이즈 실패:", error);
+      }
+    }
   };
 
   return (
     <section className="photo-gallery">
-      <input type="file" accept="image/*" onChange={handleFileChange} />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        style={{ marginBottom: "20px" }}
+      />
 
       <div className="photo-grid">
         {photos.map((photo, index) => (
           <React.Fragment key={index}>
             {index > 0 && index % photosPerRow === 0 && <br />}
             <div className="photo-item">
-              <img src={photo} alt={`Photo ${index}`} />
+              <img
+                src={photo.image ? photo.image : photo} // 실제 파일이 저장된 경로로 변경
+                alt={`Photo ${index}`}
+              />
             </div>
           </React.Fragment>
         ))}
