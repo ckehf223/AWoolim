@@ -2,15 +2,30 @@ import React, { useState, useEffect } from "react";
 import "/src/css/member/chatlistmodal.css";
 import ChatRoomPage from "./ChatRoomPage";
 
-function ChatListModal({ onClose }) {
+function ChatListModal({ onClose, profile }) {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [chatRooms, setChatRooms] = useState([]);
 
   useEffect(() => {
-    // 서버에서 채팅방 데이터를 가져오는 함수
+    let token = localStorage.getItem("accessToken");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      onClose();
+      return;
+    }
+
+    token = token.trim();
+    if (!token.startsWith("Bearer ")) {
+      token = `Bearer ${token}`;
+    }
+
     const fetchChatRooms = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/chatrooms");
+        const response = await fetch("http://localhost:8080/api/chatrooms", {
+          headers: {
+            Authorization: token,
+          },
+        });
         const data = await response.json();
         setChatRooms(data);
       } catch (error) {
@@ -18,41 +33,54 @@ function ChatListModal({ onClose }) {
       }
     };
 
-    fetchChatRooms(); // 컴포넌트 마운트 시 데이터 가져오기
-  }, []);
+    fetchChatRooms();
+  }, [onClose]);
 
   const openChatRoom = (room) => {
+    console.log("Opening chat room:", room);
     setSelectedRoom(room);
   };
 
   return (
-    <div className="chat-list-modal">
-      <div className="modal-header">
-        {selectedRoom ? ( // selectedRoom이 null이 아니면 (채팅방이 선택된 경우)
-          <button onClick={() => setSelectedRoom(null)}>{"<"}</button> // "<" 버튼 표시
+    <div className="chatlistmodal-chat-list-modal">
+      <div className="chatlistmodal-modal-header">
+        {selectedRoom ? (
+          <button onClick={() => setSelectedRoom(null)}>{"<"}</button>
         ) : (
-          <img src="/src/assets/images/headerLogo.png" alt="로고" /> // 로고 표시
+          <img src="/src/assets/images/headerLogo.png" alt="로고" />
         )}
         <span>{selectedRoom ? selectedRoom.name : "채팅 목록"}</span>
-        <button onClick={onClose}>X</button>
+        <button
+          onClick={() => {
+            console.log("Modal close button clicked");
+            onClose();
+          }}
+        >
+          X
+        </button>
       </div>
-      <div className="chat-list">
+      <div className="chatlistmodal-chat-list">
         {selectedRoom ? (
           <ChatRoomPage
             room={selectedRoom}
             onBack={() => setSelectedRoom(null)}
-          /> // 채팅방 페이지로 이동
+            profile={profile}
+          />
         ) : (
-          <div className="room-list">
-            {chatRooms.map((room, index) => (
-              <div
-                key={room.chatRoomNo || index}
-                className="room-item"
-                onClick={() => openChatRoom(room)}
-              >
-                {room.chatRoomName}
-              </div>
-            ))}
+          <div className="chatlistmodal-room-list">
+            {chatRooms.length > 0 ? (
+              chatRooms.map((room, index) => (
+                <div
+                  key={room.chatRoomNo || index}
+                  className="chatlistmodal-room-item"
+                  onClick={() => openChatRoom(room)}
+                >
+                  {room.chatRoomName}
+                </div>
+              ))
+            ) : (
+              <p>채팅방이 없습니다.</p>
+            )}
           </div>
         )}
       </div>

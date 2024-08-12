@@ -8,7 +8,7 @@ function Category() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderContainerRef = useRef(null);
   const [clubs, setClubs] = useState([]);
-  const sportsLinkRef = useRef(null);
+  const [categoryList, setCategoryList] = useState([]);
 
   const categoryColors = {
     스포츠: "#e7f4ff",
@@ -21,18 +21,21 @@ function Category() {
   };
 
   useEffect(() => {
-    setCurrentCategory("전체");
-
-    if (sportsLinkRef.current) {
-      sportsLinkRef.current.focus();
-    }
-
-    fetch("http://localhost:8080/api/club/")
-      .then((response) => response.json())
-      .then((data) => setClubs(data))
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/club/");
+        const data = await response.json();
+        setClubs(data);
+        setCategoryList([
+          ...new Set(data.map((club) => club.category)),
+          "전체",
+        ]);
+      } catch (error) {
         console.error("Error fetching clubs:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleCategoryClick = (category) => {
@@ -40,14 +43,14 @@ function Category() {
     setCurrentSlide(0);
   };
 
-  const handlePrevClick = () => {
-    setCurrentSlide((prev) => Math.max(prev - 1, 0));
-  };
-
   const filteredClubs =
     currentCategory === "전체"
       ? clubs
       : clubs.filter((club) => club.category === currentCategory);
+
+  const handlePrevClick = () => {
+    setCurrentSlide((prev) => Math.max(prev - 1, 0));
+  };
 
   const handleNextClick = () => {
     setCurrentSlide((prev) => Math.min(prev + 1, filteredClubs.length - 4));
@@ -59,27 +62,16 @@ function Category() {
         <span>카테고리</span>
       </div>
       <div id="categoryA">
-        {/* 전체 카테고리 추가 */}
-        <Link
-          key="전체"
-          to="#"
-          onClick={() => handleCategoryClick("전체")}
-          ref={currentCategory === "전체" ? sportsLinkRef : null}
-        >
-          전체
-        </Link>
-        {/* 나머지 카테고리 링크 */}
-        {Array.from(new Set(clubs.map((club) => club.category))).map(
-          (category) => (
-            <Link
-              key={clubs.clubNo}
-              to="#"
-              onClick={() => handleCategoryClick(category)}
-            >
-              {category}
-            </Link>
-          )
-        )}
+        {categoryList.map((category) => (
+          <Link
+            key={category}
+            to="#"
+            onClick={() => handleCategoryClick(category)}
+            className={currentCategory === category ? "active" : ""}
+          >
+            {category}
+          </Link>
+        ))}
       </div>
 
       {filteredClubs.length > 0 ? (
@@ -93,7 +85,7 @@ function Category() {
                 <ClubItem
                   key={club.clubNo}
                   club={club}
-                  backgroundColor={categoryColors[club.category] || "#ffffff"} // 배경색 전달
+                  backgroundColor={categoryColors[club.category] || "#ffffff"}
                 />
               ))}
             </div>

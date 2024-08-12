@@ -1,66 +1,39 @@
 package com.kh.awoolim.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.awoolim.domain.Chat;
 import com.kh.awoolim.service.ChatService;
 
-import java.util.List;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
 
-//	private static final Logger logger = LoggerFactory.getLogger(ChatController.class);
+	private final ChatService chatService;
 
 	@Autowired
-	private ChatService chatService;
+	public ChatController(ChatService chatService) {
+		this.chatService = chatService;
+	}
 
-//	@Autowired
-//	private SimpMessagingTemplate messagingTemplate;
-
-	// 클라이언트가 특정 클럽 번호의 메시지를 가져올 때 사용하는 엔드포인트
 	@GetMapping("/{clubNo}/messages")
-	public List<Chat> getMessages(@PathVariable int clubNo) {
-		try {
-			return chatService.getMessagesByClub(clubNo);
-		} catch (Exception e) {
-//			logger.error("Error fetching messages for clubNo {}: {}", clubNo, e.getMessage());
-			return List.of(); // 오류가 발생하면 빈 리스트를 반환
-		}
-	}
+	public List<Chat> getMessages(@PathVariable int clubNo, HttpServletResponse response) {
+		List<Chat> messages = chatService.getMessagesByRoomId(clubNo);
 
-	// WebSocket을 통해 메시지를 전송하는 엔드포인트
-	@MessageMapping("/sendMessage")
-	@SendTo("/topic/public")
-	public Chat sendMessageWebSocket(Chat chatMessage) {
-		try {
-			chatService.saveMessage(chatMessage.getClubNo(), chatMessage);
-//			logger.info("Message saved and broadcasted: {}", chatMessage);
-		} catch (Exception e) {
-//			logger.error("Error saving message: {}", chatMessage, e);
-//			messagingTemplate.convertAndSend("/topic/errors", "Error processing message: " + e.getMessage());
+		if (messages.isEmpty()) {
+			response.setStatus(HttpServletResponse.SC_NO_CONTENT); // 204 No Content
+		} else {
+			response.setStatus(HttpServletResponse.SC_OK); // 200 OK
 		}
-		return chatMessage;
-	}
 
-	// WebSocket을 통해 새로운 사용자를 추가하는 엔드포인트
-	@MessageMapping("/addUser")
-	@SendTo("/topic/public")
-	public Chat addUserWebSocket(Chat chatMessage) {
-		try {
-			chatMessage.setMessage(chatMessage.getUserId() + " joined!");
-//			logger.info("User joined: {}", chatMessage.getUserId());
-		} catch (Exception e) {
-//			logger.error("Error adding user: {}", chatMessage.getUserId(), e);
-//			messagingTemplate.convertAndSend("/topic/errors", "Error adding user: " + e.getMessage());
-		}
-		return chatMessage;
+		return messages;
 	}
 }

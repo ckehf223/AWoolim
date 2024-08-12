@@ -1,162 +1,82 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Client } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
 import "/src/css/member/chatroompage.css";
 
-const SOCKET_URL = "http://localhost:8080/ws";
+const SOCKET_URL = "ws://localhost:8080/ws/chat";
 
-let stompClient = null;
-
-function ChatRoomPage({ room, onBack }) {
+function ChatRoomPage({ room, onBack, profile }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [connected, setConnected] = useState(false);
-  const [userId, setUserId] = useState(1);
   const messageListRef = useRef(null);
-  const [profileImages, setProfileImages] = useState({});
-  useEffect(() => {
-    console.log("ChatRoomPage component mounted");
+  const socketRef = useRef(null);
 
-    connect();
+  useEffect(() => {
+    const userId = profile?.userId;
+
+    if (!userId) {
+      console.error("User ID not found");
+      alert("User ID를 찾을 수 없습니다. 다시 로그인하세요.");
+      return;
+    }
+
+    // WebSocket 연결 설정
+    socketRef.current = new WebSocket(SOCKET_URL);
+
+    socketRef.current.onopen = () => {
+      console.log("Connected to WebSocket");
+    };
+
+    socketRef.current.onmessage = (event) => {
+      const newMessage = JSON.parse(event.data);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    };
+
+    socketRef.current.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    // WebSocket 연결을 유지하도록 설정
+    socketRef.current.onclose = (event) => {
+      console.log(
+        `WebSocket connection closed: ${event.code}, reason: ${event.reason}`
+      );
+    };
+
+    // 메시지 초기 로딩
     fetchMessages();
 
+    // 뒤로가기 버튼이나 종료 버튼에서만 WebSocket 연결을 닫도록 설정
     return () => {
-      console.log("ChatRoomPage component unmounted, disconnecting...");
-      disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    // 예시로 사용자 프로필 이미지 데이터를 가져오는 코드
-    const fetchProfileImages = async () => {
-      try {
-        const response = await fetch("/api/profile-images");
-        const data = await response.json();
-        setProfileImages(data); // 데이터 형식이 {userId: imageUrl} 형태인지 확인
-      } catch (error) {
-        console.error("Error fetching profile images:", error);
+      if (
+        socketRef.current &&
+        socketRef.current.readyState === WebSocket.OPEN
+      ) {
+        socketRef.current.close();
       }
     };
-
-    fetchProfileImages();
-  }, []);
-
-  useEffect(() => {
-    const fetchProfileImages = async () => {
-      try {
-        const response = await fetch("/api/profile-images");
-        const contentType = response.headers.get("content-type");
-
-        if (contentType && contentType.includes("application/json")) {
-          const data = await response.json();
-          setProfileImages(data);
-        } else {
-          console.error("Unexpected response type:", contentType);
-        }
-      } catch (error) {
-        console.error("Error fetching profile images:", error);
-      }
-    };
-    fetchProfileImages();
-    scrollToBottom();
-  }, [messages]);
+  }, [room.clubNo, profile]);
 
   const fetchMessages = async () => {
-    console.log("Fetching previous messages...");
     try {
       const response = await fetch(
         `http://localhost:8080/api/chat/${room.clubNo}/messages`
       );
       const data = await response.json();
-
-      if (Array.isArray(data)) {
-        setMessages(data);
-        console.log("Messages fetched successfully:", data);
-      } else {
-        console.error("Unexpected response format:", data);
-      }
+      setMessages(data);
     } catch (error) {
       console.error("Error fetching messages:", error);
-      setMessages([]); // 기본값으로 빈 배열 설정
-    }
-  };
-
-  const connect = () => {
-    console.log("Connecting to WebSocket...");
-
-    const socket = new SockJS(SOCKET_URL);
-    stompClient = new Client({
-      webSocketFactory: () => socket,
-      debug: (str) => {
-        console.log("STOMP Debug:", str);
-      },
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000, // 서버로부터 수신하는 핑 간격
-      heartbeatOutgoing: 4000, // 서버로 전송하는 핑 간격
-      onConnect: () => {
-        console.log("Connected to WebSocket");
-
-        stompClient.subscribe(`/topic/${room.clubNo}`, onMessageReceived);
-        console.log(`Subscribed to /topic/${room.clubNo}`);
-
-        setTimeout(() => {
-          console.log("Sending join message...");
-          stompClient.publish({
-            destination: "/app/chat.addUser",
-            body: JSON.stringify({
-              userId: userId,
-              message: "",
-              type: "JOIN",
-            }),
-          });
-          console.log("Join message sent");
-        }, 1000);
-      },
-      onDisconnect: (frame) => {
-        console.log("Disconnected from WebSocket:", frame);
-      },
-      onStompError: (frame) => {
-        console.error("STOMP Error:", frame.headers["message"]);
-        console.error("STOMP Error details:", frame.body);
-      },
-    });
-
-    console.log("Activating STOMP client...");
-    stompClient.activate();
-  };
-
-  const onMessageReceived = (msg) => {
-    const message = JSON.parse(msg.body);
-    setMessages((prevMessages) => [...prevMessages, message]);
-  };
-
-  const disconnect = () => {
-    if (stompClient !== null) {
-      stompClient.deactivate();
-      setConnected(false);
     }
   };
 
   const handleSendMessage = () => {
-    if (message.trim() !== "") {
+    if (message.trim() !== "" && profile?.userId !== null) {
       const chatMessage = {
-        userId: userId,
+        userId: profile.userId,
         message: message,
         clubNo: room.clubNo,
       };
 
-      setTimeout(() => {
-        try {
-          stompClient.publish({
-            destination: `/app/chat.sendMessage`,
-            body: JSON.stringify(chatMessage),
-          });
-          setMessage("");
-          console.log("Message sent and input cleared");
-        } catch (error) {
-          console.error("Error sending message:", error);
-        }
-      }, 500);
+      socketRef.current.send(JSON.stringify(chatMessage));
+      setMessage("");
     }
   };
 
@@ -166,61 +86,34 @@ function ChatRoomPage({ room, onBack }) {
     }
   };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <div className="chat-room-page">
-      <div className="chat-header">
-        <button onClick={onBack}>{"<"}</button>
-        <button
-          onClick={() => {
-            /* 다른 동작 */
-          }}
-        >
-          X
-        </button>
-      </div>
-
-      <div className="chat-status">
-        {connected ? <p>Connected to WebSocket</p> : <p>Not connected</p>}
-      </div>
-
       <div className="chat-messages" ref={messageListRef}>
         <div className="message-list">
           {messages.map((msg, index) => (
             <div
               key={index}
               className={`message ${
-                msg.userId === userId ? "my-message" : "other-message"
+                msg.userId === profile.userId ? "my-message" : "other-message"
               }`}
             >
-              {msg.userId !== userId && (
-                <div className="profile-container">
-                  {profileImages && profileImages[msg.userId] ? (
-                    <img
-                      src={profileImages[msg.userId]}
-                      alt={`${msg.userId} 프로필`}
-                      className="profile-image"
-                    />
-                  ) : (
-                    <div className="profile-placeholder">
-                      <img
-                        src="/path/to/default/profile.png" // 기본 프로필 이미지 경로
-                        alt="기본 프로필"
-                        className="profile-image"
-                      />
-                    </div>
-                  )}
-                  <div className="message-content">
-                    <span className="nickname">{msg.userId}</span>
-                  </div>
+              {msg.userId !== profile.userId && (
+                <div className="message-info">
+                  <img
+                    className="profile-image"
+                    src={
+                      msg.profileImage || "/path/to/default/profile/image.png"
+                    }
+                    alt="프로필"
+                  />
+                  <span className="nickname">{msg.nickname}</span>
                 </div>
               )}
-              <p
-                className={`content ${
-                  msg.userId === userId ? "my-content" : ""
-                }`}
-              >
-                {msg.message}
-              </p>
+              <p>{msg.message}</p>
             </div>
           ))}
         </div>

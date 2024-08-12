@@ -1,25 +1,36 @@
-//package com.kh.awoolim.common.config;
-//
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-//import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-//import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-//import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-//
-//@Configuration
-//@EnableWebSocketMessageBroker
-//public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-//
-////	@Override
-////	public void configureMessageBroker(MessageBrokerRegistry config) {
-////		config.enableSimpleBroker("/topic");
-////		config.setApplicationDestinationPrefixes("/app");
-////	}
-////
-////	@Override
-////	public void registerStompEndpoints(StompEndpointRegistry registry) {
-////		registry.addEndpoint("/ows/chat").setAllowedOrigins("http://localhost:5173") // 클라이언트의 정확한 URL 지정
-////				.withSockJS();
-////	}
-//	
-//}
+package com.kh.awoolim.common.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
+
+@Configuration
+@EnableWebSocket
+public class WebSocketConfig implements WebSocketConfigurer {
+
+	private final ChatWebSocketHandler chatWebSocketHandler;
+	private final AlarmWebSocketHandler alarmWebSocketHandler;
+
+	public WebSocketConfig(ChatWebSocketHandler chatWebSocketHandler, AlarmWebSocketHandler alarmWebSocketHandler) {
+		this.chatWebSocketHandler = chatWebSocketHandler;
+		this.alarmWebSocketHandler = alarmWebSocketHandler;
+	}
+
+	@Override
+	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+		// WebSocket 핸들러 등록 및 설정
+		registry.addHandler(chatWebSocketHandler, "/ws/chat").addInterceptors(new HttpSessionHandshakeInterceptor()) // 세션
+																														// 관리
+																														// 인터셉터
+																														// 추가
+				.setAllowedOrigins("*"); // 모든 도메인 허용
+
+		registry.addHandler(alarmWebSocketHandler, "/ws/alarms").addInterceptors(new HttpSessionHandshakeInterceptor()) // 세션
+																														// 관리
+																														// 인터셉터
+																														// 추가
+				.setAllowedOrigins("*"); // 모든 도메인 허용
+	}
+}

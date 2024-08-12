@@ -1,25 +1,69 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "/src/css/member/asidebutton.css";
 import ChatListModal from "/src/components/member/ChatListModal";
 import firstImage from "/src/assets/images/check-list.png";
 import secondImage from "/src/assets/images/comments.png";
 import thirdImage from "/src/assets/images/calendar.png";
 import cancelImage from "/src/assets/images/cancel.png";
+import instance from "/src/common/auth/axios"; // Axios 인스턴스 가져오기
 
 function AsideButton() {
+  const navigate = useNavigate();
   const imageRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showAdditionalImages, setShowAdditionalImages] = useState(false);
   const [currentImage, setCurrentImage] = useState(firstImage);
+  const [profile, setProfile] = useState(null);
+
+  // 프로필 정보를 가져오는 함수
+  const fetchProfile = async () => {
+    try {
+      const response = await instance.get("/member/getProfile", {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setProfile(response.data);
+    } catch (error) {
+      console.error("프로필 정보 가져오기 오류:", error);
+      alert("프로필 정보를 가져오는 데 실패했습니다.");
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile(); // 컴포넌트 마운트 시 프로필 정보 가져오기
+  }, []);
 
   const openChatListModal = () => {
+    if (!profile) {
+      alert("프로필 정보가 없습니다. 다시 시도해 주세요.");
+      return;
+    }
+    console.log("Opening Chat List Modal");
     setIsModalOpen(true);
   };
 
   const toggleAdditionalImages = () => {
-    setShowAdditionalImages(!showAdditionalImages);
-    setCurrentImage(showAdditionalImages ? firstImage : cancelImage);
+    console.log("Toggling Additional Images");
+    setShowAdditionalImages((prev) => !prev);
   };
+
+  const handleThirdImageClick = () => {
+    navigate("/newclub"); // ClubRegister 페이지로 이동
+  };
+
+  useEffect(() => {
+    console.log("Current image changed:", currentImage);
+    setCurrentImage(showAdditionalImages ? cancelImage : firstImage);
+  }, [showAdditionalImages]);
+
+  useEffect(() => {
+    if (imageRef.current) {
+      imageRef.current.style.opacity = 1; // 이미지 로드 시 페이드 인 효과 적용
+    }
+  }, [currentImage]);
 
   return (
     <div className="main-page">
@@ -29,29 +73,41 @@ function AsideButton() {
         alt="Main Image"
         className="main-image"
         onClick={toggleAdditionalImages}
-        onLoad={() => {
-          if (imageRef.current) {
-            imageRef.current.style.opacity = 1; // 이미지 로드 시 페이드 인 효과 적용
-          }
-        }}
       />
 
       <div
         className={`additional-images ${showAdditionalImages ? "show" : ""}`}
       >
-        {/* showAdditionalImages 상태에 따라 클래스 추가/제거 */}
         <img
           src={secondImage}
           alt="Second Image"
           className="additional-image"
           onClick={openChatListModal}
         />
-        <img src={thirdImage} alt="Third Image" className="additional-image" />
+        <img
+          src={thirdImage}
+          alt="Third Image"
+          className="additional-image"
+          onClick={handleThirdImageClick} // thirdImage 클릭 시 handleThirdImageClick 실행
+        />
       </div>
 
-      <div className={`modal-overlay ${isModalOpen ? "show" : ""}`}>
-        <ChatListModal onClose={() => setIsModalOpen(false)} />
-      </div>
+      {isModalOpen && (
+        <div
+          className="modal-overlay show"
+          onClick={() => {
+            console.log("Modal close triggered");
+            setIsModalOpen(false);
+          }}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <ChatListModal
+              onClose={() => setIsModalOpen(false)}
+              profile={profile} // ChatListModal에 profile 전달
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

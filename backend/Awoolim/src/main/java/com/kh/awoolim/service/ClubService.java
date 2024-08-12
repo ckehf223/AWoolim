@@ -37,22 +37,6 @@ public class ClubService {
 		clubMapper.create(club);
 		return 1;
 	}
-	
-    public List<Club> getAllClubs() {
-    	List<Club> list = clubMapper.getAllClubs();
-        return list;
-    }
-
-    public byte[] getImage(String imageName) {
-        try (InputStream is = getClass().getResourceAsStream("/static/images/" + imageName)) {
-            if (is == null) {
-                throw new IOException("Image not found: " + imageName);
-            }
-            return StreamUtils.copyToByteArray(is);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load image: " + imageName, e);
-        }
-    }
 
     public List<Club> searchClubs(String searchTerm, Map<String, Object> filters) {
         return clubMapper.searchClubs(searchTerm, filters);

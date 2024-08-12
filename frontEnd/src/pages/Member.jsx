@@ -5,7 +5,8 @@ import Home from "/src/pages/member/Home";
 import SearchPage from "/src/pages/member/SearchPage";
 import GroupPage from "/src/pages/member/GroupPage";
 import ClubRegister from "/src/components/member/ClubRegister";
-import ClubDetailInfo from "/src/components/member/ClubDetailInfo";
+import ClubDetailInfo from "/src/components/member/ClubInfo";
+import ClubInfo from "/src/components/member/ClubInfo";
 import MyPage from "/src/components/member/MyPage";
 
 const Member = () => {
@@ -18,10 +19,12 @@ const Member = () => {
         <Route path="/group" element={<GroupPage />} />
         <Route path="/newclub" element={<ClubRegister />} />
         <Route path="/club/:no" element={<ClubDetailInfo />} />
-        <Route path='/mypage/*' element={<MyPage />} />
-      </Routes >
+        <Route path="/myclub/:no" element={<ClubInfo />} />
+        <Route path="/mypage/*" element={<MyPage />} />
+      </Routes>
       <Footer />
     </>
   );
 };
+
 export default Member;

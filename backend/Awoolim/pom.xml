@@ -122,7 +122,7 @@
 			<artifactId>sdk</artifactId>
 			<version>4.3.0</version>
 		</dependency>
-<!--		<dependency>
+		<!--		<dependency>
 			<groupId>com.kh.awoolim</groupId>>
 			<artifactId>SpringBootFileUpload</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

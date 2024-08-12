@@ -326,9 +326,9 @@ function SearchPage() {
   const [showFilterSection, setShowFilterSection] = useState(false);
   const [clubs, setClubs] = useState([]);
   const [uniqueCategories, setUniqueCategories] = useState([]);
-  const [filteredResults, setFilteredResults] = useState([]); // 상태로 정의
+  const [filteredResults, setFilteredResults] = useState([]);
 
-  let latestFilters = useRef(filters); // 최신 필터 값 저장
+  let latestFilters = useRef(filters);
 
   useEffect(() => {
     let isMounted = true;
@@ -336,7 +336,7 @@ function SearchPage() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:8080/api/clubs/search", {
+        const response = await fetch("http://localhost:8080/api/club/search", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -349,7 +349,7 @@ function SearchPage() {
           setClubs(data);
           const categoriesSet = new Set(data.map((club) => club.category));
           setUniqueCategories(Array.from(categoriesSet));
-          setFilteredResults(data); // 기본적으로 모든 클럽을 보여줍니다.
+          setFilteredResults(data);
         }
       } catch (error) {
         console.error("클럽 데이터 가져오기 오류:", error);
@@ -360,7 +360,7 @@ function SearchPage() {
       }
     };
 
-    fetchData(); // 컴포넌트 마운트 시 또는 검색어 변경 시 데이터 가져오기
+    fetchData();
 
     return () => {
       isMounted = false;
@@ -402,10 +402,9 @@ function SearchPage() {
       searchTerm,
       latestFilters.current
     );
-    setFilteredResults(results); // 상태 업데이트
+    setFilteredResults(results);
   };
 
-  // 필터링 로직을 별도의 함수로 분리
   const applyFiltersToClubs = (clubsData, searchTerm, filters) => {
     return clubsData.filter((club) => {
       const searchTerms = searchTerm.toLowerCase().split(" ");
@@ -453,7 +452,6 @@ function SearchPage() {
     });
   };
 
-  // 기본 클럽 목록을 filteredResults로 설정
   useEffect(() => {
     setFilteredResults(clubs);
   }, [clubs]);
@@ -473,14 +471,12 @@ function SearchPage() {
             <h3 className="filter-title">상세 조회</h3>
           </div>
           <div className="filter-body">
-            {/* 검색어 입력 */}
             <input
               type="text"
               value={searchTerm}
               onChange={handleSearch}
               placeholder="검색어를 입력하세요"
             />
-            {/* 지역 (시/도) 필터 */}
             <div className="filter-row">
               <label htmlFor="city">지역 (시/도):</label>
               <select
@@ -497,7 +493,6 @@ function SearchPage() {
               </select>
             </div>
 
-            {/* 지역 (시/군/구) 필터 */}
             <div className="filter-row">
               <label htmlFor="district">지역 (시/군/구):</label>
               <select
@@ -517,7 +512,7 @@ function SearchPage() {
                     ))}
               </select>
             </div>
-            {/* 성별 필터 */}
+
             <div className="filter-row">
               <label>성별:</label>
               <label>
@@ -552,7 +547,6 @@ function SearchPage() {
               </label>
             </div>
 
-            {/* 나이 필터 */}
             <div className="filter-row">
               <label htmlFor="minAge">나이:</label>
               <input
@@ -565,7 +559,6 @@ function SearchPage() {
               세 이상
             </div>
 
-            {/* 모임 유형 필터 */}
             <div className="filter-row">
               <label htmlFor="type">모임 유형:</label>
               <select
@@ -579,7 +572,6 @@ function SearchPage() {
               </select>
             </div>
 
-            {/* 카테고리 필터 */}
             <div className="filter-row">
               <label>카테고리:</label>
               {uniqueCategories.map((category) => (
@@ -600,7 +592,6 @@ function SearchPage() {
               ))}
             </div>
 
-            {/* 활동 요일 필터 */}
             <div className="filter-row">
               <label>활동 요일:</label>
               <label>
@@ -638,13 +629,12 @@ function SearchPage() {
             <p>Loading...</p>
           ) : filteredResults.length > 0 ? (
             filteredResults.map((club) => (
-              <Link
-                key={club.clubId}
-                to={`/club/${club.clubId}`}
+              <div
+                key={club.clubId || club.uniqueIdentifier}
                 className="club-link"
               >
                 <ClubItem club={club} />
-              </Link>
+              </div>
             ))
           ) : (
             <p>검색 결과가 없습니다.</p>
