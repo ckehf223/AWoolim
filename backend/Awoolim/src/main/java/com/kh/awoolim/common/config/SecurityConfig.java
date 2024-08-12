@@ -82,16 +82,14 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/").permitAll()
-				.requestMatchers("/auth/*").permitAll()
 				.requestMatchers("/refresh").permitAll()
-				.requestMatchers("/auth/kakao/**").permitAll()
 				.requestMatchers("/send-sms").permitAll()
 				.requestMatchers("/check-code").permitAll()
 				.requestMatchers("/auth/naver/**").permitAll()
 				.requestMatchers("/auth/google/**").permitAll()
-				.requestMatchers("/club/register").hasRole("MEMBER")
-				.requestMatchers("/admin/").permitAll()
-//				.requestMatchers("/admin/*").hasRole("ADMIN")
+				.requestMatchers("/login").permitAll()
+				.requestMatchers("/api/club/register").hasRole("MEMBER")
+				.requestMatchers("/admin/*").hasRole("ADMIN")
 				.anyRequest().permitAll());
 
 		http.oauth2Login((oauth2) -> oauth2

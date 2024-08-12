@@ -61,10 +61,8 @@ public class MessageController {
 
 	@PostMapping("/check-code")
 	public ResponseEntity<Integer> checkCode(@RequestBody CodeRequest codeRequest, HttpSession session) {
+		log.info("check=code ENter");
 		String storedCode = (String) session.getAttribute("authenticationCode");
-		log.info("Received Code: " + codeRequest.getCode());
-		log.info("Stored Code: " + storedCode);
-		log.info("Phone Number: " + codeRequest.getPhoneNumber());
 
 		if (storedCode == null) {
 			log.info("Stored code is null");
@@ -74,9 +72,7 @@ public class MessageController {
 		if (storedCode.equals(codeRequest.getCode())) {
 			try {
 				Member member = memberService.findByPhone(codeRequest.getPhoneNumber());
-				log.info("Member: " + (member != null ? member.toString() : "Not found"));
 				if (member == null) {
-					log.info("check=code ENter");
 					return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(1));
 				} else {
 					return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(0));

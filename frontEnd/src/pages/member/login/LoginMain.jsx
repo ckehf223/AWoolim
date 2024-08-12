@@ -21,12 +21,20 @@ const LoginMain = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await login(useremail, password);
-            nav(-1, { replace: true });
+            const response = await login(useremail, password);
+            if (response.status === 200) {
+                nav(-1, { replace: true });
+            } else {
+                setMessage('아이디 비밀번호를 확인해 주세요');
+                setUserEmail('');
+                setPassword('');
+                e.target.reset();
+            }
         } catch (error) {
             setMessage('아이디 비밀번호를 확인해 주세요');
             setUserEmail('');
             setPassword('');
+            e.target.reset();
         }
     };
 
@@ -67,14 +75,14 @@ const LoginMain = () => {
                         <label htmlFor="username" style={{ width: "40px" }}>
                             <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: "20px" }} />
                         </label>
-                        <input type="text" id="username" onChange={(e) => setUserEmail(e.target.value)} placeholder="아이디" required />
+                        <input type="text" id="username" value={useremail} onChange={(e) => setUserEmail(e.target.value)} placeholder="아이디" required />
                     </div>
                     <div className="LoginMainInput-group">
                         <label htmlFor="password" style={{ width: "40px" }}>
                             <FontAwesomeIcon icon={faKey} style={{ fontSize: "20px" }} />
                         </label>
                         <input type={showPassword ? "text" : "password"} id="password" value={password}
-                            onChange={(e) => setPassword(e.target.value)} required placeholder="비밀번호" />
+                            onChange={(e) => setPassword(e.target.value)} required placeholder="비밀번호" autoComplete="off" />
                         <span className="password-toggle" onClick={toggleShowPassword}>
                             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} style={{ fontSize: "18px", cursor: "pointer" }} />
                         </span>

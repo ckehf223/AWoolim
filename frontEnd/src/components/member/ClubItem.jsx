@@ -3,25 +3,11 @@ import { Link } from "react-router-dom";
 import "/src/css/member/clubitem.css";
 
 function ClubItem({ club, backgroundColor = "#ffffff" }) {
-  const [imageData, setImageData] = useState(null);
-
-  useEffect(() => {
-    fetch(`http://localhost:8080/api/club/image/${club.clubImage}`)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const imageURL = URL.createObjectURL(blob);
-        setImageData(imageURL);
-      })
-      .catch((error) => {
-        console.error("Error fetching club image:", error);
-      });
-  }, [club.clubImage]);
-
   return (
     <div className="slide-item">
-      <Link to={`/details/${club.clubNo}`}>
-        {imageData ? (
-          <img className="categoryImg" src={imageData} alt={club.clubTitle} />
+      <Link to={`/club/${club.clubNo}`}>
+        {club.clubImage ? (
+          <img className="categoryImg" src={`data:image/jpeg;base64,${club.clubImage}`} alt={club.clubTitle} />
         ) : (
           <div className="image-placeholder skeleton"></div>
         )}

@@ -5,67 +5,53 @@ import useModal from '/src/common/useModal';
 import { Button } from 'reactstrap'
 import UserProfileModal from '/src/components/member/UserProfileModal';
 import instance from '/src/common/auth/axios';
-const MemberData = [
-  {
-    no: 1,
-    id: 'ckehf223',
-    name: '마봉팔',
-    message: '학원이 너무 멀다',
-    image: 'blank_image.png',
-    backImg: 'frankenstein.webp',
-    gender: '남성',
-    age: '29',
-    regdate: '2024-07-01',
-  },
-  {
-    no: 2,
-    id: 'kim123',
-    name: '',
-    message: '집에가고 싶어',
-    image: 'frankenstein.webp',
-    backImg: 'image.png',
-    gender: '여성',
-    age: '20',
-    regdate: '2024-04-22',
-  },
-  {
-    no: 3,
-    id: 'hong312',
-    name: '홍길동',
-    message: '나쁜놈들이 너무 많다',
-    image: 'blank_image.png',
-    backImg: 'frankenstein.webp',
-    gender: '남성',
-    age: '55',
-    regdate: '2023-08-16',
-  },
-];
-
+import WithdrawalModal from './WithdrawalModal';
 const ClubMember = () => {
   const param = useParams();
-  const [data, setData] = useState(MemberData);
+  const [data, setData] = useState([]);
+  const [memberData, setMemberData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const nav = useNavigate();
   const { isModalOpen, toggleModal } = useModal();
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedExitUser, setSelectedExitUser] = useState(null);
 
-  // useEffect(() => {
-  //   const getClubMembers = async () => {
-  //     await instance.get('http://localhost:8080/api/club')
-  //   }
-  // })
+  const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+
+  useEffect(() => {
+    const getClubMembers = async () => {
+      try {
+        const response = await instance.get(`http://localhost:8080/api/club/getClubMemberList/${param.no}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        setData(response.data);
+        setMemberData(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("모임 멤버 리스트 로딩중 에러 발생" + error);
+      }
+    }
+    getClubMembers();
+  }, [param.no])
 
 
   const openUserModal = (member) => {
     setSelectedUser(member);
     toggleModal();
   };
+  const openWithdrawalModal = (member) => {
+    setSelectedExitUser(member);
+    toggleExitModal();
+  }
+  const toggleExitModal = () => setIsExitModalOpen(!isExitModalOpen);
 
   const onChangeSearch = (e) => {
     setSearchInput(e.target.value);
   }
   const onClickSearch = () => {
-    setData(() => MemberData.filter((member) => searchInput === '' ? member : (member.name !== '' ? member.name === searchInput : member.id === searchInput)))
+    setData(() => memberData.filter((member) => searchInput === '' ? member : (member.NICKNAME ? member.NICKNAME === searchInput : member.USERNAME === searchInput)))
   }
   return (
     <>
@@ -91,31 +77,31 @@ const ClubMember = () => {
             </div>
             <div className='ClubMemberArea'>
 
-              {MemberData.length === 0 ? (<div className='UserMadeClubNoneArea'>
+              {memberData.length === 0 ? (<div className='UserMadeClubNoneArea'>
                 <p>모임 멤버가 없습니다.</p>
               </div>) : (data.map((member) => {
                 return (
-                  <div className='ClubMemberBox' key={member.no}>
+                  <div className='ClubMemberBox' key={member.USERID}>
                     <div className='ClubMemberInfoBox'>
                       <div className='ClubMemberImageBox'>
-                        <img src={`/src/assets/images/${member.image}`} onClick={() => { openUserModal(member) }} />
+                        <img src={`data:image/jpeg;base64,${member.USERIMAGE}`} onClick={() => { openUserModal(member) }} />
                       </div>
                       <div className='ClubMemberProfileInfo'>
-                        <p className='ClubMemberName'>{member.name !== '' ? member.name : member.id}</p>
-                        <p className='ClubMemberMg'>{member.message}</p>
+                        <p className='ClubMemberName'>{member.NICKNAME ? member.NICKNAME : member.USERNAME}</p>
+                        <p className='ClubMemberMg'>{member.USERINTRO}</p>
                       </div>
                       <div className='ClubMemberGenderArea'>
-                        <p>{member.gender}</p>
+                        <p>{member.USERGENDER === 'M' ? '남' : '여'}</p>
                       </div>
                       <div className='ClubMemberAgeArea'>
-                        <p>{member.age}세</p>
+                        <p>{new Date().getFullYear() - parseInt(member.USERBIRTH.split('.')[0])}세</p>
                       </div>
                       <div className='ClubMemberDateArea'>
-                        <p>{member.regdate}</p>
+                        <p>{member.REGDATE}</p>
                       </div>
                     </div>
                     <div className='ClubMemberDeleteBox'>
-                      <img src="/src/assets/images/deleteUser.png" alt="멤버 삭제 이미지" />
+                      <img src="/src/assets/images/deleteUser.png" alt="멤버 삭제 이미지" onClick={() => { openWithdrawalModal(member) }} />
                     </div>
                   </div>
                 )
@@ -123,12 +109,21 @@ const ClubMember = () => {
               <UserProfileModal
                 isOpen={isModalOpen}
                 toggle={toggleModal}
-                backgroundImage={selectedUser?.backImg}
-                profileImage={selectedUser?.image}
-                name={selectedUser?.name === '' ? selectedUser?.id : selectedUser?.name}
-                details={selectedUser?.message}
-              >
-              </UserProfileModal>
+                backgroundImage={"data:image/jpeg;base64," + selectedUser?.USERBACKIMAGE}
+                profileImage={"data:image/jpeg;base64," + selectedUser?.USERIMAGE}
+                name={selectedUser?.NICKNAME ? selectedUser?.NICKNAME : selectedUser?.USERNAME}
+                details={selectedUser?.USERINTRO}
+                userId={selectedUser?.USERID}
+              />
+
+              <WithdrawalModal
+                isOpen={isExitModalOpen}
+                toggle={toggleExitModal}
+                title='모임 멤버 탈퇴'
+                userName={selectedExitUser?.NICKNAME ? selectedExitUser?.NICKNAME : selectedExitUser?.USERNAME}
+                targetId={selectedExitUser?.USERID}
+                clubNo={param.no}
+              />
             </div>
           </div>
         </div>

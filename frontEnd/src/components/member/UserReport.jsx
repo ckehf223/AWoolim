@@ -1,54 +1,46 @@
 import '/src/css/member/UserReport.css'
 import Calendar from '/src/components/member/Calendar';
-import { useRef, useState } from 'react';
-const oldData = [
-  {
-    no: 1,
-    targetId: 'ckhef223',
-    date: '2024-05-11',
-    success: '처리 중',
-  },
-  {
-    no: 2,
-    targetId: 'kim1234',
-    date: '2024-07-12',
-    success: '처리완료',
-  },
-  {
-    no: 3,
-    targetId: 'lee123',
-    date: '2024-07-13',
-    success: '처리 중',
-  },
-  {
-    no: 4,
-    targetId: 'hong123',
-    date: '2024-06-20',
-    success: '처리완료',
-  },
-]
-const complete = oldData.filter((data) => {
-  return data.success === '처리완료' ? data : '';
-}).length;
+import { useEffect, useRef, useState } from 'react';
+import instance from '/src/common/auth/axios';
 
-const fail = oldData.filter((data) => {
-  return data.success === '처리 중' ? data : '';
-}).length;
+const today = new Date();
+const oneMonthAgo = new Date();
+oneMonthAgo.setMonth(today.getMonth() - 3);
 
 const UserReport = () => {
 
-  const [initialDate, setInitialDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [initialDate, setInitialDate] = useState(oneMonthAgo);
+  const [endDate, setEndDate] = useState(today);
   const [answerVisible, setAnswerVisible] = useState(0);
-  const [data, setData] = useState(oldData);
+  const [data, setData] = useState([]);
+  const [sortData, setSortData] = useState([]);
+  const [reportData, setReportData] = useState([]);
   const [selected, setSelected] = useState(1);
-  const ref = useRef(1);
-  const onClickAnswer = (e) => {
-    if (answerVisible === e)
-      setAnswerVisible(0);
-    else { setAnswerVisible(e); }
-    console.log(e);
-  }
+  const [complete, setComplete] = useState();
+  const [fail, setFail] = useState();
+
+
+  useEffect(() => {
+    const getMyReport = async () => {
+      try {
+        const response = await instance.get("http://localhost:8080/api/report/reportList",
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+        setData(response.data);
+        setSortData(response.data);
+        setReportData(response.data);
+        setComplete(() => response.data.filter((data) => data.RESULT === 1 || data.RESULT === -1).length);
+        setFail(() => response.data.filter((data) => data.RESULT === 0).length)
+      } catch (error) {
+        console.error("마이페이지 신고내역 로딩 중 오류" + error)
+      }
+    }
+    getMyReport();
+  }, [])
 
   const formatDateString = (date) => {
     const year = date.getFullYear();
@@ -57,36 +49,56 @@ const UserReport = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const parseDate = (dateStr) => {
+    const [year, month, day] = dateStr.split('.').map(Number);
+    return new Date(`20${year}`, month - 1, day);
+  };
+
+
   const onSearchData = () => {
     const formattedInitialDate = formatDateString(initialDate);
     const formattedEndDate = formatDateString(endDate);
     setData(() => {
-      return oldData.filter((data) => {
+      return sortData.filter((data) => {
+        const reportDate = parseDate(data.REGDATE);
         return (
-          data.date >= formattedInitialDate && data.date <= formattedEndDate
+          reportDate >= new Date(formattedInitialDate) && reportDate <= new Date(formattedEndDate)
         );
       });
     });
   };
 
+  const onClickAnswer = (e) => {
+    if (answerVisible === e)
+      setAnswerVisible(0);
+    else { setAnswerVisible(e); }
+  }
+
   const onClickNav = (e) => {
     setSelected(e);
     switch (e) {
       case 1:
-        setData(oldData);
+        setData(reportData);
         break;
       case 2:
         setData(() => {
-          return oldData.filter((data) => data.success === '처리 중')
+          return reportData.filter((data) => data.RESULT === 0);
+        })
+        setSortData(() => {
+          return reportData.filter((data) => data.RESULT === 0);
         })
         break;
       case 3:
         setData(() => {
-          return oldData.filter((data) => data.success === '처리완료')
+          return reportData.filter((data) => data.RESULT === 1 || data.RESULT === -1);
+        })
+        setSortData(() => {
+          return reportData.filter((data) => data.RESULT === 1 || data.RESULT === -1);
         })
         break;
     }
   }
+
   return (
     <>
       <div className="UserReport">
@@ -96,7 +108,7 @@ const UserReport = () => {
           </div>
           <div className='UserReportHeaderArea'>
             <div className={`UserReportHeaderNav${selected === 1 ? 'selected' : ''}`} onClick={() => { onClickNav(1) }}>
-              <p className='UserReportTotalCount'>{oldData.length}</p>
+              <p className='UserReportTotalCount'>{data.length}</p>
               <p className='UserReportTotalMg'>총 신고</p>
             </div>
             <div className={`UserReportHeaderNav${selected === 2 ? 'selected' : ''}`} onClick={() => { onClickNav(2) }}>
@@ -119,8 +131,9 @@ const UserReport = () => {
             <Calendar
               selectedDate={endDate}
               onChangeDate={setEndDate}
-              minDate={initialDate} />
-            <button onClick={onSearchData}>조회</button>
+              minDate={initialDate}
+              maxDate={today} />
+            <button onClick={() => { onSearchData() }}>조회</button>
           </div>
           <div className='UserReportMainArea'>
             <div className='UserReportContentBorder'>
@@ -132,23 +145,23 @@ const UserReport = () => {
               </div>
             </div>
 
-            {data.map((report) => {
+            {data.map((report, index) => {
               return (
-                <div className='UserReportInfoArea' key={report.no} onClick={() => { onClickAnswer(report.no) }} >
+                <div className='UserReportInfoArea' key={report.REPORTNO} onClick={() => { onClickAnswer(report.REPORTNO) }} >
                   <div className='UserReportMainBox' >
-                    <div>{report.no}</div>
-                    <div>{report.targetId}</div>
-                    <div>{report.date}</div>
-                    <div>{report.success}</div>
+                    <div>{index + 1}</div>
+                    <div>{report.TARGETNAME}</div>
+                    <div>{report.REGDATE}</div>
+                    <div>{report.RESULT === 0 ? '처리중' : '처리완료'}</div>
                   </div>
-                  <div className={`UserReportContentArea${answerVisible === report.no ? 'Show' : ''}`} >
+                  <div className={`UserReportContentArea${answerVisible === report.REPORTNO ? 'Show' : ''}`} >
                     <div>
                       <div className='UserReportContent'>신고내용 : </div>
-                      <span>미친 사람이 날뛰고 있어요 도와주세요</span>
+                      <span>{report.CONTENT}</span>
                     </div>
                     <div>
                       <div>처리답변 : </div>
-                      <span>미친 사람이라 판단되어 제제를 가하였습니다.</span>
+                      <span>{report.RESULTMESSAGE}</span>
                     </div>
                   </div>
                 </div>

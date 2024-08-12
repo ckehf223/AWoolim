@@ -29,8 +29,8 @@ const UserMyClub = () => {
     getMyClub();
   }, []);
 
-  const openExitModal = ({ title, clubNo, clubTitle }) => {
-    setSelectedClub({ title, clubNo, clubTitle })
+  const openExitModal = ({ title, clubNo, clubTitle, isAccept }) => {
+    setSelectedClub({ title, clubNo, clubTitle, isAccept })
     toggleModal();
   };
 
@@ -88,6 +88,14 @@ const UserMyClub = () => {
                           <p className='UserMyClubTitle'>{club.clubTitle}</p>
                         </div>
                       </div>
+                      <div className='UserMyClubInfo'>
+                        <p className='UserMyClubCategory'>{club.regularType === 1 ? '정기모임' : '단기 모임'}</p>
+                        <p className='UserMyClubTitle'>{club.dday}</p>
+                      </div>
+                      <div className='UserMyClubInfo'>
+                        <p className='UserMyClubCategory'>멤버</p>
+                        <p className='UserMyClubTitle'> {club.memberCount} 명</p>
+                      </div>
                       <div className='UserMyClubButtonArea'>
                         <img className='UserMyClubBoardImg' src="/src/assets/images/home.png" alt="모임 게시판 이미지" />
                         <img className='UserMyClubExitImg' src="/src/assets/images/exit.png" alt="모임 나가기 이미지"
@@ -95,7 +103,8 @@ const UserMyClub = () => {
                             openExitModal({
                               title: '모임 탈퇴',
                               clubNo: club.clubNo,
-                              clubTitle: club.clubTitle
+                              clubTitle: club.clubTitle,
+                              isAccept: 1,
                             })
                           }} />
                       </div>
@@ -120,7 +129,8 @@ const UserMyClub = () => {
                           openExitModal({
                             title: '신청 취소',
                             clubNo: club.clubNo,
-                            clubTitle: club.clubTitle
+                            clubTitle: club.clubTitle,
+                            isAccept: 0,
                           })
                         }}>신청 취소</button>
                       </div>
@@ -134,6 +144,7 @@ const UserMyClub = () => {
                 title={selectedClub?.title}
                 clubNo={selectedClub?.clubNo}
                 clubTitle={selectedClub?.clubTitle}
+                isAccept={selectedClub?.isAccept}
               >
               </UserExitClubModal>
             </div>

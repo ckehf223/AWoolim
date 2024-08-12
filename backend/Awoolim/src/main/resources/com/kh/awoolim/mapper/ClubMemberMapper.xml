@@ -16,6 +16,14 @@
       cm.CLUBNO = #{clubNo} 
       AND cm.ISACCEPT = 1
   </select>
+  <select id="readClubMemberList" resultType="Map" parameterType="int">
+ 	SELECT M.USERID,M.USERNAME,M.USEREMAIL,M.USERBIRTH,M.USERGENDER,
+  	M.USERPHONE,M.NICKNAME,M.USERIMAGE,M.USERBACKIMAGE,M.USERINTRO,
+  	TO_CHAR(CM.REGDATE,'YY.MM.DD') AS REGDATE 
+  	FROM MEMBER M JOIN CLUBMEMBER CM
+  	ON M.USERID = CM.USERID
+  	WHERE CM.CLUBNO = #{clubNo} AND CM.USERID != #{userId} AND CM.ISACCEPT = #{isAccept}
+  </select>
 	<select id="findById" resultType="int" parameterType="int">
 		SELECT COUNT(MEMBERNO) FROM CLUBMEMBER
 		WHERE CLUBNO = #{clubNo} AND USERID = #{userId} AND ISACCEPT = 0
@@ -28,10 +36,12 @@
 		DELETE FROM CLUBMEMBER 
 		WHERE CLUBNO = #{clubNo} AND USERID = #{userId}
 	</delete>
-	
+	<update id="update" parameterType="int">
+		UPDATE CLUBMEMBER SET ISACCEPT = 1
+		WHERE CLUBNO= #{clubNo} AND USERID = #{userId}
+	</update>
 	<select id="myClubSignupCount" resultType="int" parameterType="int">
 		SELECT COUNT(MEMBERNO) FROM CLUBMEMBER
 		WHERE CLUBNO = #{clubNo} AND ISACCEPT = 0
 	</select>
-	
 </mapper>

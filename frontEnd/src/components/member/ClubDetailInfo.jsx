@@ -126,7 +126,7 @@ const ClubDetailInfo = () => {
                     <img src={`data:image/jpeg;base64,${clubData.imageData['clubImage0']}`} />
                   </div>
                   <div className='ClubDetailTop_middelContentArea'>
-                    <div><img src="/src/assets/images/leader.png" /><strong>모임장:</strong><span>{clubManager.nickName !== null ? clubManager.nickName : clubManager.userName}</span></div>
+                    <div><img src="/src/assets/images/leader.png" /><strong>모임장:</strong><span>{clubManager.nickName ? clubManager.nickName : clubManager.userName}</span></div>
                     <div><img src="/src/assets/images/age.png" /><strong>제한나이:</strong><span>{clubData.club.ageLimit}</span></div>
                     <div><img src="/src/assets/images/gender.png" /><strong>제한성별:</strong><span>{clubData.club.clubGender}</span></div>
                   </div>
@@ -150,14 +150,14 @@ const ClubDetailInfo = () => {
                         key={member.userId}
                         onClick={() => openUserModal({
                           userId: member.userId,
-                          nickName: member.nickName !== null ? member.nickName : member.userName,
+                          nickName: member.nickName ? member.nickName : member.userName,
                           message: member.userIntro,
                           backgroundImage: `data:image/jpeg;base64,${clubData.imageData['backImage' + member.userId]}`,
                           profileImage: `data:image/jpeg;base64,${clubData.imageData['userImage' + member.userId]}`
                         })}>
                         <img src={`data:image/jpeg;base64,${clubData.imageData['userImage' + member.userId]}`} />
                         <div className='ClubDetailMemberInfo'>
-                          <p className='ClubDetailMemberNickname'>{member.nickName !== null ? member.nickName : member.userName} <span>{clubData.club.userId === member.userId ? '(모임장)' : ''}</span></p>
+                          <p className='ClubDetailMemberNickname'>{member.nickName ? member.nickName : member.userName} <span>{clubData.club.userId === member.userId ? '(모임장)' : ''}</span></p>
                           <p className='ClubDetailMemberIntro'>{member.userIntro}</p>
                         </div>
                       </div>

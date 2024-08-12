@@ -7,6 +7,7 @@ import GroupPage from "/src/pages/member/GroupPage";
 import ClubRegister from "/src/components/member/ClubRegister";
 import ClubDetailInfo from "/src/components/member/ClubDetailInfo";
 import MyPage from "/src/components/member/MyPage";
+import AsideButton from "/src/components/member/AsideButton";
 
 const Member = () => {
   return (
@@ -20,6 +21,7 @@ const Member = () => {
         <Route path="/club/:no" element={<ClubDetailInfo />} />
         <Route path='/mypage/*' element={<MyPage />} />
       </Routes >
+      <AsideButton />
       <Footer />
     </>
   );

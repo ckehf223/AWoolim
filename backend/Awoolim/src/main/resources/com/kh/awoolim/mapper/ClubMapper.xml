@@ -52,7 +52,8 @@
 		UPDATE CLUB SET CLUBTITLE = #{clubTitle},CATEGORY = #{category},
 		CLUBGENDER = #{clubGender}, DDAY = #{dDay}, REGULARTYPE = #{regularType},
 		MAXMEMBER = #{maxMember}, CITY = #{city}, DISTRICT = #{district},
-		DETAILINFO = #{detailInfo}, AGELIMIT = #{ageLimit}, CLUBIMAGE = #{clubImage}
+		DETAILINFO = #{detailInfo}, AGELIMIT = #{ageLimit}, CLUBIMAGE = #{clubImage},
+		RECRUITMENT = #{recruitment}
 		WHERE CLUBNO = #{clubNo}
 	</update>
 	<select id="getAllClubs" resultType="Club">

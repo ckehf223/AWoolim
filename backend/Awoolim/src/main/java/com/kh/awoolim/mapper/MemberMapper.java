@@ -10,6 +10,7 @@ public interface MemberMapper {
 
 	public Member findByEmail(String email);
 	
+	public Member findByEmailType(String email,String type);
 	//추가된 부분
 	public Member findByPhone(String phone);
 	

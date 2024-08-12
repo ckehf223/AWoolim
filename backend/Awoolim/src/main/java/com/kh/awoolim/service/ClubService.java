@@ -19,6 +19,7 @@ import com.kh.awoolim.mapper.ClubMapper;
 import com.kh.awoolim.mapper.ClubMemberMapper;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 public class ClubService {
@@ -31,72 +32,69 @@ public class ClubService {
 
 	public int register(Club club) {
 		int count = clubMapper.clubCount(club.getUserId());
-		if(count >= 3) {
+		if (count >= 3) {
 			return 0;
 		}
 		clubMapper.create(club);
 		return 1;
 	}
-	
-    public List<Club> getAllClubs() {
-    	List<Club> list = clubMapper.getAllClubs();
-        return list;
-    }
 
-    public byte[] getImage(String imageName) {
-        try (InputStream is = getClass().getResourceAsStream("/static/images/" + imageName)) {
-            if (is == null) {
-                throw new IOException("Image not found: " + imageName);
-            }
-            return StreamUtils.copyToByteArray(is);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load image: " + imageName, e);
-        }
-    }
+	public List<Club> getAllClubs() {
+		List<Club> list = clubMapper.getAllClubs();
+		for (Club data : list) {
+			try {
+				if (data.getClubImage() != null && !data.getClubImage().isEmpty()) {
+					String clubImage = (String) encodeImageToBase64("/static/images/" + data.getClubImage().trim());
+					data.setClubImage(clubImage);
+				}
+			} catch (Exception e) {
+				System.err.println("Error encoding image for club " + data.getClubNo() + ": " + e.getMessage());
+			}
+		}
+		return list;
+	}
 
-    public List<Club> searchClubs(String searchTerm, Map<String, Object> filters) {
-        return clubMapper.searchClubs(searchTerm, filters);
-    }
+	public List<Club> searchClubs(String searchTerm, Map<String, Object> filters) {
+		return clubMapper.searchClubs(searchTerm, filters);
+	}
 
-	
 	public Club readByClub(int clubNo) {
 		return clubMapper.readClub(clubNo);
 	}
-	
+
 	public Club readByClubNo(int clubNo) {
 		Club club = clubMapper.readClub(clubNo);
-		 if (club.getClubImage() != null && !club.getClubImage().isEmpty()) {
-             try {
-                 String clubImage = (String)encodeImageToBase64("/static/images/" + club.getClubImage().trim());
-                 club.setClubImage(clubImage);
-             } catch (IOException e) {
-                 System.err.println("Error encoding image for club " + club.getClubNo() + ": " + e.getMessage());
-             }
-         }
-		 return club;
+		if (club.getClubImage() != null && !club.getClubImage().isEmpty()) {
+			try {
+				String clubImage = (String) encodeImageToBase64("/static/images/" + club.getClubImage().trim());
+				club.setClubImage(clubImage);
+			} catch (IOException e) {
+				System.err.println("Error encoding image for club " + club.getClubNo() + ": " + e.getMessage());
+			}
+		}
+		return club;
 	}
-	
+
 	public Map<String, Object> readClub(int clubNo) throws IOException {
 		Map<String, Object> clubData = new HashMap<>();
 		Club club = null;
 		List<Club> clubList = null;
 		List<Member> memberList = null;
 		club = clubMapper.readClub(clubNo);
-		
+
 		clubList = clubMapper.readPopularTop4();
 		memberList = clubMemberMapper.readClubMember(clubNo);
 		Map<String, String> imageList = new HashMap<>();
-		System.out.println(club);
 		if (club != null) {
 			clubData.put("club", club);
-			String clubImage = (String)encodeImageToBase64("/static/images/" + club.getClubImage().trim());
+			String clubImage = (String) encodeImageToBase64("/static/images/" + club.getClubImage().trim());
 			imageList.put("clubImage0", clubImage);
 		}
-		
+
 		if (clubList.size() > 0) {
 			clubData.put("clubList", clubList);
 			for (Club data : clubList) {
-				String clubImage =(String) encodeImageToBase64("/static/images/" + data.getClubImage().trim());
+				String clubImage = (String) encodeImageToBase64("/static/images/" + data.getClubImage().trim());
 				imageList.put("clubImage" + data.getClubNo(), clubImage);
 			}
 
@@ -104,13 +102,13 @@ public class ClubService {
 		if (memberList.size() > 0) {
 			clubData.put("memberList", memberList);
 			for (Member data : memberList) {
-				if(data.getUserBackImage() != null && data.getUserBackImage() != "") {
-					String backImage = (String)encodeImageToBase64("/static/images/" + data.getUserBackImage().trim());
+				if (data.getUserBackImage() != null && data.getUserBackImage() != "") {
+					String backImage = (String) encodeImageToBase64("/static/images/" + data.getUserBackImage().trim());
 					imageList.put("backImage" + data.getUserId(), backImage);
 				}
-				String userImage = (String)encodeImageToBase64("/static/images/" + data.getUserImage().trim());
+				String userImage = (String) encodeImageToBase64("/static/images/" + data.getUserImage().trim());
 				imageList.put("userImage" + data.getUserId(), userImage);
-				
+
 			}
 		}
 		clubData.put("imageData", imageList);
@@ -119,68 +117,94 @@ public class ClubService {
 		}
 		return clubData;
 	}
-	
-	public Map<String,Object> readMyClubList(int userId) throws IOException{
-		Map<String,Object> clubMap = new HashMap<>();
-		List<Club> apprList = clubMapper.readMyClubDisapprovalList(userId);
-		List<Club> disaList = clubMapper.readMyApprovalClubList(userId);
-		if(apprList.size() > 0 && apprList != null) {
-			for(Club data : apprList) {
-				if(data.getClubImage() != null && data.getClubImage() != "") {
-					String clubImage = (String)encodeImageToBase64("/static/images/" + data.getClubImage().trim());
+
+	public Map<String, Object> readMyClubList(int userId) throws IOException {
+		Map<String, Object> clubMap = new HashMap<>();
+		List<Club> apprList = clubMapper.readMyApprovalClubList(userId);
+		List<Club> disaList = clubMapper.readMyClubDisapprovalList(userId);
+		if (apprList.size() > 0 && apprList != null) {
+			for (Club data : apprList) {
+				if (data.getClubImage() != null && data.getClubImage() != "") {
+					String clubImage = (String) encodeImageToBase64("/static/images/" + data.getClubImage().trim());
 					data.setClubImage(clubImage);
 				}
 			}
 		}
-		if(disaList.size() > 0 && disaList != null) {
-			for(Club data : disaList) {
-				if(data.getClubImage() != null && data.getClubImage() != "") {
-					String clubImage = (String)encodeImageToBase64("/static/images/" + data.getClubImage().trim());
+		if (disaList.size() > 0 && disaList != null) {
+			for (Club data : disaList) {
+				if (data.getClubImage() != null && data.getClubImage() != "") {
+					String clubImage = (String) encodeImageToBase64("/static/images/" + data.getClubImage().trim());
 					data.setClubImage(clubImage);
 				}
 			}
 		}
 		clubMap.put("apprList", apprList);
 		clubMap.put("disaList", disaList);
-		
+
 		return clubMap;
 	}
+
 	public Map<String, Object> readMyMadeClubList(int userId) throws IOException {
-	    Map<String, Object> clubMap = new HashMap<>();
-	    Map<String, String> countMap = new HashMap<>();
-	    List<Club> clubList = clubMapper.readMyMadeClubList(userId);
-	    
-	    if (clubList != null && clubList.size() > 0) {
-	        for (Club data : clubList) {
-	            int count = clubMemberMapper.myClubSignupCount(data.getClubNo());
-	            countMap.put("count" + data.getClubNo(), String.valueOf(count));
-	            if (data.getClubImage() != null && !data.getClubImage().isEmpty()) {
-	                try {
-	                    String clubImage = (String)encodeImageToBase64("/static/images/" + data.getClubImage().trim());
-	                    data.setClubImage(clubImage);
-	                } catch (IOException e) {
-	                    System.err.println("Error encoding image for club " + data.getClubNo() + ": " + e.getMessage());
-	                }
-	            }
-	        }
-	        clubMap.put("clubList", clubList);
-	        clubMap.put("countMap", countMap);
-	    }
-	    
-	    return clubMap;
+		Map<String, Object> clubMap = new HashMap<>();
+		Map<String, String> countMap = new HashMap<>();
+		List<Club> clubList = clubMapper.readMyMadeClubList(userId);
+
+		if (clubList != null && clubList.size() > 0) {
+			for (Club data : clubList) {
+				int count = clubMemberMapper.myClubSignupCount(data.getClubNo());
+				countMap.put("count" + data.getClubNo(), String.valueOf(count));
+				if (data.getClubImage() != null && !data.getClubImage().isEmpty()) {
+					try {
+						String clubImage = (String) encodeImageToBase64("/static/images/" + data.getClubImage().trim());
+						data.setClubImage(clubImage);
+					} catch (IOException e) {
+						System.err.println("Error encoding image for club " + data.getClubNo() + ": " + e.getMessage());
+					}
+				}
+			}
+			clubMap.put("clubList", clubList);
+			clubMap.put("countMap", countMap);
+		}
+
+		return clubMap;
+	}
+
+	public List<Map<String, Object>> getClubMemberList(int clubNo, int isAccept) {
+		try {
+			Club club = clubMapper.readClub(clubNo);
+			List<Map<String, Object>> mapList = clubMemberMapper.readClubMemberList(clubNo, club.getUserId(), isAccept);
+			for (Map<String, Object> data : mapList) {
+				String userImage = (String) data.get("USERIMAGE");
+				String backImage = (String) data.get("USERBACKIMAGE");
+				if (userImage != null) {
+					String encodeUserImage = (String) encodeImageToBase64("/static/images/" + userImage);
+					data.put("USERIMAGE", encodeUserImage);
+				}
+				if (backImage != null) {
+					String encodeUserBackImage = (String) encodeImageToBase64("/static/images/" + backImage);
+					data.put("USERBACKIMAGE", encodeUserBackImage);
+				}
+			}
+			return mapList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.print("ERROR getClubMemberList");
+			return null;
+		}
 	}
 
 	public void modifyClub(Club club) {
 		clubMapper.modifyClub(club);
 	}
-	
+
 	public void addClubCount(int clubNo) {
 		clubMapper.addClubCount(clubNo);
 	}
-	
+
 	public void minusClubCount(int clubNo) {
 		clubMapper.minusClubCount(clubNo);
 	}
+
 	public String encodeImageToBase64(String imagePath) throws IOException {
 		ClassPathResource imgFile = new ClassPathResource(imagePath);
 		byte[] imageBytes = Files.readAllBytes(imgFile.getFile().toPath());
