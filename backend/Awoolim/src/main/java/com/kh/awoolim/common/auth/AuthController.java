@@ -99,17 +99,6 @@ public class AuthController {
 		}
 
 	}
-	@GetMapping("/getUserId")
-	public ResponseEntity<Integer> getUserId(HttpServletRequest request,HttpServletResponse response) {
-		try {
-			log.info("getUserId GET ENTER");
-			String accessToken = request.getHeader("Authorization").substring(7);
-			int userId = jwtUtil.getUserId(accessToken);
-			return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(userId));
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
-	}
 
 
 	@Transactional	

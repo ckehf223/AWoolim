@@ -13,7 +13,7 @@
 	</select>
 	<insert id="create" parameterType="Member">
 		INSERT INTO
-		MEMBER(USERID,USEREMAIL,PASSWORD,USERNAME,USERBIRTH,USERPHONE,USERGENDER,SNSTYPE)
+		MEMBER(USERID,USEREMAIL,PASSWORD,USERNAME,USERBIRTH,USERPHONE,USERGENDER,SNSTYPE,USERIMAGE,USERBACKIMAGE)
 		VALUES(
 		MEMBER_SEQ.NEXTVAL,
 		#{userEmail},
@@ -22,7 +22,9 @@
 		#{userBirth},
 		#{userPhone},
 		#{userGender},
-		#{snsType})
+		#{snsType},
+		#{userImage},
+		#{userBackImage})
 	</insert>
 
 	<select id="findByEmail" resultType="Member">
@@ -35,7 +37,10 @@
 		SELECT * FROM MEMBER 
 		WHERE USERPHONE=#{phone}
 	</select>
-
+	<select id="findByEmailType" resultType="Member">
+		SELECT * FROM MEMBER
+		WHERE USEREMAIL = #{email} AND SNSTYPE = #{type}
+	</select>
 	<update id="updatePassword" parameterType="String">
 		UPDATE MEMBER SET
 		PASSWORD = #{password} WHERE USEREMAIL = #{email}

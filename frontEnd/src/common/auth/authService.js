@@ -1,5 +1,5 @@
-import instance from '/src/common/auth/axios';
 import { setAccessToken, removeAccessToken, clearRefreshToken } from '/src/common/auth/Auth';
+import instance from '/src/common/auth/axios';
 
 export const login = async (username, password) => {
   try {
@@ -37,7 +37,7 @@ export const adminLogout = async () => {
     await instance.post('/logout', {}, { withCredentials: true });
     removeAccessToken();
     clearRefreshToken();
-    window.location.href = "/admin/";
+    window.location.href = "/admin/login";
   } catch (error) {
     console.error('Logout failed', error);
   }

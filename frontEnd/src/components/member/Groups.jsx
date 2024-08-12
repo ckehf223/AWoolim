@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ClubItem from "./ClubItem";
+import ClubItem from "/src/components/member/ClubItem";
 import "/src/css/member/groups.css";
 
 function Groups() {

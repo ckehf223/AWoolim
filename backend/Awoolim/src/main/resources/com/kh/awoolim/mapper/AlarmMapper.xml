@@ -1,25 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.AlarmMapper">
-	<!-- SQL 문 작성 -->
-	<select id="getUnreadAlarmsByUserId" parameterType="int"
-		resultType="com.kh.awoolim.domain.Alarm">
-		SELECT ALARMNO, USERID, MESSAGE, ISREAD
-		FROM ALARM
-		WHERE USERID = #{userId} AND ISREAD = 0
-	</select>
 
-	<update id="markAlarmAsRead" parameterType="int">
-		UPDATE ALARM
-		SET ISREAD = 1
-		WHERE ALARMNO = #{alarmNo}
-	</update>
-
-	<insert id="insertAlarm"
-		parameterType="com.kh.awoolim.domain.Alarm">
-		INSERT INTO ALARM (ALARMNO, USERID, MESSAGE, ISREAD)
-		VALUES (#{alarmNo}, #{userId}, #{message}, #{isRead})
+	<insert id="create" parameterType="Alarm">
+		INSERT INTO ALARM VALUES(alarm_seq.nextval,#{userId},#{message},0)
 	</insert>
+	<select id="getUnreadAlarmsByUserId" parameterType="int"
+        resultType="Alarm">
+        SELECT ALARMNO, USERID, MESSAGE, ISREAD
+        FROM ALARM
+        WHERE USERID = #{userId} AND ISREAD = 0
+    </select>
+    <update id="markAlarmAsRead" parameterType="int">
+        UPDATE ALARM
+        SET ISREAD = 1
+        WHERE ALARMNO = #{alarmNo}
+    </update>
 </mapper>

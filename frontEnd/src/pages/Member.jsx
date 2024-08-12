@@ -8,6 +8,7 @@ import ClubRegister from "/src/components/member/ClubRegister";
 import ClubDetailInfo from "/src/components/member/ClubInfo";
 import ClubInfo from "/src/components/member/ClubInfo";
 import MyPage from "/src/components/member/MyPage";
+import AsideButton from "/src/components/member/AsideButton";
 
 const Member = () => {
   return (

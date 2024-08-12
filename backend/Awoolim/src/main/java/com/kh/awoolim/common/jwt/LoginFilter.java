@@ -106,7 +106,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
 		// 응답 설정
 		response.setHeader("Authorization", "Bearer " + access);
-		response.setHeader("LoginId",String.valueOf(userId));
 		response.addCookie(createCookie("refresh", refresh));
 		response.setStatus(HttpStatus.OK.value());
 		

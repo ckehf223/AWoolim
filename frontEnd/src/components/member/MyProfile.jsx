@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import '/src/css/member/MyProfile.css'
 import instance from '/src/common/auth/axios'
 import { useNavigate } from 'react-router-dom';
+import imageCompression from 'browser-image-compression';
 
 const MyProfile = () => {
   const [isNickNameEditing, setIsNickNameEditing] = useState(false);
@@ -81,26 +82,48 @@ const MyProfile = () => {
     setBackImageSrc('');
   }
 
-  const handleImageChange = (event) => {
-    setFile(event.target.files[0])
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImageSrc(e.target.result);
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true
       };
-      reader.readAsDataURL(file);
+      try {
+        const compressedFile = await imageCompression(file, options);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setImageSrc(e.target.result);
+          setFile(compressedFile);
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        console.error('이미지 리사이즈 실패:', error);
+      }
     }
   };
-  const handleBackImageChange = (event) => {
-    setBackFile(event.target.files[0])
+
+  const handleBackImageChange = async (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setBackImageSrc(e.target.result);
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true
       };
-      reader.readAsDataURL(file);
+
+      try {
+        const compressedFile = await imageCompression(file, options);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setBackImageSrc(e.target.result);
+          setBackFile(compressedFile);
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        console.error('이미지 리사이즈 실패:', error);
+      }
     }
   };
 
@@ -114,8 +137,12 @@ const MyProfile = () => {
       try {
         const formData = new FormData();
         formData.append('nickName', nickName);
-        formData.append('userImage', file);
-        formData.append('userBackImage', backFile);
+        if (file) {
+          formData.append('userImage', file, file.name);
+        }
+        if (backFile) {
+          formData.append('userBackImage', backFile, backFile.name);
+        }
         formData.append('userIntro', introMg);
         if (imageSrc !== '/src/assets/images/blank_image.png' && imageSrc.split('base64,')[1] !== userData.userImage) {
           formData.append('checkImage', '1');
@@ -139,7 +166,7 @@ const MyProfile = () => {
           }
         )
         alert('프로필이 변경되었습니다.');
-        nav('/mypage/profile');
+        window.location.reload();
       } catch (error) {
         console.error("프로필 변경 중 오류 발생" + error);
       }

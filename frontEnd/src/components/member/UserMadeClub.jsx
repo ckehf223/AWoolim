@@ -35,7 +35,7 @@ const UserMadeClub = () => {
             <div className='UserMadeClubArea'>
               <p><b>내가 만든 모임은 최대 3개</b></p>
 
-              {clubData.clubList === null && clubData.clubList.length <= 0 ?
+              {clubData.clubList === null || clubData.clubList.length <= 0 ?
                 (
                   <div className='UserMadeClubNoneArea'>
                     <p>현재 개설한 <b>모임</b>이 없습니다.</p>

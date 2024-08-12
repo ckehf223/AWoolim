@@ -31,7 +31,6 @@ const Admin = () => {
           <ClubProvider>
             <Routes>
               {/* 렌더링할 페이지  */}
-              <Route path='/' element={<AdminLoginMain />} />
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/user' element={<UserManager />} />
               <Route path='/club' element={<ClubManager />} />

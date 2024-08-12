@@ -38,7 +38,7 @@ public class Oauth2UserDetailsService extends DefaultOAuth2UserService {
 			oauth2Response = new NaverResponse(oauth2.getAttributes());
 		}
 
-		Member member = memberMapper.findByEmail(oauth2Response.getEmail());
+		Member member = memberMapper.findByEmailType(oauth2Response.getEmail(),registrationId);
 		if (member == null) {
 			try {
 				

@@ -17,14 +17,16 @@ const AdminLoginMain = () => {
         if (isAuthenticated) {
             nav('/admin/dashboard', { replace: true });
         }
-    })
+    }, [])
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await login(useremail, password);
-            nav('/admin/dashboard', { replace: true });
+            const response = await login(useremail, password);
+            if (response.status === 200) {
+                nav('/admin/dashboard');
+            }
         } catch (error) {
             setMessage('아이디 비밀번호를 확인해 주세요');
             setUserEmail('');
@@ -40,7 +42,7 @@ const AdminLoginMain = () => {
         <div className='LoginMainWrap'>
             <div className="LoginMain">
                 <div className="logo-container">
-                    <img src="\src\assets\images\headerLogo.png" alt="어울림" />
+                    <img src="\src\assets\images\headerLogo.png" alt="어울림" onClick={() => { nav('/') }} />
                 </div>
                 <form className="login-form">
                     <div className="LoginMainInput-group">
@@ -55,7 +57,7 @@ const AdminLoginMain = () => {
                         </label>
                         <input type={showPassword ? "text" : "password"} id="password" value={password}
                             onChange={(e) => setPassword(e.target.value)} required placeholder="비밀번호" />
-                        <span className="password-toggle" onClick={toggleShowPassword}>
+                        <span className="password-toggle" onClick={() => { toggleShowPassword() }}>
                             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} style={{ fontSize: "18px", cursor: "pointer" }} />
                         </span>
                     </div>

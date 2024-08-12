@@ -7,23 +7,25 @@
 
 .UserProfileModal-content{
   border: none;
-  border-radius: 10px;
   overflow: hidden;
 }
 
 .UserProfileModalHeader {
   position: relative;
-  height: 200px;
-  background-color: rgb(135, 192, 187); /* ModalHeader의 배경색 변경 */
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  height: 500px;
+  background-color: rgb(135, 192, 187); 
   background-size: cover;
-  background-position: center;
+  border-radius: 7px;
 }
 .UserProfileModalReportImage{
   width: 30px;
   height: 30px;
   position: absolute;
-  top: 15px; 
-  right: 60px; 
+  top: 15px;
+  right: 60px;
   border: none !important;
   background: none !important;
   color: #ff0000 !important; 
@@ -40,19 +42,22 @@
   font-size: 1.5rem;
   cursor: pointer;
 }
-
+.UserProfilModalInfoBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
 .UserProfileModalBody {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
 }
 
 .UserProfileModalProfileImage {
-  position: absolute;
-  bottom: -50px;
-  left: 50%;
-  transform: translateX(-50%);
   border-radius: 50%;
-  border: 3px solid white;
   width: 100px;
   height: 100px;
 }
@@ -61,10 +66,11 @@
   font-size: 1.5rem;
   margin-top: 10px;
   font-weight: bold;
+  color: white;
 }
 
 .UserProfileModalProfileDetails{
-  margin-top: 10px;
-  color: #666;
-  font-size: 1rem;
+  color: white;
+  font-size: 13px;
+  margin-top: 8px;
 }

@@ -33,10 +33,19 @@ instance.interceptors.response.use(
           return instance(originalRequest);
         }
       } catch (refreshError) {
-        await axios.post('http://localhost:8080/deleteRefresh', {}, { withCredentials: true });
-        removeAccessToken();
-        clearRefreshToken();
-        window.location.href = '/login';
+        await axios.post('http://localhost:8080/deleteRefresh',
+           {}, 
+           { withCredentials: true 
+
+           }).then(response =>{
+            removeAccessToken();
+            clearRefreshToken();
+            window.location.href = '/login';
+           }).catch(error =>{
+            removeAccessToken();
+            clearRefreshToken();
+            window.location.href = '/login';
+           });
       }
     }
     return Promise.reject(error);

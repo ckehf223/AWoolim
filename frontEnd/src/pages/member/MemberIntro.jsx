@@ -1,6 +1,7 @@
 import '/src/css/member/MemberIntro.css'
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '/src/common/AuthContext'
+import { useEffect } from 'react';
 const joinGoogle = () => {
     window.location.href = "http://localhost:8080/oauth2/authorization/google";
 }
@@ -9,6 +10,14 @@ const joinNaver = () => {
 }
 
 const MemberIntro = () => {
+    const { isAuthenticated } = useAuth();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            nav('/');
+        }
+    })
+
     const nav = useNavigate();
     return (
         <div className="MemberIntro">
