@@ -41,25 +41,7 @@
     </select>
 
     <!-- 모임 상세 정보 조회 -->
-    <resultMap id="ClubResultMap" type="com.kh.awoolim.domain.Club">
-        <id property="clubNo" column="CLUBNO"/>
-        <result property="clubTitle" column="CLUBTITLE"/>
-        <result property="clubGender" column="CLUBGENDER"/>
-        <result property="ageLimit" column="AGELIMIT"/>
-        <result property="category" column="CATEGORY"/>
-        <result property="city" column="CITY"/>
-        <result property="district" column="DISTRICT"/>
-        <result property="regularType" column="REGULARTYPE"/>
-        <result property="maxMember" column="MAXMEMBER"/>
-        <result property="userId" column="USERID"/>
-        <result property="dDay" column="DDAY"/>
-        <result property="clubImage" column="CLUBIMAGE"/>
-        <result property="detailInfo" column="DETAILINFO"/>
-        <result property="recruitment" column="RECRUITMENT"/>
-        <!-- leaderName은 무시합니다 -->
-    </resultMap>
-
-    <select id="clubDetail" resultMap="ClubResultMap">
+    <select id="clubDetail" resultType="map">
         SELECT c.CLUBNO, c.CLUBTITLE, c.CLUBGENDER, c.AGELIMIT, c.CATEGORY, c.CITY, c.DISTRICT, c.REGULARTYPE,
                c.MAXMEMBER, c.USERID, c.DDAY, c.CLUBIMAGE, c.DETAILINFO, c.RECRUITMENT, m.USERNAME as leaderName
         FROM CLUB c
@@ -96,16 +78,32 @@
     <!--유저별 모임참여 분포-->
     <select id="getUserParticipationStats" resultType="map">
         SELECT
-            CASE
-                WHEN COUNT(cm.CLUBNO) = 1 THEN '1개 모임 참여'
-                WHEN COUNT(cm.CLUBNO) BETWEEN 2 AND 3 THEN '2~3개 모임 참여'
-                ELSE '4개 이상 모임 참여'
-                END AS participation_level,
-            COUNT(DISTINCT cm.USERID) AS user_count
-        FROM
-            CLUBMEMBER cm
+            participation_level,
+            COUNT(*) AS user_count
+        FROM (
+                 SELECT
+                     CASE
+                         WHEN participation_count = 0 THEN '0개 모임 참여'
+                         WHEN participation_count = 1 THEN '1개 모임 참여'
+                         WHEN participation_count BETWEEN 2 AND 3 THEN '2~3개 모임 참여'
+                         ELSE '4개 이상 모임 참여'
+                         END AS participation_level
+                 FROM (
+                          SELECT
+                              m.USERID,
+                              NVL(COUNT(cm.CLUBNO), 0) AS participation_count
+                          FROM
+                              MEMBER m
+                                  LEFT JOIN CLUBMEMBER cm ON m.USERID = cm.USERID
+                          GROUP BY
+                              m.USERID
+                      )
+             )
         GROUP BY
-            cm.USERID
+            participation_level
+        ORDER BY
+            participation_level
+
     </select>
 
 

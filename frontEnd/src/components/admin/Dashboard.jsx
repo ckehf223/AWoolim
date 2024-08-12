@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CountUp from 'react-countup';
 import '/src/css/admin/Dashboard.css';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 import 'react-calendar/dist/Calendar.css';
 import CustomCalendar from '/src/components/admin/CustomCalendar';
@@ -123,14 +123,14 @@ const Dashboard = () => {
     fetchParticipationStats();
   }, []);
 
-  const lineData = {
+  const participationData = {
     labels: participationStats.map(stat => stat.PARTICIPATION_LEVEL),
     datasets: [
       {
         label: '유저 별 모임 참여 횟수',
         data: participationStats.map(stat => stat.USER_COUNT),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: Object.values(Utils.CHART_COLORS),
+        borderColor: Object.values(Utils.CHART_COLORS).map(color => color.replace('0.2', '1')),
         borderWidth: 1,
       }
     ]
@@ -172,7 +172,7 @@ const Dashboard = () => {
         </div>
         <div className="col-md-6">
           <div className="chart-container border p-3">
-            <Line data={lineData} options={options} width={100} height={300} />
+            <Bar data={participationData} options={options} width={100} height={300} />
           </div>
         </div>
         <div className="col-md-6">

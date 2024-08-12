@@ -50,7 +50,7 @@ public class AdminController {
     }
 
     @GetMapping("/club/{clubNo}")
-    public Club clubDetail(@PathVariable int clubNo) {
+    public Map<String, Object> getClubDetail(@PathVariable("clubNo") int clubNo) {
         return adminService.clubDetail(clubNo);
     }
 

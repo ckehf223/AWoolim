@@ -67,7 +67,7 @@ div.ReportManager {
   font-weight: bold;
 }
 
-.modal-content { 
+.admin-modal-content { 
   padding : 20px;
   font-size: 16px;
   background-color: #f9f9f9;
@@ -75,7 +75,7 @@ div.ReportManager {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.modal-content div {
+.admin-modal-content div {
   margin-bottom: 10px;
 }
 

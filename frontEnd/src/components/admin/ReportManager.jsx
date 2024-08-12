@@ -29,7 +29,6 @@ const ReportManager = () => {
         const response = await instance.get('/admin/report/list');
         setReports(response.data);
         setFilteredReports(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching reports : ', error);
       }
@@ -79,9 +78,13 @@ const ReportManager = () => {
     } else {
       const newFilteredReports = reports.filter(report => {
         if (searchColumn === 'result') {
-          return getResultText(report.result).toLowerCase().includes(searchTerm.toLowerCase());
+          return getResultText(report.result)?.toLowerCase().includes(searchTerm.toLowerCase());
+        } else if (searchColumn === 'targetId') {
+          // targetId가 숫자이므로, 숫자 비교를 수행
+          return report[searchColumn] === Number(searchTerm);
         } else {
-          return report[searchColumn].toLowerCase().includes(searchTerm.toLowerCase());
+          // 일반적인 문자열 비교
+          return report[searchColumn]?.toLowerCase().includes(searchTerm.toLowerCase());
         }
       });
       setFilteredReports(newFilteredReports);
@@ -139,6 +142,7 @@ const ReportManager = () => {
   // 신고 상세보기 모달 열기
   const openDetailModal = (reports) => {
     setSelectedReport(reports);
+    console.log(selectedReport);
     toggleDetailModal();
   }
 
@@ -234,11 +238,11 @@ const ReportManager = () => {
       >
         {
           selectedReport && (
-            <div className='modal-content'>
+            <div className='admin-modal-content'>
               <div>신고자 : {selectedReport.userName}</div>
               <div>신고대상 : {selectedReport.targetId}</div>
               <div>신고내용 : {selectedReport.content}</div>
-              <div>신고일 : {new Date(selectedReport.regDate).toLocaleDateString()}</div>
+              <div>신고일 : {new Date(selectedReport.regdate).toLocaleDateString()}</div>
               <div>처리 상태 : {selectedReport.result === 1 ? '경고' : selectedReport.result === -1 ? '넘어감' : '처리전'}</div>
               <div>처리 결과 메세지 : {selectedReport.resultMessage}</div>
             </div>
@@ -256,7 +260,7 @@ const ReportManager = () => {
       >
         {
           selectedReport && (
-            <div className='modal-content'>
+            <div className='admin-modal-content'>
               <div>신고자 : {selectedReport.userName}</div>
               <div>신고대상 : {selectedReport.targetId}</div>
               <div>내용 : {selectedReport.content}</div>

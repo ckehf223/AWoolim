@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.awoolim.domain.Admin;
 import com.kh.awoolim.domain.Member;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AdminMapper {
@@ -36,7 +37,7 @@ public interface AdminMapper {
     List<Club> clubList();
 
     // 모임 상세 정보 조회
-    Club clubDetail(int clubNo);
+    Map<String, Object> clubDetail(@Param("clubNo") int clubNo);
 
     // 모임 참여 회원 조회
     List<Member> selectClubMembers(int clubNo);
