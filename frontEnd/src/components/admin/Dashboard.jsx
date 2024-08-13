@@ -151,11 +151,11 @@ const Dashboard = () => {
         </div>
         <div className="stat-card card3">
           <h3>총 일회 모임 횟수</h3>
-          <h4> <CountUp start={0} end={stats.totalOneTimeClubs} duration={2.75} separator="," />명</h4>
+          <h4> <CountUp start={0} end={stats.totalOneTimeClubs} duration={2.75} separator="," />건</h4>
         </div>
         <div className="stat-card card4">
           <h3>누적 신고 수</h3>
-          <h4> <CountUp start={0} end={stats.totalReports} duration={2.75} separator="," />명</h4>
+          <h4> <CountUp start={0} end={stats.totalReports} duration={2.75} separator="," />건</h4>
         </div>
       </div>
 

@@ -30,13 +30,13 @@ const ClubDetail = () => {
   }, [clubId, navigate]);
 
   if (!club) {
-    return <div>Loading...</div>; // 모임이 없으면 로딩 중 메시지 표시
+    return <div><h2>삭제되거나 없는 모임입니다.</h2></div>; // 모임이 없으면 로딩 중 메시지 표시
   }
 
   return (
     <div className="club-detail">
       <div className="club-header">
-        <h2>{club.clubTitle}</h2>
+        <h2>{club.CLUBTITLE}</h2>
       </div>
       <div className="club-select">
         <h3>모임 정보</h3>
@@ -54,7 +54,7 @@ const ClubDetail = () => {
       </div>
       <div className="club-info">
         <h3>상세정보</h3>
-        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(club.detailInfo) }}></p>
+        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(club.DETAILINFO) }}></p>
       </div>
 
       <div className="club-members">

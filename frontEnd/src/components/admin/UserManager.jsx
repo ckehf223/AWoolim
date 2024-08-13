@@ -4,7 +4,6 @@ import { Table, Input, Button, FormGroup, Label, Col } from 'reactstrap'
 import '/src/css/admin/UserManager.css'
 import ModalComponent from '/src/components/admin/ModalComponent'
 import useModal from '/src/common/useModal'
-import update from 'immutability-helper'
 import PaginationComponent from '/src/components/admin/PaginationComponent'
 import instance from '/src/common/auth/axios'
 
@@ -97,6 +96,11 @@ const UserManager = () => {
     toggleModal();
   }
 
+  // 성별 변환 함수
+  const getGenderText = (gender) => {
+    return gender === 'M' ? '남자' : gender === 'W' ? '여자' : '알수없음';
+  }
+
   return (
     <div className='UserManager'>
       {/* **********검색바********** */}
@@ -152,7 +156,7 @@ const UserManager = () => {
               <td className="user-table-email">{user.userEmail}</td>
               <td>{user.userBirth}</td>
               <td>{user.userPhone}</td>
-              <td>{user.userGender}</td>
+              <td>{getGenderText(user.userGender)}</td>
               <td><Button outline color='primary' onClick={() => openUserModal(user)}>정보보기</Button></td>
             </tr>
           ))}
@@ -166,19 +170,16 @@ const UserManager = () => {
       />
 
       <ModalComponent isOpen={isModalOpen} toggle={toggleModal} title='유저정보' onDelete={deleteUser} >
-        <div>
+        <div className='admin-modal-content'>
           <div>이름: {selectedUser?.userName}</div>
           <div>이메일: {selectedUser?.userEmail}</div>
           <div>생년월일: {selectedUser?.userBirth}</div>
           <div>전화번호: {selectedUser?.userPhone}</div>
-          <div>성별: {selectedUser?.userGender}</div>
-          <div>닉네임: {selectedUser?.nickname}</div>
-          <div>프로필 사진: {selectedUser?.userImage}</div>
-          <div>프로필 배경사진: {selectedUser?.userBackImage}</div>
+          <div>성별: {getGenderText(selectedUser?.userGender)}</div>
+          <div>닉네임: {selectedUser?.nickName}</div>
           <div>한줄 소개: {selectedUser?.userIntro}</div>
           <div>경고 횟수: {selectedUser?.warningCount}</div>
           <div>회원가입 방법: {selectedUser?.snsType}</div>
-          <div>권한: {selectedUser?.role}</div>
         </div>
       </ModalComponent>
 

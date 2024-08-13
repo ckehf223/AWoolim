@@ -44,6 +44,15 @@ div.dashboard{
   text-align: center;
 }
 
+.stat-card h3 {
+  color: rgba(8, 8, 8, .5);
+}
+
+.stat-card h4{
+  font-weight: bold;
+  color: rgba(8, 8, 8, .5);
+}
+
 .stat-card.card1{
   box-shadow: 0 4px 8px rgba(53, 174, 192, 0.897);
   transition: box-shadow 0.3s;
