@@ -3,7 +3,7 @@ import "/src/css/member/slider.css";
 function ImageSlider() {
   const slideImages = [
     "/src/assets/images/slideImage1.jpg",
-    "/src/assets/images/slideImage3.jpg",
+    "/src/assets/images/slideImage3.gif",
     "/src/assets/images/slideimage4.jpg",
     "/src/assets/images/slideImage2.jpg",
   ];

@@ -102,8 +102,7 @@ const ClubRegister = () => {
       setMessage("만나는 날");
       setDayValue("");
     } else {
-      setType("text");
-      setMessage("모임 주기");
+      setMessage("만나는 날");
       setDayValue("");
     }
   };
@@ -308,13 +307,37 @@ const ClubRegister = () => {
               <div className="choiceBoxArea">
                 <div className="choiceBox">
                   <label htmlFor="">{message}</label>
-                  <input
-                    type={type}
-                    name="regularyType"
-                    value={dayValue}
-                    onChange={onSetInput}
-                    min={getTodayDate()}
-                  />
+                  {regularyType !== "" && selectedButton === 0 && (
+                    <input
+                      type={type}
+                      name="regularyType"
+                      value={dayValue}
+                      onChange={(e) => {
+                        setDayValue(e.target.value);
+                      }}
+                      min={getTodayDate()}
+                    />
+                  )}
+                  {regularyType !== "" && selectedButton === 1 && (
+                    <select
+                      name="regularyType"
+                      value={dayValue}
+                      onChange={(e) => {
+                        setDayValue(e.target.value);
+                      }}
+                    >
+                      <option value="" defaultChecked>
+                        선택하세요
+                      </option>
+                      <option value="월요일">월요일</option>
+                      <option value="화요일">화요일</option>
+                      <option value="수요일">수요일</option>
+                      <option value="목요일">목요일</option>
+                      <option value="금요일">금요일</option>
+                      <option value="토요일">토요일</option>
+                      <option value="일요일">일요일</option>
+                    </select>
+                  )}
                 </div>
                 <div className="choiceBox">
                   <label htmlFor="MaxPerson">정원</label>

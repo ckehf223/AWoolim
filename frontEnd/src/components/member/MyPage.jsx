@@ -9,6 +9,7 @@ import UserMadeClub from "/src/components/member/UserMadeClub";
 import MyClubManager from "/src/components/member/MyClubManager";
 import UserReport from "/src/components/member/UserReport";
 import { useAuth } from "/src/common/AuthContext";
+
 const MyPage = () => {
   const { isAuthenticated } = useAuth();
   const nav = useNavigate();
