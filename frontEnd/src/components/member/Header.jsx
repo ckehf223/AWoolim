@@ -142,11 +142,10 @@ function Header() {
             onClick={() => setShowNotifications(!showNotifications)}
           />
           <span
-            className={`notification-count ${
-              notifications.filter((n) => n.isRead === 0).length === 0
-                ? "hidden"
-                : ""
-            }`}
+            className={`notification-count ${notifications.filter((n) => n.isRead === 0).length === 0
+              ? "hidden"
+              : ""
+              }`}
           >
             {notifications.filter((n) => n.isRead === 0).length}
           </span>
@@ -158,9 +157,8 @@ function Header() {
               notifications.map((notification, index) => (
                 <div
                   key={index}
-                  className={`notification-item ${
-                    notification.isRead === 0 ? "unread" : ""
-                  }`}
+                  className={`notification-item ${notification.isRead === 0 ? "unread" : ""
+                    }`}
                   onClick={() => markAlarmAsRead(notification.alarmNo)} // 클릭 시 알림을 읽음 처리
                 >
                   {notification.message}

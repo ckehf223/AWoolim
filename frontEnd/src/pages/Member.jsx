@@ -22,8 +22,8 @@ const Member = () => {
         <Route path="/club/:no" element={<ClubDetailInfo />} />{" "}
         <Route path="/mypage/*" element={<MyPage />} />
         <Route path="/service/*" element={<ServicePage />} />
-        <Route path="mycreateclub/:no" element={<GroupNav />} />
-      </Routes>
+        <Route path="/includeclub/*" element={<GroupNav />} />
+      </Routes >
       <AsideButton />
       <Footer />
     </>

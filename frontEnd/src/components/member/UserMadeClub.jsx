@@ -26,8 +26,7 @@ const UserMadeClub = () => {
   }, []);
 
   const handleBoardImgClick = (clubNo) => {
-    // 'groupnav' 페이지로 이동합니다. 클럽 번호를 URL에 포함시킵니다.
-    nav(`/mycreateclub/${clubNo}`);
+    nav(`/includeclub/detailInfo/${clubNo}`);
   };
 
   return (

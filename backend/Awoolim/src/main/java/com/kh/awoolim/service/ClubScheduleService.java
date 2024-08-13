@@ -17,4 +17,7 @@ public class ClubScheduleService {
 	public List<ClubSchedule> getSchedulesByClubNo(int clubNo) {
 		return clubScheduleMapper.getSchedulesByClubNo(clubNo);
 	}
+	public void register(ClubSchedule cs) {
+		clubScheduleMapper.create(cs);
+	}
 }

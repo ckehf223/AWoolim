@@ -207,19 +207,16 @@ const MyClubDetailInfo = () => {
                             ? member.nickName
                             : member.userName,
                           message: member.userIntro,
-                          backgroundImage: `data:image/jpeg;base64,${
-                            clubData.imageData["backImage" + member.userId]
-                          }`,
-                          profileImage: `data:image/jpeg;base64,${
-                            clubData.imageData["userImage" + member.userId]
-                          }`,
+                          backgroundImage: `data:image/jpeg;base64,${clubData.imageData["backImage" + member.userId]
+                            }`,
+                          profileImage: `data:image/jpeg;base64,${clubData.imageData["userImage" + member.userId]
+                            }`,
                         })
                       }
                     >
                       <img
-                        src={`data:image/jpeg;base64,${
-                          clubData.imageData["userImage" + member.userId]
-                        }`}
+                        src={`data:image/jpeg;base64,${clubData.imageData["userImage" + member.userId]
+                          }`}
                       />
                       <div className="myClubDetailMemberInfo">
                         <p className="myClubDetailMemberNickname">

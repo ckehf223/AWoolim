@@ -139,7 +139,9 @@ const ClubRegister = () => {
         formData.append("maxMember", maxPerson);
         formData.append("dDay", dayValue);
         formData.append("detailInfo", content);
-        formData.append("clubImage", file, file.name);
+        if (file) {
+          formData.append("clubImage", file, file.name);
+        }
         if (selectedDistrict === "") {
           formData.append("district", "전체");
         } else {

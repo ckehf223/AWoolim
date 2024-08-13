@@ -74,33 +74,25 @@
 		SELECT * FROM club
 	</select>
 
-	<select id="getImage" resultType="byte[]">
-		SELECT clubImage
-		FROM club
-		WHERE
-		clubImage = #{imageName}
-	</select>
-
-	<select id="searchClubs" resultType="Club">
-		SELECT *
-		FROM club
-		<where>
-			<if test="searchTerm != null and searchTerm != ''">
-				AND (
-				club_title LIKE CONCAT('%', #{searchTerm}, '%')
-				OR
-				category LIKE CONCAT('%', #{searchTerm}, '%')
-				)
-			</if>
-			<if test="filters != null">
-				<foreach item="value" index="key"
-					collection="filters.entrySet()">
-					<if test="value != null and value != ''">
-						AND ${key} = #{value}
-					</if>
-				</foreach>
-			</if>
-		</where>
+	<select id="searchClubs" resultType="Club" parameterType="map">
+		SELECT * FROM CLUB
+		where clubTitle like '%' || #{clubTitle} || '%'
+		<if test="city == null and city == ''">
+			AND city = #{city}
+		</if> 
+		<if test="district != null and district != ''">
+			AND district = #{district}
+		</if>
+		<if test="clubGender != null and clubGender != ''">
+			AND CLUBGENDER = #{clubGender}
+		</if>
+		<if test="regularType != null and regularType != ''">
+			AND REGULARTYPE = #{regularType}
+		</if>
+		<if test="category != null and category != ''">
+			AND CATEGORY = #{category}
+		</if>
 	</select>
 
 </mapper>
+

@@ -4,7 +4,7 @@ import "/src/css/member/ReportModal.css";
 import instance from "../../common/auth/axios";
 const ReportModal = ({
   isOpen = false,
-  toggle = () => {},
+  toggle = () => { },
   title = "",
   targetId = "",
   targetName = "",

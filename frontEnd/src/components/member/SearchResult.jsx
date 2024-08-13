@@ -3,82 +3,55 @@ import { Link, useLocation } from "react-router-dom";
 import "/src/css/member/searchresult.css";
 import ClubItem from "./ClubItem";
 import { areaData } from "/src/common/areaData"
+import axios from "axios";
 
 
 function SearchPage() {
   const location = useLocation();
   const initialSearchTerm = location.state?.searchTerm || "";
-
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [filters, setFilters] = useState({
+    clubTitle: initialSearchTerm,
     city: "",
     district: "",
-    gender: "",
-    minAge: "",
-    type: "",
-    categories: [],
-    daysOfWeek: [],
+    clubGender: "",
+    regularType: "",
+    category: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [showFilterSection, setShowFilterSection] = useState(false);
   const [clubs, setClubs] = useState([]);
-  const [uniqueCategories, setUniqueCategories] = useState([]);
-  const [filteredResults, setFilteredResults] = useState([]);
-
-  let latestFilters = useRef(filters);
 
   useEffect(() => {
-    let isMounted = true;
+    fetchClubs();
+  }, []);
 
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch("http://localhost:8080/api/club/search", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            searchTerm,
-            filters: latestFilters.current,
-          }),
-        });
-        const data = await response.json();
-        if (isMounted) {
-          setClubs(data);
-          const categoriesSet = new Set(data.map((club) => club.category));
-          setUniqueCategories(Array.from(categoriesSet));
-          setFilteredResults(data);
-          console.log(data);
+  const fetchClubs = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/club/search', {
+        params: filters,
+        headers: {
+          "Content-Type": "multipart/form-data",
         }
-      } catch (error) {
-        console.error("클럽 데이터 가져오기 오류:", error);
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+      })
+      console.log(response.data);
+      if (response.data != null) {
+        setClubs(response.data);
       }
-    };
-
-    fetchData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [searchTerm]);
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
+      setIsLoading(true);
+    } catch (error) {
+      console.error("검색한 모임정보 가져오는 중 오류 발생" + error)
+      setIsLoading(true);
+    }
+  }
 
   const handleFilterChange = (name, value) => {
-    latestFilters.current = { ...latestFilters.current, [name]: value };
     setFilters({
       ...filters,
       [name]: value,
     });
   };
-
   const handleCityChange = (event) => {
     const value = event.target.value;
     setSelectedCity(value);
@@ -91,70 +64,24 @@ function SearchPage() {
     setSelectedDistrict(value);
     handleFilterChange("district", value);
   };
-
+  console.log(filters)
   const handleApplyFilter = () => {
     setShowFilterSection(!showFilterSection);
   };
-
-  const handleFilterSubmit = () => {
-    const results = applyFiltersToClubs(
-      clubs,
-      searchTerm,
-      latestFilters.current
-    );
-    setFilteredResults(results);
-  };
-
-  const applyFiltersToClubs = (clubsData, searchTerm, filters) => {
-    return clubsData.filter((club) => {
-      const searchTerms = searchTerm.toLowerCase().split(" ");
-      const titleWords = club.clubTitle.toLowerCase().split(" ");
-
-      const matchesSearchTerm =
-        searchTerm === "" ||
-        searchTerms.every((term) =>
-          titleWords.some((word) => word.includes(term))
-        );
-
-      const matchesCity = filters.city === "" || club.city === filters.city;
-      const matchesDistrict =
-        filters.district === "" || club.district === filters.district;
-
-      const matchesRegion = matchesCity && matchesDistrict;
-
-      const matchesGender =
-        filters.gender === "" || club.clubGender === filters.gender;
-
-      const matchesMinAge =
-        filters.minAge === "" ||
-        club.clubMinAge >= parseInt(filters.minAge, 10);
-
-      const matchesType =
-        filters.type === "" || club.clubType === parseInt(filters.type, 10);
-
-      const matchesCategories =
-        filters.categories.length === 0 ||
-        filters.categories.some((category) => club.category === category);
-
-      const matchesDaysOfWeek =
-        filters.daysOfWeek.length === 0 ||
-        filters.daysOfWeek.some((day) => club.activityDays.includes(day));
-
-      return (
-        matchesSearchTerm &&
-        matchesRegion &&
-        matchesGender &&
-        matchesMinAge &&
-        matchesType &&
-        matchesCategories &&
-        matchesDaysOfWeek
-      );
+  const handleresetFilter = () => {
+    setFilters({
+      clubTitle: '',
+      city: "",
+      district: "",
+      clubGender: "",
+      regularType: "",
+      category: '',
     });
+    setSelectedCity("");
+    setSelectedDistrict("");
   };
 
-  useEffect(() => {
-    setFilteredResults(clubs);
-  }, [clubs]);
+
 
   return (
     <section className="search-page">
@@ -173,8 +100,8 @@ function SearchPage() {
           <div className="filter-body">
             <input
               type="text"
-              value={searchTerm}
-              onChange={handleSearch}
+              value={filters.clubTitle}
+              onChange={(e) => { handleFilterChange('clubTitle', e.target.value) }}
               placeholder="검색어를 입력하세요"
             />
             <div className="filter-row">
@@ -218,53 +145,40 @@ function SearchPage() {
               <label>
                 <input
                   type="radio"
-                  name="gender"
+                  name="clubGender"
                   value=""
-                  checked={filters.gender === ""}
-                  onChange={() => handleFilterChange("gender", "")}
+                  checked={filters.clubGender === ""}
+                  onChange={() => handleFilterChange("clubGender", "")}
                 />
                 전체
               </label>
               <label>
                 <input
                   type="radio"
-                  name="gender"
+                  name="clubGender"
                   value="남"
-                  checked={filters.gender === "남"}
-                  onChange={() => handleFilterChange("gender", "남")}
+                  checked={filters.clubGender === "M"}
+                  onChange={() => handleFilterChange("clubGender", "M")}
                 />
                 남
               </label>
               <label>
                 <input
                   type="radio"
-                  name="gender"
+                  name="clubGender"
                   value="여"
-                  checked={filters.gender === "여"}
-                  onChange={() => handleFilterChange("gender", "여")}
+                  checked={filters.clubGender === "F"}
+                  onChange={() => handleFilterChange("clubGender", "F")}
                 />
                 여
               </label>
             </div>
-
-            <div className="filter-row">
-              <label htmlFor="minAge">나이:</label>
-              <input
-                type="number"
-                id="minAge"
-                min="1"
-                value={filters.minAge}
-                onChange={(e) => handleFilterChange("minAge", e.target.value)}
-              />
-              세 이상
-            </div>
-
             <div className="filter-row">
               <label htmlFor="type">모임 유형:</label>
               <select
                 id="type"
                 value={filters.type}
-                onChange={(e) => handleFilterChange("type", e.target.value)}
+                onChange={(e) => handleFilterChange("regularType", e.target.value)}
               >
                 <option value="">전체</option>
                 <option value="1">정기모임</option>
@@ -274,48 +188,25 @@ function SearchPage() {
 
             <div className="filter-row">
               <label>카테고리:</label>
-              {uniqueCategories.map((category) => (
-                <label key={category}>
-                  <input
-                    type="checkbox"
-                    value={category}
-                    checked={filters.categories.includes(category)}
-                    onChange={(e) => {
-                      const newCategories = e.target.checked
-                        ? [...filters.categories, category]
-                        : filters.categories.filter((c) => c !== category);
-                      handleFilterChange("categories", newCategories);
-                    }}
-                  />
-                  {category}
-                </label>
-              ))}
+              <select onChange={(e) => handleFilterChange("category", e.target.value)}>
+                <option defaultChecked value="">선택하세요</option>
+                <option defaultChecked value="친목">친목</option>
+                <option defaultChecked value="독서">독서</option>
+                <option defaultChecked value="전시">전시</option>
+                <option defaultChecked value="스포츠">스포츠</option>
+                <option defaultChecked value="스터디">스터디</option>
+                <option defaultChecked value="맛집탐방">맛집탐방</option>
+                <option defaultChecked value="취미활동">취미활동</option>
+              </select>
             </div>
 
-            <div className="filter-row">
-              <label>활동 요일:</label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="일요일"
-                  checked={filters.daysOfWeek.includes("일요일")}
-                  onChange={(e) => {
-                    const newDaysOfWeek = e.target.checked
-                      ? [...filters.daysOfWeek, "일요일"]
-                      : filters.daysOfWeek.filter((day) => day !== "일요일");
-                    handleFilterChange("daysOfWeek", newDaysOfWeek);
-                  }}
-                />
-                일요일
-              </label>
-              {/* 다른 요일들도 같은 방식으로 추가 */}
-            </div>
             <button
               className="filter-apply-button"
-              onClick={handleFilterSubmit}
+              onClick={() => { fetchClubs() }}
             >
               필터 적용
             </button>
+            <button onClick={() => { handleresetFilter() }}>초기화</button>
           </div>
         </div>
       )}
@@ -325,12 +216,12 @@ function SearchPage() {
           <h3>검색 결과</h3>
         </div>
         <div className="club-results">
-          {isLoading ? (
+          {!isLoading ? (
             <p>Loading...</p>
-          ) : filteredResults.length > 0 ? (
-            filteredResults.map((club) => (
+          ) : clubs.length > 0 ? (
+            clubs.map((club) => (
               <div
-                key={club.clubId || club.uniqueIdentifier}
+                key={club.clubNo}
                 className="club-link"
               >
                 <ClubItem club={club} />

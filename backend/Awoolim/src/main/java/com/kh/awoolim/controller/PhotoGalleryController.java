@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.awoolim.common.jwt.JWTUtil;
 import com.kh.awoolim.domain.ClubGallery;
-import com.kh.awoolim.service.PhotoGalleryService;
+import com.kh.awoolim.service.ClubGalleryService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,7 +34,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class PhotoGalleryController {
 
 	@Autowired
-	private PhotoGalleryService photoGalleryService;
+	private ClubGalleryService clubGalleryService;
 
 	private final JWTUtil jwtUtil;
 	
@@ -59,26 +58,22 @@ public class PhotoGalleryController {
 
 			String accessToken = request.getHeader("Authorization").substring(7);
 			
-			System.out.println(accessToken);
 			int userId = jwtUtil.getUserId(accessToken);
 			
 			ClubGallery clubGallery = new ClubGallery();
 			clubGallery.setUserId(userId);
 			clubGallery.setClubNo(clubNo);
-			System.out.println("CLUBno"+clubNo);
-			System.out.println("USERiD"+userId);
 			String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
             String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String newFileName = uuid + fileExtension;
             clubGallery.setImage(newFileName);
-            System.out.println("fileName="+newFileName);
             byte[] bytes = file.getBytes();
             Path path = Paths.get(uploadDir + File.separator + newFileName);
             Files.write(path, bytes);
             path.toFile().getCanonicalPath();
             
-            photoGalleryService.savePhoto(clubGallery);
+            clubGalleryService.savePhoto(clubGallery);
 			// Service 메서드 호출 시 MultipartFile을 전달하여 파일 저장 처리
 //			photoGalleryService.savePhoto(clubNo, file);
 			response.setStatus(HttpStatus.OK.value());
@@ -104,7 +99,7 @@ public class PhotoGalleryController {
 	@GetMapping("/{clubNo}")
 	public ResponseEntity<List<ClubGallery>> getPhotos(@PathVariable("clubNo") int clubNo){
 		try {
-			List<ClubGallery> list = photoGalleryService.getPhotoList(clubNo);
+			List<ClubGallery> list = clubGalleryService.getPhotoList(clubNo);
 			if(list != null && list.size() > 0) {
 				return ResponseEntity.status(HttpStatus.OK).body(list);
 			}
@@ -112,12 +107,32 @@ public class PhotoGalleryController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
+	}
+	
+	@PostMapping("/deletePhoto/{picNo}")
+	public void deletePhoto(@PathVariable("picNo") int picNo,HttpServletResponse response) {
+		try {
+			ClubGallery clubGallery = clubGalleryService.read(picNo);
+			if(clubGallery.getImage() != null && clubGallery.getImage().equals("null") && clubGallery.getImage().trim().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
+				deleteFile(clubGallery.getImage());
+			}
+			clubGalleryService.delete(picNo);
+			response.setStatus(HttpStatus.OK.value());
+		}catch(Exception e) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}
 		
 	}
-	public String encodeImageToBase64(String imagePath) throws IOException {
-		ClassPathResource imgFile = new ClassPathResource(imagePath);
-		byte[] imageBytes = Files.readAllBytes(imgFile.getFile().toPath());
-		return Base64.getEncoder().encodeToString(imageBytes);
+	
+	public void deleteFile(String fileName) {
+		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);
+
+		try {
+			Files.deleteIfExists(filePath); 
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("file 삭제중 오류발생");
+		}
 	}
 
 }
