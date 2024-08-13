@@ -12,5 +12,10 @@
 		FROM CLUBSCHEDULE
 		WHERE CLUBNO = #{clubNo}
 	</select>
+	
+	<insert id="create">
+		INSERT INTO CLUBSCHEDULE VALUES(
+			CLUBSCHEDULE_SEQ.NEXTVAL, #{clubNo},#{dDay},#{content})
+	</insert>
 
 </mapper>

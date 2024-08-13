@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.awoolim.common.jwt.JWTUtil;
 import com.kh.awoolim.domain.Alarm;
 import com.kh.awoolim.domain.Club;
+import com.kh.awoolim.domain.ClubSchedule;
 import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.service.AlarmService;
 import com.kh.awoolim.service.ClubMemberService;
@@ -69,12 +69,19 @@ public class ClubController {
 		return ResponseEntity.ok(clubs);
 	}
 
-	@PostMapping("/search")
-	public ResponseEntity<List<Club>> searchClubs(
-			@RequestParam(value = "searchTerm", required = false) String searchTerm,
-			@RequestParam Map<String, Object> filters) {
-		List<Club> clubs = clubService.searchClubs(searchTerm, filters);
-		return ResponseEntity.ok(clubs);
+	@GetMapping("/search")
+	public ResponseEntity<List<Club>> searchClubs(@RequestParam Map<String,Object> filters) {
+		log.info("search GET ENTER");
+		try {
+			log.info(""+filters);
+			List<Club> clubs = clubService.searchClubs(filters);
+			if(clubs != null && !clubs.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.OK).body(clubs);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
 	}
 
 	@PostMapping("/register")
@@ -102,13 +109,12 @@ public class ClubController {
 			club.setDistrict(district);
 			club.setRegularType(regularType);
 			club.setMaxMember(maxMember);
-			club.setDDay(dDay);
+			club.setDDay(dDay.replaceAll("-", ""));
 			club.setDetailInfo(detailInfo);
 			club.setRecruitment(1);
 			club.setAgeLimit(ageLimit);
 			club.setClubImage("305d04e5-e53d-4419-8beb-555330a6a3d4.png");
 			club.setMemberCount(1);
-
 			// 디렉토리가 존재하지 않으면 생성
 			Path uploadPath = Paths.get(uploadDir);
 			if (!Files.exists(uploadPath)) {
@@ -256,6 +262,9 @@ public class ClubController {
 			}
 			if (checkImage.equals("1")) {
 				// UUID 생성
+				if (!club.getClubImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
+					deleteFile(club.getClubImage());
+				}
 				String uuid = UUID.randomUUID().toString();
 				// 파일 확장자 추출
 				String originalFilename = clubImage.getOriginalFilename();
@@ -385,6 +394,28 @@ public class ClubController {
 			response.setStatus(HttpStatus.OK.value());
 		} catch (Exception e) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}
+	}
+	
+	@GetMapping("/clubMasterId/{clubNo}")
+	public ResponseEntity<Integer> getClubMasterId(@PathVariable("clubNo") int clubNo){
+		try {
+			Club club =clubService.readByClub(clubNo);
+			return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(club.getUserId()));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+	}
+	
+	public void deleteFile(String fileName) {
+		// 이미지 파일의 절대 경로를 생성
+		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);
+
+		try {
+			Files.deleteIfExists(filePath); // 파일이 존재하는 경우 삭제
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("file 삭제중 오류발생");
 		}
 	}
 }

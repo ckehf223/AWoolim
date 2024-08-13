@@ -309,7 +309,7 @@ const RegisterMember = () => {
                         <div className='RegisterMemberInputArea'>
                             <label htmlFor="usergender"><span className='InputStarSpan'>*</span> 성별</label>
                             <select name="usergender" value={formData.usergender} onChange={handleChange} required >
-                                <option value="A">선택하세요 *</option>
+                                <option value="">선택하세요 *</option>
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
                             </select>

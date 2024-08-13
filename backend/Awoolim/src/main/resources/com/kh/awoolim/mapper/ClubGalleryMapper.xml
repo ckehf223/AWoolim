@@ -1,3 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.awoolim.mapper.ClubGalleryMapper"></mapper>
+<mapper namespace="com.kh.awoolim.mapper.ClubGalleryMapper">
+	<!-- 특정 클럽 번호에 해당하는 이미지 파일 리스트를 가져오는 SQL -->
+	<select id="findPhotosByClubNo" resultType="ClubGallery">
+		SELECT *
+		FROM
+		CLUBGALLERY
+		WHERE CLUBNO = #{clubNo} order by regdate desc
+	</select>
+
+	<!-- 특정 클럽 번호에 새로운 이미지 파일 정보를 저장하는 SQL -->
+	<insert id="savePhoto" parameterType="ClubGallery">
+		INSERT INTO CLUBGALLERY
+		VALUES (CLUBGALLERY_SEQ.NEXTVAL, #{userId}, #{clubNo},
+		SYSDATE,#{image})
+	</insert>
+	<select id="read" parameterType="int">
+		SELECT * FROM CLUBGALLERY
+		WHERE PICNO = #{picNo}
+	</select>
+	<delete id="delete">
+		DELETE FROM CLUBGALLERY
+		WHERE PICNO = #{picNo}
+	</delete>
+</mapper>

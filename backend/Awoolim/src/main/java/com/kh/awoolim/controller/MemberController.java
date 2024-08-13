@@ -160,10 +160,6 @@ public class MemberController {
 			if (!Files.exists(uploadPath)) {
 				Files.createDirectories(uploadPath);
 			}
-			System.out.println(checkImage);
-			System.out.println(checkBack);
-			System.out.println(userImage);
-			System.out.println(userBackImage);
 			switch (checkImage) {
 			case "1":
 				// UUID 생성

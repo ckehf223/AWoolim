@@ -54,8 +54,25 @@ public class ClubService {
 		return list;
 	}
 
-	public List<Club> searchClubs(String searchTerm, Map<String, Object> filters) {
-		List<Club> list = clubMapper.searchClubs(searchTerm, filters);
+	public List<Club> searchClubs(Map<String, Object> filters) {
+		if(filters.get("city") == "") {
+			filters.put("city", null);
+		}
+		if(filters.get("district") == "") {
+			filters.put("district", null);
+		}
+		if(filters.get("clubGender") == "") {
+			filters.put("clubGender", null);
+		}
+		if(filters.get("regularType") == "") {
+			filters.put("regularType", null);
+		}
+		if(filters.get("category") == "") {
+			filters.put("category", null);
+		}
+		
+		log.info(""+filters);
+		List<Club> list = clubMapper.searchClubs(filters);
 		for (Club data : list) {
 			try {
 				if (data.getClubImage() != null && !data.getClubImage().isEmpty()) {

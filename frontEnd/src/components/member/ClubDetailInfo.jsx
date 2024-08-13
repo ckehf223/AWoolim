@@ -157,7 +157,6 @@ const ClubDetailInfo = () => {
                     )}
                   </div>
                 </div>
-                <h1>{clubData.club.clubTitle}</h1>
                 <div className="ClubDetailTop_contentArea">
                   <div>
                     <UserProfileModal

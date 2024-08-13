@@ -17,7 +17,7 @@ const ClubAccept = () => {
   useEffect(() => {
     const getClubMembers = async () => {
       try {
-        const response = await instance.get(`http://localhost:8080/api/club/getAcceptMemberList/${param.no}`, {
+        const response = await instance.get(`/api/club/getAcceptMemberList/${param.no}`, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -32,7 +32,7 @@ const ClubAccept = () => {
 
   const accept = async (userId) => {
     try {
-      const response = await instance.post(`http://localhost:8080/api/club/acceptClubMember`,
+      const response = await instance.post(`/api/club/acceptClubMember`,
         {
           userId: userId,
           clubNo: param.no
@@ -55,7 +55,7 @@ const ClubAccept = () => {
   }
   const refuse = async (userId) => {
     try {
-      await instance.post(`http://localhost:8080/api/club/refuseClubMember`,
+      await instance.post(`/api/club/refuseClubMember`,
         {
           userId: userId,
           clubNo: param.no

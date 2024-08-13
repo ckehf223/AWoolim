@@ -7,6 +7,8 @@ import UserMyClub from "/src/components/member/UserMyClub";
 import UserMadeClub from "/src/components/member/UserMadeClub";
 import MyClubManager from "/src/components/member/MyClubManager";
 import UserReport from "/src/components/member/UserReport";
+import { useAuth } from '/src/common/AuthContext';
+import { useEffect } from 'react';
 
 const MyPage = () => {
   const { isAuthenticated } = useAuth();

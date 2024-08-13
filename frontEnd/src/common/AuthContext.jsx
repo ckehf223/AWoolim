@@ -18,12 +18,18 @@ export const AuthProvider = ({ children }) => {
       setRole(decodeToken.role);
     }
   }, []);
-  console.log(isAuthenticated)
+
   const login = async (username, password) => {
     try {
-      const reponse = await loginService(username, password);
-      setIsAuthenticated(true);
-      return reponse;
+      const response = await loginService(username, password);
+      if (response.status === 200) {
+        const token = localStorage.getItem('accessToken');
+        const decodeToken = jwtDecode(token);
+        setLoginId(decodeToken.userId)
+        setRole(decodeToken.role);
+        setIsAuthenticated(true);
+      }
+      return response;
     } catch (error) {
       console.error('Login error:', error);
       setIsAuthenticated(false);
@@ -33,6 +39,8 @@ export const AuthProvider = ({ children }) => {
   const socialLogin = async (token, loginId) => {
     try {
       localStorage.setItem('accessToken', token);
+      const decodeToken = jwtDecode(token);
+      setRole(decodeToken.role);
       setLoginId(loginId);
       setIsAuthenticated(true);
     } catch (error) {

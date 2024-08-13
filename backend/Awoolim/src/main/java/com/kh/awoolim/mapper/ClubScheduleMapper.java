@@ -10,4 +10,6 @@ import com.kh.awoolim.domain.ClubSchedule;
 @Mapper
 public interface ClubScheduleMapper {
 	List<ClubSchedule> getSchedulesByClubNo(@Param("clubNo") int clubNo);
+	
+	public void create(ClubSchedule clubSchedule);
 }

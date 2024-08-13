@@ -33,5 +33,5 @@ public interface ClubMapper {
 
 	byte[] getImage(String imageName);
 
-	List<Club> searchClubs(@Param("searchTerm") String searchTerm, @Param("filters") Map<String, Object> filters);
+	List<Club> searchClubs(Map<String, Object> filters);
 }

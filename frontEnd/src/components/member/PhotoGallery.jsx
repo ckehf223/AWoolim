@@ -1,30 +1,41 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "/src/css/member/photogallery.css";
 import instance from "/src/common/auth/axios";
 import imageCompression from "browser-image-compression";
+import { useAuth } from '/src/common/AuthContext';
 
-function PhotoGallery() {
-  const param = useParams(); // URL 파라미터에서 클럽 번호 가져오기
-  const [photos, setPhotos] = useState([]); // 초기 상태를 빈 배열로 설정
+const PhotoGallery = () => {
+  const param = useParams();
+  const { loginId } = useAuth();
+  const [photos, setPhotos] = useState([]);
   const photosPerRow = 4;
+  const [deleteState, setDeleteState] = useState({});
+  const [managerId, setManagerId] = useState('');
+  const nav = useNavigate();
 
-  console.log(param.no);
   useEffect(() => {
-    const fetchPhotos = async () => {
-      try {
-        const response = await instance.get(
-          `http://localhost:8080/api/photoGallery/${param.no}`
-        );
-        setPhotos(response.data); // 서버에서 가져온 사진 리스트로 상태 업데이트
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching photos:", error);
-      }
-    };
     fetchPhotos();
+    clubMasterId();
   }, [param.no]);
+
+  const fetchPhotos = async () => {
+    try {
+      const response = await instance.get(`/api/photoGallery/${param.no}`);
+      setPhotos(response.data);
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+    }
+  };
+
+  const clubMasterId = async () => {
+    try {
+      const response = await instance.get(`/api/club/clubMasterId/${param.no}`);
+      setManagerId(response.data);
+    } catch (error) {
+      console.error("모임장 아이디 가져오는 중 오류 발생" + error);
+    }
+  };
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
@@ -53,33 +64,81 @@ function PhotoGallery() {
           },
         });
         reader.readAsDataURL(file);
+        window.location.reload();
       } catch (error) {
         console.error("이미지 리사이즈 실패:", error);
       }
     }
   };
 
-  return (
-    <section className="photo-gallery">
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        style={{ marginBottom: "20px" }}
-      />
+  const toggleDeleteState = (index) => {
+    setDeleteState((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
 
-      <div className="photo-grid">
-        {photos.map((photo, index) => (
-          <React.Fragment key={index}>
-            {index > 0 && index % photosPerRow === 0 && <br />}
-            <div className="photo-item">
-              <img
-                src={photo.image ? photo.image : photo} // 실제 파일이 저장된 경로로 변경
-                alt={`Photo ${index}`}
-              />
-            </div>
-          </React.Fragment>
-        ))}
+  const deletePhoto = async (picNo) => {
+    try {
+      await instance.post(`/api/photoGallery/deletePhoto/${picNo}`);
+      fetchPhotos();
+    } catch (error) {
+      console.error("모임 사진첩 사진 삭제 중 오류발생" + error)
+    }
+  }
+
+  return (
+    <section className="section-container2">
+      <div className="button-group">
+        <button onClick={() => { nav(`/includeclub/detailInfo/${param.no}`) }} >상세 정보</button>
+        <button onClick={() => { nav(`/includeclub/calendar/${param.no}`) }} >캘린더 </button>
+        <button className={"active"} onClick={() => { nav(`/includeclub/photoGallery/${param.no}`) }} > 사진첩 </button>
+      </div>
+      <div className="content">
+        <section className="photo-gallery">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ marginBottom: "20px" }}
+          />
+
+          <div className="photo-grid">
+            {photos.map((photo, index) => (
+              <React.Fragment key={index}>
+                {index > 0 && index % photosPerRow === 0 && <br />}
+                <div className="photo-item">
+                  <img
+                    className="ClubPhotoImage"
+                    src={photo.image ? photo.image : photo} // 실제 파일이 저장된 경로로 변경
+                    alt={`Photo ${index}`}
+                  />
+                  {(loginId === managerId || loginId === photo.userId) && (
+                    <div className="photoDeleteArea">
+                      {!deleteState[index] ? (
+                        <img
+                          className="photoDeleteImage"
+                          src="/src/assets/images/delete.png"
+                          onClick={() => toggleDeleteState(index)}
+                          alt="Delete Icon"
+                        />
+                      ) : (
+                        <>
+                          <img
+                            className="photoDeleteImage"
+                            src="/src/assets/images/close.png"
+                            alt="Close Icon"
+                            onClick={() => toggleDeleteState(index)} />
+                          <button className="deleteImageCheckButton" onClick={() => { deletePhoto(photo.picNo) }}>삭제</button>
+                        </>
+                      )}
+                    </div>)}
+
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
+        </section>
       </div>
     </section>
   );

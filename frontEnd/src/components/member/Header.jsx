@@ -141,11 +141,14 @@ function Header() {
             id="alarm-icon"
             onClick={() => setShowNotifications(!showNotifications)}
           />
-          {notifications.filter((n) => n.isRead === 0).length > 0 && (
-            <span className="notification-count">
-              {notifications.filter((n) => n.isRead === 0).length}
-            </span>
-          )}
+          <span
+            className={`notification-count ${notifications.filter((n) => n.isRead === 0).length === 0
+                ? "hidden"
+                : ""
+              }`}
+          >
+            {notifications.filter((n) => n.isRead === 0).length}
+          </span>
         </div>
 
         {showNotifications && (
@@ -154,9 +157,8 @@ function Header() {
               notifications.map((notification, index) => (
                 <div
                   key={index}
-                  className={`notification-item ${
-                    notification.isRead === 0 ? "unread" : ""
-                  }`}
+                  className={`notification-item ${notification.isRead === 0 ? "unread" : ""
+                    }`}
                   onClick={() => markAlarmAsRead(notification.alarmNo)} // 클릭 시 알림을 읽음 처리
                 >
                   {notification.message}

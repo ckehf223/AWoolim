@@ -21,7 +21,7 @@ const ClubMember = () => {
   useEffect(() => {
     const getClubMembers = async () => {
       try {
-        const response = await instance.get(`http://localhost:8080/api/club/getClubMemberList/${param.no}`, {
+        const response = await instance.get(`/api/club/getClubMemberList/${param.no}`, {
           headers: {
             'Content-Type': 'application/json'
           }

@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import "/src/css/member/chatroompage.css";
+import { useAuth } from "/src/common/AuthContext";
 
 const SOCKET_URL = "ws://localhost:8080/ws/chat";
 
 function ChatRoomPage({ room, onBack, profile }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const { isAuthenticated } = useAuth();
   const messageListRef = useRef(null);
   const socketRef = useRef(null);
 
   useEffect(() => {
-    const userId = profile?.userId;
-
-    if (!userId) {
+    if (!isAuthenticated) {
       console.error("User ID not found");
       alert("User ID를 찾을 수 없습니다. 다시 로그인하세요.");
       return;
@@ -97,9 +97,8 @@ function ChatRoomPage({ room, onBack, profile }) {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`message ${
-                msg.userId === profile.userId ? "my-message" : "other-message"
-              }`}
+              className={`message ${msg.userId === profile.userId ? "my-message" : "other-message"
+                }`}
             >
               {msg.userId !== profile.userId && (
                 <div className="message-info">
