@@ -141,11 +141,15 @@ function Header() {
             id="alarm-icon"
             onClick={() => setShowNotifications(!showNotifications)}
           />
-          {notifications.filter((n) => n.isRead === 0).length > 0 && (
-            <span className="notification-count">
-              {notifications.filter((n) => n.isRead === 0).length}
-            </span>
-          )}
+          <span
+            className={`notification-count ${
+              notifications.filter((n) => n.isRead === 0).length === 0
+                ? "hidden"
+                : ""
+            }`}
+          >
+            {notifications.filter((n) => n.isRead === 0).length}
+          </span>
         </div>
 
         {showNotifications && (

@@ -1,13 +1,13 @@
-.MyPage{
+.MyPage {
   width: 100%;
   text-align: center;
-  margin: 120px 0;
+  margin: 120px 0 30px 0;
 }
-.MyPageWrap{
+.MyPageWrap {
   display: flex;
   width: 70%;
   margin: 0 auto;
 }
-.MyPageMainArea{
-  flex: 1;
+.MyPageMainArea {
+  width: 1050px;
 }

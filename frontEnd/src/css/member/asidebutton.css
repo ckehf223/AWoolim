@@ -27,6 +27,7 @@
 
 .additional-image {
   transition: transform 0.4s ease; /* 각 이미지에 transition 추가 */
+  cursor: pointer;
 }
 
 .additional-images.show .additional-image:nth-child(1) {

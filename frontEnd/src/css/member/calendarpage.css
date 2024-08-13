@@ -13,7 +13,7 @@
   background-color: #fff;
   border: none; /* 테두리 제거 */
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
 }
 /* 월, 요일 */
 .react-calendar__navigation {
@@ -27,7 +27,7 @@
   border: none;
   font-weight: bold;
   font-size: 18px;
-  min-width: 44px;
+  min-width: 80px;
   margin: 0;
 }
 
@@ -43,16 +43,16 @@
   padding: 10px 0;
   color: #333;
   abbr {
-    text-decoration: none; /* 밑줄 제거 */
-    color: black; /* 텍스트 색상 설정 */
-    font-size: 14px; /* 폰트 크기 설정 */
+    text-decoration: none !important;
+    list-style: none;
+    color: rgb(0, 0, 0);
+    font-size: 15px;
   }
-  /* 진한 회색 */
 }
 
 /* 날짜 */
 .react-calendar__month-view__days__day--weekend {
-  color: #333; /* 주말 날짜 색상 */
+  color: #f22121;
 }
 
 .react-calendar__tile {
@@ -123,4 +123,15 @@
 .react-calendar__tile.event-date:enabled:focus {
   background-color: #ffa726; /* 일정이 있는 날짜에 호버 시 색상 */
   color: white;
+}
+.event-details {
+  margin-top: 40px;
+  width: 800px;
+}
+.event-details textarea {
+  margin-top: 10px;
+  height: 180px;
+  cursor: auto;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

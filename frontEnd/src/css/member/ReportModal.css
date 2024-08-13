@@ -5,7 +5,12 @@
   margin: 0 auto;
   top: 10%;
 }
-
+div.modal-content {
+  margin: 0;
+}
+div.ReportModalBody.modal-body {
+  margin: 0;
+}
 .ReportModal .modal-content {
   border: none;
   border-radius: 10px;
@@ -13,68 +18,78 @@
 }
 
 .ReportModalHeader {
+  height: 40px;
   position: relative;
   background-color: rgb(24, 128, 203);
   color: white;
 }
+.ReportModalHeader span {
+  padding-left: 15px;
+}
 .ReportModalCloseButton {
   position: absolute;
-  top: 10px; 
-  right: 10px; 
+  top: 1px;
+  right: 15px;
   border: none !important;
   background: none !important;
-  color: #ff0000 !important; 
-  font-size: 1.5rem; 
+  color: #ff0000 !important;
+  font-size: 1.5rem;
   cursor: pointer;
+  z-index: 1000;
 }
-
+.ReportModalCloseButton:hover {
+  color: white;
+}
 .ReportModalBody {
   padding: 5px;
 }
 
-.ReportModalTargetIdArea{
+.ReportModalTargetIdArea {
   display: flex;
   gap: 5px;
   align-items: center;
-  
 }
-.ReportModalTargetIdArea span{
-  font-size: 14px;
+.ReportModalTargetIdArea span {
+  font-size: 17px;
   font-weight: 600;
 }
-.ReportModalContentArea{
+.ReportModalContentArea {
   display: flex;
   flex-direction: column;
-  margin: 10px 0;
+  margin: 15px 0;
   gap: 5px;
 }
-.ReportModalContentAreaTitle{
+.ReportModalContentAreaTitle {
   margin: 0;
   font-size: 16px;
   font-weight: bold;
 }
-.ReportModalWarningMessage{
-  font-size:13px;
+.ReportModalWarningMessage {
+  font-size: 13px;
   margin: 0;
   font-weight: bold;
-  color: rgb(114, 114, 114,0.5);
+  color: rgb(114, 114, 114, 0.5);
 }
-.ReportModalContentArea input{
+.ReportModalContentArea input {
   height: 40px;
   padding: 2px 5px;
   border-radius: 5px;
   outline: none;
-  border: 1px solid rgb(0,0,0,0.4);
+  border: 1px solid rgb(0, 0, 0, 0.4);
 }
-.ReportModalSendButton{
+.ReportModalSendButton {
   width: 100px;
   background-color: black;
   color: white;
   border: none;
   padding: 10px;
   border-radius: 8px;
+  transition: 0.2s ease;
 }
-.ReportModalSuccessMessage{
+.ReportModalSendButton:hover {
+  background-color: rgb(45, 45, 45);
+}
+.ReportModalSuccessMessage {
   font-size: 18px;
   font-weight: bold;
 }

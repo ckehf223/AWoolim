@@ -5,14 +5,19 @@
   배경 */
   min-height: 605px;
 }
+.photo-gallery input {
+  margin-left: 35px;
+  margin-top: 20px;
+  color: transparent;
+}
 
 .photo-grid {
-  margin-top: 40px;
+  margin-top: 20px;
   padding-left: 35px;
   display: flex;
   flex-wrap: wrap; /* 사진이 4개를 넘어가면 다음 줄로 이동 */
   justify-content: flex-start;
-  gap: 32px; /* 사진 간 간격 (원하는 값으로 조정) */
+  gap: 30px; /* 사진 간 간격 (원하는 값으로 조정) */
 }
 
 .photo-item {
@@ -21,7 +26,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 은은한 그림자 추가 */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 추가 */
   width: calc(24% - 20px); /* 4개씩 배치, 간격 10px 고려 */
-  height: 180px;
+  height: 200px;
 }
 
 .photo-item:hover {

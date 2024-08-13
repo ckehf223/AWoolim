@@ -6,6 +6,7 @@
   bottom: 30px;
   min-height: 500px; /* 최소 높이 설정, 필요에 따라 값 조정 */
 }
+
 .groupDiv {
   font-family: sans-serif;
   background-color: #fff;
@@ -22,6 +23,7 @@
   text-transform: uppercase; /* 대문자 변환 */
   letter-spacing: 1px; /* 자간 조절 */
 }
+
 .groupType {
   display: flex;
   margin-top: 50px;
@@ -35,12 +37,44 @@
 
 .group-list {
   display: flex;
-  position: relative;
-  left: 15px;
   justify-content: flex-start; /* 왼쪽 정렬 */
+  flex-wrap: wrap;
   height: auto;
 }
-/* 반응형 디자인 (예시) */
+
+/* 애니메이션 적용된 아이템 */
+.club-item-wrapper {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease; /* 0.5초 동안 애니메이션 적용 */
+}
+
+.club-item-wrapper.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 더보기 버튼 스타일 */
+.load-more-button {
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #3879d4;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.load-more-button:hover {
+  background-color: #285a8b;
+}
+
+/* 반응형 디자인 */
 @media (max-width: 768px) {
   .groupType a {
     width: calc(50% - 10px);

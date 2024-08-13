@@ -170,7 +170,7 @@ function CalendarPage() {
 
   return (
     <section className="calendar-page">
-      <h2>모임 일정</h2>
+      <h4>모임 일정</h4>
       <Calendar
         onChange={onChange}
         value={value}

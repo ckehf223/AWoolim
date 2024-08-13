@@ -27,8 +27,8 @@ function Category() {
         const data = await response.json();
         setClubs(data);
         setCategoryList([
-          ...new Set(data.map((club) => club.category)),
           "전체",
+          ...new Set(data.map((club) => club.category)),
         ]);
       } catch (error) {
         console.error("Error fetching clubs:", error);
@@ -49,11 +49,14 @@ function Category() {
       : clubs.filter((club) => club.category === currentCategory);
 
   const handlePrevClick = () => {
-    setCurrentSlide((prev) => Math.max(prev - 1, 0));
+    setCurrentSlide((prevSlide) => Math.max(prevSlide - 348, 0));
   };
 
   const handleNextClick = () => {
-    setCurrentSlide((prev) => Math.min(prev + 1, filteredClubs.length - 4));
+    setCurrentSlide((prevSlide) => {
+      const maxTranslateX = (filteredClubs.length - 4) * 348;
+      return Math.min(prevSlide + 348, maxTranslateX);
+    });
   };
 
   return (
@@ -79,7 +82,7 @@ function Category() {
           <div className="categoryDiv" ref={sliderContainerRef}>
             <div
               className="slide-container"
-              style={{ transform: `translateX(-${currentSlide * 26}%)` }}
+              style={{ transform: `translateX(-${currentSlide}px)` }}
             >
               {filteredClubs.map((club) => (
                 <ClubItem
@@ -100,7 +103,7 @@ function Category() {
                 onClick={handlePrevClick}
               />
             )}
-            {currentSlide < filteredClubs.length - 4 && (
+            {currentSlide < (filteredClubs.length - 4) * 344 && (
               <img
                 src="/src/assets/images/right-arrow.png"
                 alt="다음 버튼"

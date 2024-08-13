@@ -1,6 +1,5 @@
-/* 전체 컨테이너 스타일 */
 #categoryDiv {
-  width: 70%;
+  width: 1344px;
   margin: 0 auto;
 }
 
@@ -11,6 +10,7 @@
   margin-top: 8vh; /* 화면 높이에 따라 조절 */
   text-align: center;
 }
+
 #categorySpan span {
   font-size: 30px;
   font-weight: bold;
@@ -19,6 +19,7 @@
   text-transform: uppercase; /* 대문자 변환 */
   letter-spacing: 1px; /* 자간 조절 */
 }
+
 #categoryA {
   margin: 15px auto 0 auto;
   width: 60%; /* 화면 너비에 따라 조절 */
@@ -37,19 +38,23 @@
   transition: background-color 0.3s ease;
 }
 
-#categoryA > a:hover {
-  background-color: #d2d2d2;
-}
-#categoryA a:focus {
+/* 활성화된 카테고리 링크 스타일 */
+#categoryA > a.active,
+#categoryA > a:focus {
   color: white;
   font-weight: 600;
   background-color: #3879d4;
   outline: none;
 }
+
+#categoryA > a:hover {
+  background-color: #c5c7ff;
+}
+
 /* 슬라이드 컨테이너 스타일 */
 .categoryDiv {
   overflow-x: hidden;
-  width: 100%;
+  width: 1344px;
   margin-top: 20px;
 }
 
@@ -57,18 +62,19 @@
   display: flex;
   justify-content: space-between;
   transition: transform 0.5s ease;
-  gap: 4%;
+  gap: 48px;
   min-height: 250px; /* 슬라이드 컨테이너 최소 높이 설정 */
 }
 
 .slide-item {
   margin-top: 5px;
-  width: 22%;
+  width: 300px;
   box-sizing: border-box;
   flex-shrink: 0;
   border-radius: 13px;
   height: 385px; /* 슬라이드 아이템 최소 높이 설정 */
 }
+
 .categoryButtonL,
 .categoryButtonR {
   position: absolute;
@@ -81,30 +87,38 @@
   border-radius: 30px;
   transition: background-color 0.2s ease;
   opacity: 0.7;
+  cursor: pointer;
 }
+
 .categoryButtonL {
   left: 11vw; /* 왼쪽 여백을 vw 단위로 설정 */
 }
+
 .categoryButtonR {
   right: 11vw; /* 오른쪽 여백을 vw 단위로 설정 */
 }
-.categoryButtonR:hover {
-  background-color: #d4d4d4; /* 호버 시 배경색 변경 */
-}
+
+.categoryButtonR:hover,
 .categoryButtonL:hover {
   background-color: #d4d4d4; /* 호버 시 배경색 변경 */
 }
+
 .image-placeholder {
-  width: 100%;
+  width: 300px;
   height: 200px;
   background-color: #eee;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.skeleton {
-  width: 80%;
-  height: 150px;
-  background-color: #f0f0f0;
-  border-radius: 10px;
+.club-item-wrapper {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.club-item-wrapper {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
