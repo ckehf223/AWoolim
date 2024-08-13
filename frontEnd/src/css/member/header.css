@@ -79,14 +79,15 @@ body.scrolled #header {
   letter-spacing: -1px;
   background-color: white;
   border: none;
-  padding: 9px 20px;
-  border-radius: 24px;
+  padding: 2px 8px;
+  border-radius: 15px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease; /* box-shadow 트랜지션 추가 */
 }
 
 #header-icons button:hover {
-  background-color: #cacaca;
+  background-color: #eaeaea;
+  box-shadow: 0 0 15px rgba(93, 93, 93, 0.3); /* 블러 효과 추가 */
 }
 
 /* 알림 아이콘 스타일 */
@@ -98,6 +99,7 @@ body.scrolled #header {
   transition: transform 0.2s ease;
   filter: brightness(88%); /* 밝기 조절 추가 */
   cursor: pointer; /* 커서 스타일 변경 */
+  z-index: 1001;
 }
 
 #alarm-icon:hover {
@@ -124,6 +126,22 @@ body.scrolled #header {
   padding: 6px;
   border-bottom: 1px solid #eee;
   font-size: 14px;
+}
+.notification-count {
+  position: relative;
+  font-size: 15px;
+  bottom: 7px;
+  right: 10px;
+  color: rgb(255, 0, 0);
+  padding: 1px 6px;
+  background-color: #eed1d1;
+  border-radius: 20px;
+  visibility: visible; /* 기본 상태에서는 보이도록 설정 */
+}
+
+/* notification-count가 0일 때 공간을 유지하면서 숨기기 */
+.notification-count.hidden {
+  visibility: hidden; /* 요소를 보이지 않게 하지만 공간을 유지 */
 }
 
 /* 미디어 쿼리 */

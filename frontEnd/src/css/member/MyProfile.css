@@ -1,37 +1,37 @@
-.MyProfile{
-  margin: 0;
+.MyProfile {
+  margin: 15px 0 0 0;
   text-align: left;
   min-height: 900px;
 }
-.MyProfileHeader{
-  border-bottom: 3px solid #222;
+.MyProfileHeader {
+  border-bottom: 3px solid #1c1c1c;
   padding-bottom: 16px;
 }
-.MyProfileHeader h4{
+.MyProfileHeader h4 {
   margin: 0;
   font-size: 22px;
   font-weight: bold;
 }
-.MyProfileInfoArea{
-  border-bottom: 1px solid #ebebeb;
+.MyProfileInfoArea {
+  border-bottom: 1px solid #dddddd;
   display: flex;
   gap: 30px;
-  height: 370px;
+  height: 420px;
   padding-bottom: 20px;
   margin-top: 20px;
 }
-#MyProfileFile,#MyProfileBackFile{
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
+#MyProfileFile,
+#MyProfileBackFile {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  border: 0;
 }
-.MyProfileImageArea{
+.MyProfileImageArea {
   padding: 10px;
-  width: 600px;
-  height: 350px;
+  width: 660px;
+  height: 400px;
   position: relative;
   background-color: #779999;
   border-radius: 10px;
@@ -39,16 +39,17 @@
   background-size: cover;
 }
 
-.MyProfileBackImage{
+.MyProfileBackImage {
   position: relative;
   height: 200px;
   background-size: cover;
   background-position: center;
   border-radius: 10px;
+  object-fit: cover;
 }
-.MyProfileUserIamge{
+.MyProfileUserIamge {
   position: absolute;
-  top: 45%;
+  top: 46%;
   left: 50%;
   transform: translateX(-50%);
   border-radius: 50%;
@@ -57,7 +58,7 @@
   z-index: 2;
 }
 
-.MyProfilebaseImage{
+.MyProfilebaseImage {
   position: absolute;
   top: 45%;
   left: 50%;
@@ -68,44 +69,46 @@
   background-color: rgba(255, 255, 255, 0.989);
   z-index: 1;
 }
-.MyProfileIntroArea{
-  margin-top: 60px;
+.MyProfileIntroArea {
+  margin-top: 85px;
   text-align: center;
 }
-.MyProfileNickName{
+.MyProfileNickName {
   font-size: 20px;
   margin-top: 10px;
   font-weight: bold;
   color: white;
 }
-.MyProfileIntroMg{
+.MyProfileIntroMg {
   margin-top: 10px;
-  color: rgba(255, 255, 255,0.89);
+  color: rgba(255, 255, 255, 0.89);
   font-size: 15px;
   font-weight: 500;
 }
-.MyProfileImgEditor{
+.MyProfileImgEditor {
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
-.MyProfileChangeButtonArea{
+.MyProfileChangeButtonArea {
   display: flex;
   flex-direction: column;
   justify-content: end;
   height: 100%;
   gap: 20px;
+  margin-left: 20px;
 }
 
-.MyProfileChangeButtonArea div{
+.MyProfileChangeButtonArea div {
   display: flex;
   gap: 10px;
 }
-.MyProfileChangeButton{
-  border: 1px solid #d3d3d3;
-  color: rgba(34, 34, 34, .8);
-  border-radius: 10px;
+.MyProfileChangeButton {
+  border: 1px solid #acacac;
+  color: rgba(34, 34, 34, 0.8);
+  border-radius: 7px;
   font-size: 12px;
+  font-weight: 600;
   text-align: center;
   width: 140px;
   height: 34px;
@@ -114,12 +117,16 @@
   align-content: center;
   cursor: pointer;
 }
-.MyProfileDeleteButton{
-  border: 1px solid #d3d3d3;
-  color: rgba(34, 34, 34, .8);
-  border-radius: 10px;
+.MyProfileChangeButton:hover {
+  background-color: rgb(192, 206, 255);
+}
+.MyProfileDeleteButton {
+  border: 1px solid #acacac;
+  color: rgba(34, 34, 34, 0.8);
+  border-radius: 7px;
   font-size: 12px;
   text-align: center;
+  font-weight: 600;
   width: 60px;
   height: 34px;
   padding: 0 14px;
@@ -127,45 +134,50 @@
   align-content: center;
   cursor: pointer;
 }
-.MyProfileUpdateInfoArea{
+.MyProfileDeleteButton:hover {
+  background-color: rgb(192, 206, 255);
+}
+.MyProfileUpdateInfoArea {
   max-width: 480px;
   padding: 20px 0 0 10px;
 }
-.MyProfileUpdateInfoArea h4, h5,h6, p{
+.MyProfileUpdateInfoArea h4,
+h5,
+h6,
+p {
   margin: 0;
   padding: 0;
 }
-.MyProfileUpdateInfoArea h4{
+.MyProfileUpdateInfoArea h4 {
   font-weight: 600;
-  font-size: 20px;
+  font-size: 21px;
 }
-.MyProfileUpdateInfoArea h5{
-  color: rgba(34, 34, 34, .5);
+.MyProfileUpdateInfoArea h5 {
+  color: rgb(108, 108, 108);
   font-size: 13px;
-  font-weight: 400;
-  letter-spacing: -.07px;
+  font-weight: 500;
+  letter-spacing: -0.07px;
 }
-.MyProfileInfoGroup{
+.MyProfileInfoGroup {
   border-bottom: 2px solid #ebebeb;
   display: flex;
   flex-direction: column;
   padding: 25px 0 12px;
   position: relative;
 }
-.MyProfileInfoBox{
+.MyProfileInfoBox {
   align-items: center;
   display: flex;
   justify-content: center;
   width: 100%;
 }
-.MyPageUnit_content{
+.MyPageUnit_content {
   align-items: center;
   display: flex;
   justify-content: center;
   width: 100%;
-  
 }
-.MyPageUnit_content p{
+.MyPageUnit_content p {
   padding-right: 58px;
   flex: 1;
   font-size: 16px;
@@ -175,60 +187,63 @@
   white-space: nowrap;
   margin: 0;
 }
-.MyPageUnit_content button{
+.MyPageUnit_content button {
   position: absolute;
   right: 0;
-  border: 1px solid #d3d3d3;
-  color: rgba(34, 34, 34, .8);
+  border: 1px solid #acacac;
+  color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 7px;
   font-size: 12px;
+  font-weight: 600;
   height: 34px;
-  letter-spacing: -.06px;
+  letter-spacing: -0.06px;
   padding: 0 14px;
   background-color: white;
 }
-.MyProfileModifyBox{
+.MyPageUnit_content button:hover {
+  background-color: rgb(192, 206, 255);
+}
+.MyProfileModifyBox {
   padding-top: 25px;
 }
-.MyProfileInputItem{
+.MyProfileInputItem {
   position: relative;
 }
-.MyProfileInputItem input{
+.MyProfileInputItem input {
   font-size: 15px;
-  letter-spacing: -.15px;
+  letter-spacing: -0.15px;
   padding: 7px;
   border: none;
   border-bottom: 1px solid #ebebeb;
   width: 100%;
   outline: none;
 }
-.MyProfileInputItem input:focus{
+.MyProfileInputItem input:focus {
   border-bottom: 2px solid black;
 }
 .MyProfileInputBox p {
-  color: rgba(34, 34, 34, .5);
+  color: rgba(34, 34, 34, 0.5);
   font-size: 11px;
   line-height: 16px;
 }
-.MyProfileInputButton{
+.MyProfileInputButton {
   padding-top: 28px;
   text-align: center;
   gap: 5px;
 }
-.MyProfileCancelButton{
+.MyProfileCancelButton {
   padding: 0 38px;
   border: 1px solid #d3d3d3;
-  color: rgba(34, 34, 34, .8);
+  color: rgba(34, 34, 34, 0.8);
   border-radius: 12px;
   font-size: 14px;
   height: 42px;
   cursor: pointer;
 }
-.MyProfileRegisterButton{
+.MyProfileRegisterButton {
   padding: 0 38px;
   margin-left: 10px;
-  border: 1px solid black;
   background-color: #222;
   color: #fff;
   font-weight: 700;
@@ -237,16 +252,17 @@
   height: 42px;
   cursor: pointer;
 }
-.MyProfileModifySaveButtonArea{
+.MyProfileModifySaveButtonArea {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 90px;
 }
-.MyProfileModifySaveButtonArea button{
+.MyProfileModifySaveButtonArea button {
   border-radius: 8px;
   padding: 10px;
   width: 250px;
   color: white;
   background-color: black;
+  border: none;
 }

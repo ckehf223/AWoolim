@@ -1,49 +1,58 @@
-.ClubRegister{
+.ClubRegister {
   width: 100%;
   text-align: center;
-  margin-top: 120px;
+  margin-top: 140px;
 }
-.ClubRegisterWrap{
-  width:70%;
+.ClubRegisterWrap {
+  width: 70%;
   margin: 0 auto;
 }
 
-.ClubRegisterHeader{
+.ClubRegisterHeader {
   width: 100%;
-  border-bottom: 1px solid rgb(0,0,0,0.2);
+  display: flex;
   text-align: start;
+  align-items: center;
   padding: 0 10px;
-  font-size: 25px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  margin-left: 80px;
 }
-.ClubRegisterHeader h2{
-  font-weight: bold;
+.ClubRegisterHeader span {
+  font-weight: 600;
+  font-size: 27px;
 }
-
-.ClubRegisterTopArea{
+.ClubRegisterHeader img {
+  margin-left: 12px;
+  width: 35px;
+  height: 35px;
+  position: relative;
+  top: 1px;
+}
+.ClubRegisterTopArea {
   display: flex;
   flex-direction: column;
   text-align: start;
   width: 100%;
   padding: 10px;
+  margin-left: 80px;
 }
-.ClubRegisterTopBox{
+.ClubRegisterTopBox {
   width: 100%;
   display: flex;
   gap: 10%;
   margin-bottom: 20px;
 }
-.preview{
+.preview {
   position: relative;
   width: 600px;
   height: 370px;
   margin-bottom: 10px;
-  border-radius: 10px;
+  border-radius: 20px;
 }
-.preview img{
+.preview img {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 20px;
   z-index: 1;
   object-fit: cover;
 }
@@ -52,255 +61,276 @@
   width: 400px;
   height: 40px;
   padding: 0 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   vertical-align: middle;
   border: 1px solid #dddddd;
   color: #999999;
 }
 .fileBox label {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 7px 20px;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 7px;
   vertical-align: middle;
   background-color: #999999;
   cursor: pointer;
   margin-left: 10px;
 }
-#imageUpload{
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
+#imageUpload {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 }
-.ClubRegisterImageDeleteButton{
+.ClubRegisterImageDeleteButton {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 7px 20px;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 7px;
   vertical-align: middle;
   background-color: #999999;
   cursor: pointer;
   margin-left: 10px;
-  border: 1px solid #dddddd;
+  border: none;
 }
-.ClubRegisterNcBox{
+.ClubRegisterNcBox {
   display: flex;
   flex-direction: column;
-  margin-top: 80px;
-  gap: 30px;
+  margin: 150px 0 0 20px;
+  justify-content: space-between;
 }
-.ClubRegisterNameBox{
+.ClubRegisterNameBox {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
-.ClubRegisterNameBox,.ClubCategoryBox label{
-  font-size: 18px;
-  font-weight: bold;
-  margin-left: 1%;
+.ClubRegisterNameBox,
+.ClubCategoryBox label {
+  font-size: 17px;
+  font-weight: 600;
 }
-.ClubRegisterNameBox input{
-  width: 400px;
-  height: 40px;
+.ClubRegisterNameBox input {
+  width: 350px;
+  height: 38px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(72, 72, 72, 0.5);
   outline: none;
   font-size: 16px;
   padding: 0 10px;
+  margin-top: 8px;
 }
-.ClubCategoryBox{
+.ClubCategoryBox {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-left: 5px;
 }
-.ClubCategoryBox select{
+.ClubCategoryBox select {
+  width: 350px;
   border-radius: 10px;
-  height: 40px;
+  height: 38px;
   font-size: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(72, 72, 72, 0.5);
   padding: 0 10px;
+  margin-top: 8px;
 }
-.ClubRegisterChoiceArea{
-  display: flex;
-  flex-direction: column;
-  margin: 40px 0;
-}
-.ClubRegisterChoice{
-  display: flex;
-  gap: 20px;
-  padding: 10px;
-  border-bottom: 1px solid rgb(0,0,0,0.2);
-}
-.daySelect{
+.daySelect {
   width: 160px;
-  height: 35px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(72, 72, 72, 0.5);
   border-radius: 6px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
 }
-.ClubRegisterChoiceSection{
+.ClubRegisterChoice {
   display: flex;
   justify-content: space-around;
-  padding: 10px;
-  gap: 100px;
 }
-.choiceBoxArea{
+.ClubRegisterChoice button {
+  padding: 5px 10px;
+  text-align: center;
+  height: 36px;
+}
+.ClubRegisterChoiceArea {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 18px 0 0 50px;
+  margin: 40px 0;
 }
-.choiceBox{
+.ClubRegisterChoiceSection {
+  display: flex;
+  justify-content: space-between;
+}
+.choiceBoxArea {
   display: flex;
   flex-direction: column;
-  gap:5px;
+  margin-right: 222px;
+  height: 460px;
+  justify-content: space-between;
 }
-.choiceBox label{
+.choiceBox {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.choiceBox label {
   font-size: 18px;
   font-weight: bold;
   margin-left: 1%;
 }
-.choiceBox input{
+.choiceBox input {
+  margin-top: 6px;
   text-align: end;
-  width: 300px;
+  width: 350px;
   height: 40px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(72, 72, 72, 0.5);
   outline: none;
   font-size: 16px;
   padding: 0 10px;
 }
-.choiceBox select{
+.choiceBox select {
   text-align: end;
-  width: 300px;
+  width: 350px;
   height: 40px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(72, 72, 72, 0.5);
   outline: none;
   font-size: 16px;
   padding: 0 10px;
 }
-
-.venueBox > h3{
-  margin: 18px 0 5px 5px;
+.venueBox > span {
+  font-size: 19px;
+  font-weight: 600;
+  margin-left: 20px;
 }
-.venueChoice{
+.venueChoice {
+  margin-top: 12px;
   display: flex;
-  width: 500px;
+  width: 600px;
 }
-.venueChoice ul,li{
+.venueChoice ul,
+li {
   list-style-type: none;
   padding: 0;
 }
-.venueChoiceLocal ul{
-  width: 150px;
-  height: 330px;
+.venueChoiceLocal ul {
+  width: 200px;
+  height: 420px;
   overflow: auto;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 10px;
   text-align: center;
-  border-top: 1px solid rgb(0,0,0,0.3);
-  border-bottom: 1px solid rgb(0,0,0,0.3);
+  border-top: 1px solid rgb(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgb(0, 0, 0, 0.3);
   padding: 10px 0 10px 10px;
 }
 .venueChoiceLocal ul::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
-.venueChoiceLocal li{
+.venueChoiceLocal li {
+  text-align: center;
   flex: none;
-  padding: 2px;
-  width: 130px;
-  height: 25px;
-  border-radius: 5px;
-  background-color: rgba(125, 122, 122, 0.169);
+  padding: 4px;
+  width: 140px;
+  height: 35px;
+  border-radius: 6px;
+  background-color: rgba(118, 137, 199, 0.169);
   font-size: 14px;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 20px;
 }
-.venueChoiceLocal li:hover{
+.venueChoiceLocal li:hover {
   background-color: skyblue;
   color: white;
 }
 
-.venueChoiceCity ul{
+.venueChoiceCity ul {
   display: flex;
   align-content: start;
   flex-wrap: wrap;
   overflow: auto;
-  width: 290px;
-  height: 330px;
-  padding: 10px 0px 10px 20px;
-  border-left: 1px solid rgb(0,0,0,0.3);
-  border-top: 1px solid rgb(0,0,0,0.3);
-  border-bottom: 1px solid rgb(0,0,0,0.3);
-  gap: 10px;
+  width: 400px;
+  height: 420px;
+  padding: 10px 0 0 30px;
+  border-left: 1px solid rgb(0, 0, 0, 0.3);
+  border-top: 1px solid rgb(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgb(0, 0, 0, 0.3);
+  gap: 18px;
+  text-align: center;
 }
 .venueChoiceCity ul::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 .venueChoiceCity li {
   flex: none;
-  padding: 2px;
-  width: 120px;
-  height: 25px;
+  padding: 4px;
+  width: 145px;
+  height: 35px;
   font-size: 14px;
-  border-bottom: 1px solid rgb(0,0,0,0.3);
+  border-bottom: 1px solid rgb(0, 0, 0, 0.3);
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  color: gray;
-
+  font-size: 16px;
+  margin-right: 30px;
+  font-weight: 500;
+  color: rgb(54, 54, 54);
 }
-.venueChoiceCity li:hover{
+.venueChoiceCity li:hover {
   background-color: skyblue;
   color: white;
   border: none;
 }
-.ClubRegisterSection{
+.ClubRegisterSection {
   margin: 20px 0 40px 90px;
   padding-left: 20px;
   text-align: left;
 }
 
-.ClubRegisterSection textarea{
-  border-radius:8px;
+.ClubRegisterSection textarea {
+  border-radius: 8px;
   width: 900px;
   height: 200px;
   padding: 20px;
   resize: none;
-} 
-.ClubRegisterButtonArea{
+}
+.ClubRegisterButtonArea {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 50px;
   margin: 50px;
 }
-.registerButton{
-  width: 210px;
+.registerButton {
+  text-align: center;
+  width: 190px;
   height: 40px;
-  border-radius: 5px;
+  border-radius: 7px;
   font-weight: bold;
   font-size: 20px;
   color: white;
-  background-color: black;
-  border: 1px solid rgb(255,255,255);
+  background-color: rgb(42, 42, 42);
+  border: 1px solid rgb(255, 255, 255);
+  letter-spacing: 3px;
 }
-.cancelButton{
-  width: 210px;
+.cancelButton {
+  text-align: center;
+  width: 190px;
   height: 40px;
-  border-radius: 5px;
+  border-radius: 7px;
   font-weight: bold;
   font-size: 20px;
   color: white;
-  background-color: rgb(234, 7, 7);
-  border: 1px solid rgb(255,255,255);
-} 
+  background-color: rgb(255, 63, 63);
+  border: 1px solid rgb(255, 255, 255);
+  letter-spacing: 3px;
+}
+#toolbar {
+  width: 1000px;
+}
+.registerButton:hover {
+  background-color: rgb(22, 22, 22);
+}
+.cancelButton:hover {
+  background-color: rgb(255, 113, 113);
+}

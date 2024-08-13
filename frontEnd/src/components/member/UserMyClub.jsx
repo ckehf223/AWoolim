@@ -125,9 +125,9 @@ const UserMyClub = () => {
                       </div>
                       <div className="UserMyClubButtonArea">
                         <img
-                          className="UserMyClubBoardImg지"
+                          className="UserMyClubBoardImg"
                           src="/src/assets/images/home.png"
-                          alt="모임 게시판 이미"
+                          alt="모임 게시판 이미지"
                         />
                         <img
                           className="UserMyClubExitImg"

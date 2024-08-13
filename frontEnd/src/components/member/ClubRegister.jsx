@@ -1,11 +1,11 @@
 import { useState } from "react";
-import '/src/css/member/ClubRegister.css'
-import 'react-quill/dist/quill.snow.css'
+import "/src/css/member/ClubRegister.css";
+import "react-quill/dist/quill.snow.css";
 import CustomQuill from "/src/common/CustomQuill";
 import instance from "/src/common/auth/axios";
 import { useNavigate } from "react-router-dom";
-import imageCompression from 'browser-image-compression';
-import { areaData } from '/src/common/areaData';
+import imageCompression from "browser-image-compression";
+import { areaData } from "/src/common/areaData";
 
 const ClubRegister = () => {
   const nav = useNavigate();
@@ -69,11 +69,11 @@ const ClubRegister = () => {
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file && file.type.startsWith("image/")) {
       const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 800,
-        useWebWorker: true
+        useWebWorker: true,
       };
       try {
         const compressedFile = await imageCompression(file, options);
@@ -85,7 +85,7 @@ const ClubRegister = () => {
         };
         reader.readAsDataURL(file);
       } catch (error) {
-        console.error('이미지 리사이즈 실패:', error);
+        console.error("이미지 리사이즈 실패:", error);
       }
     }
   };
@@ -102,8 +102,7 @@ const ClubRegister = () => {
       setMessage("만나는 날");
       setDayValue("");
     } else {
-      setType("text");
-      setMessage("모임 주기");
+      setMessage("만나는 날");
       setDayValue("");
     }
   };
@@ -131,18 +130,18 @@ const ClubRegister = () => {
     } else {
       try {
         const formData = new FormData();
-        formData.append('clubTitle', clubName);
-        formData.append('clubGender', gender);
-        formData.append('category', category);
-        formData.append('city', selectedCity);
-        formData.append('ageLimit', age);
-        formData.append('regularType', regularyType);
-        formData.append('maxMember', maxPerson);
-        formData.append('dDay', dayValue);
-        formData.append('detailInfo', content);
-        formData.append('clubImage', file, file.name);
-        if (selectedDistrict === '') {
-          formData.append('district', '전체');
+        formData.append("clubTitle", clubName);
+        formData.append("clubGender", gender);
+        formData.append("category", category);
+        formData.append("city", selectedCity);
+        formData.append("ageLimit", age);
+        formData.append("regularType", regularyType);
+        formData.append("maxMember", maxPerson);
+        formData.append("dDay", dayValue);
+        formData.append("detailInfo", content);
+        formData.append("clubImage", file, file.name);
+        if (selectedDistrict === "") {
+          formData.append("district", "전체");
         } else {
           formData.append("district", selectedDistrict);
         }
@@ -179,15 +178,16 @@ const ClubRegister = () => {
   };
 
   const buttonStyles = {
-    default: { backgroundColor: "white", color: "black" },
-    selected: { backgroundColor: "black", color: "white" },
+    default: { backgroundColor: "white", color: "rgb(22, 22, 22)" },
+    selected: { backgroundColor: "rgb(22, 22, 22)", color: "white" },
   };
 
   return (
     <div className="ClubRegister">
       <div className="ClubRegisterWrap">
         <div className="ClubRegisterHeader">
-          <h2>모임 개설</h2>
+          <span>모임 개설</span>
+          <img src="/src/assets/images/tent.png" alt="" />
         </div>
         <div className="ClubRegisterTopArea">
           <div className="ClubRegisterTopBox">
@@ -242,48 +242,102 @@ const ClubRegister = () => {
                   <option value="스터디">스터디</option>
                 </select>
               </div>
+              <div className="ClubRegisterChoice">
+                <button
+                  className="daySelect"
+                  style={
+                    selectedButton === 0
+                      ? buttonStyles.selected
+                      : buttonStyles.default
+                  }
+                  onClick={() => {
+                    handleClick(0);
+                  }}
+                >
+                  일회성
+                </button>
+                <button
+                  className="daySelect"
+                  style={
+                    selectedButton === 1
+                      ? buttonStyles.selected
+                      : buttonStyles.default
+                  }
+                  onClick={() => {
+                    handleClick(1);
+                  }}
+                >
+                  정기모임
+                </button>
+              </div>
             </div>
           </div>
           <div className="ClubRegisterChoiceArea">
-            <div className="ClubRegisterChoice">
-              <button
-                className="daySelect"
-                style={
-                  selectedButton === 0
-                    ? buttonStyles.selected
-                    : buttonStyles.default
-                }
-                onClick={() => {
-                  handleClick(0);
-                }}
-              >
-                일회성
-              </button>
-              <button
-                className="daySelect"
-                style={
-                  selectedButton === 1
-                    ? buttonStyles.selected
-                    : buttonStyles.default
-                }
-                onClick={() => {
-                  handleClick(1);
-                }}
-              >
-                정기모임
-              </button>
-            </div>
             <div className="ClubRegisterChoiceSection">
+              <div className="venueBox">
+                <span>지역 선택</span>
+                <div className="venueChoice">
+                  <div className="venueChoiceLocal">
+                    <ul>
+                      {areaData.map((area, index) => (
+                        <li
+                          key={index}
+                          onClick={() => handleCityClick(area.city)}
+                        >
+                          {area.city}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="venueChoiceCity">
+                    <ul>
+                      {getDistricts(selectedCity).map((district, index) => (
+                        <li
+                          key={index}
+                          data-dis={district}
+                          onClick={() => handleDistrictClick(district)}
+                        >
+                          {district}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
               <div className="choiceBoxArea">
                 <div className="choiceBox">
                   <label htmlFor="">{message}</label>
-                  <input
-                    type={type}
-                    name="regularyType"
-                    value={dayValue}
-                    onChange={onSetInput}
-                    min={getTodayDate()}
-                  />
+                  {regularyType !== "" && selectedButton === 0 && (
+                    <input
+                      type={type}
+                      name="regularyType"
+                      value={dayValue}
+                      onChange={(e) => {
+                        setDayValue(e.target.value);
+                      }}
+                      min={getTodayDate()}
+                    />
+                  )}
+                  {regularyType !== "" && selectedButton === 1 && (
+                    <select
+                      name="regularyType"
+                      value={dayValue}
+                      onChange={(e) => {
+                        setDayValue(e.target.value);
+                      }}
+                    >
+                      <option value="" defaultChecked>
+                        선택하세요
+                      </option>
+                      <option value="월요일">월요일</option>
+                      <option value="화요일">화요일</option>
+                      <option value="수요일">수요일</option>
+                      <option value="목요일">목요일</option>
+                      <option value="금요일">금요일</option>
+                      <option value="토요일">토요일</option>
+                      <option value="일요일">일요일</option>
+                    </select>
+                  )}
                 </div>
                 <div className="choiceBox">
                   <label htmlFor="MaxPerson">정원</label>
@@ -322,43 +376,13 @@ const ClubRegister = () => {
                   />
                 </div>
               </div>
-              <div className="venueBox">
-                <h3>지역 선택</h3>
-                <div className="venueChoice">
-                  <div className="venueChoiceLocal">
-                    <ul>
-                      {areaData.map((area, index) => (
-                        <li
-                          key={index}
-                          onClick={() => handleCityClick(area.city)}
-                        >
-                          {area.city}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="venueChoiceCity">
-                    <ul>
-                      {getDistricts(selectedCity).map((district, index) => (
-                        <li
-                          key={index}
-                          data-dis={district}
-                          onClick={() => handleDistrictClick(district)}
-                        >
-                          {district}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
         <div className="ClubRegisterSection">
           <h3>상세 정보</h3>
           <CustomQuill
-            width={900}
+            width={1000}
             height={300}
             content={content}
             setContent={setContent}

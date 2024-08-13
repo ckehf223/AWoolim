@@ -16,16 +16,20 @@ function ClubItem({ club, backgroundColor = "#ffffff" }) {
           <div className="image-placeholder skeleton"></div>
         )}
         <div className="slide-item-content" style={{ backgroundColor }}>
-          <span>{club.clubTitle}</span>
-          <span>카테고리: {club.category}</span>
-          <span>
-            지역: {club.city} {club.district}
-          </span>
-          <span>{club.regularType} 모임</span>
-          <span>성별: {club.clubGender}</span>
-          <span>나이 제한: {club.ageLimit}</span>
-          <span>모임 날짜: {club.dDay}</span>
-          <span>모집인원: {club.maxMember}</span>
+          <span className="clubitemclubtitle">{club.clubTitle}</span>
+          <div>
+            <span>
+              {club.city} {club.district}
+            </span>
+            <span> {club.category} 모임</span>
+          </div>
+          <div>
+            <span>모임 날짜: {club.dDay}</span>
+            <span>
+              인원: {club.memberCount}/{club.maxMember}
+            </span>
+          </div>
+          <span className="clubitemdetailinfo">{club.detailInfo}</span>
         </div>
       </Link>
     </div>

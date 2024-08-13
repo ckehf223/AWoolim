@@ -42,7 +42,11 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   background-color: inherit; /* 부모 요소의 배경색 상속 */
 }
-
+.slide-item-content div {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 30px;
+}
 .slide-item-content > span {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -69,4 +73,11 @@
   height: 100%;
   background-color: #f0f0f0;
   border-radius: 13px;
+}
+.clubitemclubtitle {
+  text-align: center;
+  font-size: 19px;
+}
+.clubitemdetailinfo {
+  text-align: center;
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "/src/css/member/groupnav.css";
 import CalendarPage from "/src/components/member/CalendarPage";
 import PhotoGallery from "/src/components/member/PhotoGallery";
-import ClubDetailInfo from "/src/components/member/ClubDetailInfo"; // ClubDetailInfo 추가
+import MyClubDetailInfo from "/src/components/member/MyClubDetailInfo"; // ClubDetailInfo 추가
 
 function GroupNav() {
   const [activeContent, setActiveContent] = useState("detailInfo"); // 초기 활성 콘텐츠를 "상세 정보"로 설정
@@ -35,7 +35,7 @@ function GroupNav() {
       </div>
 
       <div className="content">
-        {activeContent === "detailInfo" && <ClubDetailInfo />}
+        {activeContent === "detailInfo" && <MyClubDetailInfo />}
         {activeContent === "calendar" && <CalendarPage />}
         {activeContent === "photoGallery" && <PhotoGallery />}
       </div>

@@ -5,6 +5,7 @@ import "/src/css/member/groups.css";
 function Groups() {
   const [clubs, setClubs] = useState([]);
   const [featuredCategories, setFeaturedCategories] = useState([]);
+  const [visibleClubsCount, setVisibleClubsCount] = useState(12); // 초기 표시할 모임 수
   const backgroundColor = "#f1f7ff"; // 설정할 배경색
 
   useEffect(() => {
@@ -21,6 +22,20 @@ function Groups() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    // 더보기 버튼 클릭 시 추가된 항목들에만 애니메이션 적용
+    const newItems = document.querySelectorAll(
+      `.club-item-wrapper:nth-child(n+${visibleClubsCount - 11})`
+    );
+    newItems.forEach((element) => {
+      element.classList.add("show");
+    });
+  }, [visibleClubsCount]);
+
+  const handleLoadMore = () => {
+    setVisibleClubsCount((prevCount) => prevCount + 12); // 12개씩 추가로 표시
+  };
 
   const renderClubItems = (category) =>
     clubs
@@ -59,14 +74,21 @@ function Groups() {
         <span>모임 목록</span>
       </div>
       <div className="groupType group-list">
-        {clubs.map((club) => (
-          <ClubItem
+        {clubs.slice(0, visibleClubsCount).map((club, index) => (
+          <div
             key={club.clubNo}
-            club={club}
-            backgroundColor={backgroundColor}
-          />
+            className={`club-item-wrapper ${index < 12 ? "show" : ""}`}
+          >
+            <ClubItem club={club} backgroundColor={backgroundColor} />
+          </div>
         ))}
       </div>
+
+      {visibleClubsCount < clubs.length && (
+        <button className="load-more-button" onClick={handleLoadMore}>
+          더보기
+        </button>
+      )}
     </div>
   );
 }
