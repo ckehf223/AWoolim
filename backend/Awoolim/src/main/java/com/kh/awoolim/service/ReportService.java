@@ -30,9 +30,9 @@ public class ReportService {
 	}
 	
 	// 신고 목록 조회
-    public List<Report> selectReportList() {
-        return mapper.selectReportList();
-    }
+	public List<Map<String, Object>> selectReportList() {
+		return mapper.selectReportList();
+	}
 
     // 신고 삭제
     public void deleteReport(int reportNo) {

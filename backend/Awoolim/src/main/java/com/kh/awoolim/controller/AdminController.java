@@ -50,7 +50,7 @@ public class AdminController {
     }
 
     @GetMapping("/club/{clubNo}")
-    public Club clubDetail(@PathVariable int clubNo) {
+    public Map<String, Object> getClubDetail(@PathVariable("clubNo") int clubNo) {
         return adminService.clubDetail(clubNo);
     }
 
@@ -80,7 +80,7 @@ public class AdminController {
 
     // 신고 목록 조회
     @GetMapping("/report/list")
-    public List<Report> selectReportList() {
+    public List<Map<String, Object>> selectReportList() {
         return reportService.selectReportList();
     }
 

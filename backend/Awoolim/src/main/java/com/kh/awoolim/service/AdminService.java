@@ -51,7 +51,7 @@ public class AdminService {
     }
 
     // 모임 상세 정보 조회
-    public Club clubDetail(int clubNo) {
+    public Map<String, Object> clubDetail(int clubNo) {
         return adminMapper.clubDetail(clubNo);
     }
 

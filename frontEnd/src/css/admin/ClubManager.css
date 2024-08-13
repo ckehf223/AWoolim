@@ -21,6 +21,8 @@ td > a {
 .ClubManager > table {
   border-collapse: separate;
   border-spacing: 0 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .ClubManager > table th:first-child {

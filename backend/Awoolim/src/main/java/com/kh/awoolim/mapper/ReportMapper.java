@@ -15,7 +15,7 @@ public interface ReportMapper {
 	public List<Map<String,Object>> list(int userId);
 	
 	// 신고 목록 조회
-    List<Report> selectReportList();
+    List<Map<String, Object>> selectReportList();
 
     // 신고 삭제
     void deleteReport(int reportNo);

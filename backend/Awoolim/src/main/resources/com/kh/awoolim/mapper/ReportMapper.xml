@@ -34,11 +34,31 @@
 		R.USERID = #{userId}
 		ORDER BY REGDATE
 	</select>
-	  <select id="selectReportList" resultType="Report">
-        SELECT r.reportNo, m.userId AS userId, m.userName AS userName, r.targetId, r.content, r.regDate, r.result, r.resultMessage
-        FROM report r
-                 JOIN member m ON r.userId = m.userId
-    </select>
+	<select id="selectReportList" resultType="java.util.Map">
+		SELECT
+			r.reportNo,
+			m.userId AS userId,
+			m.userName AS userName,
+			r.targetId,
+			r.content,
+			r.regDate,
+			r.result,
+			r.resultMessage,
+			r.type,
+			CASE
+				WHEN r.type = '유저' OR r.type = 'user' THEN tm.userName
+				WHEN r.type = '클럽' OR r.type = '모임' THEN tc.clubTitle
+				ELSE 'Unknown'
+				END AS targetName
+		FROM
+			report r
+				JOIN
+			member m ON r.userId = m.userId
+				LEFT JOIN
+			member tm ON (r.type = '유저' OR r.type = 'user') AND r.targetId = tm.userId
+				LEFT JOIN
+			club tc ON (r.type = '클럽' OR r.type = '모임') AND r.targetId = tc.clubNo
+	</select>
     <delete id="deleteReport">
         DELETE FROM REPORT WHERE reportNo = #{reportNo};
     </delete>

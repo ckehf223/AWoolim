@@ -28,8 +28,8 @@ const ReportManager = () => {
       try {
         const response = await instance.get('/admin/report/list');
         setReports(response.data);
-        setFilteredReports(response.data);
         console.log(response.data);
+        setFilteredReports(response.data);
       } catch (error) {
         console.error('Error fetching reports : ', error);
       }
@@ -70,7 +70,7 @@ const ReportManager = () => {
   };
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchColumn, setSearchColumn] = useState('userName');
+  const [searchColumn, setSearchColumn] = useState('USERNAME');
 
   // 검색 버튼 클릭 시 호출
   const handleSearch = () => {
@@ -79,9 +79,13 @@ const ReportManager = () => {
     } else {
       const newFilteredReports = reports.filter(report => {
         if (searchColumn === 'result') {
-          return getResultText(report.result).toLowerCase().includes(searchTerm.toLowerCase());
+          return getResultText(report.RESULT)?.toLowerCase().includes(searchTerm.toLowerCase());
+        } else if (searchColumn === 'TARGETID') {
+          // targetId가 숫자이므로, 숫자 비교를 수행
+          return report[searchColumn] === Number(searchTerm);
         } else {
-          return report[searchColumn].toLowerCase().includes(searchTerm.toLowerCase());
+          // 일반적인 문자열 비교
+          return report[searchColumn]?.toLowerCase().includes(searchTerm.toLowerCase());
         }
       });
       setFilteredReports(newFilteredReports);
@@ -95,16 +99,16 @@ const ReportManager = () => {
     if (selectedReport) {
       try {
         await instance.post('/admin/report/update', {
-          reportNo: selectedReport.reportNo,
-          userId: selectedReport.userId,
-          targetId: selectedReport.targetId,
-          content: selectedReport.content,
-          regDate: selectedReport.regDate,
-          result,
-          resultMessage
+          reportNo: selectedReport.REPORTNO,
+          userId: selectedReport.USERID,
+          targetId: selectedReport.TARGETID,
+          content: selectedReport.CONTENT,
+          regDate: selectedReport.REGDATE,
+          result: result,
+          resultMessage: resultMessage
         });
         const updateReports = reports.map(report =>
-          report.reportNo === selectedReport.reportNo ? { ...report, result, resultMessage } : report
+          report.REPORTNO === selectedReport.REPORTNO ? { ...report, RESULT: result, RESULTMESSAGE: resultMessage } : report
         );
         setReports(updateReports);
         setFilteredReports(updateReports);
@@ -119,9 +123,9 @@ const ReportManager = () => {
   const handleDelete = async () => {
     if (selectedReport) {
       try {
-        await instance.post('/admin/report/delete', { reportNo: selectedReport.reportNo });
-        setReports(reports.filter(report => report.reportNo !== selectedReport.reportNo));
-        setFilteredReports(filteredReports.filter(report => report.reportNo !== selectedReport.reportNo));
+        await instance.post('/admin/report/delete', { REPORTNO: selectedReport.REPORTNO });
+        setReports(reports.filter(report => report.REPORTNO !== selectedReport.REPORTNO));
+        setFilteredReports(filteredReports.filter(report => report.REPORTNO !== selectedReport.REPORTNO));
         toggleModal();
       } catch (error) {
         console.error('Error deleting report : ', error);
@@ -139,12 +143,13 @@ const ReportManager = () => {
   // 신고 상세보기 모달 열기
   const openDetailModal = (reports) => {
     setSelectedReport(reports);
+    console.log(selectedReport);
     toggleDetailModal();
   }
 
   // onSend
   const handleSend = () => {
-    handleUpdate(selectedReport.result, message);
+    handleUpdate(selectedReport.RESULT, message);
   }
 
   return (
@@ -161,9 +166,9 @@ const ReportManager = () => {
               value={searchColumn}
               onChange={(e) => setSearchColumn(e.target.value)}
             >
-              <option value="userName">신고자</option>
-              <option value="targetId">신고대상</option>
-              <option value="result">신고결과</option>
+              <option value="USERNAME">신고자</option>
+              <option value="TARGETNAME">신고대상</option>
+              <option value="CONTENT">신고내용</option>
             </Input>
           </Col>
           <Col sm={4}>
@@ -201,14 +206,14 @@ const ReportManager = () => {
         <tbody>
           {
             currentReports.map((reports, index) => (
-              <tr key={reports.reportNo}>
+              <tr key={reports.REPORTNO}>
                 <th scope='row'>{index + 1}</th>
-                <td>{reports.userName}</td>
-                <td>{reports.targetId}</td>
-                <td>{reports.content}</td>
-                <td>{new Date(reports.regdate).toLocaleDateString()}</td>
-                <td className={reports.result === 1 ? 'warning' : reports.result === -1 ? 'pass' : 'before'}
-                >{reports.result === 1 ? '경고처리' : reports.result === -1 ? '넘어감' : '처리전'}</td>
+                <td>{reports.USERNAME}</td>
+                <td>{reports.TARGETNAME || 'Unknown'}</td>
+                <td>{reports.CONTENT}</td>
+                <td>{new Date(reports.REGDATE).toLocaleDateString()}</td>
+                <td className={reports.RESULT === 1 ? 'warning' : reports.RESULT === -1 ? 'pass' : 'before'}
+                >{reports.RESULT === 1 ? '경고처리' : reports.RESULT === -1 ? '넘어감' : '처리전'}</td>
                 <td><Button outline color='secondary' onClick={() => openReportModal(reports)}>조치하기</Button></td>
                 <td><Button outline color="primary" onClick={() => openDetailModal(reports)}>상세보기</Button></td>
               </tr>
@@ -234,13 +239,13 @@ const ReportManager = () => {
       >
         {
           selectedReport && (
-            <div className='modal-content'>
-              <div>신고자 : {selectedReport.userName}</div>
-              <div>신고대상 : {selectedReport.targetId}</div>
-              <div>신고내용 : {selectedReport.content}</div>
-              <div>신고일 : {new Date(selectedReport.regDate).toLocaleDateString()}</div>
-              <div>처리 상태 : {selectedReport.result === 1 ? '경고' : selectedReport.result === -1 ? '넘어감' : '처리전'}</div>
-              <div>처리 결과 메세지 : {selectedReport.resultMessage}</div>
+            <div className='admin-modal-content'>
+              <div>신고자 : {selectedReport.USERNAME}</div>
+              <div>신고대상 : {selectedReport.TARGETNAME}</div>
+              <div>신고내용 : {selectedReport.CONTENT}</div>
+              <div>신고일 : {new Date(selectedReport.REGDATE).toLocaleDateString()}</div>
+              <div>처리 상태 : {selectedReport.RESULT === 1 ? '경고' : selectedReport.RESULT === -1 ? '넘어감' : '처리전'}</div>
+              <div>처리 결과 메세지 : {selectedReport.RESULTMESSAGE}</div>
             </div>
           )
         }
@@ -256,12 +261,12 @@ const ReportManager = () => {
       >
         {
           selectedReport && (
-            <div className='modal-content'>
-              <div>신고자 : {selectedReport.userName}</div>
-              <div>신고대상 : {selectedReport.targetId}</div>
-              <div>내용 : {selectedReport.content}</div>
-              <div>신고일 : {new Date(selectedReport.regDate).toLocaleDateString()}</div>
-              <div>상태 : {selectedReport.result === 1 ? '경고' : selectedReport.result === -1 ? '넘어감' : '처리전'}</div>
+            <div className='admin-modal-content'>
+              <div>신고자 : {selectedReport.USERNAME}</div>
+              <div>신고대상 : {selectedReport.TARGETNAME}</div>
+              <div>내용 : {selectedReport.CONTENT}</div>
+              <div>신고일 : {new Date(selectedReport.REGDATE).toLocaleDateString()}</div>
+              <div>상태 : {selectedReport.RESULT === 1 ? '경고' : selectedReport.RESULT === -1 ? '넘어감' : '처리전'}</div>
               <Input type='textarea' placeholder='처리 결과 메시지' value={message} onChange={(e) => setMessage(e.target.value)}></Input>
               <div className='modal-buttons'>
                 <Button outline color="danger" onClick={() => handleUpdate(1, message)}>경고</Button>
