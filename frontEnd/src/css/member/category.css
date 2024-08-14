@@ -60,7 +60,7 @@
 
 .slide-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   transition: transform 0.5s ease;
   gap: 48px;
   min-height: 250px; /* 슬라이드 컨테이너 최소 높이 설정 */

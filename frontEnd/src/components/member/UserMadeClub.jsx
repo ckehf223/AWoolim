@@ -41,7 +41,7 @@ const UserMadeClub = () => {
         <div className="UserMadeClubMainArea">
           <div className="UserMadeClubArea">
             <p>
-              <b>내가 만든 모임은 최대 3개</b>
+              <b>최대 3개 생성 가능</b>
             </p>
 
             {clubData.clubList === null || clubData.clubList.length === 0 ? (
@@ -53,32 +53,32 @@ const UserMadeClub = () => {
             ) : (
               clubData.clubList.map((club) => (
                 <div className="UserMadeClubBox" key={club.clubNo}>
-                  <div className="UserMadeClubInfoBox">
-                    <div className="UserMadeClubImageBox">
-                      <img
-                        src={`data:image/jpeg;base64,${club.clubImage}`}
-                        alt="모임 사진"
-                      />
-                    </div>
+                  <div className="UserMadeClubImageBox">
+                    <img
+                      src={`data:image/jpeg;base64,${club.clubImage}`}
+                      alt="모임 사진"
+                    />
+                  </div>
+                  <div className="UserMadeClubInfo">
+                    <p className="UserMadeClubCategory">
+                      {club.recruitment === 1 ? "모집중" : "모집마감"}
+                    </p>
+                    <p className="UserMadeClubTitle">{club.clubTitle}</p>
+                  </div>
+                  <div className="UserMadeClubMgBox">
                     <div className="UserMadeClubInfo">
-                      <p className="UserMadeClubCategory">
-                        {club.recruitment === 1 ? "모집중" : "모집마감"}
+                      <p className="UserMadeClubCategory">인원</p>
+                      <p className="UserMadeClubTitle">
+                        {club.memberCount} / {club.maxMember}명
                       </p>
-                      <p className="UserMadeClubTitle">{club.clubTitle}</p>
                     </div>
-                    <div className="UserMadeClubMgBox">
-                      <div className="UserMadeClubInfo">
-                        <p className="UserMadeClubCategory">인원</p>
-                        <p className="UserMadeClubTitle">
-                          {club.memberCount} / {club.maxMember}명
-                        </p>
-                      </div>
-                      <div className="UserMadeClubInfo">
-                        <p className="UserMadeClubCategory">신청</p>
-                        <p className="UserMadeClubTitle">
-                          {clubData.countMap["count" + club.clubNo]} 건
-                        </p>
-                      </div>
+                  </div>
+                  <div className="UserMadeClubMgBox">
+                    <div className="UserMadeClubInfo">
+                      <p className="UserMadeClubCategory">신청</p>
+                      <p className="UserMadeClubTitle">
+                        {clubData.countMap["count" + club.clubNo]} 건
+                      </p>
                     </div>
                   </div>
                   <div className="UserMadeClubButtonArea">

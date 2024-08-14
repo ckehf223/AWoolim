@@ -1,4 +1,6 @@
-
+div.ExitModal-dialog {
+  margin: 0;
+}
 .ExitModal-dialog {
   max-width: 600px;
   width: 100%;
@@ -10,7 +12,9 @@
   border: none;
   overflow: hidden;
 }
-
+div.ExitModal-content {
+  margin: 0;
+}
 .ExitModalHeader {
   position: relative;
   background-color: rgb(203, 24, 110);
@@ -18,44 +22,47 @@
 }
 .ExitModalCloseButton {
   position: absolute;
-  top: 10px; 
-  right: 10px; 
+  top: 10px;
+  right: 10px;
   border: none !important;
   background: none !important;
-  color: #ff0000 !important; 
-  font-size: 1.5rem; 
+  color: #ff0000 !important;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 .ExitModalBody {
   padding: 5px;
 }
+div.ExitModalBody.modal-body {
+  margin: 0;
+}
 .ExitModalInputBox {
   padding-top: 10px;
-  border-top: 1px solid rgba(167, 167, 167, 0.509) ;
+  border-top: 1px solid rgba(167, 167, 167, 0.509);
 }
-.ExitModalInputBox p{
+.ExitModalInputBox p {
   margin: 5px 0;
   font-size: 14px;
 }
-.ExitModalInputBox input{
+.ExitModalInputBox input {
   width: 400px;
   height: 40px;
   margin: 20px 0;
   border-radius: 5px;
   outline: none;
-  border: 1px solid rgb(0,0,0,0.7);
+  border: 1px solid rgb(0, 0, 0, 0.7);
   padding-left: 10px;
   font-size: 15px;
 }
-.ExitModalSendButtonArea{
+.ExitModalSendButtonArea {
   text-align: center;
 }
-.ExitModalSendButtonArea p{
+.ExitModalSendButtonArea p {
   font-size: 14px;
-  color: rgb(0,0,0,0.7);
+  color: rgb(0, 0, 0, 0.7);
   margin-top: 10px;
 }
-.ExitModalSendButton{
+.ExitModalSendButton {
   width: 200px;
   background-color: black;
   color: white;

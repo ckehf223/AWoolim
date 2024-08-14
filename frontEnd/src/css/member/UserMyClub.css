@@ -1,79 +1,74 @@
-.UserMyClub{
+.UserMyClub {
   margin: 0;
   text-align: left;
   min-height: 900px;
 }
-.UserMyClubWrap{
+.UserMyClubWrap {
   margin: 0 auto;
 }
-.UserMyClubContentBorder{
+.UserMyClubContentBorder {
   border-bottom: 3px solid #222;
   padding-bottom: 16px;
 }
-.UserMyClubTitle h4{
+.UserMyClubTitle h4 {
   margin: 0;
   font-size: 22px;
   font-weight: bold;
 }
-.UserMyClubMainArea{
+.UserMyClubMainArea {
   width: 100%;
   margin-top: 30px;
 }
-.UserMyClubArea{
+.UserMyClubArea {
   margin: 0;
   padding: 0;
 }
-.UserMyClubSortBox{
+.UserMyClubSortBox {
   padding: 10px;
 }
-.UserMyClubSort{
+.UserMyClubSort {
   background-color: #fff;
   border: 1px solid #d3d3d3;
-  border-radius: 12px;
+  border-radius: 10px;
   font-size: 13px;
-  min-width: 120px;
-  padding: 5px 30px 5px 10px;
+  width: 110px;
+  padding: 5px 35px 5px 10px;
   position: relative;
   cursor: pointer;
   outline: none;
-
 }
-.UserMyClubBox{
+.UserMyClubBox {
   align-items: center;
-  border-bottom: 1px solid rgb(0,0,0,0.3);
+  border-bottom: 1px solid rgb(0, 0, 0, 0.3);
   display: flex;
-  padding: 12px;
+  padding: 15px 25px 15px 15px;
   justify-content: space-between;
 }
-.UserMyClubInfoBox{
-  display: flex;
-  gap: 30px;
-}
-.UserMyClubImageBox{
+.UserMyClubImageBox {
   position: relative;
 }
-.UserMyClubImageBox img{
-  width: 200px;
-  height: 135px;
-  border-radius: 12px;
+.UserMyClubImageBox img {
+  width: 300px;
+  height: 200px;
+  border-radius: 10px;
 }
-.UserMyClubInfo{
+.UserMyClubInfo {
   display: flex;
   align-self: center;
   flex-direction: column;
   width: 100px;
   gap: 15px;
 }
-.UserMyClubCategory{
+.UserMyClubCategory {
   font-size: 20px;
   font-weight: bold;
   margin: 0;
 }
-.UserMyClubTitle{
+.UserMyClubTitle {
   font-size: 16px;
   margin: 0;
 }
-.UserMyClubDisaArea{
+.UserMyClubDisaArea {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,26 +76,27 @@
   font-weight: 600;
   width: 200px;
 }
-.UserMyClubButtonArea{
+.UserMyClubButtonArea {
   display: flex;
-  gap: 50px;
+  gap: 40px;
 }
-.UserMyClubBoardImg,.UserMyClubExitImg{
+.UserMyClubBoardImg,
+.UserMyClubExitImg {
   width: 30px;
   height: 30px;
   cursor: pointer;
- }
-.UserMyClubNoneArea{
+}
+.UserMyClubNoneArea {
   width: 100%;
   height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.UserMyClubNoneArea p{
+.UserMyClubNoneArea p {
   font-size: 20px;
 }
-.UserMyClubExitButton{
+.UserMyClubExitButton {
   border: none;
   color: white;
   background-color: rgb(247, 88, 88);
