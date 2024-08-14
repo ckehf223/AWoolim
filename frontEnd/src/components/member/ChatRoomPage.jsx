@@ -22,6 +22,7 @@ function ChatRoomPage({ room }) {
     socketRef.current.onmessage = (event) => {
       const newMessage = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
+      console.log(newMessage);
     };
 
     socketRef.current.onerror = (error) => {
@@ -90,9 +91,8 @@ function ChatRoomPage({ room }) {
             messages.map((msg, index) => (
               <div
                 key={index}
-                className={`message ${
-                  msg.USERID === loginId ? "my-message" : "other-message"
-                }`}
+                className={`message ${msg.USERID === loginId ? "my-message" : "other-message"
+                  }`}
               >
                 {msg.USERID !== loginId && (
                   <div className="message-info">
