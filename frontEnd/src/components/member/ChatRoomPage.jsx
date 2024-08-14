@@ -48,13 +48,11 @@ function ChatRoomPage({ room }) {
 
   const fetchMessages = async () => {
     try {
-      const response = await instance.get(`/api/chat/${room.clubNo}/messages`,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const response = await instance.get(`/api/chat/${room.clubNo}/messages`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       setMessages(response.data);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -88,24 +86,29 @@ function ChatRoomPage({ room }) {
     <div className="chat-room-page">
       <div className="chat-messages" ref={messageListRef}>
         <div className="message-list">
-          {messages.length > 0 && messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`message ${msg.USERID === loginId ? "my-message" : "other-message"
+          {messages.length > 0 &&
+            messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`message ${
+                  msg.USERID === loginId ? "my-message" : "other-message"
                 }`}
-            >
-              {msg.userId !== loginId && (
-                <div className="message-info">
-                  <img className="profile-image"
-                    src={`data:image/jpeg;base64,${msg.USERIMAGE}`}
-                    alt="프로필"
-                  />
-                  <span className="nickname">{msg.NICKNAME !== null ? msg.NICKNAME : msg.USERNAME}</span>
-                </div>
-              )}
-              <p>{msg.MESSAGE}</p>
-            </div>
-          ))}
+              >
+                {msg.USERID !== loginId && (
+                  <div className="message-info">
+                    <img
+                      className="profile-image"
+                      src={`data:image/jpeg;base64,${msg.USERIMAGE}`}
+                      alt="프로필"
+                    />
+                    <span className="nickname">
+                      {msg.NICKNAME !== null ? msg.NICKNAME : msg.USERNAME}
+                    </span>
+                  </div>
+                )}
+                <span className="chatmessagespan">{msg.MESSAGE}</span>
+              </div>
+            ))}
         </div>
       </div>
 

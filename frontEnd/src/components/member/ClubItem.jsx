@@ -25,14 +25,17 @@ function ClubItem({ club, backgroundColor = "#ffffff" }) {
             <span> {club.category} 모임</span>
           </div>
           <div>
-            <span>모임 날짜: {club.dDay}</span>
-            <span>
-              인원: {club.memberCount}/{club.maxMember}
-            </span>
+            <span>모집 날짜: {club.dday}</span>
           </div>
-          <span className="clubitemdetailinfo" dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(club.detailInfo),
-          }}></span>
+          <span>
+            모집 인원: {club.memberCount}/{club.maxMember}명
+          </span>
+          <span
+            className="clubitemdetailinfo"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(club.detailInfo),
+            }}
+          ></span>
         </div>
       </Link>
     </div>
