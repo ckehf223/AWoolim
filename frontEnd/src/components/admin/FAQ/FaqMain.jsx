@@ -15,7 +15,7 @@ const FaqMain = () => {
     }, []);
 
     const fetchQuestion = (query = '') => {
-        const url = query ? `http://localhost:8080/admin/faq/category?query=${query}` : `http://localhost:8080/admin/faq/list`;
+        const url = query ? `/api/faq/category?query=${query}` : `/api/faq/list`;
         instance.get(url)
             .then(response => {
                 setQuestions(response.data);
@@ -74,8 +74,8 @@ const FaqMain = () => {
                             <span dangerouslySetInnerHTML={{
                                 __html: DOMPurify.sanitize(question.answer),
                             }}>
-                            </span
-                            ></span>
+                            </span>
+                        </span>
                     </div>
                 </div>
             ))}

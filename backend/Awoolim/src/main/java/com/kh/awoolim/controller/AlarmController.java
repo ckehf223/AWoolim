@@ -25,6 +25,9 @@ public class AlarmController {
     public ResponseEntity<List<Alarm>> getUnreadAlarms(Principal principal) {
         String email = principal.getName();
 
+        if(email.equals("admin")) {
+        	return ResponseEntity.noContent().build(); //
+        }
         int userId = alarmService.getUserIdByEmail(email);
 
         List<Alarm> alarms = alarmService.getUnreadAlarms(userId);
@@ -40,7 +43,6 @@ public class AlarmController {
     public ResponseEntity<String> markAlarmsAsRead(@RequestBody List<Integer> alarmNos) {
 
         if (alarmNos == null || alarmNos.isEmpty()) {
-            System.out.println("No alarmNos received or alarmNos is empty.");
             return ResponseEntity.badRequest().body("Invalid or missing alarm IDs."); // 400 Bad Request
         }
 

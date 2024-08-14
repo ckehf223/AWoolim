@@ -79,7 +79,7 @@
 		where clubTitle like '%' || #{clubTitle} || '%'
 		<if test="city != null and city != ''">
 			AND city = #{city}
-		</if> 
+		</if>
 		<if test="district != null and district != ''">
 			AND district = #{district}
 		</if>
@@ -93,6 +93,10 @@
 			AND CATEGORY = #{category}
 		</if>
 	</select>
+	<delete id="delete" parameterType="int">
+		DELETE FROM CLUB
+		WHERE CLUBNO = #{clubNo}
+	</delete>
 
 </mapper>
 

@@ -17,7 +17,7 @@ import com.kh.awoolim.domain.Notice;
 import com.kh.awoolim.service.NoticeService;
 
 @RestController
-@RequestMapping("/admin/notices")
+@RequestMapping("/api/notices")
 public class NoticeController {
 
 	@Autowired

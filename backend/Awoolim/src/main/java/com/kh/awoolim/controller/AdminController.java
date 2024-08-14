@@ -1,18 +1,27 @@
 package com.kh.awoolim.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.kh.awoolim.domain.Club;
 import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.domain.Report;
 import com.kh.awoolim.service.AdminService;
+import com.kh.awoolim.service.ClubService;
 import com.kh.awoolim.service.ReportService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/admin")
@@ -20,7 +29,10 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
-
+    @Autowired
+    private ReportService reportService;
+    @Autowired
+    private ClubService clubService;
     // 회원 목록 조회
     @GetMapping("/userlist")
     public List<Member> userLIst() {
@@ -28,9 +40,14 @@ public class AdminController {
     }
 
     // 회원 삭제
-    @PostMapping("/userdelete")
-    public void deleteUser(@RequestBody int userId) {
-        adminService.deleteUser(userId);
+    @PostMapping("/userdelete/{userId}")
+    public void deleteUser(@PathVariable("userId") int userId,HttpServletResponse response) {
+    	try {
+    		adminService.deleteUser(userId);
+    		response.setStatus(HttpStatus.OK.value());
+    	}catch(Exception e) {
+    		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+    	}
     }
 
     @GetMapping("/stats")
@@ -59,6 +76,16 @@ public class AdminController {
         return adminService.selectClubMembers(clubNo);
     }
 
+    @PostMapping("/deleteClub/{clubNo}")
+	public void deleteClub(@PathVariable("clubNo") int clubNo,HttpServletResponse response) {
+		try {
+			clubService.deleteClub(clubNo);
+			response.setStatus(HttpStatus.OK.value());
+		}catch(Exception e) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}
+	}
+    
     @GetMapping("/gender")
     public ResponseEntity<Map<String, Integer>> getGenderRatio() {
         Map<String, Integer> genderRatio = adminService.selectGenderRatio();
@@ -74,9 +101,6 @@ public class AdminController {
     public List<Map<String, Object>> getUserParticipationStats() {
         return adminService.getUserParticipationStats();
     }
-
-    @Autowired
-    private ReportService reportService;
 
     // 신고 목록 조회
     @GetMapping("/report/list")

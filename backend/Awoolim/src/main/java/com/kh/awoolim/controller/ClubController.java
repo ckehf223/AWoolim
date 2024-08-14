@@ -175,9 +175,6 @@ public class ClubController {
 				alarm.setUserId(club.getUserId());
 				String userName = member.getNickName() != "null" && member.getNickName() != null ? member.getNickName()
 						: member.getUserName();
-				System.out.println(userName);
-				System.out.println(member.getNickName());
-				System.out.println(member.getUserName());
 				alarm.setMessage("`" + userName + "` 님이 모임 참여 신청 하셨습니다.");
 				alarmService.register(alarm);
 			}
@@ -360,12 +357,15 @@ public class ClubController {
 		try {
 			int userId = requestBody.get("userId");
 			int clubNo = requestBody.get("clubNo");
+			System.out.println(userId);
+			System.out.println(clubNo);
 			Club club = clubService.readByClub(clubNo);
 			if (club.getMemberCount() < club.getMaxMember()) {
 				clubMemberService.acceptClubMember(userId, clubNo);
 				Alarm alarm = new Alarm();
 				alarm.setUserId(userId);
 				alarm.setMessage("`" + club.getClubTitle() + "` 모임 신청이 수락되었습니다.");
+				System.out.println(alarm.toString());
 				alarmService.register(alarm);
 				clubService.addClubCount(clubNo);
 				return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(1));
@@ -406,6 +406,7 @@ public class ClubController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
+	
 	
 	public void deleteFile(String fileName) {
 		// 이미지 파일의 절대 경로를 생성

@@ -44,7 +44,6 @@ const ClubAccept = () => {
         }
       )
       if (response.data === 1) {
-        alert(userId + ' 신청 수락 하였습니다.');
         window.location.reload();
       } else {
         alert('모임 정원보다 많은 인원을 수용할 수 없습니다.\n 확인 후 다시 시도해 주세요');
@@ -66,7 +65,6 @@ const ClubAccept = () => {
           }
         }
       )
-      alert(userId + ' 신청 거절 하였습니다.');
       window.location.reload();
     } catch (error) {
       console.error("모임멤버 신청 거절 요청 중 에러발생" + error)

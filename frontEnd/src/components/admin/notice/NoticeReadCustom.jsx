@@ -14,7 +14,7 @@ const NoticeReadCustom = () => {
     const [notice, setNotice] = useState({});
 
     useEffect(() => {
-        instance.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
+        instance.get(`/api/notices/read/${noticeNo}`)
             .then(response => {
                 setNotice(response.data);
             })

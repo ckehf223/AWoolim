@@ -29,9 +29,13 @@ public interface ClubMapper {
 
 	public void modifyClub(Club club);
 
-	List<Club> getAllClubs();
+	public List<Club> getAllClubs();
 
 	byte[] getImage(String imageName);
 
-	List<Club> searchClubs(Map<String, Object> filters);
+	public List<Club> searchClubs(Map<String, Object> filters);
+	
+	public void delete(int clubNo);
+	
+	
 }

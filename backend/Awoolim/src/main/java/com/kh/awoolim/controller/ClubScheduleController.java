@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.awoolim.domain.ClubSchedule;
@@ -46,10 +47,29 @@ public class ClubScheduleController {
 				cs.setClubNo(clubNo);
 				cs.setDDay(key);
 				cs.setContent(value);
-				clubScheduleService.register(cs);
+				ClubSchedule check = clubScheduleService.findBySchedule(cs);
+				if(check == null) {
+					clubScheduleService.register(cs);
+				}else {
+					System.out.println(check.toString());
+					cs.setScheduleNo(check.getScheduleNo());
+					clubScheduleService.update(cs);
+				}
 			}
 			response.setStatus(HttpStatus.OK.value());
 		} catch (Exception e) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}
+	}
+	@PostMapping("/delete")
+	public void deleteSchedule(@RequestBody Map<String,String> requestBody,HttpServletResponse response) {
+		log.info("deleteSchedule");
+		try {
+			int clubNo =Integer.parseInt(requestBody.get("clubNo"));
+			String dDay = (String) requestBody.get("day");
+			clubScheduleService.delete(clubNo, dDay);
+			response.setStatus(HttpStatus.OK.value());
+		}catch(Exception e) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		}
 	}
