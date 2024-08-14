@@ -7,17 +7,17 @@ import { useAuth } from '/src/common/AuthContext';
 
 const AdminLoginMain = () => {
     const nav = useNavigate();
-    const { login, isAuthenticated } = useAuth();
+    const { login, isAuthenticated, role } = useAuth();
     const [useremail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isAuthenticated && role === 'ROLE_ADMIN') {
             nav('/admin/dashboard', { replace: true });
         }
-    }, [])
+    }, [isAuthenticated, role, nav])
 
 
     const handleSubmit = async (e) => {

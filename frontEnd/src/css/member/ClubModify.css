@@ -284,7 +284,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
   margin: 50px;
 }
 .modifyButton {
@@ -296,4 +296,20 @@ li {
   color: white;
   background-color: black;
   border: 1px solid rgb(255, 255, 255);
+}
+.deleteClubButton{
+  width: 210px;
+  height: 40px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
+  background-color: rgb(190, 33, 33);
+  border: 1px solid rgb(255, 255, 255);
+}
+.modifyButton:hover{
+  background-color: rgb(31, 29, 29);
+}
+.deleteClubButton:hover{
+  background-color: rgb(255, 0, 0);
 }

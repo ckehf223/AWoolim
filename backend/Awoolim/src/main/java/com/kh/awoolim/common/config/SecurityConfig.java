@@ -88,10 +88,14 @@ public class SecurityConfig {
 				.requestMatchers("/auth/naver/**").permitAll()
 				.requestMatchers("/auth/google/**").permitAll()
 				.requestMatchers("/login").permitAll()
+				.requestMatchers("/api/notices/*").permitAll()
+				.requestMatchers("/api/faq/*").permitAll()
 				.requestMatchers("/api/club/register").hasRole("MEMBER")
 				.requestMatchers("/admin/*").hasRole("ADMIN")
-				.anyRequest().permitAll());
+				.anyRequest().hasRole("MEMBER"));
 
+		
+		
 		http.oauth2Login((oauth2) -> oauth2
 				.userInfoEndpoint(
 						(userInfoEndpointConfig) -> userInfoEndpointConfig.userService(oauth2UserDetailsService))

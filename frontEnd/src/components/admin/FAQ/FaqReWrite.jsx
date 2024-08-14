@@ -30,6 +30,7 @@ const FaqReWrite = () => {
         }
         instance.post(`/api/faq/update/${questionNo}`, question)
             .then(() => {
+                navi('/admin/faq');
                 window.location.reload();
             })
             .catch(error => console.log("UPDATE QUESTION ERROR", error));
@@ -49,6 +50,7 @@ const FaqReWrite = () => {
             instance.post(`/api/faq/delete/${questionNo}`, question)
                 .then(() => {
                     window.alert("삭제 완료되었습니다.");
+                    navi('/admin/faq');
                     window.location.reload();
                 })
                 .catch(error => console.log("DELETE QUESTION ERROR", error));
