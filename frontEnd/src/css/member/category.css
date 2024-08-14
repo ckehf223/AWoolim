@@ -22,7 +22,7 @@
 
 #categoryA {
   margin: 15px auto 0 auto;
-  width: 52%; /* 화면 너비에 따라 조절 */
+  width: 60%; /* 화면 너비에 따라 조절 */
   max-width: 1100px; /* 최대 너비 제한 */
   display: flex;
   justify-content: space-between;
