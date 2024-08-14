@@ -1,15 +1,19 @@
 package com.kh.awoolim.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.awoolim.domain.Chat;
+import com.kh.awoolim.domain.ChatRoom;
 
 @Mapper
 public interface ChatMapper {
 
-	void insertChat(Chat chat);
+	public void insertChat(Chat chat);
 
-	List<Chat> selectChatsByClubNo(int clubNo);
+	public List<Map<String,Object>> selectChatsByClubNo(int clubNo);
+	
+	public List<ChatRoom>list(int userId);
 }

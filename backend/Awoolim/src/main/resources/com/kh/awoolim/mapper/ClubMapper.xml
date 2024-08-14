@@ -77,7 +77,7 @@
 	<select id="searchClubs" resultType="Club" parameterType="map">
 		SELECT * FROM CLUB
 		where clubTitle like '%' || #{clubTitle} || '%'
-		<if test="city == null and city == ''">
+		<if test="city != null and city != ''">
 			AND city = #{city}
 		</if> 
 		<if test="district != null and district != ''">

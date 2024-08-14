@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "/src/css/member/clubitem.css";
+import DOMPurify from "dompurify";
 
 function ClubItem({ club, backgroundColor = "#ffffff" }) {
   return (
@@ -29,7 +30,9 @@ function ClubItem({ club, backgroundColor = "#ffffff" }) {
               인원: {club.memberCount}/{club.maxMember}
             </span>
           </div>
-          <span className="clubitemdetailinfo">{club.detailInfo}</span>
+          <span className="clubitemdetailinfo" dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(club.detailInfo),
+          }}></span>
         </div>
       </Link>
     </div>

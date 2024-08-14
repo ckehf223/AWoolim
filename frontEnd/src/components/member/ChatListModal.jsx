@@ -1,43 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "/src/css/member/chatlistmodal.css";
-import ChatRoomPage from "./ChatRoomPage";
+import ChatRoomPage from "/src/components/member/ChatRoomPage";
+import instance from "/src/common/auth/axios";
 
-function ChatListModal({ onClose, profile }) {
+function ChatListModal({ onClose }) {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [chatRooms, setChatRooms] = useState([]);
 
   useEffect(() => {
-    let token = localStorage.getItem("accessToken");
-    if (!token) {
-      alert("로그인이 필요합니다.");
-      onClose();
-      return;
-    }
-
-    token = token.trim();
-    if (!token.startsWith("Bearer ")) {
-      token = `Bearer ${token}`;
-    }
-
     const fetchChatRooms = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/chatrooms", {
+        const response = await instance.get("/api/chat/chatrooms", {
           headers: {
-            Authorization: token,
+            'Content-Type': 'application/json'
           },
         });
-        const data = await response.json();
-        setChatRooms(data);
+        setChatRooms(response.data);
       } catch (error) {
         console.error("채팅방 데이터 가져오기 오류:", error);
       }
     };
-
     fetchChatRooms();
-  }, [onClose]);
+  }, [onClose])
+
 
   const openChatRoom = (room) => {
-    console.log("Opening chat room:", room);
     setSelectedRoom(room);
   };
 
@@ -52,7 +39,6 @@ function ChatListModal({ onClose, profile }) {
         <span>{selectedRoom ? selectedRoom.name : "채팅 목록"}</span>
         <button
           onClick={() => {
-            console.log("Modal close button clicked");
             onClose();
           }}
         >
@@ -64,7 +50,6 @@ function ChatListModal({ onClose, profile }) {
           <ChatRoomPage
             room={selectedRoom}
             onBack={() => setSelectedRoom(null)}
-            profile={profile}
           />
         ) : (
           <div className="chatlistmodal-room-list">

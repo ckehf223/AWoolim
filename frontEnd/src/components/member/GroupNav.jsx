@@ -6,16 +6,6 @@ import MyClubDetailInfo from "/src/components/member/MyClubDetailInfo";
 import { Route, Routes } from "react-router-dom";
 
 function GroupNav() {
-  const [activeContent, setActiveContent] = useState('');
-  useEffect(() => {
-    if (activeContent === '') {
-      setActiveContent('detailInfo')
-    }
-  }, [activeContent])
-
-  const handleButtonClick = (contentName) => {
-    setActiveContent(contentName);
-  };
 
   return (
     <>

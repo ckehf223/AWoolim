@@ -123,7 +123,7 @@ const ClubDetailInfo = () => {
                   <div className='ClubDetailTop_middelContentArea'>
                     <div><img src="/src/assets/images/leader.png" /><strong>모임장:</strong><span>{clubManager.nickName ? clubManager.nickName : clubManager.userName}</span></div>
                     <div><img src="/src/assets/images/age.png" /><strong>제한나이:</strong><span>{clubData.club.ageLimit}</span></div>
-                    <div><img src="/src/assets/images/gender.png" /><strong>제한성별:</strong><span>{clubData.club.clubGender}</span></div>
+                    <div><img src="/src/assets/images/gender.png" /><strong>제한성별:</strong><span> {clubData.club.clubGender === 'M' ? '남성만' : (clubData.club.clubGender === 'W' ? '여성만' : '제한없음')}</span></div>
                   </div>
                 </div>
               </div>
@@ -185,7 +185,7 @@ const ClubDetailInfo = () => {
                         <span>카테고리: {club.category}</span>
                         <span> 지역: {club.city} {club.district}</span>
                         <span>{club.regularType === 0 ? '하루' : '정기'} 모임</span>
-                        <span>성별: {club.clubGender}</span>
+                        <span>성별: {club.clubGender === 'M' ? '남성만' : (club.clubGender === 'W' ? '여성만' : '제한없음')}</span>
                         <span>나이 제한: {club.ageLimit}</span>
                         <span>모임 날짜: {club.dday}</span>
                         <span>모집인원: {club.maxMember}</span>

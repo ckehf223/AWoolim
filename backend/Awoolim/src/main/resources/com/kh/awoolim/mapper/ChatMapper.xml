@@ -3,22 +3,30 @@
 <mapper namespace="com.kh.awoolim.mapper.ChatMapper">
 
 	<!-- 채팅 메시지 삽입 -->
-	<insert id="insertChat"
-		parameterType="com.kh.awoolim.domain.Chat">
-		INSERT INTO CHAT (chatno, clubno, userid, message,
+	<insert id="insertChat" parameterType="Chat">
+		INSERT INTO CHAT (chatno,
+		clubno, userid, message,
 		regdate)
-		VALUES (CHAT_SEQ.NEXTVAL, #{clubNo}, #{userId}, #{message},
+		VALUES (CHAT_SEQ.NEXTVAL, #{clubNo},
+		#{userId}, #{message},
 		SYSDATE)
 	</insert>
 
 	<!-- 클럽 번호로 채팅 메시지 조회 -->
-	<select id="selectChatsByClubNo"
-		resultType="com.kh.awoolim.domain.Chat" parameterType="int">
-		SELECT chatno,
-		clubno, userid, message, regdate
-		FROM CHAT
-		WHERE clubno = #{clubNo}
-		ORDER BY regdate ASC
+	<select id="selectChatsByClubNo" resultType="Map"
+		parameterType="int">
+		SELECT
+		CT.CHATNO,CT.CLUBNO,CT.USERID,CT.MESSAGE,M.NICKNAME,M.USERNAME,M.USERIMAGE
+		FROM CHAT CT JOIN MEMBER M
+		ON CT.USERID = M.USERID
+		WHERE CT.CLUBNO = #{clubNo}
 	</select>
 
+	<select id="list" parameterType="int" resultType="ChatRoom">
+		SELECT CR.*
+		FROM CHATROOM CR JOIN CLUBMEMBER CM
+		ON CR.CLUBNO = CM.CLUBNO
+		WHERE
+		CM.USERID = #{userId} AND ISACCEPT = 1
+	</select>
 </mapper>

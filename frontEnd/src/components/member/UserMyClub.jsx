@@ -16,8 +16,7 @@ const UserMyClub = () => {
   useEffect(() => {
     const getMyClub = async () => {
       try {
-        const response = await instance.get(
-          "http://localhost:8080/api/club/readMyClub",
+        const response = await instance.get("/api/club/readMyClub",
           {
             headers: { "Content-Type": "application/json" },
           }

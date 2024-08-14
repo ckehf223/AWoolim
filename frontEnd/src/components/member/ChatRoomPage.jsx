@@ -1,24 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import "/src/css/member/chatroompage.css";
 import { useAuth } from "/src/common/AuthContext";
+import instance from "/src/common/auth/axios";
 
 const SOCKET_URL = "ws://localhost:8080/ws/chat";
 
-function ChatRoomPage({ room, onBack, profile }) {
+function ChatRoomPage({ room }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const { isAuthenticated } = useAuth();
+  const { loginId } = useAuth();
   const messageListRef = useRef(null);
   const socketRef = useRef(null);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      console.error("User ID not found");
-      alert("User ID를 찾을 수 없습니다. 다시 로그인하세요.");
-      return;
-    }
-
-    // WebSocket 연결 설정
     socketRef.current = new WebSocket(SOCKET_URL);
 
     socketRef.current.onopen = () => {
@@ -34,17 +28,14 @@ function ChatRoomPage({ room, onBack, profile }) {
       console.error("WebSocket error:", error);
     };
 
-    // WebSocket 연결을 유지하도록 설정
     socketRef.current.onclose = (event) => {
       console.log(
         `WebSocket connection closed: ${event.code}, reason: ${event.reason}`
       );
     };
 
-    // 메시지 초기 로딩
     fetchMessages();
 
-    // 뒤로가기 버튼이나 종료 버튼에서만 WebSocket 연결을 닫도록 설정
     return () => {
       if (
         socketRef.current &&
@@ -53,24 +44,27 @@ function ChatRoomPage({ room, onBack, profile }) {
         socketRef.current.close();
       }
     };
-  }, [room.clubNo, profile]);
+  }, [room.clubNo]);
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/chat/${room.clubNo}/messages`
+      const response = await instance.get(`/api/chat/${room.clubNo}/messages`,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
       );
-      const data = await response.json();
-      setMessages(data);
+      setMessages(response.data);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
   };
 
   const handleSendMessage = () => {
-    if (message.trim() !== "" && profile?.userId !== null) {
+    if (message.trim() !== "" && loginId !== null) {
       const chatMessage = {
-        userId: profile.userId,
+        userId: loginId,
         message: message,
         clubNo: room.clubNo,
       };
@@ -94,25 +88,22 @@ function ChatRoomPage({ room, onBack, profile }) {
     <div className="chat-room-page">
       <div className="chat-messages" ref={messageListRef}>
         <div className="message-list">
-          {messages.map((msg, index) => (
+          {messages.length > 0 && messages.map((msg, index) => (
             <div
               key={index}
-              className={`message ${msg.userId === profile.userId ? "my-message" : "other-message"
+              className={`message ${msg.USERID === loginId ? "my-message" : "other-message"
                 }`}
             >
-              {msg.userId !== profile.userId && (
+              {msg.userId !== loginId && (
                 <div className="message-info">
-                  <img
-                    className="profile-image"
-                    src={
-                      msg.profileImage || "/path/to/default/profile/image.png"
-                    }
+                  <img className="profile-image"
+                    src={`data:image/jpeg;base64,${msg.USERIMAGE}`}
                     alt="프로필"
                   />
-                  <span className="nickname">{msg.nickname}</span>
+                  <span className="nickname">{msg.NICKNAME !== null ? msg.NICKNAME : msg.USERNAME}</span>
                 </div>
               )}
-              <p>{msg.message}</p>
+              <p>{msg.MESSAGE}</p>
             </div>
           ))}
         </div>
