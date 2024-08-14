@@ -12,7 +12,7 @@ function ChatListModal({ onClose }) {
       try {
         const response = await instance.get("/api/chat/chatrooms", {
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
         });
         setChatRooms(response.data);
@@ -21,8 +21,7 @@ function ChatListModal({ onClose }) {
       }
     };
     fetchChatRooms();
-  }, [onClose])
-
+  }, [onClose]);
 
   const openChatRoom = (room) => {
     setSelectedRoom(room);
@@ -36,7 +35,7 @@ function ChatListModal({ onClose }) {
         ) : (
           <img src="/src/assets/images/headerLogo.png" alt="로고" />
         )}
-        <span>{selectedRoom ? selectedRoom.name : "채팅 목록"}</span>
+        <span>{selectedRoom ? selectedRoom.chatRoomName : "채팅 목록"}</span>
         <button
           onClick={() => {
             onClose();

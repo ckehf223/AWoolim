@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "/src/css/member/searchresult.css";
 import ClubItem from "./ClubItem";
-import { areaData } from "/src/common/areaData"
+import { areaData } from "/src/common/areaData";
 import axios from "axios";
-
 
 function SearchPage() {
   const location = useLocation();
@@ -15,7 +14,7 @@ function SearchPage() {
     district: "",
     clubGender: "",
     regularType: "",
-    category: '',
+    category: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
@@ -29,22 +28,25 @@ function SearchPage() {
 
   const fetchClubs = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/club/search', {
-        params: filters,
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await axios.get(
+        "http://localhost:8080/api/club/search",
+        {
+          params: filters,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      })
+      );
       console.log(response.data);
       if (response.data != null) {
         setClubs(response.data);
       }
       setIsLoading(true);
     } catch (error) {
-      console.error("검색한 모임정보 가져오는 중 오류 발생" + error)
+      console.error("검색한 모임정보 가져오는 중 오류 발생" + error);
       setIsLoading(true);
     }
-  }
+  };
 
   const handleFilterChange = (name, value) => {
     setFilters({
@@ -64,24 +66,22 @@ function SearchPage() {
     setSelectedDistrict(value);
     handleFilterChange("district", value);
   };
-  console.log(filters)
+  console.log(filters);
   const handleApplyFilter = () => {
     setShowFilterSection(!showFilterSection);
   };
   const handleresetFilter = () => {
     setFilters({
-      clubTitle: '',
+      clubTitle: "",
       city: "",
       district: "",
       clubGender: "",
       regularType: "",
-      category: '',
+      category: "",
     });
     setSelectedCity("");
     setSelectedDistrict("");
   };
-
-
 
   return (
     <section className="search-page">
@@ -101,7 +101,9 @@ function SearchPage() {
             <input
               type="text"
               value={filters.clubTitle}
-              onChange={(e) => { handleFilterChange('clubTitle', e.target.value) }}
+              onChange={(e) => {
+                handleFilterChange("clubTitle", e.target.value);
+              }}
               placeholder="검색어를 입력하세요"
             />
             <div className="filter-row">
@@ -178,7 +180,9 @@ function SearchPage() {
               <select
                 id="type"
                 value={filters.type}
-                onChange={(e) => handleFilterChange("regularType", e.target.value)}
+                onChange={(e) =>
+                  handleFilterChange("regularType", e.target.value)
+                }
               >
                 <option value="">전체</option>
                 <option value="1">정기모임</option>
@@ -188,25 +192,51 @@ function SearchPage() {
 
             <div className="filter-row">
               <label>카테고리:</label>
-              <select onChange={(e) => handleFilterChange("category", e.target.value)}>
-                <option defaultChecked value="">선택하세요</option>
-                <option defaultChecked value="친목">친목</option>
-                <option defaultChecked value="독서">독서</option>
-                <option defaultChecked value="전시">전시</option>
-                <option defaultChecked value="스포츠">스포츠</option>
-                <option defaultChecked value="스터디">스터디</option>
-                <option defaultChecked value="맛집탐방">맛집탐방</option>
-                <option defaultChecked value="취미활동">취미활동</option>
+              <select
+                onChange={(e) => handleFilterChange("category", e.target.value)}
+              >
+                <option defaultChecked value="">
+                  선택하세요
+                </option>
+                <option defaultChecked value="친목">
+                  친목
+                </option>
+                <option defaultChecked value="독서">
+                  독서
+                </option>
+                <option defaultChecked value="전시">
+                  전시
+                </option>
+                <option defaultChecked value="스포츠">
+                  스포츠
+                </option>
+                <option defaultChecked value="스터디">
+                  스터디
+                </option>
+                <option defaultChecked value="맛집탐방">
+                  맛집탐방
+                </option>
+                <option defaultChecked value="취미활동">
+                  취미활동
+                </option>
               </select>
             </div>
 
             <button
               className="filter-apply-button"
-              onClick={() => { fetchClubs() }}
+              onClick={() => {
+                fetchClubs();
+              }}
             >
               필터 적용
             </button>
-            <button onClick={() => { handleresetFilter() }}>초기화</button>
+            <button
+              onClick={() => {
+                handleresetFilter();
+              }}
+            >
+              초기화
+            </button>
           </div>
         </div>
       )}
@@ -220,10 +250,7 @@ function SearchPage() {
             <p>Loading...</p>
           ) : clubs.length > 0 ? (
             clubs.map((club) => (
-              <div
-                key={club.clubNo}
-                className="club-link"
-              >
+              <div key={club.clubNo} className="club-link">
                 <ClubItem club={club} />
               </div>
             ))

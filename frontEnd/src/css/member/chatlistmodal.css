@@ -25,17 +25,18 @@
 }
 
 .chatlistmodal-modal-header span {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  color: rgb(76, 76, 76);
 }
 
 .chatlistmodal-modal-header button {
   position: relative;
   margin-right: 16px;
-  font-size: 13px;
+  font-size: 14px;
   padding: 1px 8px 3px 8px;
   cursor: pointer;
   background-color: transparent; /* 배경색을 투명하게 */
@@ -61,13 +62,15 @@
   cursor: pointer;
   font-size: 17px;
   font-weight: 600;
-  color: rgb(70, 70, 70);
+  color: rgb(92, 91, 91);
   border-bottom: 1px solid rgb(220, 220, 220);
+  background-color: #f9f9f9;
+  transition: 0.2s ease;
 }
 .chatlistmodal-room-item:nth-child(2n) {
   background-color: #f9f9f9;
 }
 
 .chatlistmodal-room-item:hover {
-  background-color: #c1c1c1;
+  background-color: #ffecec;
 }
