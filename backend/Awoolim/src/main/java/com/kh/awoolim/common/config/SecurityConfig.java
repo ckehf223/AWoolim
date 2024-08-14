@@ -92,7 +92,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/faq/*").permitAll()
 				.requestMatchers("/api/club/register").hasRole("MEMBER")
 				.requestMatchers("/admin/*").hasRole("ADMIN")
-				.anyRequest().hasRole("MEMBER"));
+				.anyRequest().permitAll());
 
 		
 		

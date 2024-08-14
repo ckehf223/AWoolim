@@ -17,7 +17,10 @@ const AdminLoginMain = () => {
         if (isAuthenticated && role === 'ROLE_ADMIN') {
             nav('/admin/dashboard', { replace: true });
         }
-    }, [isAuthenticated, role, nav])
+        if (isAuthenticated && role === 'ROLE_MEMBER') {
+            nav('/', { replace: true })
+        }
+    }, [])
 
 
     const handleSubmit = async (e) => {
