@@ -15,7 +15,7 @@ const NoticeRead = () => {
     const [notice, setNotice] = useState({});
 
     useEffect(() => {
-        instance.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
+        instance.get(`/api/notices/read/${noticeNo}`)
             .then(response => {
                 setNotice(response.data);
             })
@@ -30,7 +30,7 @@ const NoticeRead = () => {
         e.preventDefault();
         const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
         if (isConfirmed) {
-            instance.delete(`http://localhost:8080/admin/notices/delete/${noticeNo}`, notice)
+            instance.delete(`/api/notices/delete/${noticeNo}`, notice)
                 .then(() => {
                     navi(`/admin/notice`);
                     window.alert("삭제 완료되었습니다.")

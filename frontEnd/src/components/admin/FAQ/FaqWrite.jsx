@@ -2,27 +2,22 @@ import '/src/css/admin/FaqWrite.css'
 import { useNavigate } from 'react-router-dom'
 import instance from "/src/common/auth/axios";
 import { useState } from 'react';
+import CustomQuill from '/src/common/CustomQuill';
 
 const FaqWrite = () => {
     const navi = useNavigate();
-    const [question, setQuestion] = useState({
-        category: '',
-        title: '',
-        answer: '',
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setQuestion({
-            ...question,
-            [name]: value
-        });
-    };
+    const [answer, setAnswer] = useState('');
+    const [category, setCategory] = useState('');
+    const [title, setTitle] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(question);
-        instance.post(`http://localhost:8080/admin/faq/insert`, question)
+        const question = {
+            category,
+            title,
+            answer
+        }
+        instance.post(`http://localhost:8080/api/faq/insert`, question)
             .then((response) => {
                 console.log("CREATE QUESTION SUCCESS", response);
                 navi('/admin/faq');
@@ -31,7 +26,6 @@ const FaqWrite = () => {
                 console.error("CREATE QUESTION ERROR", error);
             });
     };
-
     return (
         <div className="FaqWrite">
             <form onSubmit={handleSubmit}>
@@ -42,19 +36,18 @@ const FaqWrite = () => {
 
                 <div className="fwCategory">
                     <h5>☞ 카테고리 입력</h5>
-                    <input name='category' id="category" value={question.category} onChange={handleChange} placeholder='카테고리를 입력하세요' />
+                    <input id='category' value={category} onChange={(e) => { setCategory(e.target.value) }} placeholder='카테고리를 입력하세요' />
                 </div>
 
                 <div className="fwQuestion">
                     <h5>☞ 질문을 입력하세요</h5>
-                    <textarea name="title" id="title" value={question.title} onChange={handleChange}
+                    <textarea value={title} onChange={(e) => { setTitle(e.target.value) }}
                         maxLength={"1000px"} rows={"7"} placeholder='질문을 입력하세요' />
                 </div>
 
                 <div className="fwAnswer">
                     <h5>☞ 답변을 입력하세요</h5>
-                    <textarea name="answer" id="answer" value={question.answer} onChange={handleChange}
-                        maxLength={"1000px"} rows={"7"} placeholder='답변을 입력하세요' />
+                    <CustomQuill content={answer} setContent={setAnswer} width={'1160'} height={'200'} />
                 </div>
 
                 <div className='fwBtn'>

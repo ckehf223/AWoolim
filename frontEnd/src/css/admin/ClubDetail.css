@@ -93,4 +93,19 @@ h3 {
   text-transform: uppercase;
   letter-spacing: 0.05rem;
 }
-
+.club-detail-deleteArea{
+  display: flex;
+  justify-content: center;
+}
+.club-detail-delete{
+  width: 300px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgb(185, 82, 82);
+  color: white;;
+  font-size: 17px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
+.club-detail-delete:hover{
+  background-color: rgb(176, 60, 60);
+}

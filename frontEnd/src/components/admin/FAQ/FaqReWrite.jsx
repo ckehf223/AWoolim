@@ -2,37 +2,35 @@ import '/src/css/admin/FaqWrite.css'
 import instance from '/src/common/auth/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import CustomQuill from '/src/common/CustomQuill';
 
 const FaqReWrite = () => {
     const navi = useNavigate();
     const { questionNo } = useParams();
-    const [question, setQuestion] = useState({
-        category: '',
-        title: '',
-        answer: '',
-    });
+    const [answer, setAnswer] = useState('');
+    const [category, setCategory] = useState('');
+    const [title, setTitle] = useState('');
 
     useEffect(() => {
-        instance.get(`http://localhost:8080/admin/faq/read/${questionNo}`)
+        instance.get(`/api/faq/read/${questionNo}`)
             .then(response => {
-                setQuestion(response.data)
+                setAnswer(response.data.answer);
+                setCategory(response.data.category);
+                setTitle(response.data.title);
             })
             .catch(error => console.log("QUESTION FETCHING ERROR", error));
     }, [questionNo]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setQuestion({
-            ...question,
-            [name]: value
-        });
-    };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        instance.post(`http://localhost:8080/admin/faq/update/${questionNo}`, question)
+        const question = {
+            category,
+            title,
+            answer
+        }
+        instance.post(`/api/faq/update/${questionNo}`, question)
             .then(() => {
-                navi(`/admin/faq`);
+                window.location.reload();
             })
             .catch(error => console.log("UPDATE QUESTION ERROR", error));
     };
@@ -41,11 +39,17 @@ const FaqReWrite = () => {
     const handleDelete = (e) => {
         e.preventDefault();
         const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
+
         if (isConfirmed) {
-            instance.post(`http://localhost:8080/admin/faq/delete/${questionNo}`, question)
+            const question = {
+                category,
+                title,
+                answer
+            }
+            instance.post(`/api/faq/delete/${questionNo}`, question)
                 .then(() => {
-                    navi(`/admin/faq`);
-                    window.alert("삭제 완료되었습니다.")
+                    window.alert("삭제 완료되었습니다.");
+                    window.location.reload();
                 })
                 .catch(error => console.log("DELETE QUESTION ERROR", error));
         }
@@ -63,17 +67,17 @@ const FaqReWrite = () => {
 
                 <div className="fwCategory">
                     <h5>☞ 카테고리 입력</h5>
-                    <input name='category' id="category" value={question.category} onChange={handleChange} />
+                    <input name='category' id="category" value={category} onChange={(e) => { setCategory(e.target.value) }} />
                 </div>
 
                 <div className="fwQuestion">
                     <h5>☞ 질문을 입력하세요</h5>
-                    <textarea name="title" id="title" value={question.title} onChange={handleChange} maxLength={"1000px"} rows={"7"} />
+                    <textarea name="title" id="title" value={title} onChange={(e) => { setTitle(e.target.value) }} maxLength={"1000px"} rows={"7"} />
                 </div>
 
                 <div className="fwAnswer">
                     <h5>☞ 답변을 입력하세요</h5>
-                    <textarea name="answer" id="answer" value={question.answer} onChange={handleChange} maxLength={"1000px"} rows={"7"} />
+                    <CustomQuill content={answer} setContent={setAnswer} width={'1160'} height={'200'} />
                     <hr />
                 </div>
 

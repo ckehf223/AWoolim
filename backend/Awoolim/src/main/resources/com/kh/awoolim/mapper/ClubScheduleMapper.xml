@@ -17,5 +17,20 @@
 		INSERT INTO CLUBSCHEDULE VALUES(
 			CLUBSCHEDULE_SEQ.NEXTVAL, #{clubNo},#{dDay},#{content})
 	</insert>
+	
+	<select id="findBySchedule" resultType="ClubSchedule" parameterType="ClubSchedule">
+		SELECT * FROM CLUBSCHEDULE
+		WHERE CLUBNO = #{clubNo} AND DDAY = #{dDay}
+	</select>
+	
+	<update id="update">
+		UPDATE CLUBSCHEDULE SET CONTENT= #{content}
+		WHERE SCHEDULENO = #{scheduleNo}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM CLUBSCHEDULE
+		WHERE CLUBNO = #{clubNo} AND DDAY = #{dDay}
+	</delete>
 
 </mapper>

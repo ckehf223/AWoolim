@@ -26,7 +26,7 @@ const NoticeWrite = () => {
     const handleSubmit = (e) => {
         notice.content = content;
         e.preventDefault();
-        instance.post('http://localhost:8080/admin/notices/insert', notice)
+        instance.post('/api/notices/insert', notice)
             .then(() => {
                 navi('/admin/notice');
             })

@@ -108,7 +108,7 @@ const UserReport = () => {
           </div>
           <div className='UserReportHeaderArea'>
             <div className={`UserReportHeaderNav${selected === 1 ? 'selected' : ''}`} onClick={() => { onClickNav(1) }}>
-              <p className='UserReportTotalCount'>{data.length}</p>
+              <p className='UserReportTotalCount'>{reportData.length}</p>
               <p className='UserReportTotalMg'>총 신고</p>
             </div>
             <div className={`UserReportHeaderNav${selected === 2 ? 'selected' : ''}`} onClick={() => { onClickNav(2) }}>

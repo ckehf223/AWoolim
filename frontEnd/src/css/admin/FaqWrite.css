@@ -37,6 +37,7 @@
 .fwQuestion textarea{
     border-radius: 5px;
     padding: 10px;
+    resize: none;
 }
 
 .fwQuestion h5 {

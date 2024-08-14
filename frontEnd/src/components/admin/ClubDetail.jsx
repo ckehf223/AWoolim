@@ -29,6 +29,22 @@ const ClubDetail = () => {
     fetchClubDetail();
   }, [clubId, navigate]);
 
+  const deleteClub = async () => {
+    try {
+      const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
+      if (isConfirmed) {
+        await instance.post(`/admin/deleteClub/${clubId}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        navigate('/admin/club');
+      }
+    } catch (error) {
+      console.error("모임 삭제중 오류발생" + error);
+    }
+  }
+
   if (!club) {
     return <div><h2>삭제되거나 없는 모임입니다.</h2></div>; // 모임이 없으면 로딩 중 메시지 표시
   }
@@ -46,7 +62,7 @@ const ClubDetail = () => {
           <div className="select-box">지정날짜: {club.DDAY}</div>
           <div className="select-box">정기/일회: {club.REGULARTYPE === 1 ? '정기모임' : '일회모임'}</div>
           <div className="select-box">모임장: {club.LEADERNAME}</div> {/* leaderName을 Map으로부터 가져옴 */}
-          <div className="select-box">성별제한: {club.CLUBGENDER}</div>
+          <div className="select-box">성별제한: {club.CLUBGENDER === 'M' ? '남자만' : (club.CLUBGENDER === 'F' ? '여자만' : '제한없음')}</div>
           <div className="select-box">나이 제한: {club.AGELIMIT}</div>
           <div className="select-box">도시: {club.CITY}</div>
           <div className="select-box">구역: {club.DISTRICT}</div>
@@ -68,6 +84,9 @@ const ClubDetail = () => {
             <li>등록된 멤버가 없습니다.</li> // 멤버가 없을 경우
           )}
         </ul>
+      </div>
+      <div className='club-detail-deleteArea'>
+        <button className='club-detail-delete' onClick={() => { deleteClub() }}>모임 삭제</button>
       </div>
     </div>
   );

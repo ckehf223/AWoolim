@@ -37,9 +37,14 @@ const UserManager = () => {
       const isConfirmed = window.confirm('정말 삭제하시겠습니까?');
       if (isConfirmed) {
         try {
-          await instance.post('/admin/userdelete', selectedUser.userId);
-          fetchUsers();
+          await instance.post(`/admin/userdelete/${selectedUser.userId}`,
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
           window.alert('유저가 성공적으로 삭제되었습니다.');
+          window.location.reload();
         } catch (error) {
           console.error('Error deleting user : ', error);
           window.alert('유저 삭제에 실패했습니다.');

@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQ, faA } from '@fortawesome/free-solid-svg-icons';
+import DOMPurify from 'dompurify';
 
 const FaqMainCustom = () => {
-    const navi = useNavigate();
     const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const FaqMainCustom = () => {
     }, []);
 
     const fetchQuestion = (query = '') => {
-        const url = query ? `http://localhost:8080/admin/faq/category?query=${query}` : `http://localhost:8080/admin/faq/list`;
+        const url = query ? `/api/faq/category?query=${query}` : `/api/faq/list`;
         instance.get(url)
             .then(response => {
                 setQuestions(response.data);
@@ -65,7 +65,13 @@ const FaqMainCustom = () => {
                     </div>
 
                     <div className={`faqAnswer ${visibleAnswers[index] ? 'show' : ''}`}>
-                        <span><FontAwesomeIcon icon={faA} style={{ color: "blue", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />{question.answer}</span>
+                        <span>
+                            <FontAwesomeIcon icon={faA} style={{ color: "blue", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />
+                            <span dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(question.answer),
+                            }}>
+                            </span>
+                        </span>
                     </div>
                 </div>
             ))}

@@ -145,18 +145,14 @@ function CalendarPage() {
     return `${year}${month}${day}`;
   };
 
-  const saveCalendar = async () => {
+  const saveCalendar = () => {
     try {
       if (data && Object.keys(data).length > 0) {
-        await instance.post(
-          `/api/mypage/clubSchedule/register/${param.no}`,
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+        instance.post(`/api/mypage/clubSchedule/register/${param.no}`, data, {
+          headers: {
+            'Content-Type': 'application/json'
           }
-        );
+        });
         window.location.reload();
       } else {
         alert("저장할 데이터가 없습니다");
@@ -164,7 +160,25 @@ function CalendarPage() {
     } catch (error) {
       console.error("모임 스케쥴 등록중 오류발생" + error);
     }
-  };
+  }
+
+  const deleteCalendar = (date) => {
+    const fmDate = formatDate(date);
+    try {
+      instance.post(`/api/mypage/clubSchedule/delete`, {
+        clubNo: param.no,
+        day: fmDate
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      window.location.reload();
+    } catch (error) {
+      console.error("모임 스케쥴 삭제중 오류발생" + error)
+    }
+
+  }
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -210,13 +224,14 @@ function CalendarPage() {
             <div className="event-details">
               <div>
                 <h3>{value.toDateString()}</h3>
-                <button
-                  onClick={() => {
-                    saveCalendar();
-                  }}
-                >
-                  등록
-                </button>
+                <textarea
+                  value={events[value.toDateString()]?.join(", ") || ""}
+                  onChange={(e) => handleEventChange(value, e)}
+                  placeholder="모임 일정을 입력하세요."
+                />
+                <button onClick={() => { saveCalendar() }}>저장</button>
+                {events[value.toDateString()] != null && <button onClick={() => { deleteCalendar(value) }}>삭제</button>};
+
               </div>
               <textarea
                 value={events[value.toDateString()]?.join(", ") || ""}

@@ -15,7 +15,7 @@ const NoticeReWrite = () => {
     const [content, setContent] = useState('');
 
     useEffect(() => {
-        instance.get(`http://localhost:8080/admin/notices/read/${noticeNo}`)
+        instance.get(`/api/notices/read/${noticeNo}`)
             .then(response => {
                 setNotice(response.data);
                 setContent(response.data.content);    //Quill 데이터 직접 적용 
@@ -35,7 +35,7 @@ const NoticeReWrite = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         notice.content = content;
-        instance.post(`http://localhost:8080/admin/notices/update/${noticeNo}`, notice)
+        instance.post(`/api/notices/update/${noticeNo}`, notice)
             .then(() => {
                 navi(`/admin/noticeRead/${noticeNo}`);
             })

@@ -220,6 +220,9 @@ public class ClubService {
 			return null;
 		}
 	}
+	public void deleteClub(int clubNo) {
+		clubMapper.delete(clubNo);
+	}
 
 	public void modifyClub(Club club) {
 		clubMapper.modifyClub(club);

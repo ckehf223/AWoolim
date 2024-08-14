@@ -24,7 +24,7 @@ const CustomQuill = ({ content, setContent, width, height }) => {
 
   return (
     <div className='CustomQuill'>
-      <CustomToolbar style={{ width: `${width}px` }} />
+      <CustomToolbar width={width} />
       <ReactQuill
         ref={quillRef}
         value={content}
