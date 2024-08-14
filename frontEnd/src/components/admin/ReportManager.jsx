@@ -214,7 +214,10 @@ const ReportManager = () => {
                 <td>{new Date(reports.REGDATE).toLocaleDateString()}</td>
                 <td className={reports.RESULT === 1 ? 'warning' : reports.RESULT === -1 ? 'pass' : 'before'}
                 >{reports.RESULT === 1 ? '경고처리' : reports.RESULT === -1 ? '넘어감' : '처리전'}</td>
-                <td><Button outline color='secondary' onClick={() => openReportModal(reports)}>조치하기</Button></td>
+                <td>  {reports.RESULT === 1 || reports.RESULT === -1 ? (
+                  <Button outline color='secondary' >조치완료</Button>
+                ) : (
+                  <Button outline color='secondary' onClick={() => openReportModal(reports)}>조치하기</Button>)}</td>
                 <td><Button outline color="primary" onClick={() => openDetailModal(reports)}>상세보기</Button></td>
               </tr>
             ))

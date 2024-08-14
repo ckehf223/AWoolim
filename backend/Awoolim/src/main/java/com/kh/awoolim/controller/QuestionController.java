@@ -16,7 +16,7 @@ import com.kh.awoolim.domain.Question;
 import com.kh.awoolim.service.QuestionService;
 
 @RestController
-@RequestMapping("/admin/faq")
+@RequestMapping("/api/faq")
 public class QuestionController {
 
 	@Autowired

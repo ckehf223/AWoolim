@@ -4,10 +4,8 @@
 
 	<!-- 알림 생성 -->
 	<insert id="create" parameterType="com.kh.awoolim.domain.Alarm">
-		INSERT INTO ALARM (ALARMNO,
-		USERID, MESSAGE, ISREAD)
-		VALUES (#{alarmNo}, #{userId}, #{message},
-		#{isRead})
+		INSERT INTO ALARM 
+		VALUES (alarm_seq.nextval, #{userId}, #{message},#{isRead})
 	</insert>
 
 	<!-- 특정 유저의 읽지 않은 알림 목록 조회 -->

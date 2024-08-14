@@ -1,5 +1,5 @@
-export const CustomToolbar = () => (
-  <div id="toolbar" >
+export const CustomToolbar = ({ width }) => (
+  <div id="toolbar" style={{ width: `${width}px` }}  >
     <span className="ql-formats">
       <select className="ql-size" defaultValue="medium">
         <option value="small">Small</option>

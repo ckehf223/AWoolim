@@ -20,4 +20,13 @@ public class ClubScheduleService {
 	public void register(ClubSchedule cs) {
 		clubScheduleMapper.create(cs);
 	}
+	public ClubSchedule findBySchedule(ClubSchedule cs) {
+		return clubScheduleMapper.findBySchedule(cs);
+	}
+	public void update(ClubSchedule cs) {
+		clubScheduleMapper.update(cs);
+	}
+	public void delete(int clubNo,String dDay) {
+		clubScheduleMapper.delete(clubNo, dDay);
+	}
 }

@@ -25,7 +25,6 @@ export const logout = async () => {
   try {
     await instance.post('/logout', {}, { withCredentials: true });
     removeAccessToken();
-    clearRefreshToken();
     window.location.href = "/";
   } catch (error) {
     console.error('Logout failed', error);
@@ -36,7 +35,6 @@ export const adminLogout = async () => {
   try {
     await instance.post('/logout', {}, { withCredentials: true });
     removeAccessToken();
-    clearRefreshToken();
     window.location.href = "/admin/login";
   } catch (error) {
     console.error('Logout failed', error);

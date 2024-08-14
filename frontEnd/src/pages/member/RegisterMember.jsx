@@ -252,22 +252,31 @@ const RegisterMember = () => {
     return (
         <div className='RegisterMemberWrap'>
             <div className="RegisterMemberLogoArea">
-                <img src="src/assets/images/headerLogo.png" alt="어울림" />
+                <img src="src/assets/images/headerLogo.png" alt="어울림" onClick={() => { nav('/') }} />
             </div>
             <div className="RegisterMember">
                 <h2>회원 가입</h2>
                 <form className="register-form" onSubmit={handleSubmit}>
-                    <div className="RegisterMemberInputBox">
-                        <div className='RegisterMemberInputArea'>
-                            <label htmlFor="useremail"><span className='InputStarSpan'>*</span> 이메일</label>
-                            <input type="email" id="useremail" name="useremail" value={formData.useremail} placeholder='이메일 형식에 맞게 작성하세요.'
-                                onChange={handleChange} onBlur={validateEmail} required readOnly={queryParams.get('email') !== null} />
+                    {queryParams.get('email') !== null ? (
+                        <div className="RegisterMemberInputBox">
+                            <div className='RegisterMemberInputArea'>
+                                <label htmlFor="useremail"><span className='InputStarSpan'>*</span> 이메일</label>
+                                <input type="email" id="useremail" name="useremail" value={formData.useremail} required disabled />
+                            </div>
                         </div>
-                        <div className='RegisterMemberErrorArea'>
-                            {userEmailError && <span className="error">{userEmailError}</span>}
-                            {userEmailSuccess && <span className="success">{userEmailSuccess}</span>}
-                        </div>
-                    </div>
+                    ) : (
+                        <div className="RegisterMemberInputBox">
+                            <div className='RegisterMemberInputArea'>
+                                <label htmlFor="useremail"><span className='InputStarSpan'>*</span> 이메일</label>
+                                <input type="email" id="useremail" name="useremail" value={formData.useremail} placeholder='이메일 형식에 맞게 작성하세요.'
+                                    onChange={handleChange} onBlur={validateEmail} required />
+                            </div>
+                            <div className='RegisterMemberErrorArea'>
+                                {userEmailError && <span className="error">{userEmailError}</span>}
+                                {userEmailSuccess && <span className="success">{userEmailSuccess}</span>}
+                            </div>
+                        </div>)}
+
                     <div className="RegisterMemberInputBox">
                         {queryParams.size == 0 && (<div className='RegisterMemberInputArea'>
                             <label htmlFor="password"><span className='InputStarSpan'>*</span> 비밀번호</label>
@@ -295,16 +304,27 @@ const RegisterMember = () => {
                             {passwordCheckError && <span className='error' style={{ width: "24%", maginRight: "5px" }}>{passwordCheckError}</span>}
                         </div>
                     </div>
-                    <div className="RegisterMemberInputBox">
-                        <div className='RegisterMemberInputArea'>
-                            <label htmlFor="username"><span className='InputStarSpan'>*</span> 이름</label>
-                            <input type="text" name="username" value={formData.username} onChange={handleChange} onBlur={validateUserNamePatten} required placeholder='2~7자 한글로 작성하세요.'
-                                readOnly={queryParams.get('name') !== null} />
+                    {queryParams.get('name') !== null ? (
+                        <div className="RegisterMemberInputBox">
+                            <div className='RegisterMemberInputArea'>
+                                <label htmlFor="username"><span className='InputStarSpan'>*</span> 이름</label>
+                                <input type="text" name="username" value={formData.username} disabled />
+                            </div>
                         </div>
-                        <div className='RegisterMemberErrorArea'>
-                            {userNameError && <span className='error' style={{ width: "23%", marginRight: "5px" }}>{userNameError}</span>}
+                    ) : (
+                        <div className="RegisterMemberInputBox">
+                            <div className='RegisterMemberInputArea'>
+                                <label htmlFor="username"><span className='InputStarSpan'>*</span> 이름</label>
+                                <input type="text" name="username" value={formData.username} onChange={handleChange} onBlur={validateUserNamePatten} required placeholder='2~7자 한글로 작성하세요.'
+                                    readOnly={queryParams.get('name') !== null} />
+                            </div>
+                            <div className='RegisterMemberErrorArea'>
+                                {userNameError && <span className='error' style={{ width: "23%", marginRight: "5px" }}>{userNameError}</span>}
+                            </div>
                         </div>
-                    </div>
+                    )
+                    }
+
                     <div className="RegisterMemberInputBox">
                         <div className='RegisterMemberInputArea'>
                             <label htmlFor="usergender"><span className='InputStarSpan'>*</span> 성별</label>
