@@ -28,7 +28,7 @@
   display: flex;
   margin-top: 50px;
   flex-wrap: wrap; /* 이미지 개수에 따라 줄바꿈 */
-  justify-content: center;
+  justify-content: start;
   gap: 43px; /* 이미지 간격 */
   width: 100%;
   height: 350px;

@@ -98,17 +98,15 @@ const UserMyClub = () => {
                 <>
                   {apprClub.map((club) => (
                     <div className="UserMyClubBox" key={club.clubNo}>
-                      <div className="UserMyClubInfoBox">
-                        <div className="UserMyClubImageBox">
-                          <img
-                            src={`data:image/jpeg;base64,${club.clubImage}`}
-                            alt="모임 사진"
-                          />
-                        </div>
-                        <div className="UserMyClubInfo">
-                          <p className="UserMyClubCategory">{club.category}</p>
-                          <p className="UserMyClubTitle">{club.clubTitle}</p>
-                        </div>
+                      <div className="UserMyClubImageBox">
+                        <img
+                          src={`data:image/jpeg;base64,${club.clubImage}`}
+                          alt="모임 사진"
+                        />
+                      </div>
+                      <div className="UserMyClubInfo">
+                        <p className="UserMyClubCategory">{club.category}</p>
+                        <p className="UserMyClubTitle">{club.clubTitle}</p>
                       </div>
                       <div className="UserMyClubInfo">
                         <p className="UserMyClubCategory">

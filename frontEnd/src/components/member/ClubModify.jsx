@@ -1,42 +1,45 @@
-import { useEffect, useMemo, useState } from 'react';
-import '/src/css/member/ClubModify.css'
-import CustomQuill from '/src/common/CustomQuill';
-import { Button } from 'reactstrap'
-import { useNavigate, useParams } from 'react-router-dom';
-import instance from '/src/common/auth/axios';
-import imageCompression from 'browser-image-compression';
-import { areaData } from '/src/common/areaData';
+import { useEffect, useMemo, useState } from "react";
+import "/src/css/member/ClubModify.css";
+import CustomQuill from "/src/common/CustomQuill";
+import { Button } from "reactstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import instance from "/src/common/auth/axios";
+import imageCompression from "browser-image-compression";
+import { areaData } from "/src/common/areaData";
 
 const ClubModify = () => {
   const param = useParams();
   const nav = useNavigate();
-  const [clubData, setClubData] = useState('');
-  const [clubTitle, setClubTitle] = useState('')
-  const [type, setType] = useState('');
-  const [message, setMessage] = useState('');
-  const [dayValue, setDayValue] = useState('');
-  const [maxMember, setMaxMember] = useState('')
-  const [clubGender, setClubGender] = useState('')
-  const [ageLimit, setAgeLimit] = useState('');
-  const [regularyType, setRegularyType] = useState('');
-  const [selectedButton, setSelectedButton] = useState('');
-  const [fileInput, setFileInput] = useState('');
+  const [clubData, setClubData] = useState("");
+  const [clubTitle, setClubTitle] = useState("");
+  const [type, setType] = useState("");
+  const [message, setMessage] = useState("");
+  const [dayValue, setDayValue] = useState("");
+  const [maxMember, setMaxMember] = useState("");
+  const [clubGender, setClubGender] = useState("");
+  const [ageLimit, setAgeLimit] = useState("");
+  const [regularyType, setRegularyType] = useState("");
+  const [selectedButton, setSelectedButton] = useState("");
+  const [fileInput, setFileInput] = useState("");
   const [imageSrc, setImageSrc] = useState(``);
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedDistrict, setSelectedDistrict] = useState('');
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('');
-  const [file, setFile] = useState('');
-  const [recruitment, setRecruitment] = useState('');
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [content, setContent] = useState("");
+  const [category, setCategory] = useState("");
+  const [file, setFile] = useState("");
+  const [recruitment, setRecruitment] = useState("");
 
   useEffect(() => {
     const clubData = async () => {
       try {
-        const response = await instance.get(`http://localhost:8080/api/club/modify/${param.no}`, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        const response = await instance.get(
+          `http://localhost:8080/api/club/modify/${param.no}`,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           }
-        })
+        );
         setClubData(response.data);
         setCategory(response.data.category);
         setAgeLimit(response.data.ageLimit);
@@ -44,11 +47,11 @@ const ClubModify = () => {
         setMaxMember(response.data.maxMember);
         setClubTitle(response.data.clubTitle);
         setRegularyType(response.data.regularType);
-        setMessage(response.data.regularType === 0 ? '만나는 날' : '모임 주기');
-        setType(response.data.regularType === 0 ? 'date' : 'text');
+        setMessage(response.data.regularType === 0 ? "만나는 날" : "모임 주기");
+        setType(response.data.regularType === 0 ? "date" : "text");
         setDayValue(response.data.dday);
         setSelectedButton(response.data.regularType);
-        setImageSrc('data:image/jpeg;base64,' + response.data.clubImage);
+        setImageSrc("data:image/jpeg;base64," + response.data.clubImage);
         setSelectedCity(response.data.city);
         setSelectedDistrict(response.data.district);
         setContent(response.data.detailInfo);
@@ -69,11 +72,9 @@ const ClubModify = () => {
     };
   }, []);
 
-
-
   const handleCityClick = (city) => {
     setSelectedCity(city);
-    setSelectedDistrict('');
+    setSelectedDistrict("");
   };
 
   const handleDistrictClick = (district) => {
@@ -81,7 +82,7 @@ const ClubModify = () => {
   };
 
   const getDistricts = (city) => {
-    const selectedArea = areaData.find(area => area.city === city);
+    const selectedArea = areaData.find((area) => area.city === city);
     return selectedArea ? selectedArea.data : [];
   };
 
@@ -90,15 +91,15 @@ const ClubModify = () => {
     if (regex.test(e.target.value)) {
       setMaxMember(e.target.value);
     }
-  }
+  };
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file && file.type.startsWith("image/")) {
       const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 800,
-        useWebWorker: true
+        useWebWorker: true,
       };
       try {
         const compressedFile = await imageCompression(file, options);
@@ -110,7 +111,7 @@ const ClubModify = () => {
         };
         reader.readAsDataURL(file);
       } catch (error) {
-        console.error('이미지 리사이즈 실패:', error);
+        console.error("이미지 리사이즈 실패:", error);
       }
     }
   };
@@ -124,111 +125,180 @@ const ClubModify = () => {
     setSelectedButton(buttonId);
     setRegularyType(buttonId);
     if (buttonId === 0) {
-      setType('date');
-      setMessage('만나는 날');
-      setDayValue('');
+      setType("date");
+      setMessage("만나는 날");
+      setDayValue("");
     } else {
-      setType('text');
-      setMessage('모임 주기');
-      setDayValue('');
+      setType("text");
+      setMessage("모임 주기");
+      setDayValue("");
     }
   };
 
   const onRegisterClub = async () => {
-    if (dayValue === '' || regularyType === '' || selectedButton === '' || selectedCity === ''
-      || clubTitle === '' || !category === '' || ageLimit === '' || maxMember === '') {
-      alert('모임명,카테고리,모임주기,정원,모집 나이,지역은 필수입력 사항입니다.');
+    if (
+      dayValue === "" ||
+      regularyType === "" ||
+      selectedButton === "" ||
+      selectedCity === "" ||
+      clubTitle === "" ||
+      !category === "" ||
+      ageLimit === "" ||
+      maxMember === ""
+    ) {
+      alert(
+        "모임명,카테고리,모임주기,정원,모집 나이,지역은 필수입력 사항입니다."
+      );
     } else {
       try {
         const formData = new FormData();
-        formData.append('clubNo', clubData.clubNo);
-        formData.append('clubTitle', clubTitle);
-        formData.append('clubGender', clubGender);
-        formData.append('category', category);
-        formData.append('city', selectedCity);
-        formData.append('ageLimit', ageLimit);
-        formData.append('regularType', regularyType);
-        formData.append('maxMember', maxMember);
-        formData.append('dDay', dayValue);
-        formData.append('detailInfo', content);
-        formData.append('recruitment', recruitment);
+        formData.append("clubNo", clubData.clubNo);
+        formData.append("clubTitle", clubTitle);
+        formData.append("clubGender", clubGender);
+        formData.append("category", category);
+        formData.append("city", selectedCity);
+        formData.append("ageLimit", ageLimit);
+        formData.append("regularType", regularyType);
+        formData.append("maxMember", maxMember);
+        formData.append("dDay", dayValue);
+        formData.append("detailInfo", content);
+        formData.append("recruitment", recruitment);
         if (file) {
-          formData.append('clubImage', file, file.name);
+          formData.append("clubImage", file, file.name);
         }
 
-        if (selectedDistrict === '') {
-          formData.append('district', '전체');
+        if (selectedDistrict === "") {
+          formData.append("district", "전체");
         } else {
-          formData.append('district', selectedDistrict);
+          formData.append("district", selectedDistrict);
         }
-        if (imageSrc !== '' && imageSrc.split('base64,')[1] !== clubData.clubImage) {
-          formData.append('checkImage', '1');
+        if (
+          imageSrc !== "" &&
+          imageSrc.split("base64,")[1] !== clubData.clubImage
+        ) {
+          formData.append("checkImage", "1");
         } else {
-          formData.append('checkImage', '0');
+          formData.append("checkImage", "0");
         }
 
-        await instance.post('/api/club/modify', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }).then(response => {
-          alert('모임수정이 완료되었습니다.');
-          window.location.reload();
-        }).catch(error => {
-          console.log(error);
-          alert('모임 수정 요청 중 오류가 발생하였습니다 \n 잠시 후 다시 시도해주세요');
-        })
+        await instance
+          .post("/api/club/modify", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            alert("모임수정이 완료되었습니다.");
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+            alert(
+              "모임 수정 요청 중 오류가 발생하였습니다 \n 잠시 후 다시 시도해주세요"
+            );
+          });
       } catch (error) {
         console.log(error);
-        alert('모임 수정 요청 중 오류가 발생하였습니다 \n 잠시 후 다시 시도해주세요');
+        alert(
+          "모임 수정 요청 중 오류가 발생하였습니다 \n 잠시 후 다시 시도해주세요"
+        );
       }
     }
-  }
-
-
+  };
 
   const buttonStyles = {
-    default: { backgroundColor: 'white', color: 'black' },
-    selected: { backgroundColor: 'black', color: 'white' },
+    default: { backgroundColor: "white", color: "black" },
+    selected: { backgroundColor: "black", color: "white" },
   };
 
   return (
     <>
-      <div className='MyClubManagerMainArea'>
-        <div>
-          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/modify/${param.no}`)}>정보 수정</Button>{' '}
-          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/member/${param.no}`)}>모임 멤버</Button>{' '}
-          <Button variant="primary" onClick={() => nav(`/mypage/clubmanager/accept/${param.no}`)}>신청 관리</Button>{' '}
+      <div className="MyClubManagerMainArea">
+        <div className="myclubmanagerbutton">
+          <Button
+            variant="primary"
+            onClick={() => nav(`/mypage/clubmanager/modify/${param.no}`)}
+          >
+            정보 수정
+          </Button>{" "}
+          <Button
+            variant="primary"
+            onClick={() => nav(`/mypage/clubmanager/member/${param.no}`)}
+          >
+            모임 멤버
+          </Button>{" "}
+          <Button
+            variant="primary"
+            onClick={() => nav(`/mypage/clubmanager/accept/${param.no}`)}
+          >
+            신청 관리
+          </Button>{" "}
         </div>
-        <div className='MyClubManagerContentArea'>
+        <div className="MyClubManagerContentArea">
           <div className="ClubModify">
             <div className="ClubModifyWrap">
               <div className="ClubModifyTopArea">
                 <div className="ClubModifyTopBox">
                   <div className="ClubModifyfileBox">
-                    <h5><b>모임 프로필 사진</b></h5>
-                    <div className="ClubModifyPreview">
-                      <img src={imageSrc} alt="미리보기" />
+                    <div>
+                      <span>모임 프로필 사진</span>
+                      <div className="ClubModifyPreview">
+                        <img src={imageSrc} alt="미리보기" />
+                      </div>
+                      <div className="clubmodifyimginput">
+                        <input
+                          className="ClubModifyupload-name"
+                          value={fileInput}
+                          onChange={handleImageChange}
+                          placeholder="이미지 "
+                          readOnly
+                        />
+                        <label htmlFor="imageUpload">파일찾기</label>
+                        <input
+                          type="file"
+                          id="imageUpload"
+                          accept=".jpg, .jpeg, .png, .gif, .webp"
+                          onChange={handleImageChange}
+                        />
+                      </div>
                     </div>
-                    <input className="ClubModifyupload-name" value={fileInput} onChange={handleImageChange} placeholder="첨부파일" readOnly />
-                    <label htmlFor="imageUpload">파일찾기</label>
-                    <input type="file" id="imageUpload" accept=".jpg, .jpeg, .png, .gif, .webp" onChange={handleImageChange} />
                   </div>
                   <div className="ClubModifyNcBox">
                     <div className="ClubModifyStateBox">
                       <label htmlFor="ClubState">모집 상태</label>
-                      <select type="text" name="ClubState" id="ClubState" value={recruitment} onChange={(e) => { setRecruitment(e.target.value) }} >
+                      <select
+                        type="text"
+                        name="ClubState"
+                        id="ClubState"
+                        value={recruitment}
+                        onChange={(e) => {
+                          setRecruitment(e.target.value);
+                        }}
+                      >
                         <option value={1}>모집 중</option>
                         <option value={0}>모집 마감</option>
                       </select>
                     </div>
                     <div className="ClubModifyNameBox">
                       <label htmlFor="ClubName">모임명</label>
-                      <input type="text" name="ClubName" id="ClubName" value={clubTitle} onChange={(e) => { setClubTitle(e.target.value) }} />
+                      <input
+                        type="text"
+                        name="ClubName"
+                        id="ClubName"
+                        value={clubTitle}
+                        onChange={(e) => {
+                          setClubTitle(e.target.value);
+                        }}
+                      />
                     </div>
                     <div className="ClubModifyCategoryBox">
                       <label htmlFor="ClubModifyCategory">카테고리</label>
-                      <select value={category} onChange={(e) => { setCategory(e.target.value) }}>
+                      <select
+                        value={category}
+                        onChange={(e) => {
+                          setCategory(e.target.value);
+                        }}
+                      >
                         <option value={""}>선택하세요</option>
                         <option value="친목">친목</option>
                         <option value="독서">독서</option>
@@ -239,60 +309,124 @@ const ClubModify = () => {
                         <option value="취미활동">취미활동</option>
                       </select>
                     </div>
+                    <div className="ClubModifyChoice">
+                      <button
+                        className="daySelect"
+                        style={
+                          selectedButton === 0
+                            ? buttonStyles.selected
+                            : buttonStyles.default
+                        }
+                        onClick={() => {
+                          handleClick(0);
+                        }}
+                      >
+                        일회성
+                      </button>
+                      <button
+                        className="daySelect"
+                        style={
+                          selectedButton === 1
+                            ? buttonStyles.selected
+                            : buttonStyles.default
+                        }
+                        onClick={() => {
+                          handleClick(1);
+                        }}
+                      >
+                        정기모임
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div className="ClubModifyChoiceArea">
-                  <div className="ClubModifyChoice">
-                    <button className="daySelect" style={selectedButton === 0 ? buttonStyles.selected : buttonStyles.default} onClick={() => { handleClick(0) }}>일회성</button>
-                    <button className="daySelect" style={selectedButton === 1 ? buttonStyles.selected : buttonStyles.default} onClick={() => { handleClick(1) }}>정기모임</button>
-                  </div>
-
                   <div className="ClubModifyChoiceSection">
+                    <div className="venueBox">
+                      <span>지역 선택</span>
+                      <div className="venueChoice">
+                        <div className="venueChoiceLocal">
+                          <ul>
+                            {areaData.map((area, index) => (
+                              <li
+                                key={index}
+                                onClick={() => handleCityClick(area.city)}
+                              >
+                                {area.city}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="venueChoiceCity">
+                          <ul>
+                            {getDistricts(selectedCity).map(
+                              (district, index) => (
+                                <li
+                                  key={index}
+                                  data-dis={district}
+                                  onClick={() => handleDistrictClick(district)}
+                                >
+                                  {district}
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                     <div className="ClubModifyChoiceBoxArea">
                       <div className="ClubModifyChoiceBox">
                         <label htmlFor="">{message}</label>
-                        <input type={type} name="regularyType" value={dayValue} onChange={onSetInput} />
+                        <input
+                          type={type}
+                          name="regularyType"
+                          value={dayValue}
+                          onChange={onSetInput}
+                        />
                       </div>
                       <div className="ClubModifyChoiceBox">
                         <label htmlFor="MaxPerson">정원</label>
-                        <input type="text" name="MaxPerson" id="MaxPerson" value={maxMember} onChange={changeMaxPerson} />
+                        <input
+                          type="text"
+                          name="MaxPerson"
+                          id="MaxPerson"
+                          value={maxMember}
+                          onChange={changeMaxPerson}
+                        />
                       </div>
                       <div className="ClubModifyChoiceBox">
                         <label htmlFor="ClubGender">모집 성별</label>
-                        <select name="ClubGender" id="ClubGender" value={clubGender} onChange={(e) => { setClubGender(e.target.value) }}>
-                          <option defaultValue="제한없음" defaultChecked>제한없음</option>
+                        <select
+                          name="ClubGender"
+                          id="ClubGender"
+                          value={clubGender}
+                          onChange={(e) => {
+                            setClubGender(e.target.value);
+                          }}
+                        >
+                          <option defaultValue="제한없음" defaultChecked>
+                            제한없음
+                          </option>
                           <option value="M">남자만</option>
                           <option value="F">여자만</option>
                         </select>
                       </div>
                       <div className="ClubModifyChoiceBox">
                         <label htmlFor="">모집 나이</label>
-                        <input type="text" value={ageLimit} onChange={(e) => { setAgeLimit(e.target.value) }} />
+                        <input
+                          type="text"
+                          value={ageLimit}
+                          onChange={(e) => {
+                            setAgeLimit(e.target.value);
+                          }}
+                        />
                       </div>
                       <div className="ClubModifyChoiceBox">
                         <label htmlFor="">지역</label>
-                        <input type="text" readOnly value={selectedCity + " " + selectedDistrict} />
-                      </div>
-                    </div>
-                    <div className="ClubModifyVenueBox">
-                      <h3>지역 선택</h3>
-                      <div className="ClubModifyVenueChoice">
-                        <div className="ClubModifyVenueChoiceLocal">
-                          <ul>
-                            {areaData.map((area, index) => (
-                              <li key={index} onClick={() => handleCityClick(area.city)}>
-                                {area.city}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="ClubModifyVenueChoiceCity">
-                          <ul>
-                            {getDistricts(selectedCity).map((district, index) => (
-                              <li key={index} data-dis={district} onClick={() => handleDistrictClick(district)}>{district}</li>
-                            ))}
-                          </ul>
-                        </div>
+                        <input
+                          type="text"
+                          readOnly
+                          value={selectedCity + " " + selectedDistrict}
+                        />
                       </div>
                     </div>
                   </div>
@@ -300,17 +434,29 @@ const ClubModify = () => {
               </div>
               <div className="ClubModifySection">
                 <h3>상세 정보</h3>
-                <CustomQuill width={'900'} height={'300'} content={content} setContent={setContent} />
+                <CustomQuill
+                  width={1000}
+                  height={300}
+                  content={content}
+                  setContent={setContent}
+                />
               </div>
               <div className="ClubModifyButtonArea">
-                <button className="modifyButton" onClick={() => { onRegisterClub() }}>수정</button>
+                <button
+                  className="modifyButton"
+                  onClick={() => {
+                    onRegisterClub();
+                  }}
+                >
+                  수정
+                </button>
               </div>
             </div>
-          </div >
+          </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ClubModify
+export default ClubModify;

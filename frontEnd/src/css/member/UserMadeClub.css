@@ -1,89 +1,93 @@
-.UserMadeClub{
+.UserMadeClub {
   margin: 0;
   text-align: left;
   min-height: 900px;
 }
-.UserMadeClubWrap{
+.UserMadeClubWrap {
   margin: 0 auto;
 }
-.UserMadeClubContentBorder{
+.UserMadeClubContentBorder {
   border-bottom: 3px solid #222;
   padding-bottom: 16px;
 }
-.UserMadeClubTitle h4{
+.UserMadeClubTitle h4 {
   margin: 0;
   font-size: 22px;
   font-weight: bold;
 }
-.UserMadeClubMainArea{
+.UserMadeClubMainArea {
   width: 100%;
   margin-top: 30px;
 }
-.UserMadeClubArea{
+.UserMadeClubArea {
   margin: 0;
   padding: 0;
 }
-.UserMadeClubSortBox{
+.UserMadeClubArea > p {
+  margin-left: 16px;
+  font-size: 20px;
+}
+.UserMadeClubSortBox {
   padding: 10px;
 }
-.UserMadeClubBox{
+.UserMadeClubBox {
   align-items: center;
-  border-bottom: 1px solid rgb(0,0,0,0.3);
+  border-bottom: 1px solid rgb(0, 0, 0, 0.3);
   display: flex;
-  padding: 12px;
+  padding: 15px 20px 15px 15px;
   justify-content: space-between;
 }
-.UserMadeClubInfoBox{
+.UserMadeClubInfoBox {
   display: flex;
+  flex-direction: column;
   gap: 30px;
 }
-.UserMadeClubMgBox{
+.UserMadeClubMgBox {
   display: flex;
-  justify-content: center;
-  text-align: center;
-  gap: 80px;
-  margin-left: 80px;
+  flex-direction: column;
+  gap: 30px;
 }
-.UserMadeClubImageBox{
+.UserMadeClubImageBox {
   position: relative;
 }
-.UserMadeClubImageBox img{
-  width: 200px;
-  height: 115px;
+.UserMadeClubImageBox img {
+  width: 300px;
+  height: 200px;
   border-radius: 12px;
   object-fit: cover;
 }
-.UserMadeClubInfo{
+.UserMadeClubInfo {
   display: flex;
   align-self: center;
   flex-direction: column;
   gap: 15px;
 }
-.UserMadeClubCategory{
+.UserMadeClubCategory {
   font-size: 20px;
   font-weight: bold;
   margin: 0;
 }
-.UserMadeClubTitle{
+.UserMadeClubTitle {
   font-size: 16px;
   margin: 0;
 }
-.UserMadeClubButtonArea{
+.UserMadeClubButtonArea {
   display: flex;
-  gap: 50px;
+  gap: 40px;
 }
-.UserMadeClubBoardImg,.UserMadeClubExitImg{
+.UserMadeClubBoardImg,
+.UserMadeClubExitImg {
   width: 30px;
   height: 30px;
   cursor: pointer;
- }
-.UserMadeClubNoneArea{
+}
+.UserMadeClubNoneArea {
   width: 100%;
   height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.UserMadeClubNoneArea p{
+.UserMadeClubNoneArea p {
   font-size: 20px;
 }
