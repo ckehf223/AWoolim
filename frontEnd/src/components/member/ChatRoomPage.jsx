@@ -8,6 +8,7 @@ const SOCKET_URL = "ws://localhost:8080/ws/chat";
 function ChatRoomPage({ room }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [user, setUser] = useState('');
   const { loginId } = useAuth();
   const messageListRef = useRef(null);
   const socketRef = useRef(null);
@@ -22,7 +23,6 @@ function ChatRoomPage({ room }) {
     socketRef.current.onmessage = (event) => {
       const newMessage = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
-      console.log(newMessage);
     };
 
     socketRef.current.onerror = (error) => {
@@ -36,6 +36,7 @@ function ChatRoomPage({ room }) {
     };
 
     fetchMessages();
+
 
     return () => {
       if (
@@ -54,18 +55,20 @@ function ChatRoomPage({ room }) {
           "Content-Type": "application/json",
         },
       });
+      setUser(() => { return response.data.find((msg) => { return msg.USERID === loginId }) })
       setMessages(response.data);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
   };
-
   const handleSendMessage = () => {
     if (message.trim() !== "" && loginId !== null) {
       const chatMessage = {
-        userId: loginId,
-        message: message,
-        clubNo: room.clubNo,
+        USERID: loginId,
+        MESSAGE: message,
+        CLUBNO: room.clubNo,
+        NICKNAME: user.NICKNAME,
+        USERNAME: user.USERNAME
       };
 
       socketRef.current.send(JSON.stringify(chatMessage));
@@ -82,7 +85,6 @@ function ChatRoomPage({ room }) {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
   return (
     <div className="chat-room-page">
       <div className="chat-messages" ref={messageListRef}>
@@ -91,7 +93,7 @@ function ChatRoomPage({ room }) {
             messages.map((msg, index) => (
               <div
                 key={index}
-                className={`message ${msg.USERID === loginId ? "my-message" : "other-message"
+                className={`message ${msg.USERID === loginId || msg.userId === loginId ? "my-message" : "other-message"
                   }`}
               >
                 {msg.USERID !== loginId && (

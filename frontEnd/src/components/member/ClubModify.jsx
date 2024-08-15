@@ -205,7 +205,21 @@ const ClubModify = () => {
       }
     }
   };
-
+  const deleteClub = async () => {
+    try {
+      const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
+      if (isConfirmed) {
+        await instance.post(`/api/club/deleteClub/${param.no}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        nav('/mypage/madeclub', { replace: true });
+      }
+    } catch (error) {
+      console.error("모임 삭제중 에러 발생" + error);
+    }
+  }
   const buttonStyles = {
     default: { backgroundColor: "white", color: "black" },
     selected: { backgroundColor: "black", color: "white" },
@@ -442,14 +456,8 @@ const ClubModify = () => {
                 />
               </div>
               <div className="ClubModifyButtonArea">
-                <button
-                  className="modifyButton"
-                  onClick={() => {
-                    onRegisterClub();
-                  }}
-                >
-                  수정
-                </button>
+                <button className="modifyButton" onClick={() => { onRegisterClub(); }}>수정 </button>
+                <button className="deleteClubButton" onClick={() => { deleteClub() }}>삭제</button>
               </div>
             </div>
           </div>

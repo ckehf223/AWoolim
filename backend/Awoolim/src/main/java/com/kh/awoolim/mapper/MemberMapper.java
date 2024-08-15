@@ -21,4 +21,6 @@ public interface MemberMapper {
 	public void updateProfile(Member member);
 	
 	public void updateUser(Member member);
+	
+	public String getUserImage(int userId);
 }

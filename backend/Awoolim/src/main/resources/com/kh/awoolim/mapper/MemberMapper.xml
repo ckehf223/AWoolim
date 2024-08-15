@@ -55,4 +55,9 @@
 		USEREMAIL = #{userEmail},USERPHONE = #{userPhone}, PASSWORD = #{password}
 		WHERE USERID = #{userId}
 	</update>
+	
+	<select id="getUserImage" resultType="String">
+		SELECT USERIMAGE FROM MEMBER
+		WHERE USERID = #{userId}
+	</select>
 </mapper>

@@ -20,6 +20,7 @@
 		FROM CHAT CT JOIN MEMBER M
 		ON CT.USERID = M.USERID
 		WHERE CT.CLUBNO = #{clubNo}
+		ORDER BY CT.CHATNO ASC
 	</select>
 
 	<select id="list" parameterType="int" resultType="ChatRoom">

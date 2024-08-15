@@ -11,28 +11,43 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.awoolim.domain.Chat;
 import com.kh.awoolim.service.ChatService;
+import com.kh.awoolim.service.MemberService;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
 	private final ObjectMapper objectMapper;
 	private final ChatService chatService;
+	private final MemberService memberService;
 	private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
-
-	public ChatWebSocketHandler(ObjectMapper objectMapper, ChatService chatService) {
+	
+	public ChatWebSocketHandler(ObjectMapper objectMapper, ChatService chatService,MemberService memberService) {
 		this.objectMapper = objectMapper;
 		this.chatService = chatService;
+		this.memberService = memberService;
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		Chat chat = objectMapper.readValue(message.getPayload(), Chat.class);
-		chatService.saveMessage(chat);
+		Map<String,Object> list = objectMapper.readValue(message.getPayload(), Map.class);
+		try {
+			Chat chat = new Chat();
+			chat.setClubNo((Integer) list.get("CLUBNO"));
+			chat.setMessage((String) list.get("MESSAGE")); 
+			chat.setUserId((Integer) list.get("USERID")); 
+			chatService.saveMessage(chat);
+			String userImage = memberService.getUserImage(chat.getUserId());
+			list.put("USERIMAGE", userImage);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
 		// 모든 세션에 메시지를 전송
 		sessions.forEach((id, s) -> {
 			try {
-				s.sendMessage(new TextMessage(objectMapper.writeValueAsString(chat)));
+				s.sendMessage(new TextMessage(objectMapper.writeValueAsString(list)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

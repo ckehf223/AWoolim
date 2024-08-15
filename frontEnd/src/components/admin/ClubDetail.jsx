@@ -39,6 +39,7 @@ const ClubDetail = () => {
           }
         })
         navigate('/admin/club');
+        window.location.reload();
       }
     } catch (error) {
       console.error("모임 삭제중 오류발생" + error);

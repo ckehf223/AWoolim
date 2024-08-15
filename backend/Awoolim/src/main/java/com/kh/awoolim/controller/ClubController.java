@@ -376,7 +376,7 @@ public class ClubController {
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-		}
+		} 
 	}
 
 	@PostMapping("/refuseClubMember")
@@ -407,7 +407,15 @@ public class ClubController {
 		}
 	}
 	
-	
+	@PostMapping("/deleteClub/{clubNo}")
+	public void deleteClub(@PathVariable("clubNo") int clubNo,HttpServletResponse response) {
+		try {
+			clubService.deleteClub(clubNo);
+			response.setStatus(HttpStatus.OK.value());
+		}catch(Exception e) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}
+	}
 	public void deleteFile(String fileName) {
 		// 이미지 파일의 절대 경로를 생성
 		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);
