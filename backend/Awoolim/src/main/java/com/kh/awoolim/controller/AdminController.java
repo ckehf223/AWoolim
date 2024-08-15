@@ -1,5 +1,9 @@
 package com.kh.awoolim.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +23,7 @@ import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.domain.Report;
 import com.kh.awoolim.service.AdminService;
 import com.kh.awoolim.service.ClubService;
+import com.kh.awoolim.service.MemberService;
 import com.kh.awoolim.service.ReportService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,6 +38,8 @@ public class AdminController {
     private ReportService reportService;
     @Autowired
     private ClubService clubService;
+    @Autowired
+    private MemberService memberService;
     // 회원 목록 조회
     @GetMapping("/userlist")
     public List<Member> userLIst() {
@@ -43,6 +50,13 @@ public class AdminController {
     @PostMapping("/userdelete/{userId}")
     public void deleteUser(@PathVariable("userId") int userId,HttpServletResponse response) {
     	try {
+    		Member member = memberService.readMember(userId);
+			if (!member.getUserImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
+				deleteFile(member.getUserImage());
+			}
+			if (member.getUserBackImage() != "null" && member.getUserBackImage()!= null &&!member.getUserBackImage().trim().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
+				deleteFile(member.getUserBackImage());
+			}
     		adminService.deleteUser(userId);
     		response.setStatus(HttpStatus.OK.value());
     	}catch(Exception e) {
@@ -79,6 +93,10 @@ public class AdminController {
     @PostMapping("/deleteClub/{clubNo}")
 	public void deleteClub(@PathVariable("clubNo") int clubNo,HttpServletResponse response) {
 		try {
+			Club club = clubService.readByClub(clubNo);
+			if (!club.getClubImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
+				deleteFile(club.getClubImage());
+			}
 			clubService.deleteClub(clubNo);
 			response.setStatus(HttpStatus.OK.value());
 		}catch(Exception e) {
@@ -119,4 +137,16 @@ public class AdminController {
     public void updateReportResult(@RequestBody Report report) {
         reportService.updateReportResult(report);
     }
+    
+    public void deleteFile(String fileName) {
+		// 이미지 파일의 절대 경로를 생성
+		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);
+
+		try {
+			Files.deleteIfExists(filePath); // 파일이 존재하는 경우 삭제
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("file 삭제중 오류발생");
+		}
+	}
 }

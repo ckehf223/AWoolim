@@ -48,9 +48,6 @@ a {
 .faqNav button:hover {
     cursor: pointer;
 }
-.faqNav button:focus {
-    background-color : rgb(3, 202, 3);
-}
 
 .faqQuestion {
     display: flex;
@@ -107,4 +104,9 @@ a {
     min-height: 100px;
     margin-bottom: 10px;
 
+}
+.faqNav > .buttonActive{
+    background-color : rgb(3, 202, 3);
+    color: white;
+    font-weight: bold;
 }

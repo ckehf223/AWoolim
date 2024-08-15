@@ -3,6 +3,7 @@ import Calendar from "react-calendar";
 import "/src/css/member/calendarpage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import instance from "/src/common/auth/axios";
+import { useAuth } from "/src/common/AuthContext";
 
 function CalendarPage() {
   const param = useParams(); // URL 파라미터에서 클럽 번호 가져오기
@@ -13,6 +14,8 @@ function CalendarPage() {
   const [data, setData] = useState({});
   const [events, setEvents] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [managerId, setManagerId] = useState('');
+  const { loginId } = useAuth();
   const nav = useNavigate();
 
   const daysOfWeek = [
@@ -26,34 +29,44 @@ function CalendarPage() {
   ];
 
   useEffect(() => {
-    const fetchClubSchedules = async () => {
-      try {
-        const response = await instance.get(
-          `/api/mypage/clubSchedule/${param.no}`
-        );
-        const fetchedEvents = {};
-        response.data.forEach((schedule) => {
-          const dates = parseDateFromString(schedule.dday);
-          dates.forEach((date) => {
-            const dateString = date.toDateString();
-
-            if (!fetchedEvents[dateString]) {
-              fetchedEvents[dateString] = [];
-            }
-            fetchedEvents[dateString].push(schedule.content);
-          });
-        });
-
-        setEvents(fetchedEvents);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("클럽 일정 로딩 중 오류", error);
-        setIsLoading(false);
-      }
-    };
-
     fetchClubSchedules();
+    clubMasterId();
   }, [param.no]);
+
+  const clubMasterId = async () => {
+    try {
+      const response = await instance.get(`/api/club/clubMasterId/${param.no}`);
+      setManagerId(response.data);
+    } catch (error) {
+      console.error("모임장 아이디 가져오는 중 오류 발생" + error);
+    }
+  };
+
+  const fetchClubSchedules = async () => {
+    try {
+      const response = await instance.get(
+        `/api/mypage/clubSchedule/${param.no}`
+      );
+      const fetchedEvents = {};
+      response.data.forEach((schedule) => {
+        const dates = parseDateFromString(schedule.dday);
+        dates.forEach((date) => {
+          const dateString = date.toDateString();
+
+          if (!fetchedEvents[dateString]) {
+            fetchedEvents[dateString] = [];
+          }
+          fetchedEvents[dateString].push(schedule.content);
+        });
+      });
+
+      setEvents(fetchedEvents);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("클럽 일정 로딩 중 오류", error);
+      setIsLoading(false);
+    }
+  };
 
   const parseDateFromString = (dateString) => {
     const dates = [];
@@ -220,29 +233,34 @@ function CalendarPage() {
             tileDisabled={tileDisabled}
             tileClassName={tileClassName}
           />
-          {value && (
+          {value ? (
             <div className="event-details">
               <div>
                 <h3>{value.toDateString()}</h3>
                 <textarea
                   value={events[value.toDateString()]?.join(", ") || ""}
                   onChange={(e) => handleEventChange(value, e)}
-                  placeholder="모임 일정을 입력하세요."
-                />
-                <button onClick={() => { saveCalendar() }}>저장</button>
-                {events[value.toDateString()] != null && <button onClick={() => { deleteCalendar(value) }}>삭제</button>};
-
+                  placeholder="모임 일정을 입력하세요." readOnly={managerId !== loginId} />
+                {managerId === loginId && <button onClick={() => { saveCalendar() }}>저장</button>}
+                {managerId === loginId && events[value.toDateString()] != null && <button onClick={() => { deleteCalendar(value) }}>삭제</button>};
               </div>
-              <textarea
-                value={events[value.toDateString()]?.join(", ") || ""}
-                onChange={(e) => handleEventChange(value, e)}
-                placeholder="모임 일정을 입력하세요."
-              />
+            </div>
+          ) : (
+            <div className="event-details">
+              <div>
+                <h3>{value.toDateString()}</h3>
+                <textarea
+                  value={events[value.toDateString()]?.join(", ") || ""}
+                  onChange={(e) => handleEventChange(value, e)}
+                  placeholder="모임 일정을 입력하세요." readOnly={managerId !== loginId}
+                />
+                {managerId === loginId && <button onClick={() => { saveCalendar() }}>저장</button>}
+              </div>
             </div>
           )}
         </section>
-      </div>
-    </section>
+      </div >
+    </section >
   );
 }
 

@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "/src/css/member/footer.css";
 
 const Footer = () => {
+  const nav = useNavigate();
   return (
     <footer className="footer">
       <div>
@@ -10,29 +11,29 @@ const Footer = () => {
           <div id="footer-top">
             <div>
               <div className="footerA">
-                <Link to="/">
+                <Link onClick={() => { nav('/'); window.location.reload() }}>
                   <b>Around Us</b>
                 </Link>
               </div>
               <div className="footera">
-                <Link to="/">모임검색</Link>
-                <Link to="/">카테고리</Link>
+                <Link onClick={() => { nav('/'); window.location.reload() }}>모임검색</Link>
+                <Link onClick={() => { nav('/'); window.location.reload() }}>카테고리</Link>
               </div>
             </div>
             <div>
               <div className="footerA">
-                <Link to="/service/notice">
+                <Link onClick={() => { nav('/service/notice'); window.location.reload() }}>
                   <b>고객센터</b>
                 </Link>
               </div>
               <div className="footera">
-                <Link to="/service/notice">공지사항</Link>
-                <Link to="/service/FAQ">자주하는 질문</Link>
+                <Link onClick={() => { nav('/service/notice'); window.location.reload() }}>공지사항</Link>
+                <Link onClick={() => { nav('/service/FAQ'); window.location.reload() }}>자주하는 질문</Link>
               </div>
             </div>
             <div>
               <div className="footerA">
-                <Link to="/mypage">
+                <Link onClick={() => { nav('/mypage/profile'); window.location.reload() }}>
                   <b>마이페이지</b>
                 </Link>
               </div>
@@ -58,8 +59,19 @@ const Footer = () => {
           >
             <img src="/src/assets/images/insta.png" alt="Instagram" />
           </a>
-          <img src="/src/assets/images/kakao.png" alt="Kakao" />
-          <img src="/src/assets/images/youtube.png" alt="YouTube" />
+          <a
+            href="https://open.kakao.com/o/sJQyt6Ig"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="/src/assets/images/kakao.png" alt="Kakao" />
+          </a>
+          <a href="http://www.youtube.com/@user-pv6wt7kr2j"
+            target="_blank"
+            rel="noopener noreferrer">
+
+            <img src="/src/assets/images/youtube.png" alt="YouTube" />
+          </a>
           <a
             href="https://github.com/ckehf223/final_Project.git"
             target="_blank"

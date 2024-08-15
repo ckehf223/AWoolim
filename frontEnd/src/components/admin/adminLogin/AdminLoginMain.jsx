@@ -20,8 +20,7 @@ const AdminLoginMain = () => {
         if (isAuthenticated && role === 'ROLE_MEMBER') {
             nav('/', { replace: true })
         }
-    }, [])
-
+    }, [isAuthenticated])
 
     const handleSubmit = async (e) => {
         e.preventDefault();

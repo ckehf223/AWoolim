@@ -11,7 +11,7 @@ const PrivateRoute = ({ element }) => {
       setIsInitialized(true);
     }
   }, [isAuthenticated]);
-  console.log(role)
+
   if (!isInitialized) {
     return null;
   }

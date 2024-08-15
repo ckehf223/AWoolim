@@ -64,7 +64,9 @@ const PhotoGallery = () => {
           },
         });
         reader.readAsDataURL(file);
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000)
       } catch (error) {
         console.error("이미지 리사이즈 실패:", error);
       }

@@ -9,6 +9,7 @@ import { faFilePen, faQ, faA } from '@fortawesome/free-solid-svg-icons';
 const FaqMain = () => {
     const navi = useNavigate();
     const [questions, setQuestions] = useState([]);
+    const [active, setActive] = useState(1);
 
     useEffect(() => {
         fetchQuestion();
@@ -45,41 +46,43 @@ const FaqMain = () => {
                 <button onClick={() => { navi('/admin/faqWrite') }}><FontAwesomeIcon icon={faFilePen} />&nbsp;&nbsp;글쓰기 </button>&nbsp;
             </div>
             <div className="faqMainNav">
-                <button onClick={() => fetchQuestion("")}>모두보기</button>
-                <button onClick={() => fetchQuestion("정기모임")}>정기모임</button>
-                <button onClick={() => fetchQuestion("소모임")}>소모임</button>
-                <button onClick={() => fetchQuestion("회원")}>회원가입</button>
-                <button onClick={() => fetchQuestion("기타")}>기타문의</button>
+                <button className={active === 1 ? 'buttonActive' : ''} onClick={() => { fetchQuestion(""); setActive(1) }}>모두보기</button>
+                <button className={active === 2 ? 'buttonActive' : ''} onClick={() => { fetchQuestion("정기모임"); setActive(2) }}>정기모임</button>
+                <button className={active === 3 ? 'buttonActive' : ''} onClick={() => { fetchQuestion("소모임"); setActive(3) }}>소모임</button>
+                <button className={active === 4 ? 'buttonActive' : ''} onClick={() => { fetchQuestion("회원"); setActive(4) }}>회원가입</button>
+                <button className={active === 5 ? 'buttonActive' : ''} onClick={() => { fetchQuestion("기타"); setActive(5) }}>기타문의</button>
             </div>
-            {questions.map((question, index) => (
-                <div className='faqContents' key={question.questionNo}>
-                    <div className='faqMainQuestion'>
-                        <div className='fqContents'>
-                            <span className='fq1'>[{question.category}]</span>
-                            <span className='fq2'>
-                                <button href='#' onClick={() => toggleAnswer(index)}>
-                                    <FontAwesomeIcon icon={faQ} style={{ color: "red", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />
-                                    {question.title}
-                                </button>
-                            </span>
+            {
+                questions.map((question, index) => (
+                    <div className='faqContents' key={question.questionNo}>
+                        <div className='faqMainQuestion'>
+                            <div className='fqContents'>
+                                <span className='fq1'>[{question.category}]</span>
+                                <span className='fq2'>
+                                    <button href='#' onClick={() => toggleAnswer(index)}>
+                                        <FontAwesomeIcon icon={faQ} style={{ color: "red", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />
+                                        {question.title}
+                                    </button>
+                                </span>
+                            </div>
+                            <div className='fqBtn'>
+                                <button onClick={() => { navi(`/admin/faqReWrite/${question.questionNo}`) }}>수정</button>
+                            </div>
                         </div>
-                        <div className='fqBtn'>
-                            <button onClick={() => { navi(`/admin/faqReWrite/${question.questionNo}`) }}>수정</button>
-                        </div>
-                    </div>
 
-                    <div className={`faqMainAnswer ${visibleAnswers[index] ? 'show' : ''}`}>
-                        <span>
-                            <FontAwesomeIcon icon={faA} style={{ color: "blue", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />
-                            <span dangerouslySetInnerHTML={{
-                                __html: DOMPurify.sanitize(question.answer),
-                            }}>
+                        <div className={`faqMainAnswer ${visibleAnswers[index] ? 'show' : ''}`}>
+                            <span>
+                                <FontAwesomeIcon icon={faA} style={{ color: "blue", fontSize: "15px", fontWeight: "bold", paddingRight: "10px" }} />
+                                <span dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(question.answer),
+                                }}>
+                                </span>
                             </span>
-                        </span>
+                        </div>
                     </div>
-                </div>
-            ))}
-        </div>
+                ))
+            }
+        </div >
     );
 }
 

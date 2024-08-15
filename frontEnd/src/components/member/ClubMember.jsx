@@ -28,7 +28,6 @@ const ClubMember = () => {
         })
         setData(response.data);
         setMemberData(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("모임 멤버 리스트 로딩중 에러 발생" + error);
       }

@@ -310,13 +310,14 @@ const ClubDetailInfo = () => {
                         <span> {club.category} 모임</span>
                       </div>
                       <div>
-                        <span>모임 날짜: {club.dDay}</span>
+                        <span>모임 날짜: {club.dday}</span>
                         <span>
                           인원: {club.memberCount}/{club.maxMember}
                         </span>
                       </div>
-                      <span className="clubitemdetailinfo">
-                        {club.detailInfo}
+                      <span className="clubitemdetailinfo" dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(club.detailInfo)
+                      }}>
                       </span>
                     </div>
                   </div>
