@@ -6,7 +6,7 @@ import { useAuth } from "/src/common/AuthContext";
 import axios from 'axios';
 
 const UserModify = () => {
-  const { logout, isAuthenticated } = useAuth();
+  const { logout, isAuthenticated, } = useAuth();
   const nav = useNavigate();
   const [userData, setUserData] = useState('');
   const [formValues, setFormValues] = useState({
@@ -203,7 +203,20 @@ const UserModify = () => {
       }
     }
   }
-
+  const deleteUser = async () => {
+    const isConfirmed = window.confirm("정말 탈퇴하시겠습니까?");
+    if (isConfirmed) {
+      try {
+        const response = await instance.post('/member/delete');
+        if (response.status === 200) {
+          alert('회원 탈퇴가 완료되었습니다.');
+          logout();
+        }
+      } catch (error) {
+        console.error('회원 탈퇴중 오류 발생' + error);
+      }
+    }
+  }
   return (
     <>
       <div className='UserModify'>
@@ -300,6 +313,7 @@ const UserModify = () => {
             </div>
             <div className='UserModifyButtonArea'>
               <button className='UserModifyUpdateButton' onClick={() => { updateUser() }}>정보 수정</button>
+              <button className='UserModifyDeleteButton' onClick={() => { deleteUser() }}>회원 탈퇴</button>
             </div>
           </div>
         </div>

@@ -136,22 +136,24 @@ function Header() {
       </div>
 
       <div id="header-icons">
-        <div>
-          <img
-            src="/src/assets/images/notice.png"
-            alt="알림"
-            id="alarm-icon"
-            onClick={() => setShowNotifications(!showNotifications)}
-          />
-          <span
-            className={`notification-count ${notifications.filter((n) => n.isRead === 0).length === 0
+        {isAuthenticated && (
+          <div>
+            <img
+              src="/src/assets/images/notice.png"
+              alt="알림"
+              id="alarm-icon"
+              onClick={() => setShowNotifications(!showNotifications)}
+            />
+            <span
+              className={`notification-count ${notifications.filter((n) => n.isRead === 0).length === 0
                 ? "hidden"
                 : ""
-              }`}
-          >
-            {notifications.filter((n) => n.isRead === 0).length}
-          </span>
-        </div>
+                }`}
+            >
+              {notifications.filter((n) => n.isRead === 0).length}
+            </span>
+          </div>)}
+
 
         {showNotifications && (
           <div className="notifications">

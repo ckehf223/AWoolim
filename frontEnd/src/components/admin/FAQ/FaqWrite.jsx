@@ -17,9 +17,8 @@ const FaqWrite = () => {
             title,
             answer
         }
-        instance.post(`http://localhost:8080/api/faq/insert`, question)
+        instance.post(`/api/faq/insert`, question)
             .then((response) => {
-                console.log("CREATE QUESTION SUCCESS", response);
                 navi('/admin/faq');
             })
             .catch(error => {

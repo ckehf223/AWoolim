@@ -410,6 +410,10 @@ public class ClubController {
 	@PostMapping("/deleteClub/{clubNo}")
 	public void deleteClub(@PathVariable("clubNo") int clubNo,HttpServletResponse response) {
 		try {
+			Club club = clubService.readByClub(clubNo);
+			if (!club.getClubImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
+				deleteFile(club.getClubImage());
+			}
 			clubService.deleteClub(clubNo);
 			response.setStatus(HttpStatus.OK.value());
 		}catch(Exception e) {

@@ -49,7 +49,7 @@ function ClubItem({ club, backgroundColor = "#ffffff" }) {
           ></span>
         </div>
       </Link>
-    </div>
+    </div >
   );
 }
 

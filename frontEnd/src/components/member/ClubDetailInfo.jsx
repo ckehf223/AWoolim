@@ -321,8 +321,9 @@ const ClubDetailInfo = () => {
                           인원: {club.memberCount}/{club.maxMember}
                         </span>
                       </div>
-                      <span className="clubitemdetailinfo">
-                        {club.detailInfo}
+                      <span className="clubitemdetailinfo" dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(club.detailInfo)
+                      }}>
                       </span>
                     </div>
                   </div>

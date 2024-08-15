@@ -81,6 +81,7 @@
   width: 500px;
   justify-content: center;
   margin-top: 70px;
+  gap: 10px;
 }
 .UserModifyUpdateButton {
   margin-left: 140px;
@@ -88,6 +89,17 @@
   border-radius: 8px;
   padding: 15px;
   background-color: #373737;
+  border: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+.UserModifyDeleteButton{
+  width: 200px;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #ca2121;
   border: none;
   color: white;
   font-size: 20px;

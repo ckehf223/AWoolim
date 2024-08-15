@@ -132,13 +132,15 @@ function SearchPage() {
               >
                 <option value="">전체</option>
                 {selectedCity &&
-                  areaData
-                    .find((item) => item.city === selectedCity)
-                    ?.data.map((district) => (
-                      <option key={district} value={district}>
-                        {district}
-                      </option>
-                    ))}
+                  areaData.find((item) => item.city === selectedCity)?.data.map((district) => {
+                    if (district !== '전체') {
+                      return (
+                        <option key={district} value={district}>
+                          {district}
+                        </option>
+                      )
+                    }
+                  })}
               </select>
             </div>
 

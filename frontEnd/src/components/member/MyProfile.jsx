@@ -147,7 +147,7 @@ const MyProfile = () => {
       file === "" &&
       backFile === "" &&
       (userData.nickName ? userData.nickName : userData.userName) ===
-        nickName &&
+      nickName &&
       userData.userImage === imageSrc.split("base64,")[1] &&
       (userData.userBackImage
         ? userData.userBackImage === backImageSrc.split("base64,")[1]
@@ -198,7 +198,6 @@ const MyProfile = () => {
           }
         );
         alert("프로필이 변경되었습니다.");
-        window.location.reload();
       } catch (error) {
         console.error("프로필 변경 중 오류 발생" + error);
       }

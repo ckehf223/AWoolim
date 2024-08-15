@@ -91,6 +91,10 @@ public class MemberService {
 		return userImage;
 	}
 
+	public void delete(int userId) {
+		mapper.delete(userId);
+	}
+	
 	public String encodeImageToBase64(String imagePath) throws IOException {
 		ClassPathResource imgFile = new ClassPathResource(imagePath);
 		byte[] imageBytes = Files.readAllBytes(imgFile.getFile().toPath());

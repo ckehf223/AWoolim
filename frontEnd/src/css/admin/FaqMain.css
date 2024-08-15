@@ -49,14 +49,6 @@ a {
     cursor: pointer;
 }
 
-
-.faqMainNav button:focus {
-    /* background-color : rgb(3, 202, 3); */
-    background-color : #5494FC;
-    color: white;
-    font-weight: bold;
-}
-
 .faqMainQuestion {
     display: flex;
     justify-content: space-between;
@@ -127,8 +119,11 @@ a {
     border-radius: 0px 0px 15px 15px;
     border: 1px solid #5494FC;
     border-top: none;
-    
     max-height: 1000PX;
     min-height: 100px;
-
+}
+.faqMainNav > .buttonActive{
+    background-color : #5494FC;
+    color: white;
+    font-weight: bold;
 }

@@ -240,7 +240,26 @@ public class MemberController {
 		}
 
 	}
-
+	
+	@PostMapping("/delete")
+	public void deleteUser(HttpServletRequest request,HttpServletResponse response) {
+		try {
+			String accessToken = request.getHeader("Authorization").substring(7);
+			int userId = jwtUtil.getUserId(accessToken);
+			Member member = service.readMember(userId);
+			if (!member.getUserImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
+				deleteFile(member.getUserImage());
+			}
+			if (member.getUserBackImage() != "null" && member.getUserBackImage()!= null &&!member.getUserBackImage().trim().equals("305d04e5-e53d-4419-8beb-555330a6a3d4.png")) {
+				deleteFile(member.getUserBackImage());
+			}
+			service.delete(userId);
+			response.setStatus(HttpStatus.OK.value());
+		}catch(Exception e) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}
+		
+	}
 	public void deleteFile(String fileName) {
 		// 이미지 파일의 절대 경로를 생성
 		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);

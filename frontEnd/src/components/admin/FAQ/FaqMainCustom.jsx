@@ -5,17 +5,23 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQ, faA } from '@fortawesome/free-solid-svg-icons';
 import DOMPurify from 'dompurify';
+import axios from 'axios';
 
 const FaqMainCustom = () => {
     const [questions, setQuestions] = useState([]);
+    const [active, setActive] = useState(1);
 
     useEffect(() => {
         fetchQuestion();
     }, []);
 
     const fetchQuestion = (query = '') => {
-        const url = query ? `/api/faq/category?query=${query}` : `/api/faq/list`;
-        instance.get(url)
+        const url = query ? `http://localhost:8080/api/faq/category?query=${query}` : `http://localhost:8080/api/faq/list`;
+        axios.get(url, {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
             .then(response => {
                 setQuestions(response.data);
             })
@@ -42,11 +48,11 @@ const FaqMainCustom = () => {
             <hr style={{ color: 'lightgray' }}></hr>
 
             <div className="faqNav">
-                <button onClick={() => fetchQuestion("")}>모두보기</button>
-                <button onClick={() => fetchQuestion("정기모임")}>정기모임</button>
-                <button onClick={() => fetchQuestion("소모임")}>소모임</button>
-                <button onClick={() => fetchQuestion("회원")}>회원가입</button>
-                <button onClick={() => fetchQuestion("기타")}>기타문의</button>
+                <button className={active === 1 ? 'buttonActive' : ''} onClick={() => { fetchQuestion(""); setActive(1) }}>모두보기</button>
+                <button className={active === 2 ? 'buttonActive' : ''} onClick={() => { fetchQuestion("정기모임"); setActive(2) }}>정기모임</button>
+                <button className={active === 3 ? 'buttonActive' : ''} onClick={() => { fetchQuestion("소모임"); setActive(3) }}>소모임</button>
+                <button className={active === 4 ? 'buttonActive' : ''} onClick={() => { fetchQuestion("회원"); setActive(4) }}>회원가입</button>
+                <button className={active === 5 ? 'buttonActive' : ''} onClick={() => { fetchQuestion("기타"); setActive(5) }}>기타문의</button>
             </div>
             {questions.map((question, index) => (
                 <div className='faqContents' key={question.questionNo}>

@@ -10,7 +10,7 @@ const AdminHeader = () => {
   return (
     <div className="AdminHeader">
       <Navbar light expand="md" className="navbar-custom my-navbar-color">
-        <NavbarBrand href="/admin" className="navbar-brand-custom"><img src="/src/assets/images/headerLogo.png" /></NavbarBrand>
+        <NavbarBrand href="/admin/dashboard" className="navbar-brand-custom"><img src="/src/assets/images/headerLogo.png" /></NavbarBrand>
         <Nav className="ml-auto" navbar >
           <NavItem>
             {isAuthenticated && <NavLink href="#" onClick={() => { adminLogout() }}  ><FaSignOutAlt />Logout</NavLink>}

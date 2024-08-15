@@ -60,4 +60,8 @@
 		SELECT USERIMAGE FROM MEMBER
 		WHERE USERID = #{userId}
 	</select>
+	<delete id="delete" parameterType="int">
+		DELETE FROM MEMBER
+		WHERE USERID = #{userId}
+	</delete>
 </mapper>

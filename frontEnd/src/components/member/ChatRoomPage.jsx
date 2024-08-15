@@ -55,8 +55,10 @@ function ChatRoomPage({ room }) {
           "Content-Type": "application/json",
         },
       });
-      setUser(() => { return response.data.find((msg) => { return msg.USERID === loginId }) })
-      setMessages(response.data);
+      if (response.data) {
+        setUser(() => { return response.data.find((msg) => { return msg.USERID === loginId }) })
+        setMessages(response.data);
+      }
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
