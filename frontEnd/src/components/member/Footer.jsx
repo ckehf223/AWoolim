@@ -58,7 +58,12 @@ const Footer = () => {
           >
             <img src="/src/assets/images/insta.png" alt="Instagram" />
           </a>
-          <img src="/src/assets/images/kakao.png" alt="Kakao" />
+          <a
+            href="https://open.kakao.com/o/sJQyt6Ig
+          "
+          >
+            <img src="/src/assets/images/kakao.png" alt="Kakao" />
+          </a>
           <img src="/src/assets/images/youtube.png" alt="YouTube" />
           <a
             href="https://github.com/ckehf223/final_Project.git"

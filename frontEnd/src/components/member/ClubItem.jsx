@@ -1,16 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "/src/css/member/clubitem.css";
 import DOMPurify from "dompurify";
 
 function ClubItem({ club, backgroundColor = "#ffffff" }) {
+  useEffect(() => {
+    const spanElement = document.querySelector(
+      ".slide-item-content > span.clubitemdetailinfo"
+    );
+    if (spanElement) {
+      spanElement.style.overflow = "hidden";
+      spanElement.style.textOverflow = "ellipsis";
+      spanElement.style.whiteSpace = "nowrap";
+    }
+  }, [club.detailInfo]);
+
   return (
     <div className="slide-item">
       <Link to={`/club/${club.clubNo}`}>
         {club.clubImage ? (
           <img
             className="categoryImg"
-            src={`data: image / jpeg;base64,${club.clubImage}`}
+            src={`data:image/jpeg;base64,${club.clubImage}`}
             alt={club.clubTitle}
           />
         ) : (
