@@ -57,6 +57,7 @@ body.scrolled #header {
   border: none;
   background-color: transparent;
 }
+
 #header-search img {
   width: 21px;
   position: relative;
@@ -72,12 +73,18 @@ body.scrolled #header {
   align-items: center;
 }
 
+.noticeicondiv {
+  display: flex;
+  align-items: center;
+}
+
 #header-icons button {
   color: #505050;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: -1px;
   background-color: white;
+  min-width: 100px;
   border: none;
   padding: 2px 8px;
   border-radius: 15px;
@@ -95,7 +102,7 @@ body.scrolled #header {
   margin-left: auto; /* 왼쪽 요소들과의 간격을 자동으로 조절 */
   position: relative;
   top: 2px;
-  max-height: 28px;
+  height: 28px;
   transition: transform 0.2s ease;
   filter: brightness(88%); /* 밝기 조절 추가 */
   cursor: pointer; /* 커서 스타일 변경 */
@@ -127,38 +134,51 @@ body.scrolled #header {
   border-bottom: 1px solid #eee;
   font-size: 14px;
 }
+
 .notification-count {
   position: relative;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 600;
   bottom: 7px;
-  right: 10px;
+  right: 12px;
   color: rgb(255, 0, 0);
-  padding: 1px 6px;
+  padding: 2px 9px 0 9px;
   background-color: #eed1d1;
   border-radius: 20px;
   visibility: visible; /* 기본 상태에서는 보이도록 설정 */
-}
-
-/* notification-count가 0일 때 공간을 유지하면서 숨기기 */
-.notification-count.hidden {
-  visibility: hidden; /* 요소를 보이지 않게 하지만 공간을 유지 */
+  box-shadow: 0 4px 5px rgba(255, 59, 59, 0.1);
 }
 
 /* 미디어 쿼리 */
 @media (max-width: 768px) {
   #header-logo {
-    margin-left: 1%; /* 왼쪽 여백 조절 */
+    margin-left: 1%;
   }
 
   #header-logo img {
-    height: 3rem; /* 로고 크기 조절 */
+    height: 2.5rem;
   }
 
   #header-search {
-    margin: 0 1%; /* 좌우 여백 조절 */
+    margin: 0 1%;
+    max-width: 100%; /* 최대 너비를 100%로 설정하여 작은 화면에서도 검색창이 차지하는 비율을 유지 */
   }
 
   #header-icons {
-    margin-right: 1%; /* 오른쪽 여백 조절 */
+    margin-right: 1%;
+    max-width: 100%; /* 최대 너비를 100%로 설정하여 작은 화면에서도 아이콘이 차지하는 비율을 유지 */
+    flex-wrap: wrap; /* 작은 화면에서 아이콘들이 줄바꿈되도록 설정 */
   }
+
+  #header-icons button {
+    margin-bottom: 10px; /* 작은 화면에서 버튼들 사이에 간격 추가 */
+  }
+
+  .noticeicondiv {
+    margin-bottom: 10px; /* 작은 화면에서 알림 아이콘과 나머지 아이콘들 사이에 간격 추가 */
+  }
+}
+
+.notification-count.hidden {
+  visibility: hidden;
 }

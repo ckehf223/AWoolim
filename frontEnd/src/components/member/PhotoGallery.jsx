@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "/src/css/member/photogallery.css";
 import instance from "/src/common/auth/axios";
 import imageCompression from "browser-image-compression";
-import { useAuth } from '/src/common/AuthContext';
+import { useAuth } from "/src/common/AuthContext";
 
 const PhotoGallery = () => {
   const param = useParams();
@@ -11,7 +11,7 @@ const PhotoGallery = () => {
   const [photos, setPhotos] = useState([]);
   const photosPerRow = 4;
   const [deleteState, setDeleteState] = useState({});
-  const [managerId, setManagerId] = useState('');
+  const [managerId, setManagerId] = useState("");
   const nav = useNavigate();
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const PhotoGallery = () => {
         reader.readAsDataURL(file);
         setTimeout(() => {
           window.location.reload();
-        }, 1000)
+        }, 2000);
       } catch (error) {
         console.error("이미지 리사이즈 실패:", error);
       }
@@ -85,16 +85,36 @@ const PhotoGallery = () => {
       await instance.post(`/api/photoGallery/deletePhoto/${picNo}`);
       fetchPhotos();
     } catch (error) {
-      console.error("모임 사진첩 사진 삭제 중 오류발생" + error)
+      console.error("모임 사진첩 사진 삭제 중 오류발생" + error);
     }
-  }
+  };
 
   return (
     <section className="section-container2">
       <div className="button-group">
-        <button onClick={() => { nav(`/includeclub/detailInfo/${param.no}`) }} >상세 정보</button>
-        <button onClick={() => { nav(`/includeclub/calendar/${param.no}`) }} >캘린더 </button>
-        <button className={"active"} onClick={() => { nav(`/includeclub/photoGallery/${param.no}`) }} > 사진첩 </button>
+        <button
+          onClick={() => {
+            nav(`/includeclub/detailInfo/${param.no}`);
+          }}
+        >
+          상세 정보
+        </button>
+        <button
+          onClick={() => {
+            nav(`/includeclub/calendar/${param.no}`);
+          }}
+        >
+          캘린더{" "}
+        </button>
+        <button
+          className={"active"}
+          onClick={() => {
+            nav(`/includeclub/photoGallery/${param.no}`);
+          }}
+        >
+          {" "}
+          사진첩{" "}
+        </button>
       </div>
       <div className="content">
         <section className="photo-gallery">
@@ -130,12 +150,20 @@ const PhotoGallery = () => {
                             className="photoDeleteImage"
                             src="/src/assets/images/close.png"
                             alt="Close Icon"
-                            onClick={() => toggleDeleteState(index)} />
-                          <button className="deleteImageCheckButton" onClick={() => { deletePhoto(photo.picNo) }}>삭제</button>
+                            onClick={() => toggleDeleteState(index)}
+                          />
+                          <button
+                            className="deleteImageCheckButton"
+                            onClick={() => {
+                              deletePhoto(photo.picNo);
+                            }}
+                          >
+                            삭제
+                          </button>
                         </>
                       )}
-                    </div>)}
-
+                    </div>
+                  )}
                 </div>
               </React.Fragment>
             ))}
@@ -144,6 +172,6 @@ const PhotoGallery = () => {
       </div>
     </section>
   );
-}
+};
 
 export default PhotoGallery;

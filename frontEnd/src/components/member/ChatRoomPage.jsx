@@ -8,11 +8,9 @@ const SOCKET_URL = "ws://localhost:8080/ws/chat";
 function ChatRoomPage({ room }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [user, setUser] = useState('');
   const { loginId } = useAuth();
   const messageListRef = useRef(null);
   const socketRef = useRef(null);
-
   useEffect(() => {
     socketRef.current = new WebSocket(SOCKET_URL);
 
@@ -37,7 +35,6 @@ function ChatRoomPage({ room }) {
 
     fetchMessages();
 
-
     return () => {
       if (
         socketRef.current &&
@@ -56,7 +53,6 @@ function ChatRoomPage({ room }) {
         },
       });
       if (response.data) {
-        setUser(() => { return response.data.find((msg) => { return msg.USERID === loginId }) })
         setMessages(response.data);
       }
     } catch (error) {
@@ -69,10 +65,7 @@ function ChatRoomPage({ room }) {
         USERID: loginId,
         MESSAGE: message,
         CLUBNO: room.clubNo,
-        NICKNAME: user.NICKNAME,
-        USERNAME: user.USERNAME
       };
-
       socketRef.current.send(JSON.stringify(chatMessage));
       setMessage("");
     }
@@ -91,12 +84,16 @@ function ChatRoomPage({ room }) {
     <div className="chat-room-page">
       <div className="chat-messages" ref={messageListRef}>
         <div className="message-list">
+          <span>{room.chatRoomName} 채팅을 시작하세요!</span>
           {messages.length > 0 &&
             messages.map((msg, index) => (
               <div
                 key={index}
-                className={`message ${msg.USERID === loginId || msg.userId === loginId ? "my-message" : "other-message"
-                  }`}
+                className={`message ${
+                  msg.USERID === loginId || msg.userId === loginId
+                    ? "my-message"
+                    : "other-message"
+                }`}
               >
                 {msg.USERID !== loginId && (
                   <div className="message-info">

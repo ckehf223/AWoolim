@@ -133,12 +133,13 @@
   justify-content: space-between;
   margin: 0 20px;
 }
-.event-details > div > button {
+.event-details > div button {
   border: 1px solid rgb(146, 146, 146);
   padding: 7px 30px;
   border-radius: 10px;
   font-size: 16px;
   transition: 0.2s ease;
+  margin: 0 10px;
 }
 .event-details > div > button:hover {
   background-color: #97caff;

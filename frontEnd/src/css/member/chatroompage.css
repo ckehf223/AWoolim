@@ -89,7 +89,7 @@
   margin-top: 2px;
   left: 47px;
   bottom: 15px;
-  font-size: 21px;
+  font-size: 17px;
   color: rgb(77, 77, 77);
   background-color: #ffe8ea;
   padding: 3px 14px;
@@ -98,9 +98,9 @@
 .my-message .chatmessagespan {
   margin-top: 6px;
   bottom: 15px;
-  font-size: 21px;
+  font-size: 17px;
   color: rgb(77, 77, 77);
   background-color: #d7eaff;
-  padding: 3px 14px;
+  padding: 3px 14px 5px 14px;
   border-radius: 12px;
 }

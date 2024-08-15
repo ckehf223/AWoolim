@@ -71,7 +71,8 @@
 		WHERE CLUBNO = #{clubNo}
 	</update>
 	<select id="getAllClubs" resultType="Club">
-		SELECT * FROM club
+		SELECT * FROM club order by
+		clubNo asc
 	</select>
 
 	<select id="searchClubs" resultType="Club" parameterType="map">
@@ -95,7 +96,8 @@
 	</select>
 	<delete id="delete" parameterType="int">
 		DELETE FROM CLUB
-		WHERE CLUBNO = #{clubNo}
+		WHERE CLUBNO =
+		#{clubNo}
 	</delete>
 
 </mapper>

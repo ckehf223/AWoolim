@@ -14,7 +14,7 @@ function CalendarPage() {
   const [data, setData] = useState({});
   const [events, setEvents] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [managerId, setManagerId] = useState('');
+  const [managerId, setManagerId] = useState("");
   const { loginId } = useAuth();
   const nav = useNavigate();
 
@@ -163,8 +163,8 @@ function CalendarPage() {
       if (data && Object.keys(data).length > 0) {
         instance.post(`/api/mypage/clubSchedule/register/${param.no}`, data, {
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         });
         window.location.reload();
       } else {
@@ -173,25 +173,28 @@ function CalendarPage() {
     } catch (error) {
       console.error("모임 스케쥴 등록중 오류발생" + error);
     }
-  }
+  };
 
   const deleteCalendar = (date) => {
     const fmDate = formatDate(date);
     try {
-      instance.post(`/api/mypage/clubSchedule/delete`, {
-        clubNo: param.no,
-        day: fmDate
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
+      instance.post(
+        `/api/mypage/clubSchedule/delete`,
+        {
+          clubNo: param.no,
+          day: fmDate,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
+      );
       window.location.reload();
     } catch (error) {
-      console.error("모임 스케쥴 삭제중 오류발생" + error)
+      console.error("모임 스케쥴 삭제중 오류발생" + error);
     }
-
-  }
+  };
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -237,30 +240,60 @@ function CalendarPage() {
             <div className="event-details">
               <div>
                 <h3>{value.toDateString()}</h3>
-                <textarea
-                  value={events[value.toDateString()]?.join(", ") || ""}
-                  onChange={(e) => handleEventChange(value, e)}
-                  placeholder="모임 일정을 입력하세요." readOnly={managerId !== loginId} />
-                {managerId === loginId && <button onClick={() => { saveCalendar() }}>저장</button>}
-                {managerId === loginId && events[value.toDateString()] != null && <button onClick={() => { deleteCalendar(value) }}>삭제</button>};
+                <div>
+                  {managerId === loginId && (
+                    <button
+                      onClick={() => {
+                        saveCalendar();
+                      }}
+                    >
+                      저장
+                    </button>
+                  )}
+                  {managerId === loginId &&
+                    events[value.toDateString()] != null && (
+                      <button
+                        onClick={() => {
+                          deleteCalendar(value);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    )}
+                </div>
               </div>
+              <textarea
+                value={events[value.toDateString()]?.join(", ") || ""}
+                onChange={(e) => handleEventChange(value, e)}
+                placeholder="모임 일정을 입력하세요."
+                readOnly={managerId !== loginId}
+              />
             </div>
           ) : (
             <div className="event-details">
               <div>
                 <h3>{value.toDateString()}</h3>
-                <textarea
-                  value={events[value.toDateString()]?.join(", ") || ""}
-                  onChange={(e) => handleEventChange(value, e)}
-                  placeholder="모임 일정을 입력하세요." readOnly={managerId !== loginId}
-                />
-                {managerId === loginId && <button onClick={() => { saveCalendar() }}>저장</button>}
+                {managerId === loginId && (
+                  <button
+                    onClick={() => {
+                      saveCalendar();
+                    }}
+                  >
+                    저장
+                  </button>
+                )}
               </div>
+              <textarea
+                value={events[value.toDateString()]?.join(", ") || ""}
+                onChange={(e) => handleEventChange(value, e)}
+                placeholder="모임 일정을 입력하세요."
+                readOnly={managerId !== loginId}
+              />
             </div>
           )}
         </section>
-      </div >
-    </section >
+      </div>
+    </section>
   );
 }
 

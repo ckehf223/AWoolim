@@ -106,42 +106,46 @@ function SearchPage() {
               }}
               placeholder="검색어를 입력하세요"
             />
-            <div className="filter-row">
-              <label htmlFor="city">지역 (시/도):</label>
-              <select
-                id="city"
-                value={selectedCity}
-                onChange={handleCityChange}
-              >
-                <option value="">전체</option>
-                {areaData.map((item) => (
-                  <option key={item.city} value={item.city}>
-                    {item.city}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <div className="areaDatadiv">
+              <div className="filter-row">
+                <label htmlFor="city">지역 (시/도):</label>
+                <select
+                  id="city"
+                  value={selectedCity}
+                  onChange={handleCityChange}
+                >
+                  <option value="">전체</option>
+                  {areaData.map((item) => (
+                    <option key={item.city} value={item.city}>
+                      {item.city}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="filter-row">
-              <label htmlFor="district">지역 (시/군/구):</label>
-              <select
-                id="district"
-                value={selectedDistrict}
-                onChange={handleDistrictChange}
-                disabled={!selectedCity}
-              >
-                <option value="">전체</option>
-                {selectedCity &&
-                  areaData.find((item) => item.city === selectedCity)?.data.map((district) => {
-                    if (district !== '전체') {
-                      return (
-                        <option key={district} value={district}>
-                          {district}
-                        </option>
-                      )
-                    }
-                  })}
-              </select>
+              <div className="filter-row">
+                <label htmlFor="district">지역 (시/군/구):</label>
+                <select
+                  id="district"
+                  value={selectedDistrict}
+                  onChange={handleDistrictChange}
+                  disabled={!selectedCity}
+                >
+                  <option value="">전체</option>
+                  {selectedCity &&
+                    areaData
+                      .find((item) => item.city === selectedCity)
+                      ?.data.map((district) => {
+                        if (district !== "전체") {
+                          return (
+                            <option key={district} value={district}>
+                              {district}
+                            </option>
+                          );
+                        }
+                      })}
+                </select>
+              </div>
             </div>
 
             <div className="filter-row">
@@ -224,21 +228,24 @@ function SearchPage() {
               </select>
             </div>
 
-            <button
-              className="filter-apply-button"
-              onClick={() => {
-                fetchClubs();
-              }}
-            >
-              필터 적용
-            </button>
-            <button
-              onClick={() => {
-                handleresetFilter();
-              }}
-            >
-              초기화
-            </button>
+            <div className="filterapplybuttondiv">
+              <button
+                className="filter-apply-button"
+                onClick={() => {
+                  fetchClubs();
+                }}
+              >
+                필터 적용
+              </button>
+              <button
+                className="filter-apply-button2"
+                onClick={() => {
+                  handleresetFilter();
+                }}
+              >
+                초기화
+              </button>
+            </div>
           </div>
         </div>
       )}

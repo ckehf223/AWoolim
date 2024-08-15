@@ -1,6 +1,6 @@
 .photo-gallery {
-  padding: 20px; 
-  background-color: #f8f8f8; 
+  padding: 20px;
+  background-color: #f8f8f8;
   min-height: 605px;
 }
 .photo-gallery input {
@@ -13,7 +13,7 @@
   margin-top: 20px;
   padding-left: 35px;
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   justify-content: flex-start;
   gap: 30px; /* 사진 간 간격 (원하는 값으로 조정) */
 }
@@ -27,30 +27,31 @@
 }
 
 .photo-item:hover {
-  transform: translateY(-5px); 
+  transform: translateY(-5px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .ClubPhotoImage {
   width: 100%;
   height: 200px;
-  object-fit: cover; 
+  object-fit: cover;
   z-index: 1;
+  border-radius: 8px;
 }
-.photoDeleteArea{
+.photoDeleteArea {
   position: absolute;
   top: 5px;
   right: 0;
   width: 30px;
   height: 30px;
 }
-.photoDeleteImage{
+.photoDeleteImage {
   width: 30px;
   height: 30px;
   cursor: pointer;
   z-index: 2;
 }
-.deleteImageCheckButton{
+.deleteImageCheckButton {
   position: absolute;
   width: 60px;
   height: 35px;

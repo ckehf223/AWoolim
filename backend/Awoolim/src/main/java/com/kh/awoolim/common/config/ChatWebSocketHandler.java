@@ -10,10 +10,12 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.awoolim.domain.Chat;
+import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.service.ChatService;
 import com.kh.awoolim.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
@@ -22,8 +24,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	private final ChatService chatService;
 	private final MemberService memberService;
 	private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
-	
-	public ChatWebSocketHandler(ObjectMapper objectMapper, ChatService chatService,MemberService memberService) {
+
+	public ChatWebSocketHandler(ObjectMapper objectMapper, ChatService chatService, MemberService memberService) {
 		this.objectMapper = objectMapper;
 		this.chatService = chatService;
 		this.memberService = memberService;
@@ -31,20 +33,22 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		Map<String,Object> list = objectMapper.readValue(message.getPayload(), Map.class);
+		Map<String, Object> list = objectMapper.readValue(message.getPayload(), Map.class);
 		try {
 			Chat chat = new Chat();
+			Member member = memberService.readMember((Integer) list.get("USERID"));
 			chat.setClubNo((Integer) list.get("CLUBNO"));
-			chat.setMessage((String) list.get("MESSAGE")); 
-			chat.setUserId((Integer) list.get("USERID")); 
+			chat.setMessage((String) list.get("MESSAGE"));
+			chat.setUserId(member.getUserId());
 			chatService.saveMessage(chat);
 			String userImage = memberService.getUserImage(chat.getUserId());
 			list.put("USERIMAGE", userImage);
-		}catch(Exception e) {
+			list.put("USERNAME", member.getUserName());
+			list.put("NICKNAME", member.getNickName());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		// 모든 세션에 메시지를 전송
 		sessions.forEach((id, s) -> {
 			try {
 				s.sendMessage(new TextMessage(objectMapper.writeValueAsString(list)));

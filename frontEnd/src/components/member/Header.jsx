@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "/src/css/member/header.css";
 import { useAuth } from "/src/common/AuthContext";
 import instance from "/src/common/auth/axios"; // Axios 인스턴스 가져오기
@@ -8,8 +8,10 @@ import instance from "/src/common/auth/axios"; // Axios 인스턴스 가져오�
 const SOCKET_URL = "ws://localhost:8080/ws/alarms";
 
 function Header() {
+  const [showMenu, setShowMenu] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation(); // 현재 경로를 확인하기 위해 useLocation 사용
   const [showNotifications, setShowNotifications] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // searchTerm 상태 정의 및 초기화
   const [notifications, setNotifications] = useState([]); // 초기값을 빈 배열로 설정
@@ -109,16 +111,22 @@ function Header() {
     event.preventDefault();
     const trimmedSearchTerm = searchTerm.trim();
     if (trimmedSearchTerm) {
-      setSearchTerm('');
+      setSearchTerm("");
       navigate("/search", { state: { searchTerm: trimmedSearchTerm } });
+    }
+  };
 
+  // 로고 클릭 시 스크롤 최상단으로 이동
+  const handleLogoClick = () => {
+    if (location.pathname === "/") {
+      window.scrollTo(0, 0);
     }
   };
 
   return (
     <header id="header">
       <div id="header-logo">
-        <Link to="/">
+        <Link to="/" onClick={handleLogoClick}>
           <img src="/src/assets/images/headerLogo.png" alt="로고" />
         </Link>
       </div>
@@ -137,7 +145,7 @@ function Header() {
 
       <div id="header-icons">
         {isAuthenticated && (
-          <div>
+          <div className="noticeicondiv">
             <img
               src="/src/assets/images/notice.png"
               alt="알림"
@@ -145,15 +153,16 @@ function Header() {
               onClick={() => setShowNotifications(!showNotifications)}
             />
             <span
-              className={`notification-count ${notifications.filter((n) => n.isRead === 0).length === 0
-                ? "hidden"
-                : ""
-                }`}
+              className={`notification-count ${
+                notifications.filter((n) => n.isRead === 0).length === 0
+                  ? "hidden"
+                  : ""
+              }`}
             >
               {notifications.filter((n) => n.isRead === 0).length}
             </span>
-          </div>)}
-
+          </div>
+        )}
 
         {showNotifications && (
           <div className="notifications">
@@ -161,8 +170,9 @@ function Header() {
               notifications.map((notification, index) => (
                 <div
                   key={index}
-                  className={`notification-item ${notification.isRead === 0 ? "unread" : ""
-                    }`}
+                  className={`notification-item ${
+                    notification.isRead === 0 ? "unread" : ""
+                  }`}
                   onClick={() => markAlarmAsRead(notification.alarmNo)} // 클릭 시 알림을 읽음 처리
                 >
                   {notification.message}
@@ -174,42 +184,65 @@ function Header() {
           </div>
         )}
 
-        <button
-          id="mypage-button"
-          onClick={() => {
-            navigate("/service/FAQ");
-          }}
-        >
-          고객센터
-        </button>
-
-        <button
-          id="mypage-button"
-          onClick={() => {
-            isAuthenticated ? navigate("/mypage/profile") : navigate("/login");
-          }}
-        >
-          마이페이지
-        </button>
-
-        {!isAuthenticated ? (
+        <div className="buttons-container">
           <button
-            id="login-button"
+            id="mypage-button"
             onClick={() => {
-              navigate("/login");
+              navigate("/service/FAQ");
             }}
           >
-            로그인
+            고객센터
           </button>
-        ) : (
+
           <button
-            id="login-button"
+            id="mypage-button"
             onClick={() => {
-              logout();
+              isAuthenticated
+                ? navigate("/mypage/profile")
+                : navigate("/login");
             }}
           >
-            로그아웃
+            마이페이지
           </button>
+
+          {!isAuthenticated ? (
+            <button
+              id="login-button"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              로그인
+            </button>
+          ) : (
+            <button
+              id="login-button"
+              onClick={() => {
+                logout();
+              }}
+            >
+              로그아웃
+            </button>
+          )}
+        </div>
+        {showMenu && (
+          <div className="dropdown-menu">
+            <button onClick={() => navigate("/service/FAQ")}>고객센터</button>
+            <button
+              onClick={() => {
+                isAuthenticated
+                  ? navigate("/mypage/profile")
+                  : navigate("/login");
+              }}
+            >
+              마이페이지
+            </button>
+            {!isAuthenticated ? (
+              <button onClick={() => navigate("/login")}>로그인</button>
+            ) : (
+              <button onClick={() => logout()}>로그아웃</button>
+            )}
+          </div>
         )}
       </div>
     </header>

@@ -33,10 +33,10 @@ public class AlarmController {
         List<Alarm> alarms = alarmService.getUnreadAlarms(userId);
 
         if (alarms == null || alarms.isEmpty()) {
-            return ResponseEntity.noContent().build(); // 204 No Content
+            return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(alarms); // 200 OK
+        return ResponseEntity.ok(alarms);
     }
 
     @PostMapping("/mark-as-read")
