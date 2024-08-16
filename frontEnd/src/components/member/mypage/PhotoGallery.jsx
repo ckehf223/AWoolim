@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "/src/css/member/mypage/photogallery.css";
 import instance from "/src/auth/axios";
 import imageCompression from "browser-image-compression";
-import { useAuth } from '/src/common/AuthContext';
+import { useAuth } from "/src/common/AuthContext";
 
 const PhotoGallery = () => {
   const param = useParams();

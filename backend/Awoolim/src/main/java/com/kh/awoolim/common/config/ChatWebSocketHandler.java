@@ -15,6 +15,7 @@ import com.kh.awoolim.service.ChatService;
 import com.kh.awoolim.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
@@ -23,8 +24,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	private final ChatService chatService;
 	private final MemberService memberService;
 	private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
-	
-	public ChatWebSocketHandler(ObjectMapper objectMapper, ChatService chatService,MemberService memberService) {
+
+	public ChatWebSocketHandler(ObjectMapper objectMapper, ChatService chatService, MemberService memberService) {
 		this.objectMapper = objectMapper;
 		this.chatService = chatService;
 		this.memberService = memberService;
@@ -32,7 +33,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		Map<String,Object> list = objectMapper.readValue(message.getPayload(), Map.class);
+		Map<String, Object> list = objectMapper.readValue(message.getPayload(), Map.class);
 		try {
 			Chat chat = new Chat();
 			Member member = memberService.readMember((Integer)list.get("USERID"));
@@ -48,7 +49,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 			e.printStackTrace();
 		}
 
-		// 모든 세션에 메시지를 전송
 		sessions.forEach((id, s) -> {
 			try {
 				s.sendMessage(new TextMessage(objectMapper.writeValueAsString(list)));

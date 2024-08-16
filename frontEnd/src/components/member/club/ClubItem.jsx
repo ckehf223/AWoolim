@@ -21,7 +21,7 @@ function ClubItem({ club, backgroundColor = "#ffffff" }) {
         {club.clubImage ? (
           <img
             className="categoryImg"
-            src={`data: image / jpeg;base64,${club.clubImage}`}
+            src={`data:image/jpeg;base64,${club.clubImage}`}
             alt={club.clubTitle}
           />
         ) : (

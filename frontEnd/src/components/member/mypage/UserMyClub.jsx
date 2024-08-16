@@ -65,28 +65,28 @@ const UserMyClub = () => {
             <div className="UserMyClubArea">
               {(clubData.apprList.length > 0 ||
                 clubData.disaList.length > 0) && (
-                  <div className="UserMyClubSortBox">
-                    <select
-                      className="UserMyClubSort"
-                      value={sortData}
-                      onChange={onChangeSort}
-                    >
-                      <option value="전체" defaultChecked>
-                        전체
-                      </option>
-                      <option value="친목">친목</option>
-                      <option value="독서">독서</option>
-                      <option value="전시">전시</option>
-                      <option value="스포츠">스포츠</option>
-                      <option value="스터디">스터디</option>
-                      <option value="맛집탐방">맛집탐방</option>
-                      <option value="취미활동">취미활동</option>
-                    </select>
-                  </div>
-                )}
+                <div className="UserMyClubSortBox">
+                  <select
+                    className="UserMyClubSort"
+                    value={sortData}
+                    onChange={onChangeSort}
+                  >
+                    <option value="전체" defaultChecked>
+                      전체
+                    </option>
+                    <option value="친목">친목</option>
+                    <option value="독서">독서</option>
+                    <option value="전시">전시</option>
+                    <option value="스포츠">스포츠</option>
+                    <option value="스터디">스터디</option>
+                    <option value="맛집탐방">맛집탐방</option>
+                    <option value="취미활동">취미활동</option>
+                  </select>
+                </div>
+              )}
 
               {clubData.apprList.length === 0 &&
-                clubData.disaList.length === 0 ? (
+              clubData.disaList.length === 0 ? (
                 <div className="UserMyClubNoneArea">
                   <p>
                     현재 참여중인 <b>모임</b>이 없습니다.

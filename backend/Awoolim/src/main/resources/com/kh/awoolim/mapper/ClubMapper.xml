@@ -96,7 +96,8 @@
 	</select>
 	<delete id="delete" parameterType="int">
 		DELETE FROM CLUB
-		WHERE CLUBNO = #{clubNo}
+		WHERE CLUBNO =
+		#{clubNo}
 	</delete>
 
 </mapper>

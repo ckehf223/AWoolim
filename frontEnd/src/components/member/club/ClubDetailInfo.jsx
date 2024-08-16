@@ -32,6 +32,8 @@ const ClubDetailInfo = () => {
           }
         );
         setClubData(response.data);
+        console.log(response.data);
+        console.log(response.data.memberList);
         setClubManager(
           response.data.memberList.find((member) => {
             return member.userId === response.data.club.userId;
@@ -243,16 +245,19 @@ const ClubDetailInfo = () => {
                             ? member.nickName
                             : member.userName,
                           message: member.userIntro,
-                          backgroundImage: `data:image/jpeg;base64,${clubData.imageData["backImage" + member.userId]
-                            }`,
-                          profileImage: `data:image/jpeg;base64,${clubData.imageData["userImage" + member.userId]
-                            }`,
+                          backgroundImage: `data:image/jpeg;base64,${
+                            clubData.imageData["backImage" + member.userId]
+                          }`,
+                          profileImage: `data:image/jpeg;base64,${
+                            clubData.imageData["userImage" + member.userId]
+                          }`,
                         })
                       }
                     >
                       <img
-                        src={`data:image/jpeg;base64,${clubData.imageData["userImage" + member.userId]
-                          }`}
+                        src={`data:image/jpeg;base64,${
+                          clubData.imageData["userImage" + member.userId]
+                        }`}
                       />
                       <div className="ClubDetailMemberInfo">
                         <p className="ClubDetailMemberNickname">
@@ -292,8 +297,9 @@ const ClubDetailInfo = () => {
                   <div key={club.clubNo} className="ClubDetailPopGroupInfoBox">
                     <div className="ClubDetailPopGroupImage">
                       <img
-                        src={`data:image/jpeg;base64,${clubData.imageData["clubImage" + club.clubNo]
-                          }`}
+                        src={`data:image/jpeg;base64,${
+                          clubData.imageData["clubImage" + club.clubNo]
+                        }`}
                         onClick={() => {
                           nav(`/club/${club.clubNo}`);
                         }}
@@ -309,16 +315,16 @@ const ClubDetailInfo = () => {
                         </span>
                         <span> {club.category} 모임</span>
                       </div>
-                      <div>
-                        <span>모임 날짜: {club.dday}</span>
-                        <span>
-                          인원: {club.memberCount}/{club.maxMember}
-                        </span>
-                      </div>
-                      <span className="clubitemdetailinfo" dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(club.detailInfo)
-                      }}>
+                      <span>모임 날짜: {club.dday}</span>
+                      <span>
+                        인원: {club.memberCount}/{club.maxMember}
                       </span>
+                      <span
+                        className="clubitemdetailinfo"
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(club.detailInfo),
+                        }}
+                      ></span>
                     </div>
                   </div>
                 ))}
@@ -327,7 +333,7 @@ const ClubDetailInfo = () => {
             {loginId !== clubData.club.userId && (
               <div>
                 {isRecruitment &&
-                  clubData.club.maxMember - clubData.club.memberCount > 0 ? (
+                clubData.club.maxMember - clubData.club.memberCount > 0 ? (
                   <div className="ClubDetailSignButtonArea">
                     <div className="ClubDetailSignButtonBox">
                       <div className="ClubDetailSignTextArea">

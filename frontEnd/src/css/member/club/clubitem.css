@@ -1,11 +1,10 @@
-
 .slide-item {
   margin-top: 5px;
   width: 300px;
   box-sizing: border-box;
   flex-shrink: 0;
   border-radius: 13px;
-  min-height: 380px; 
+  min-height: 380px;
   background-color: transparent;
 }
 
@@ -21,7 +20,7 @@
 .slide-item > a {
   display: flex;
   flex-direction: column;
-  text-decoration: none; 
+  text-decoration: none;
   color: rgb(37, 37, 37);
   font-size: 15px;
   border-radius: 13px;
@@ -34,13 +33,13 @@
   height: 180px;
   border-bottom-left-radius: 13px;
   border-bottom-right-radius: 13px;
-  padding: 10px 20px; 
+  padding: 10px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  background-color: inherit; 
-  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  background-color: inherit; /* 부모 요소의 배경색 상속 */
+  overflow: hidden; /* 이 부분이 div를 벗어나는 텍스트를 숨기게 합니다. */
   text-overflow: ellipsis;
   text-align: center;
   white-space: nowrap;
@@ -51,7 +50,7 @@
   gap: 10px;
 }
 .slide-item-content .clubitemdetailinfo {
-  text-align: left;
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -154,8 +154,8 @@ function Header() {
             />
             <span
               className={`notification-count ${notifications.filter((n) => n.isRead === 0).length === 0
-                ? "hidden"
-                : ""
+                  ? "hidden"
+                  : ""
                 }`}
             >
               {notifications.filter((n) => n.isRead === 0).length}

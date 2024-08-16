@@ -11,29 +11,72 @@ const Footer = () => {
           <div id="footer-top">
             <div>
               <div className="footerA">
-                <Link onClick={() => { nav('/'); window.location.reload() }}>
+                <Link
+                  onClick={() => {
+                    nav("/");
+                    window.location.reload();
+                  }}
+                >
                   <b>Around Us</b>
                 </Link>
               </div>
               <div className="footera">
-                <Link onClick={() => { nav('/'); window.location.reload() }}>모임검색</Link>
-                <Link onClick={() => { nav('/'); window.location.reload() }}>카테고리</Link>
+                <Link
+                  onClick={() => {
+                    nav("/");
+                    window.location.reload();
+                  }}
+                >
+                  모임검색
+                </Link>
+                <Link
+                  onClick={() => {
+                    nav("/");
+                    window.location.reload();
+                  }}
+                >
+                  카테고리
+                </Link>
               </div>
             </div>
             <div>
               <div className="footerA">
-                <Link onClick={() => { nav('/service/notice'); window.location.reload() }}>
+                <Link
+                  onClick={() => {
+                    nav("/service/notice");
+                    window.location.reload();
+                  }}
+                >
                   <b>고객센터</b>
                 </Link>
               </div>
               <div className="footera">
-                <Link onClick={() => { nav('/service/notice'); window.location.reload() }}>공지사항</Link>
-                <Link onClick={() => { nav('/service/FAQ'); window.location.reload() }}>자주하는 질문</Link>
+                <Link
+                  onClick={() => {
+                    nav("/service/notice");
+                    window.location.reload();
+                  }}
+                >
+                  공지사항
+                </Link>
+                <Link
+                  onClick={() => {
+                    nav("/service/FAQ");
+                    window.location.reload();
+                  }}
+                >
+                  자주하는 질문
+                </Link>
               </div>
             </div>
             <div>
               <div className="footerA">
-                <Link onClick={() => { nav('/mypage/profile'); window.location.reload() }}>
+                <Link
+                  onClick={() => {
+                    nav("/mypage/profile");
+                    window.location.reload();
+                  }}
+                >
                   <b>마이페이지</b>
                 </Link>
               </div>
@@ -68,8 +111,8 @@ const Footer = () => {
           </a>
           <a href="https://youtu.be/ZL009ZhEuWI?si=4XdaLMsLbsOm4XTq"
             target="_blank"
-            rel="noopener noreferrer">
-
+            rel="noopener noreferrer"
+          >
             <img src="/src/assets/images/youtube.png" alt="YouTube" />
           </a>
           <a

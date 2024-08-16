@@ -55,7 +55,7 @@ function Groups() {
         <>
           {[
             "핫한 소셜 클럽! 오늘 뭐해?",
-            "망설이면 마감! 지금 바로 신청하세요!",
+            "여름하면 이 모임! 지금 바로 신청하세요!",
             "우리 동네, 우리들의 이야기",
           ].map((title, index) => (
             <div key={title} className="groupSection">
