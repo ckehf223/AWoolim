@@ -22,21 +22,20 @@
 }
 .message {
   border-radius: 5px;
-  max-width: 80%; /* 최대 너비 제한 */
-  display: flex; /* 프로필 이미지와 메시지 내용을 나란히 배치 */
-  align-items: flex-start; /* 내용을 위쪽으로 정렬 */
+  max-width: 80%;
+  display: flex;
+  align-items: flex-start;
   margin-top: 5px;
 }
 .my-message {
   align-self: flex-end;
 }
 .other-message {
-  justify-content: flex-start; /* 상대방 메시지는 왼쪽 정렬 */
+  justify-content: flex-start;
 }
-/* 메시지 목록 스타일 */
 .message-list {
-  display: flex; /* 혹은 grid */
-  flex-direction: column; /* 메시지들을 세로로 정렬 */
+  display: flex;
+  flex-direction: column;
 }
 .profile-container {
   display: flex;
