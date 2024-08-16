@@ -30,9 +30,7 @@ public class JWTFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-//		log.info("JWTFIlter Enter");
 		String requestUri = request.getRequestURI();
-//		System.out.println(request.getRequestURL());
 		if (requestUri.equals("/refresh") || requestUri.equals("/deleteRefresh")) {
 			filterChain.doFilter(request, response);
 			return;

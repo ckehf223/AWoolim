@@ -1,5 +1,5 @@
-import '/src/css/admin/FaqMain.css';
-import instance from "/src/common/auth/axios";
+import '/src/css/admin/faq/FaqMain.css';
+import instance from "/src/auth/axios";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';

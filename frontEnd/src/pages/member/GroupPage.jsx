@@ -1,5 +1,5 @@
-import GroupNav from "/src/components/member/GroupNav";
-import AsideButton from "/src/components/member/AsideButton";
+import GroupNav from "/src/components/member/service/GroupNav";
+import AsideButton from "/src/components/member/common/AsideButton";
 function GroupPage() {
   return (
     <>

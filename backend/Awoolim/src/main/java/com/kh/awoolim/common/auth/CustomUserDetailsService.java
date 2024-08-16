@@ -31,7 +31,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 		// 관리자로그인 경우 로직 작성해야함
 		Member memberData = null;
 		memberData = memberMapper.findByEmailType(username,"default");
-		log.info("3번 지점");
 		if(memberData == null) {
 			memberData = adminMapper.findById(username);
 		}

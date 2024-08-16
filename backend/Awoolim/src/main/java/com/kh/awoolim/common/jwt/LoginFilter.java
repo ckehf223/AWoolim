@@ -46,14 +46,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		log.info("loginFilterAttempt");
-
 		try {
-			log.info("loginFilterAttempt");
 			String requestUri = request.getRequestURI();
-			log.info(requestUri);
-			log.info("loginFilterReturn no");
-			// 요청 본문을 읽어 JSON 객체로 변환
 			BufferedReader reader = request.getReader();
 			StringBuilder sb = new StringBuilder();
 			String line;
@@ -61,54 +55,36 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 				sb.append(line);
 			}
 			String requestBody = sb.toString();
-
-			// JSON 파싱
 			JSONObject json = new JSONObject(requestBody);
 			String username = json.getString("username");
 			String password = json.getString("password");
 			
-			log.info(username);
-			log.info(password);
-
-			// 인증 토큰 생성 및 인증 시도
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,
-					null);
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,null);
 			return authenticationManager.authenticate(authToken);
-
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to parse authentication request body", e);
 		}
 	}
-
+	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authentication) throws IOException, ServletException {
-		// 유저 정보
 		CustomUserDetails member = (CustomUserDetails) authentication.getPrincipal();
-		log.info("successFul " + member.getUserEmail());
-		
-
 		String userEmail = member.getUserEmail();
 		int userId = member.getUserId();
 		
 		Collection<? extends GrantedAuthority> authorities = member.getAuthorities();
 		Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
 		GrantedAuthority auth = iterator.next();
+		
 		String role = auth.getAuthority();
-
-		// 토큰 생성
 		String access = jwtUtil.createJwt("access", userEmail, role, 3600000L,userId);
 		String refresh = jwtUtil.createJwt("refresh", userEmail, role, 86400000L,userId);
-
 		deleteRefreshToken(userId);
-		// Refresh 토큰 저장
 		addRefreshToken(userEmail, refresh, 86400000L,userId);
-
-		// 응답 설정
 		response.setHeader("Authorization", "Bearer " + access);
 		response.addCookie(createCookie("refresh", refresh));
 		response.setStatus(HttpStatus.OK.value());
-		
 	}
 
 	@Override

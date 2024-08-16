@@ -261,14 +261,11 @@ public class MemberController {
 		
 	}
 	public void deleteFile(String fileName) {
-		// 이미지 파일의 절대 경로를 생성
 		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);
-
 		try {
-			Files.deleteIfExists(filePath); // 파일이 존재하는 경우 삭제
+			Files.deleteIfExists(filePath);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("file 삭제중 오류발생");
 		}
 	}
 

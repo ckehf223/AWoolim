@@ -1,6 +1,6 @@
-import '/src/css/admin/FaqWrite.css'
+import '/src/css/admin/faq/FaqWrite.css'
 import { useNavigate } from 'react-router-dom'
-import instance from "/src/common/auth/axios";
+import instance from "/src/auth/axios";
 import { useState } from 'react';
 import CustomQuill from '/src/common/CustomQuill';
 

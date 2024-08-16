@@ -1,6 +1,6 @@
-import Slider from "/src/components/member/Slider";
-import Category from "/src/components/member/Category";
-import Groups from "/src/components/member/Groups";
+import Slider from "/src/components/member/common/Slider";
+import Category from "/src/components/member/common/Category";
+import Groups from "/src/components/member/common/Groups";
 
 function Home() {
   return (

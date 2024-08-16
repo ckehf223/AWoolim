@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '/src/css/admin/AdminLoginMain.css';
+import '/src/css/admin/common/AdminLoginMain.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser, faKey, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '/src/common/AuthContext';

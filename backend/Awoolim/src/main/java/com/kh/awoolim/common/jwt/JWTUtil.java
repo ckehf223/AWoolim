@@ -58,10 +58,7 @@ public class JWTUtil {
 
 		return Jwts.builder().claim("username", username) // claim 에 키 username value username
 				.claim("role", role) // claim 에 키 role value role
-				.claim("category", category).claim("userId", userId).issuedAt(new Date(System.currentTimeMillis())) // jwt
-																													// 토큰이
-																													// 생성된
-																													// 시각
+				.claim("category", category).claim("userId", userId).issuedAt(new Date(System.currentTimeMillis()))
 				.expiration(new Date(System.currentTimeMillis() + expiredMs)) // jwt토큰의 만료 시한
 				.signWith(secretKey) // 시크릿 키를 가지고 암호화를 진행함
 				.compact(); // 토큰을 컴팩트 시킨다.

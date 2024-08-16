@@ -1,16 +1,16 @@
 import './App.css';
-import Admin from '/src/pages/Admin';
-import Member from '/src/pages/Member';
+import Admin from '/src/pages/admin/Admin';
+import Member from '/src/pages/member/Member';
 import { Routes, Route, Router } from 'react-router-dom';
-import MemberIntro from '/src/pages/member/MemberIntro';
-import RegisterMember from '/src/pages/member/RegisterMember';
-import LoginMain from '/src/pages/member/login/LoginMain';
-import FindbyId from '/src/pages/member/login/FindbyId';
-import FindbyPw from '/src/pages/member/login/FindbyPw';
+import MemberIntro from '/src/components/member/sign/MemberIntro';
+import RegisterMember from '/src/components/member/sign/RegisterMember';
+import LoginMain from '/src/components/member/sign/LoginMain';
+import FindbyId from '/src/components/member/sign/FindbyId';
+import FindbyPw from '/src/components/member/sign/FindbyPw';
 import { AuthProvider } from '/src/common/AuthContext';
 import OAuth2RedirectHandler from '/src/common/OAuth2RedirectHandler';
 import PrivateRoute from '/src/common/PrivateRoute';
-import AdminLoginMain from './components/admin/adminLogin/AdminLoginMain';
+import AdminLoginMain from '/src/components/admin/adminLogin/AdminLoginMain';
 {/* 추가한 부분 */ }
 function App() {
   return (

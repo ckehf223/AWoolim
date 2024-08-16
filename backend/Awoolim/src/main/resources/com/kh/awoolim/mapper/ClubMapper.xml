@@ -72,6 +72,7 @@
 	</update>
 	<select id="getAllClubs" resultType="Club">
 		SELECT * FROM club
+		ORDER BY CLUBNO ASC
 	</select>
 
 	<select id="searchClubs" resultType="Club" parameterType="map">

@@ -1,5 +1,5 @@
-import '/src/css/admin/NoticeRead.css'
-import instance from "/src/common/auth/axios";
+import '/src/css/admin/notice/NoticeRead.css'
+import instance from "/src/auth/axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 

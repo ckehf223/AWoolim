@@ -10,6 +10,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.awoolim.domain.Chat;
+import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.service.ChatService;
 import com.kh.awoolim.service.MemberService;
 
@@ -34,12 +35,15 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		Map<String,Object> list = objectMapper.readValue(message.getPayload(), Map.class);
 		try {
 			Chat chat = new Chat();
+			Member member = memberService.readMember((Integer)list.get("USERID"));
 			chat.setClubNo((Integer) list.get("CLUBNO"));
 			chat.setMessage((String) list.get("MESSAGE")); 
-			chat.setUserId((Integer) list.get("USERID")); 
+			chat.setUserId(member.getUserId());
 			chatService.saveMessage(chat);
 			String userImage = memberService.getUserImage(chat.getUserId());
 			list.put("USERIMAGE", userImage);
+			list.put("USERNAME", member.getUserName());
+			list.put("NICKNAME", member.getNickName());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

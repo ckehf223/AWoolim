@@ -40,14 +40,13 @@ public class MessageController {
 
 	@PostMapping("send-sms")
 	public void sendSms(@RequestBody MessageRequest messageRequest, HttpSession session, HttpServletResponse response) {
+		
 		String code = randomCode();
 		session.setAttribute("authenticationCode", code);
-
 		Message message = new Message();
 		message.setFrom(sendNumber);
 		message.setTo(messageRequest.getPhoneNumber());
 		message.setText("[어울림 인증서비스]\n인증번호 ( " + code + " )를 입력해주세요");
-
 		try {
 			messageService.send(message);
 			log.info("message" + message);

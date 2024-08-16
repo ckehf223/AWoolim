@@ -1,5 +1,5 @@
-import SearchResult from "/src/components/member/SearchResult";
-import AsideButton from "/src/components/member/AsideButton";
+import SearchResult from "/src/components/member/common/SearchResult";
+import AsideButton from "/src/components/member/common/AsideButton";
 
 function SearchPage() {
   return (

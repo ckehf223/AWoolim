@@ -1,7 +1,7 @@
-import '/src/css/admin/NoticeWrite.css'
+import '/src/css/admin/notice/NoticeWrite.css'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import instance from "/src/common/auth/axios";
+import instance from "/src/auth/axios";
 import CustomQuill from '/src/common/CustomQuill';
 
 
