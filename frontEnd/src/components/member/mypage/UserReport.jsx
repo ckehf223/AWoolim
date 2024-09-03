@@ -53,8 +53,6 @@ const UserReport = () => {
     const [year, month, day] = dateStr.split('.').map(Number);
     return new Date(`20${year}`, month - 1, day);
   };
-
-
   const onSearchData = () => {
     const formattedInitialDate = formatDateString(initialDate);
     const formattedEndDate = formatDateString(endDate);

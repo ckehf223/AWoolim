@@ -32,11 +32,17 @@ const Notice = () => {
     const indexOfLastNotice = currentPage * noticesPerPage;
     const indexOfFirstNotice = indexOfLastNotice - noticesPerPage;
     const currentNotices = Array.isArray(notices) ? notices.slice(indexOfFirstNotice, indexOfLastNotice) : [];
-
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(notices.length / noticesPerPage); i++) {
         pageNumbers.push(i);
     }
+    const handelPrevPage = () => {
+        setCurrentPage(prev => Math.max(prev - 1, 1));
+    }
+    const handelNextPage = () => {
+        setCurrentPage(prev => Math.min(prev + 1, pageNumbers.length));
+    }
+
 
     const handleTitleClick = (noticeNo) => {
         instance.put(`/api/notices/increaseView/${noticeNo}`)
@@ -63,14 +69,6 @@ const Notice = () => {
     const handleLastPage = () => {
         setCurrentPage(pageNumbers.length);
     };
-
-    const handelPrevPage = () => {
-        setCurrentPage(prev => Math.max(prev - 1, 1));
-    }
-
-    const handelNextPage = () => {
-        setCurrentPage(prev => Math.min(prev + 1, pageNumbers.length));
-    }
 
 
     return (

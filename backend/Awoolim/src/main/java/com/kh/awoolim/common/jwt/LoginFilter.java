@@ -76,11 +76,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		Collection<? extends GrantedAuthority> authorities = member.getAuthorities();
 		Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
 		GrantedAuthority auth = iterator.next();
-		
 		String role = auth.getAuthority();
+		deleteRefreshToken(userId);
+
+		
 		String access = jwtUtil.createJwt("access", userEmail, role, 3600000L,userId);
 		String refresh = jwtUtil.createJwt("refresh", userEmail, role, 86400000L,userId);
-		deleteRefreshToken(userId);
 		addRefreshToken(userEmail, refresh, 86400000L,userId);
 		response.setHeader("Authorization", "Bearer " + access);
 		response.addCookie(createCookie("refresh", refresh));

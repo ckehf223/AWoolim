@@ -69,12 +69,16 @@ const ClubRegister = () => {
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-      };
+    const options = {
+      maxSizeMB: 2,
+      maxWidth: 1920,
+      maxHeight: 1080,
+      useWebWorker: true,
+    };
+    if (file && file.type.startsWith("image/")
+      && file.size < options.maxSizeMB
+      && file.width < options.maxWidth
+      && file.height < options.maxHeight) {
       try {
         const compressedFile = await imageCompression(file, options);
         const reader = new FileReader();
@@ -87,6 +91,8 @@ const ClubRegister = () => {
       } catch (error) {
         console.error("이미지 리사이즈 실패:", error);
       }
+    } else {
+      alert('업로드 할 수 없는 파일 입니다.');
     }
   };
 

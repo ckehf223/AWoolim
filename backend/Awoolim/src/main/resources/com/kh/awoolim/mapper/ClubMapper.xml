@@ -94,6 +94,7 @@
 			AND CATEGORY = #{category}
 		</if>
 	</select>
+	
 	<delete id="delete" parameterType="int">
 		DELETE FROM CLUB
 		WHERE CLUBNO =

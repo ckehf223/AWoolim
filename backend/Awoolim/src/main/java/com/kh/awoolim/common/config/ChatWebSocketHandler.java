@@ -33,25 +33,25 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		Map<String, Object> list = objectMapper.readValue(message.getPayload(), Map.class);
+		Map<String, Object> map = objectMapper.readValue(message.getPayload(), Map.class);
 		try {
 			Chat chat = new Chat();
-			Member member = memberService.readMember((Integer)list.get("USERID"));
-			chat.setClubNo((Integer) list.get("CLUBNO"));
-			chat.setMessage((String) list.get("MESSAGE")); 
+			Member member = memberService.readMember((Integer)map.get("USERID"));
+			chat.setClubNo((Integer) map.get("CLUBNO"));
+			chat.setMessage((String) map.get("MESSAGE")); 
 			chat.setUserId(member.getUserId());
 			chatService.saveMessage(chat);
 			String userImage = memberService.getUserImage(chat.getUserId());
-			list.put("USERIMAGE", userImage);
-			list.put("USERNAME", member.getUserName());
-			list.put("NICKNAME", member.getNickName());
+			map.put("USERIMAGE", userImage);
+			map.put("USERNAME", member.getUserName());
+			map.put("NICKNAME", member.getNickName());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		sessions.forEach((id, s) -> {
 			try {
-				s.sendMessage(new TextMessage(objectMapper.writeValueAsString(list)));
+				s.sendMessage(new TextMessage(objectMapper.writeValueAsString(map)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
