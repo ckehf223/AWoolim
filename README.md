@@ -6,6 +6,10 @@
 <br/>
 <br/>
 
+## 🎥시연 영상 
+- youtube : https://youtu.be/ZL009ZhEuWI?si=wdmSauWS3ADZ65YQ
+<br/>
+
 ## 🗂️개요
 - Java 웹 개발 풀스택 과정의 팀 프로젝트로 진행한 어울림입니다.
 - 어울림 서비스는 다양한 모임을 만들고 참여할 수 있는 웹사이트 입니다.
