@@ -71,9 +71,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter-test</artifactId>
-			<version>3.0.3</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -122,12 +121,6 @@
 			<artifactId>sdk</artifactId>
 			<version>4.3.0</version>
 		</dependency>
-		<!--		<dependency>
-			<groupId>com.kh.awoolim</groupId>>
-			<artifactId>SpringBootFileUpload</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>-->
-		<!-- WebSocket dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
