@@ -26,11 +26,13 @@ import com.kh.awoolim.common.jwt.JWTUtil;
 import com.kh.awoolim.domain.ClubGallery;
 import com.kh.awoolim.service.ClubGalleryService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/photoGallery")
+@Tag(name = "PhotoGallery", description = "사진첩 관련 API")
 public class PhotoGalleryController {
 
 	@Autowired

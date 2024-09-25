@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.service.MemberService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Slf4j
 @RestController
+@Tag(name = "Message", description = "전화번호 인증 관련 API")
 public class MessageController {
 
 	final DefaultMessageService messageService;

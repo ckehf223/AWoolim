@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.awoolim.domain.Question;
 import com.kh.awoolim.service.QuestionService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/faq")
+@Tag(name = "FAQ", description = "FAQ 관련 API")
 public class QuestionController {
 
 	@Autowired

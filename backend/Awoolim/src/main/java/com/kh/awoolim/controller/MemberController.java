@@ -28,6 +28,11 @@ import com.kh.awoolim.common.jwt.JWTUtil;
 import com.kh.awoolim.domain.Member;
 import com.kh.awoolim.service.MemberService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/member")
+@Tag(name = "Member", description = "사용자 관련 API")
 public class MemberController {
 
 	@Autowired
@@ -50,9 +56,11 @@ public class MemberController {
 		this.jwtUtil = jwtUtil;
 	}
 
+	@Operation(summary = "이메일 중복확인", description = "회원가입시 이메일 중복검사")
+	@ApiResponse(responseCode = "200", description = "true 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/checkEmail")
 	public ResponseEntity<Boolean> checkEmail(@RequestBody Map<String, String> requestBody) {
-		log.info("Post checkEmail");
 		try {
 			String userEmail = requestBody.get("userEmail");
 			boolean success = service.checkEmail(userEmail);
@@ -63,9 +71,11 @@ public class MemberController {
 
 	}
 
+	@Operation(summary = "회원가입 타입 확인", description = "회원가입 타입을 확인")
+	@ApiResponse(responseCode = "200", description = "회원가입 타입이 default 이면 true 반환 아니면 false반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@GetMapping("/checkEmail/{email}")
-	public ResponseEntity<Boolean> checkEmailDefault(@PathVariable("email") String email) {
-		log.info("Get checkEmail");
+	public ResponseEntity<Boolean> checkEmailDefault(@Parameter(description = "이메일 아이디")@PathVariable("email") String email) {
 		try {
 			boolean success = service.checkEmailDefault(email);
 			return ResponseEntity.status(HttpStatus.OK).body(Boolean.valueOf(success));
@@ -74,10 +84,11 @@ public class MemberController {
 		}
 	}
 
+	@Operation(summary = "회원가입", description = "사용자 회원가입")
+	@ApiResponse(responseCode = "200", description = "사용자 회원가입 완료")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/registerMember")
 	public void registerMember(@RequestBody Member member, HttpServletResponse response) {
-		log.info("registerMember POST ENTER");
-		log.info(member.toString());
 		try {
 			service.register(member);
 			response.setStatus(HttpStatus.OK.value());
@@ -86,6 +97,9 @@ public class MemberController {
 		}
 	}
 
+	@Operation(summary = "전화번호로 사용자 조회", description = "고유 전화번호로 사용자를 조회")
+	@ApiResponse(responseCode = "200", description = "정상적으로 사용자 정보 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/getMemberByPhone")
 	public ResponseEntity<Member> getMemberByEmail(@RequestBody Map<String, String> requestBody) {
 		try {
@@ -97,14 +111,14 @@ public class MemberController {
 		}
 	}
 
+	@Operation(summary = "사용자 비밀번호 변경", description = "사용자 비밀번호 변경 후 암호화진행")
+	@ApiResponse(responseCode = "200", description = "정상적으로 비밀번호 변경")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PutMapping("/updatePassword")
 	public ResponseEntity<String> updatePassword(@RequestBody Map<String, String> requestBody) {
-		log.info("updatePassword");
 		try {
 			String userEmail = requestBody.get("userEmail");
 			String newPassword = requestBody.get("newPassword");
-			log.info(userEmail);
-			log.info(newPassword);
 			service.updatePassword(userEmail, newPassword);
 			return ResponseEntity.ok("success");
 		} catch (RuntimeException e) {
@@ -112,9 +126,11 @@ public class MemberController {
 		}
 	}
 
+	@Operation(summary = "사용자 프로필 조회", description = "accessToken으로 로그인 사용자 프로필 조회")
+	@ApiResponse(responseCode = "200", description = "사용자 정보 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@GetMapping("/getProfile")
 	public ResponseEntity<Member> getProfile(HttpServletRequest request) {
-		log.info("getProfil GET ENTER");
 		try {
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
@@ -126,9 +142,9 @@ public class MemberController {
 		}
 	}
 
+	@Hidden
 	@GetMapping("/readUser")
 	public ResponseEntity<Member> readUser(HttpServletRequest request) {
-		log.info("readUser GET ENTER");
 		try {
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
@@ -140,6 +156,10 @@ public class MemberController {
 		}
 	}
 
+	@Operation(summary = "사용자 프로필 수정", description = "사용자 프로필 수정 및 이미지 파일 업데이트")
+	@ApiResponse(responseCode = "200", description = "사용자 정보 업데이트")
+	@ApiResponse(responseCode = "401", description = "사용자 정보 업데이트 중 오류발생")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/updateProfile")
 	public void updateProfile(@RequestParam("nickName") String nickName,
 			@RequestParam(value = "userImage", required = false) MultipartFile userImage,
@@ -212,7 +232,8 @@ public class MemberController {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		}
 	}
-
+	
+	@Hidden
 	@PostMapping("/modifyMember")
 	public void modifyMember(@RequestBody Map<String, String> requestBody, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -241,6 +262,9 @@ public class MemberController {
 
 	}
 	
+	@Operation(summary = "사용자 탈퇴", description = "사용자 탈퇴")
+	@ApiResponse(responseCode = "200", description = "정상적으로 사용자 탈퇴 완료")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/delete")
 	public void deleteUser(HttpServletRequest request,HttpServletResponse response) {
 		try {
@@ -260,6 +284,7 @@ public class MemberController {
 		}
 		
 	}
+	@Hidden
 	public void deleteFile(String fileName) {
 		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);
 		try {

@@ -38,7 +38,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
 	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
 		String requestUri = request.getRequestURI();
-		if (!"/logout".equals(requestUri) || !"POST".equals(request.getMethod())) {
+		if (!"/logout".equals(requestUri) || !"POST".equals(request.getMethod())|| requestUri.startsWith("/swagger-ui")) {
 			filterChain.doFilter(request, response);
 			return;
 		}

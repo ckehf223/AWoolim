@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.awoolim.domain.Notice;
 import com.kh.awoolim.service.NoticeService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/notices")
+@Tag(name = "Notice", description = "공지사항 관련 API")
 public class NoticeController {
 
 	@Autowired

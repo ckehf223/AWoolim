@@ -31,14 +31,14 @@ public class JWTFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		String requestUri = request.getRequestURI();
-		if (requestUri.equals("/refresh") || requestUri.equals("/deleteRefresh")) {
+		if (requestUri.equals("/refresh") || requestUri.equals("/deleteRefresh") || requestUri.startsWith("/swagger-ui") || requestUri.startsWith("/v3/api-docs") || requestUri.startsWith("/api-docs/swagger-config")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		String accessToken = request.getHeader("Authorization");
 		if(accessToken == null) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -47,7 +47,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 		try {
 			if (jwtUtil.isExpired(accessToken)) {
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				return;
 			}
 

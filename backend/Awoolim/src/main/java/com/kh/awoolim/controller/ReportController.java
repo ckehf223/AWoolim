@@ -16,6 +16,7 @@ import com.kh.awoolim.common.jwt.JWTUtil;
 import com.kh.awoolim.domain.Report;
 import com.kh.awoolim.service.ReportService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/api/report")
+@Tag(name = "Report", description = "신고 관련 API")
 public class ReportController {
 	
 	@Autowired

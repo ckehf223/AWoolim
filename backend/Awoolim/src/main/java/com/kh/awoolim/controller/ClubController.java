@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,13 +32,19 @@ import com.kh.awoolim.service.ClubMemberService;
 import com.kh.awoolim.service.ClubService;
 import com.kh.awoolim.service.MemberService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
-@RestController
-@RequestMapping("/api/club")
 @Slf4j
+@Controller
+@RequestMapping("/api/club")
+@Tag(name = "Club", description = "모임 관련 API")
 public class ClubController {
 
 	@Value("${upload.path}")
@@ -61,19 +68,23 @@ public class ClubController {
 		this.alarmService = alarmService;
 		this.memberService = memberService;
 	}
-
+	
+	@Operation(summary = "전체 모임 조회", description = "메인 페이지 요청시 전체 모임을 조회하여 보여줌")
+	@ApiResponse(responseCode = "200", description = "정상적으로 전체 모임 목록 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@GetMapping("/")
 	public ResponseEntity<List<Club>> getAllClubs() {
-		log.info("getAllClubs");
 		List<Club> clubs = clubService.getAllClubs();
 		return ResponseEntity.ok(clubs);
 	}
 
+	@Operation(summary = "모임 검색", description = "검색 필터를 통해 조건에 해당하는 모임 조회")
+	@ApiResponse(responseCode = "200", description = "정상적으로 채팅방 메세지 목록 반환")
+    @ApiResponse(responseCode = "401", description = "모임 검색 중 오류 발생")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@GetMapping("/search")
-	public ResponseEntity<List<Club>> searchClubs(@RequestParam Map<String,Object> filters) {
-		log.info("search GET ENTER");
+	public ResponseEntity<List<Club>> searchClubs(@Parameter(description = "검색 필터 정보 Map")@RequestParam Map<String,Object> filters) {
 		try {
-			log.info(""+filters);
 			List<Club> clubs = clubService.searchClubs(filters);
 			if(clubs != null && !clubs.isEmpty()) {
 				return ResponseEntity.status(HttpStatus.OK).body(clubs);
@@ -83,18 +94,24 @@ public class ClubController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
-
+	
+	@Operation(summary = "모임 등록", description = "모임을 개설할 떄 입력한 정보들을 가져와 확인 후 등록")
+	@ApiResponse(responseCode = "200", description = "정상적으로 모임 등록 완료")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/register")
-	public ResponseEntity<Integer> registerClub(@RequestParam("clubTitle") String clubTitle,
-			@RequestParam("clubGender") String clubGender, @RequestParam("category") String category,
-			@RequestParam("city") String city, @RequestParam("district") String district,
-			@RequestParam("regularType") int regularType, @RequestParam("maxMember") int maxMember,
-			@RequestParam("dDay") String dDay,
-			@RequestParam(value = "clubImage", required = false) MultipartFile clubImage,
-			@RequestParam("detailInfo") String detailInfo, @RequestParam("ageLimit") String ageLimit,
-			HttpServletRequest request) {
+	public ResponseEntity<Integer> registerClub(@Parameter(description = "모임 제목")@RequestParam("clubTitle") String clubTitle,
+			@Parameter(description = "모임 성별")@RequestParam("clubGender") String clubGender, 
+			@Parameter(description = "카테고리")@RequestParam("category") String category,
+			@Parameter(description = "모임 지역(시/도)")@RequestParam("city") String city, 
+			@Parameter(description = "모임 지역(시/군/구)")@RequestParam("district") String district,
+			@Parameter(description = "모임 주기 타입")@RequestParam("regularType") int regularType, 
+			@Parameter(description = "제한 인원")@RequestParam("maxMember") int maxMember,
+			@Parameter(description = "만나는 날")@RequestParam("dDay") String dDay,
+			@Parameter(description = "모임 프로필 사진")@RequestParam(value = "clubImage", required = false) MultipartFile clubImage,
+			@Parameter(description = "모임 상세 정보")@RequestParam("detailInfo") String detailInfo, 
+			@Parameter(description = "제한 나이")@RequestParam("ageLimit") String ageLimit,
+			@Parameter(description = "AccesstoKen 확인을 위한 request")HttpServletRequest request) {
 
-		log.info("club register POST Enter");
 		try {
 
 			String accessToken = request.getHeader("Authorization").substring(7);
@@ -144,27 +161,32 @@ public class ClubController {
 		}
 	}
 
+	@Operation(summary = "특정 모임 조회", description = "선택한 모임의 상세정보를 조회")
+	@ApiResponse(responseCode = "200", description = "정상적으로 모임 정보 반환")
+    @ApiResponse(responseCode = "401", description = "모임 조회 중 오류 발생")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@GetMapping("/read/{clubNo}")
-	public ResponseEntity<Map<String, Object>> readClub(@PathVariable("clubNo") int clubNo) {
-		log.info("read Club GET Enter");
+	public ResponseEntity<Map<String, Object>> readClub(@Parameter(description = "모임 고유번호")@PathVariable("clubNo") int clubNo) {
 		try {
 
 			Map<String, Object> clubData = clubService.readClub(clubNo);
 			if (clubData != null) {
 				return ResponseEntity.status(HttpStatus.OK).body(clubData);
 			}
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 
 	}
-
+	
+	@Operation(summary = "특정 모임 참여멤버 조회", description = "선택한 모임의 참여중인 멤버를 조회")
+	@ApiResponse(responseCode = "200", description = "정상적으로 특정 모임 사용자 목록 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/clubmember/signUp/{clubNo}")
-	public ResponseEntity<Integer> clubMemberSignUp(@PathVariable("clubNo") int clubNo, HttpServletRequest request) {
+	public ResponseEntity<Integer> clubMemberSignUp(@Parameter(description = "모임 고유번호")@PathVariable("clubNo") int clubNo, HttpServletRequest request) {
 		try {
-			log.info("clubmemberSingup POST ENTER");
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
 			int check = clubMemberService.signUp(userId, clubNo);
@@ -185,9 +207,9 @@ public class ClubController {
 
 	}
 
+	@Hidden
 	@GetMapping("/readMyClub")
 	public ResponseEntity<Map<String, Object>> readMyClub(HttpServletRequest request) {
-		log.info("readMyClub GET ENTER");
 		try {
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
@@ -198,9 +220,12 @@ public class ClubController {
 		}
 	}
 
+	@Operation(summary = "만든 모임을 조회", description = "사용자가 개설한 모임을 조회")
+	@ApiResponse(responseCode = "200", description = "정상적으로 개설한 모임 목록 반환")
+    @ApiResponse(responseCode = "401", description = "개설한 모임이 없음")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@GetMapping("/read/madeClubList")
 	public ResponseEntity<Map<String, Object>> readMadeClubList(HttpServletRequest request) {
-		log.info("madeClubList GET ENTER");
 		try {
 			String accessToken = request.getHeader("Authorization").substring(7);
 			int userId = jwtUtil.getUserId(accessToken);
@@ -215,9 +240,9 @@ public class ClubController {
 		}
 	}
 
+	@Hidden
 	@GetMapping("/modify/{clubNo}")
 	public ResponseEntity<Club> getModifyClub(@PathVariable("clubNo") int clubNo) {
-		log.info("modify GET ENTER");
 		try {
 			Club club = clubService.readByClubNo(clubNo);
 			return ResponseEntity.status(HttpStatus.OK).body(club);
@@ -226,6 +251,9 @@ public class ClubController {
 		}
 	}
 
+	@Operation(summary = "모임 조건,정보 수정", description = "모임의 조건,상태,정보를 수정함")
+	@ApiResponse(responseCode = "200", description = "정상적으로 모임 정보 수정")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/modify")
 	public void updateClub(@RequestParam("clubNo") int clubNo, @RequestParam("clubTitle") String clubTitle,
 			@RequestParam("clubGender") String clubGender, @RequestParam("category") String category,
@@ -236,7 +264,6 @@ public class ClubController {
 			@RequestParam("detailInfo") String detailInfo, @RequestParam("ageLimit") String ageLimit,
 			 @RequestParam("recruitment") int recruitment,
 			HttpServletRequest request, HttpServletResponse response) {
-		log.info("modify POST Enter");
 
 		try {
 			Club club = clubService.readByClub(clubNo);
@@ -282,9 +309,9 @@ public class ClubController {
 		}
 	}
 
+	@Hidden
 	@GetMapping("/getClubMemberList/{clubNo}")
 	public ResponseEntity<List<Map<String, Object>>> getClubMemberList(@PathVariable("clubNo") int clubNo) {
-		log.info("getClubMemberList GET ENTER");
 		try {
 			List<Map<String, Object>> mapList = clubService.getClubMemberList(clubNo, 1);
 			if (mapList != null) {
@@ -296,9 +323,12 @@ public class ClubController {
 		}
 	}
 
+	@Operation(summary = "모임 신청 조회", description = "자신의 모임을 신청한 사용자를 조회")
+	@ApiResponse(responseCode = "200", description = "정상적으로 모임신청 목록 반환")
+    @ApiResponse(responseCode = "401", description = "모임신청 목록 조회 중 오류 발생")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@GetMapping("/getAcceptMemberList/{clubNo}")
 	public ResponseEntity<List<Map<String, Object>>> getAcceptMemberList(@PathVariable("clubNo") int clubNo) {
-		log.info("getAcceptMemberList GET ENTER");
 		try {
 			List<Map<String, Object>> mapList = clubService.getClubMemberList(clubNo, 0);
 			if (mapList != null) {
@@ -310,6 +340,7 @@ public class ClubController {
 		}
 	}
 
+	@Hidden
 	@PostMapping("/exitClub")
 	public ResponseEntity<Void> exitClub(@RequestBody Map<String, Integer> requestBody, HttpServletRequest request) {
 
@@ -332,9 +363,9 @@ public class ClubController {
 		}
 	}
 
+	@Hidden
 	@PostMapping("/exitClubMember")
 	public void deleteClubMember(@RequestBody Map<String, Integer> requestBody, HttpServletResponse response) {
-		log.info("exitClubMember POST ENTER");
 		try {
 			int userId = requestBody.get("userId");
 			int clubNo = requestBody.get("clubNo");
@@ -351,9 +382,11 @@ public class ClubController {
 		}
 	}
 
+	@Operation(summary = "모임 신청 수락", description = "자신의 모임을 신청을 수락하고 신청자에게 알림을 발생")
+	@ApiResponse(responseCode = "200", description = "정상적으로 신청 수락 및 알림 등록")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/acceptClubMember")
 	public ResponseEntity<Integer> acceptClubMember(@RequestBody Map<String, Integer> requestBody) {
-		log.info("acceptClubMember POST ENTER");
 		try {
 			int userId = requestBody.get("userId");
 			int clubNo = requestBody.get("clubNo");
@@ -379,9 +412,11 @@ public class ClubController {
 		} 
 	}
 
+	@Operation(summary = "모임 신청 거절", description = "자신의 모임을 신청을 거절 후 상대방에게 알림을 발생")
+	@ApiResponse(responseCode = "200", description = "정상적으로 모임 거절 및 알림 등록")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/refuseClubMember")
 	public void refuseClubMember(@RequestBody Map<String, Integer> requestBody, HttpServletResponse response) {
-		log.info("refuseClubMember POST ENTER");
 		try {
 			int userId = requestBody.get("userId");
 			int clubNo = requestBody.get("clubNo");
@@ -397,6 +432,7 @@ public class ClubController {
 		}
 	}
 	
+	@Hidden
 	@GetMapping("/clubMasterId/{clubNo}")
 	public ResponseEntity<Integer> getClubMasterId(@PathVariable("clubNo") int clubNo){
 		try {
@@ -407,6 +443,10 @@ public class ClubController {
 		}
 	}
 	
+	@Operation(summary = "모임 삭제", description = "자신이 만든 모임을 삭제")
+	@ApiResponse(responseCode = "200", description = "정상적으로 모임 삭제")
+    @ApiResponse(responseCode = "401", description = "모임 삭제 중 오류 발생")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/deleteClub/{clubNo}")
 	public void deleteClub(@PathVariable("clubNo") int clubNo,HttpServletResponse response) {
 		try {
@@ -420,6 +460,8 @@ public class ClubController {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		}
 	}
+	
+	@Hidden
 	public void deleteFile(String fileName) {
 		// 이미지 파일의 절대 경로를 생성
 		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);

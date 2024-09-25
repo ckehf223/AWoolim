@@ -26,10 +26,16 @@ import com.kh.awoolim.service.ClubService;
 import com.kh.awoolim.service.MemberService;
 import com.kh.awoolim.service.ReportService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/admin")
+@Tag(name = "Admin", description = "관리자 관련 API")
 public class AdminController {
 
     @Autowired
@@ -40,15 +46,20 @@ public class AdminController {
     private ClubService clubService;
     @Autowired
     private MemberService memberService;
-    // 회원 목록 조회
+
+    @Operation(summary = "모든 사용자 조회", description = "모든 사용자 정보 목록으로 조회")
+    @ApiResponse(responseCode = "200", description = "정상적으로 사용자 목록 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
     @GetMapping("/userlist")
-    public List<Member> userLIst() {
+    public List<Member> userList() {
        return adminService.userList();
     }
 
-    // 회원 삭제
+    @Operation(summary = "특정 회원 삭제", description = "신고,경고에 따라 사용자 삭제 및 강제 삭제")
+    @ApiResponse(responseCode = "200", description = "정상적으로 특정 사용자 삭제완료")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
     @PostMapping("/userdelete/{userId}")
-    public void deleteUser(@PathVariable("userId") int userId,HttpServletResponse response) {
+    public void deleteUser(@Parameter(description = "삭제대상 userId")@PathVariable("userId") int userId,HttpServletResponse response) {
     	try {
     		Member member = memberService.readMember(userId);
 			if (!member.getUserImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
@@ -63,7 +74,8 @@ public class AdminController {
     		response.setStatus(HttpStatus.UNAUTHORIZED.value());
     	}
     }
-
+    
+    @Hidden
     @GetMapping("/stats")
     public Map<String, Object> getStatistics() {
         Map<String, Object> stats = new HashMap<>();
@@ -73,25 +85,38 @@ public class AdminController {
         stats.put("totalOneTimeClubs", adminService.getTotalOneTimeClubs());
         return stats;
     }
-
+    
+    @Operation(summary = "모든 모임 조회", description = "모든 모임 목록으로 조회")
+    @ApiResponse(responseCode = "200", description = "정상적으로 모임 목록 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
     @GetMapping("/clublist")
     public List<Club> clubList() {
         List<Club> clubs = adminService.clubList();
         return clubs;
     }
 
+    @Operation(summary = "특정 모임 조회", description = "모임 상세 정보를 조회")
+    @ApiResponse(responseCode = "200", description = "정상적으로 모임 정보 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
     @GetMapping("/club/{clubNo}")
-    public Map<String, Object> getClubDetail(@PathVariable("clubNo") int clubNo) {
+    public Map<String, Object> getClubDetail(@Parameter(description = "모임 고유 번호")@PathVariable("clubNo") int clubNo) {
         return adminService.clubDetail(clubNo);
     }
 
+    @Operation(summary = "특정 모임 내 참여자 조회", description = "모임 참여자를 조회하여 목록으로 확인")
+    @ApiResponse(responseCode = "200", description = "정상적으로 모임 참여자 목록 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
     @GetMapping("/club/{clubNo}/members")
-    public List<Member> getClubMembers(@PathVariable("clubNo") int clubNo) {
+    public List<Member> getClubMembers(@Parameter(description = "모임 고유 번호")@PathVariable("clubNo") int clubNo) {
         return adminService.selectClubMembers(clubNo);
     }
 
+    @Operation(summary = "모임 삭제", description = "신고,경고,부적절함을 확인하여 모임을 삭제")
+    @ApiResponse(responseCode = "200", description = "정상적으로 모임 삭제")
+    @ApiResponse(responseCode = "401", description = "모임 삭제 중 오류발생")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
     @PostMapping("/deleteClub/{clubNo}")
-	public void deleteClub(@PathVariable("clubNo") int clubNo,HttpServletResponse response) {
+	public void deleteClub(@Parameter(description = "모임 고유 번호")@PathVariable("clubNo") int clubNo,HttpServletResponse response) {
 		try {
 			Club club = clubService.readByClub(clubNo);
 			if (!club.getClubImage().trim().equals("dce899f2-eca3-4886-8400-f31bfd64de1f.png")) {
@@ -104,40 +129,49 @@ public class AdminController {
 		}
 	}
     
+    @Hidden
     @GetMapping("/gender")
     public ResponseEntity<Map<String, Integer>> getGenderRatio() {
         Map<String, Integer> genderRatio = adminService.selectGenderRatio();
         return ResponseEntity.ok(genderRatio);
     }
 
+    @Hidden
     @GetMapping("/categorycounts")
     public List<Map<String, Object>> getCategoryCounts() {
         return adminService.getCategoryCounts();
     }
 
+    @Hidden
     @GetMapping("/user-participation-stats")
     public List<Map<String, Object>> getUserParticipationStats() {
         return adminService.getUserParticipationStats();
     }
 
-    // 신고 목록 조회
+    @Operation(summary = "신고 내역 조회", description = "모든 신고 내역 목록으로 조회")
+    @ApiResponse(responseCode = "200", description = "정상적으로 신고 목록 반환")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
     @GetMapping("/report/list")
     public List<Map<String, Object>> selectReportList() {
         return reportService.selectReportList();
     }
 
-    // 신고 삭제
+    @Hidden
     @PostMapping("/report/delete")
-    public void deleteReport(@RequestBody int reportNo) {
+    public void deleteReport(@Parameter(description = "신고 고유 번호")@RequestBody int reportNo) {
         reportService.deleteReport(reportNo);
     }
 
-    // 신고 결과 처리
+    @Operation(summary = "신고 결과 처리", description = "신고 내용을 확인하여 결과 업데이트")
+    @ApiResponse(responseCode = "200", description = "정상적으로 신고 처리 업데이트")
+    @ApiResponse(responseCode = "401", description = "신고 처리 업데이트 중 오류발생")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
     @PostMapping("/report/update")
-    public void updateReportResult(@RequestBody Report report) {
+    public void updateReportResult(@Parameter(description = "dto")@RequestBody Report report) {
         reportService.updateReportResult(report);
     }
     
+    @Hidden
     public void deleteFile(String fileName) {
 		// 이미지 파일의 절대 경로를 생성
 		Path filePath = Paths.get("src/main/resources/static/images/" + fileName);

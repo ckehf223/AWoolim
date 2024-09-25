@@ -92,8 +92,8 @@ public class SecurityConfig {
 				.requestMatchers("/api/faq/*").permitAll()
 				.requestMatchers("/api/club/register").hasRole("MEMBER")
 				.requestMatchers("/admin/*").hasRole("ADMIN")
+				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**").permitAll()
 				.anyRequest().permitAll());
-
 		
 		
 		http.oauth2Login((oauth2) -> oauth2

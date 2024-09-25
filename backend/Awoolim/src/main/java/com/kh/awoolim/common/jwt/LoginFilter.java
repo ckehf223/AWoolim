@@ -47,7 +47,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		try {
-			String requestUri = request.getRequestURI();
 			BufferedReader reader = request.getReader();
 			StringBuilder sb = new StringBuilder();
 			String line;
@@ -69,6 +68,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authentication) throws IOException, ServletException {
+		log.info("successfulAuthentication");
 		CustomUserDetails member = (CustomUserDetails) authentication.getPrincipal();
 		String userEmail = member.getUserEmail();
 		int userId = member.getUserId();

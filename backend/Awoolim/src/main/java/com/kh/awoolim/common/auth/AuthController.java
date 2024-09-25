@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.awoolim.common.jwt.JWTUtil;
 import com.kh.awoolim.mapper.RefreshTokenMapper;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@Tag(name = "Auth", description = "인증관련 API")
 public class AuthController {
 
 	private final JWTUtil jwtUtil;
@@ -28,14 +35,18 @@ public class AuthController {
 		this.jwtUtil = jwtUtil;
 		this.refreshTokenMapper = refreshTokenMapper;
 	}
-
+	@Hidden
 	@PostMapping("/login")
 	public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		log.info("login POST");
 		response.setStatus(HttpServletResponse.SC_OK);
 		
 	}
-
+	
+	@Operation(summary = "refreshToken 확인, 토큰 발행", description = "accessToken이 만료되었을 때 refreshToken을 확인하여 accessToken 재발행")
+	@ApiResponse(responseCode = "200", description = "성공적으로 accessToken 재발행")
+	@ApiResponse(responseCode = "401", description = "refreshToken 만료")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/refresh")
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try {
@@ -62,7 +73,7 @@ public class AuthController {
 				response.setHeader("Authorization", "Bearer " + newAccessToken);
 				response.setStatus(HttpServletResponse.SC_OK);
 		} catch (IllegalArgumentException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.getWriter().write("Invalid JWT token: " + e.getMessage());
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -70,6 +81,9 @@ public class AuthController {
 		}
 	}
 
+	@Operation(summary = "refreshToken 제거", description = "로그아웃, 만료 시 cookie,DB에 있는 refreshToken 제거")
+	@ApiResponse(responseCode = "200", description = "정상적으로 refreshToken 제거완료")
+	@ApiResponse(responseCode = "500", description = "서버 오류 발생")
 	@PostMapping("/deleteRefresh")
 	public void deleteRefresh(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		log.info("deleteRefreshToken");
@@ -95,13 +109,13 @@ public class AuthController {
 			response.setStatus(HttpServletResponse.SC_OK);
 
 		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 
 	}
 
-
-	@Transactional	
+	
+	@Transactional
 	private void deleteRefreshToken(String refresh) {
 		refreshTokenMapper.delete(refresh);
 	}
