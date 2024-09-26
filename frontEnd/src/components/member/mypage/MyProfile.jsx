@@ -91,7 +91,7 @@ const MyProfile = () => {
     setIntroMg(tempIntroMg);
   };
   const onDeleteImage = () => {
-    setImageSrc("/src/assets/images/blank_image.png");
+    setImageSrc("/assets/images/blank_image.png");
   };
   const onBackDeleteImage = () => {
     setBackImageSrc("");
@@ -167,11 +167,11 @@ const MyProfile = () => {
         }
         formData.append("userIntro", introMg);
         if (
-          imageSrc !== "/src/assets/images/blank_image.png" &&
+          imageSrc !== "/assets/images/blank_image.png" &&
           imageSrc.split("base64,")[1] !== userData.userImage
         ) {
           formData.append("checkImage", "1");
-        } else if (imageSrc === "/src/assets/images/blank_image.png") {
+        } else if (imageSrc === "/assets/images/blank_image.png") {
           formData.append("checkImage", "0");
         } else {
           formData.append("checkImage", "-1");

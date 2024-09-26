@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import '/src/css/admin/club/ClubDetail.css';
-import instance from '/src//auth/axios';
+import instance from '/src/auth/axios';
 import DOMPurify from 'dompurify';
 
 const ClubDetail = () => {

@@ -97,7 +97,7 @@ function Category() {
           <div className="categoryButtonContainer">
             {currentSlide > 0 && (
               <img
-                src="/src/assets/images/left-arrow.png"
+                src="/assets/images/left-arrow.png"
                 alt="이전 버튼"
                 className="categoryButtonL"
                 onClick={handlePrevClick}
@@ -105,7 +105,7 @@ function Category() {
             )}
             {currentSlide < (filteredClubs.length - 4) * 344 && (
               <img
-                src="/src/assets/images/right-arrow.png"
+                src="/assets/images/right-arrow.png"
                 alt="다음 버튼"
                 className="categoryButtonR"
                 onClick={handleNextClick}

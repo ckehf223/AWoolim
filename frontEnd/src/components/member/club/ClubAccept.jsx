@@ -119,8 +119,8 @@ const ClubAccept = () => {
                       </div>
                     </div>
                     <div className='ClubAcceptButtonBox'>
-                      <img src="/src/assets/images/check.png" alt="신청 수락 이미지" onClick={() => { accept(member.USERID) }} />
-                      <img src="/src/assets/images/remove.png" alt="신청 거절 이미지" onClick={() => { refuse(member.USERID) }} />
+                      <img src="/assets/images/check.png" alt="신청 수락 이미지" onClick={() => { accept(member.USERID) }} />
+                      <img src="/assets/images/remove.png" alt="신청 거절 이미지" onClick={() => { refuse(member.USERID) }} />
                     </div>
                   </div>
                 )

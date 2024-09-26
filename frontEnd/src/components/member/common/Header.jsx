@@ -127,7 +127,7 @@ function Header() {
     <header id="header">
       <div id="header-logo">
         <Link to="/" onClick={handleLogoClick}>
-          <img src="/src/assets/images/headerLogo.png" alt="로고" />
+          <img src="/assets/images/headerLogo.png" alt="로고" />
         </Link>
       </div>
 
@@ -139,7 +139,7 @@ function Header() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button onClick={handleSearchClick}>
-          <img src="/src/assets/images/search.png" alt="검색" />
+          <img src="/assets/images/search.png" alt="검색" />
         </button>
       </div>
 
@@ -147,15 +147,15 @@ function Header() {
         {isAuthenticated && (
           <div className="noticeicondiv">
             <img
-              src="/src/assets/images/notice.png"
+              src="/assets/images/notice.png"
               alt="알림"
               id="alarm-icon"
               onClick={() => setShowNotifications(!showNotifications)}
             />
             <span
               className={`notification-count ${notifications.filter((n) => n.isRead === 0).length === 0
-                  ? "hidden"
-                  : ""
+                ? "hidden"
+                : ""
                 }`}
             >
               {notifications.filter((n) => n.isRead === 0).length}

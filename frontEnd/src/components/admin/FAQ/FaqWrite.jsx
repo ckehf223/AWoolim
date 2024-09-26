@@ -29,7 +29,7 @@ const FaqWrite = () => {
         <div className="FaqWrite">
             <form onSubmit={handleSubmit}>
                 <div className="FwHeader">
-                    <h3><img src="/src/assets/images/faqSmall.png" alt="" /> 자주하는 질문 작성</h3>
+                    <h3><img src="/assets/images/faqSmall.png" alt="" /> 자주하는 질문 작성</h3>
                 </div>
                 <hr />
 

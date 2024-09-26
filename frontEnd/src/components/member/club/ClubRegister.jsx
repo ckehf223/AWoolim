@@ -114,7 +114,7 @@ const ClubRegister = () => {
   };
 
   const onDeleteImage = () => {
-    setImageSrc("/src/assets/images/image.png");
+    setImageSrc("/assets/images/image.png");
     setFileInput("");
     setFile("");
   };
@@ -195,7 +195,7 @@ const ClubRegister = () => {
       <div className="ClubRegisterWrap">
         <div className="ClubRegisterHeader">
           <span>모임 개설</span>
-          <img src="/src/assets/images/tent.png" alt="" />
+          <img src="/assets/images/tent.png" alt="" />
         </div>
         <div className="ClubRegisterTopArea">
           <div className="ClubRegisterTopBox">

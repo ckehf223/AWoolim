@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.RefreshTokenMapper">
-	<select id="read" resultType="com.kh.awoolim.common.domain.RefreshToken">
-		SELECT * FROM REFRESHTOKEN WHERE
-		refresh = #{refresh}
-	</select>
-	<insert id="create" parameterType="com.kh.awoolim.common.domain.RefreshToken">
-		INSERT INTO REFRESHTOKEN
-		VALUES(refreshtoken_seq.nextVal,#{userId},#{userEmail},#{refresh},#{expiration})
-	</insert>
-	<delete id="delete" parameterType="String">
-		DELETE FROM REFRESHTOKEN
-		WHERE
-		refresh = #{refresh}
-	</delete>
-	<delete id="deleteAll" parameterType="int">
-		DELETE FROM REFRESHTOKEN
-		WHERE USERID = #{userId}
-	</delete>
+
+    <!-- RefreshToken 읽기 -->
+    <select id="read" resultType="com.kh.awoolim.common.domain.RefreshToken">
+        SELECT * FROM REFRESHTOKEN 
+        WHERE refresh = #{refresh}
+    </select>
+
+    <!-- RefreshToken 생성 -->
+    <insert id="create" parameterType="com.kh.awoolim.common.domain.RefreshToken">
+        INSERT INTO REFRESHTOKEN (USERID, USEREMAIL, REFRESH, EXPIRATION)
+        VALUES (#{userId}, #{userEmail}, #{refresh}, #{expiration})
+    </insert>
+
+    <!-- RefreshToken 삭제 -->
+    <delete id="delete" parameterType="String">
+        DELETE FROM REFRESHTOKEN 
+        WHERE refresh = #{refresh}
+    </delete>
+
+    <!-- 특정 USERID에 대한 모든 RefreshToken 삭제 -->
+    <delete id="deleteAll" parameterType="int">
+        DELETE FROM REFRESHTOKEN 
+        WHERE USERID = #{userId}
+    </delete>
+
 </mapper>

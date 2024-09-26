@@ -44,7 +44,7 @@ const AdminLoginMain = () => {
         <div className='LoginMainWrap'>
             <div className="LoginMain">
                 <div className="logo-container">
-                    <img src="\src\assets\images\headerLogo.png" alt="어울림" onClick={() => { nav('/') }} />
+                    <img src="/assets/images/headerLogo.png" alt="어울림" onClick={() => { nav('/') }} />
                 </div>
                 <form className="login-form">
                     <div className="LoginMainInput-group">

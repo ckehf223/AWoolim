@@ -91,7 +91,7 @@ const MyClubDetailInfo = () => {
                         <div className="myClubDetailCategoryWrapDiv">
                           <img
                             className="myClubDetailCategoryIcon"
-                            src="/src/assets/images/categoryIcon.png"
+                            src="/assets/images/categoryIcon.png"
                           />
                           <span className="myclubspanspan">
                             {clubData.club.category}
@@ -105,7 +105,7 @@ const MyClubDetailInfo = () => {
                       {isAuthenticated && loginId !== clubData.club.userId && (
                         <div className="myClubDetailReportBox">
                           <img
-                            src="/src/assets/images/report6.png"
+                            src="/assets/images/report6.png"
                             alt="신고이미지"
                             onClick={() =>
                               openReportModal({
@@ -135,18 +135,18 @@ const MyClubDetailInfo = () => {
 
                   <div className="myClubDetailTop_contentArea">
                     <div>
-                      <img src="/src/assets/images/location.png" />
+                      <img src="/assets/images/location.png" />
                       <span>
                         {" "}
                         {clubData.club.city + " " + clubData.club.district}{" "}
                       </span>
                     </div>
                     <div>
-                      <img src="/src/assets/images/timetable.png" />
+                      <img src="/assets/images/timetable.png" />
                       <span> {clubData.club.dday} </span>
                     </div>
                     <div>
-                      <img src="/src/assets/images/group.png" />
+                      <img src="/assets/images/group.png" />
                       <span>
                         {clubData.club.memberCount +
                           " / " +
@@ -164,21 +164,21 @@ const MyClubDetailInfo = () => {
                   </div>
                   <div className="myClubDetailMiddleContentArea">
                     <div>
-                      <img src="/src/assets/images/leader.png" />
+                      <img src="/assets/images/leader.png" />
                       <span className="myclubdetailspanspan">모임장:</span>
                       <span className="myclubdetailspanspanspan">
                         {clubManager.nickName ? clubManager.nickName : clubManager.userName}
                       </span>
                     </div>
                     <div>
-                      <img src="/src/assets/images/age.png" />
+                      <img src="/assets/images/age.png" />
                       <span className="myclubdetailspanspan">나이제한:</span>
                       <span className="myclubdetailspanspanspan">
                         {clubData.club.ageLimit}
                       </span>
                     </div>
                     <div>
-                      <img src="/src/assets/images/gender.png" />
+                      <img src="/assets/images/gender.png" />
                       <span className="myclubdetailspanspan">제한성별:</span>
                       <span className="myclubdetailspanspanspan">
                         {clubData.club.clubGender === 'M' ? '남성만' : (clubData.club.clubGender === 'W' ? '여성만' : '제한없음')}

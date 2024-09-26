@@ -65,7 +65,7 @@ const ClubMember = () => {
             <div className='ClubMemberSearchArea'>
               <div className='ClubMemberSearchBox'>
                 <input type="text" placeholder='멤버 검색' value={searchInput} onChange={onChangeSearch} />
-                <img src="/src/assets/images/search.png" alt="검색이미지" onClick={onClickSearch} />
+                <img src="/assets/images/search.png" alt="검색이미지" onClick={onClickSearch} />
               </div>
             </div>
             <div className='ClubMemberHeaderArea'>
@@ -100,7 +100,7 @@ const ClubMember = () => {
                       </div>
                     </div>
                     <div className='ClubMemberDeleteBox'>
-                      <img src="/src/assets/images/deleteUser.png" alt="멤버 삭제 이미지" onClick={() => { openWithdrawalModal(member) }} />
+                      <img src="/assets/images/deleteUser.png" alt="멤버 삭제 이미지" onClick={() => { openWithdrawalModal(member) }} />
                     </div>
                   </div>
                 )

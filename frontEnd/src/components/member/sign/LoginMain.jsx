@@ -68,7 +68,7 @@ const LoginMain = () => {
         <div className='LoginMainWrap'>
             <div className="LoginMain">
                 <div className="logo-container">
-                    <img src="src\assets\images\headerLogo.png" alt="어울림" onClick={() => { nav('/') }} />
+                    <img src="/assets/images/headerLogo.png" alt="어울림" onClick={() => { nav('/') }} />
                 </div>
                 <form className="login-form">
                     <div className="LoginMainInput-group">
@@ -100,8 +100,8 @@ const LoginMain = () => {
                     <a href="#" onClick={() => findInfo(event, '/findbyid', '아이디 찾기')}>아이디 찾기</a> | <a href="#" onClick={() => findInfo(event, '/findbypw', '비밀번호 찾기')}>비밀번호 찾기</a> | <Link to='/signup'>회원가입</Link>
                 </div>
                 <div className="social-login">
-                    <button><img className="naver" src="src/assets/images/naverLogin.png" alt="naver" onClick={naverLogin} style={{ width: "45px", height: "45px" }} /></button>
-                    <button><img className="google" src="src/assets/images/googleLogin.png" alt="google" onClick={googleLogin} /></button>
+                    <button><img className="naver" src="/assets/images/naverLogin.png" alt="naver" onClick={naverLogin} style={{ width: "45px", height: "45px" }} /></button>
+                    <button><img className="google" src="/assets/images/googleLogin.png" alt="google" onClick={googleLogin} /></button>
                 </div>
             </div>
         </div>

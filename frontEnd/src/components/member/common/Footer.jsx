@@ -100,27 +100,27 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="/src/assets/images/insta.png" alt="Instagram" />
+            <img src="/assets/images/insta.png" alt="Instagram" />
           </a>
           <a
             href="https://open.kakao.com/o/sJQyt6Ig"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="/src/assets/images/kakao.png" alt="Kakao" />
+            <img src="/assets/images/kakao.png" alt="Kakao" />
           </a>
           <a href="https://youtu.be/ZL009ZhEuWI?si=4XdaLMsLbsOm4XTq"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="/src/assets/images/youtube.png" alt="YouTube" />
+            <img src="/assets/images/youtube.png" alt="YouTube" />
           </a>
           <a
             href="https://github.com/ckehf223/final_Project.git"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="/src/assets/images/github.png" alt="GitHub" />
+            <img src="/assets/images/github.png" alt="GitHub" />
           </a>
         </div>
       </div>

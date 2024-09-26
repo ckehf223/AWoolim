@@ -22,7 +22,7 @@ const MemberIntro = () => {
     return (
         <div className="MemberIntro">
             <div className='miHeader'>
-                <img src="src\assets\images\headerLogo.png" onClick={() => { nav('/') }} /><br></br>
+                <img src="/assets/images/headerLogo.png" onClick={() => { nav('/') }} /><br></br>
                 <span >지금 회원가입하신 후 어울림에서 다양한 인연을 만들어보세요!</span>
             </div>
             <div className="joinWay">
@@ -33,7 +33,7 @@ const MemberIntro = () => {
                     <span className="naver_span" >N</span><span> 네이버로 시작하기</span>
                 </button>
                 <button className='googleLogo' onClick={joinGoogle}>
-                    <img src="/src/assets/images/googleLogin.png" /><span>구글로 시작하기</span>
+                    <img src="/assets/images/googleLogin.png" /><span>구글로 시작하기</span>
                 </button>
             </div>
         </div>

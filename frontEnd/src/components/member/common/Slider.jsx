@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import "/src/css/member/common/slider.css";
 function ImageSlider() {
   const slideImages = [
-    "/src/assets/images/slideImage1.jpg",
-    "/src/assets/images/slideImage3.gif",
-    "/src/assets/images/slideimage4.jpg",
-    "/src/assets/images/slideImage2.jpg",
+    "/assets/images/slideImage1.jpg",
+    "/assets/images/slideImage3.gif",
+    "/assets/images/slideimage4.jpg",
+    "/assets/images/slideImage2.jpg",
   ];
   const images = [
-    "/src/assets/images/slideImage1mini.png",
-    "/src/assets/images/slideImage3mini.png",
-    "/src/assets/images/slideimage4mini.png",
-    "/src/assets/images/slideImage2mini.jpg",
+    "/assets/images/slideImage1mini.png",
+    "/assets/images/slideImage3mini.png",
+    "/assets/images/slideimage4mini.png",
+    "/assets/images/slideImage2mini.jpg",
   ];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const intervalRef = useRef(null); // 인터벌 ID를 저장할 ref

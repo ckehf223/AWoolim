@@ -5,19 +5,18 @@
 
 <mapper namespace="com.kh.awoolim.mapper.PhotoGalleryMapper">
 
-	<!-- 특정 클럽 번호에 해당하는 이미지 파일 리스트를 가져오는 SQL -->
-	<select id="findPhotosByClubNo" resultType="com.kh.awoolim.domain.ClubGallery">
-		SELECT *
-		FROM
-		CLUBGALLERY
-		WHERE CLUBNO = #{clubNo} order by regdate desc
-	</select>
+    <!-- 특정 클럽 번호에 해당하는 이미지 파일 리스트를 가져오는 SQL -->
+    <select id="findPhotosByClubNo" resultType="com.kh.awoolim.domain.ClubGallery">
+        SELECT *
+        FROM CLUBGALLERY
+        WHERE CLUBNO = #{clubNo}
+        ORDER BY regdate DESC
+    </select>
 
-	<!-- 특정 클럽 번호에 새로운 이미지 파일 정보를 저장하는 SQL -->
-	<insert id="savePhoto" parameterType="com.kh.awoolim.domain.ClubGallery">
-		INSERT INTO CLUBGALLERY
-		VALUES (CLUBGALLERY_SEQ.NEXTVAL, #{userId}, #{clubNo},
-		SYSDATE,#{image})
-	</insert>
+    <!-- 특정 클럽 번호에 새로운 이미지 파일 정보를 저장하는 SQL -->
+    <insert id="savePhoto" parameterType="com.kh.awoolim.domain.ClubGallery">
+        INSERT INTO CLUBGALLERY (USERID, CLUBNO, REGDATE, IMAGE)
+        VALUES (#{userId}, #{clubNo}, NOW(), #{image})
+    </insert>
 
 </mapper>

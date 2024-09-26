@@ -83,13 +83,13 @@ const UserMadeClub = () => {
                   <div className="UserMadeClubButtonArea">
                     <img
                       className="UserMadeClubBoardImg"
-                      src="/src/assets/images/home.png"
+                      src="/assets/images/home.png"
                       alt="모임 게시판 이미지"
                       onClick={() => handleBoardImgClick(club.clubNo)} // 클릭 시 페이지 전환
                     />
                     <img
                       className="UserMadeClubExitImg"
-                      src="/src/assets/images/settings.png"
+                      src="/assets/images/settings.png"
                       alt="모임 설정 이미지"
                       onClick={() => {
                         nav(`/mypage/clubmanager/modify/${club.clubNo}`);

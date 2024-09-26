@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.NoticeMapper">
-	
+
 	<resultMap type="com.kh.awoolim.domain.Notice" id="noticeMap">
 		<id property="noticeNo" column="NOTICENO" />
 		<result property="keyword" column="KEYWORD" />
@@ -11,48 +11,45 @@
 		<result property="regDate" column="REGDATE" />
 	</resultMap>
 
+	<!-- 공지사항 목록 조회 -->
 	<select id="getNoticeList" resultMap="noticeMap">
-		SELECT * FROM NOTICE ORDER
-		BY NOTICENO DESC
+		SELECT * FROM NOTICE ORDER BY NOTICENO DESC
 	</select>
 
-	<!-- title 클릭 시 세부사항 읽기 read -->
+	<!-- 특정 공지사항 조회 -->
 	<select id="getNoticeById" parameterType="int" resultMap="noticeMap">
 		SELECT * FROM NOTICE WHERE NOTICENO = #{noticeNo}
 	</select>
 
-	<!-- keyword와 title내에 있는 단어로 검색 -->
-	<select id="searchNotices" resultMap="noticeMap"
-		parameterType="String">
+	<!-- 키워드와 제목으로 검색 -->
+	<select id="searchNotices" resultMap="noticeMap" parameterType="String">
 		SELECT * FROM NOTICE
-		WHERE TITLE LIKE '%'||#{query}||'%'
-		OR KEYWORD LIKE '%'||#{query}||'%'
+		WHERE TITLE LIKE CONCAT('%', #{query}, '%')
+		OR KEYWORD LIKE CONCAT('%', #{query}, '%')
 		ORDER BY NOTICENO DESC
 	</select>
 
+	<!-- 공지사항 삽입 -->
 	<insert id="insertNotice">
-		INSERT INTO NOTICE(NOTICENO, KEYWORD, TITLE, CONTENT)
-		VALUES(notice_seq.NEXTVAL, #{keyword}, #{title}, #{content})
+		INSERT INTO NOTICE(KEYWORD, TITLE, CONTENT)
+		VALUES(#{keyword}, #{title}, #{content})
 	</insert>
 
-
+	<!-- 공지사항 수정 -->
 	<update id="updateNotice">
 		UPDATE NOTICE
-		SET KEYWORD=#{keyword}, TITLE=#{title}, CONTENT=#{content},	COUNT=#{count}
-		WHERE NOTICENO=#{noticeNo}
+		SET KEYWORD=#{keyword}, TITLE=#{title}, CONTENT=#{content}, COUNT=#{count}
+		WHERE NOTICENO = #{noticeNo}
 	</update>
 
 	<!-- 조회수 증가 -->
 	<update id="increaseViewCount" parameterType="int">
-		UPDATE NOTICE SET
-		COUNT = COUNT + 1
-		WHERE NOTICENO = #{noticeNo}
+		UPDATE NOTICE SET COUNT = COUNT + 1 WHERE NOTICENO = #{noticeNo}
 	</update>
 
+	<!-- 공지사항 삭제 -->
 	<delete id="deleteNotice" parameterType="int">
-		DELETE FROM NOTICE WHERE
-		NOTICENO = #{noticeNo}
+		DELETE FROM NOTICE WHERE NOTICENO = #{noticeNo}
 	</delete>
-
 
 </mapper>

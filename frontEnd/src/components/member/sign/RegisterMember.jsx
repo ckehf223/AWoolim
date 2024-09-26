@@ -252,7 +252,7 @@ const RegisterMember = () => {
     return (
         <div className='RegisterMemberWrap'>
             <div className="RegisterMemberLogoArea">
-                <img src="src/assets/images/headerLogo.png" alt="어울림" onClick={() => { nav('/') }} />
+                <img src="/assets/images/headerLogo.png" alt="어울림" onClick={() => { nav('/') }} />
             </div>
             <div className="RegisterMember">
                 <h2>회원 가입</h2>

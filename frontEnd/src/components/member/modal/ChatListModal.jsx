@@ -33,7 +33,7 @@ function ChatListModal({ onClose }) {
         {selectedRoom ? (
           <button onClick={() => setSelectedRoom(null)}>{"<"}</button>
         ) : (
-          <img src="/src/assets/images/headerLogo.png" alt="로고" />
+          <img src="/assets/images/headerLogo.png" alt="로고" />
         )}
         <span>{selectedRoom ? selectedRoom.chatRoomName : "채팅 목록"}</span>
         <button

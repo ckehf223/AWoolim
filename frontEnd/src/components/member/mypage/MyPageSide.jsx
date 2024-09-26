@@ -8,7 +8,7 @@ const MyPageSide = () => {
         <h4>마이페이지</h4>
         <div className="MyPageInfoMenuArea">
           <div className="MyPageInfoHeader">
-            <img src="/src/assets/images/user.png" />
+            <img src="/assets/images/user.png" />
             <h5>내 정보</h5>
           </div>
           <div className="MyPageInfoMenu">
@@ -31,7 +31,7 @@ const MyPageSide = () => {
 
         <div className="MyPageClubMenuArea">
           <div className="MyPageClubHeader">
-            <img src="/src/assets/images/group2.png" />
+            <img src="/assets/images/group2.png" />
             <h5>모임 정보</h5>
           </div>
           <div className="MyPageClubMenu">
@@ -53,7 +53,7 @@ const MyPageSide = () => {
         </div>
 
         <div className="myPageReportMenu">
-          <img src="/src/assets/images/warning.png" />
+          <img src="/assets/images/warning.png" />
           <h5
             onClick={() => {
               nav("/mypage/report");

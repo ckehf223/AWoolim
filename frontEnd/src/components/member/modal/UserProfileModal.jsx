@@ -32,7 +32,7 @@ const UserProfileModal = ({
             {isAuthenticated && loginId !== userId && (
               <img
                 className="UserProfileModalReportImage"
-                src="/src/assets/images/report4.png"
+                src="/assets/images/report4.png"
                 alt="신고이미지"
                 onClick={toggleModal}
               />

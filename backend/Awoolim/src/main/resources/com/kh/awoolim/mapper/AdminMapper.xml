@@ -3,7 +3,7 @@
 <mapper namespace="com.kh.awoolim.mapper.AdminMapper">
     <!--회원 목록 조회-->
     <select id="userList" resultType="com.kh.awoolim.domain.Member">
-        select * from member
+        SELECT * FROM member
     </select>
 
     <select id="findById" resultType="com.kh.awoolim.domain.Admin" parameterType="String">
@@ -37,7 +37,7 @@
 
     <!--모임 목록 조회 -->
     <select id="clubList" resultType="com.kh.awoolim.domain.Club">
-        select * from club
+        SELECT * FROM club
     </select>
 
     <!-- 모임 상세 정보 조회 -->
@@ -45,18 +45,17 @@
         SELECT c.CLUBNO, c.CLUBTITLE, c.CLUBGENDER, c.AGELIMIT, c.CATEGORY, c.CITY, c.DISTRICT, c.REGULARTYPE,
                c.MAXMEMBER, c.USERID, c.DDAY, c.CLUBIMAGE, c.DETAILINFO, c.RECRUITMENT, m.USERNAME as leaderName
         FROM CLUB c
-                 JOIN MEMBER m ON c.USERID = m.USERID
+        JOIN MEMBER m ON c.USERID = m.USERID
         WHERE c.CLUBNO = #{clubNo}
     </select>
-
 
     <!--모임 참여 회원 목록 조회-->
     <select id="selectClubMembers" resultType="com.kh.awoolim.domain.Member">
         SELECT m.USERNAME
         FROM CLUBMEMBER cm
-                 JOIN MEMBER m ON cm.USERID = m.USERID
+        JOIN MEMBER m ON cm.USERID = m.USERID
         WHERE cm.CLUBNO = #{clubNo}
-          AND cm.ISACCEPT = 1
+        AND cm.ISACCEPT = 1
     </select>
 
     <!-- 남녀 성비를 가져오는 SQL -->
@@ -91,20 +90,17 @@
                  FROM (
                           SELECT
                               m.USERID,
-                              NVL(COUNT(cm.CLUBNO), 0) AS participation_count
+                              IFNULL(COUNT(cm.CLUBNO), 0) AS participation_count
                           FROM
                               MEMBER m
-                                  LEFT JOIN CLUBMEMBER cm ON m.USERID = cm.USERID
+                              LEFT JOIN CLUBMEMBER cm ON m.USERID = cm.USERID
                           GROUP BY
                               m.USERID
-                      )
-             )
+                      ) AS participation_counts
+             ) AS participation_levels
         GROUP BY
             participation_level
         ORDER BY
             participation_level
-
     </select>
-
-
 </mapper>

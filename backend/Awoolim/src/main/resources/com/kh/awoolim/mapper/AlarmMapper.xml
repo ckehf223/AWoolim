@@ -2,37 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.AlarmMapper">
 
-	<!-- 알림 생성 -->
-	<insert id="create" parameterType="com.kh.awoolim.domain.Alarm">
-		INSERT INTO ALARM 
-		VALUES (alarm_seq.nextval, #{userId}, #{message},#{isRead})
-	</insert>
+    <!-- 알림 생성 -->
+    <insert id="create" parameterType="com.kh.awoolim.domain.Alarm">
+        INSERT INTO ALARM (USERID, MESSAGE, ISREAD)
+        VALUES (#{userId}, #{message}, #{isRead})
+    </insert>
 
-	<!-- 특정 유저의 읽지 않은 알림 목록 조회 -->
-	<select id="findUnreadAlarmsByUserId" parameterType="int"
-		resultType="com.kh.awoolim.domain.Alarm">
-		SELECT ALARMNO, USERID, MESSAGE, ISREAD
-		FROM ALARM
-		WHERE
-		USERID = #{userId} AND ISREAD = 0
-	</select>
+    <!-- 특정 유저의 읽지 않은 알림 목록 조회 -->
+    <select id="findUnreadAlarmsByUserId" parameterType="int"
+        resultType="com.kh.awoolim.domain.Alarm">
+        SELECT ALARMNO, USERID, MESSAGE, ISREAD
+        FROM ALARM
+        WHERE USERID = #{userId} AND ISREAD = 0
+    </select>
 
-	<!-- 알림 읽음 처리 -->
-	<update id="markAlarmsAsRead" parameterType="java.util.List">
-		<foreach item="alarmNo" collection="alarmNos" separator=";">
-			UPDATE ALARM
-			SET ISREAD = 1
-			WHERE ALARMNO = #{alarmNo}
-		</foreach>
-	</update>
+    <!-- 알림 읽음 처리 -->
+    <update id="markAlarmsAsRead" parameterType="java.util.List">
+        <foreach item="alarmNo" collection="alarmNos" separator=";">
+            UPDATE ALARM
+            SET ISREAD = 1
+            WHERE ALARMNO = #{alarmNo}
+        </foreach>
+    </update>
 
-	<!-- 특정 알림 조회 (알림 번호로) -->
-	<select id="findAlarmById" parameterType="int"
-		resultType="com.kh.awoolim.domain.Alarm">
-		SELECT ALARMNO, USERID, MESSAGE, ISREAD
-		FROM ALARM
-		WHERE
-		ALARMNO = #{alarmNo}
-	</select>
+    <!-- 특정 알림 조회 (알림 번호로) -->
+    <select id="findAlarmById" parameterType="int"
+        resultType="com.kh.awoolim.domain.Alarm">
+        SELECT ALARMNO, USERID, MESSAGE, ISREAD
+        FROM ALARM
+        WHERE ALARMNO = #{alarmNo}
+    </select>
 
 </mapper>

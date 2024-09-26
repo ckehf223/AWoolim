@@ -124,7 +124,7 @@ const ClubDetailInfo = () => {
                       <div className="ClubDetailCategoryWrapDiv">
                         <img
                           className="ClubDetailCategoryIcon"
-                          src="/src/assets/images/categoryIcon.png"
+                          src="/assets/images/categoryIcon.png"
                         />
                         <span className="clubspanspan">
                           {clubData.club.category}
@@ -137,7 +137,7 @@ const ClubDetailInfo = () => {
                     {isAuthenticated && loginId !== clubData.club.userId && (
                       <div className="ClubDetailReportBox">
                         <img
-                          src="/src/assets/images/report6.png"
+                          src="/assets/images/report6.png"
                           alt="신고이미지"
                           onClick={() =>
                             openReportModal({
@@ -164,18 +164,18 @@ const ClubDetailInfo = () => {
                 <span className="clubclubtitle">{clubData.club.clubTitle}</span>
                 <div className="ClubDetailTop_contentArea">
                   <div>
-                    <img src="/src/assets/images/location.png" />
+                    <img src="/assets/images/location.png" />
                     <span>
                       {" "}
                       {clubData.club.city + " " + clubData.club.district}{" "}
                     </span>
                   </div>
                   <div>
-                    <img src="/src/assets/images/timetable.png" />
+                    <img src="/assets/images/timetable.png" />
                     <span> {clubData.club.dday} </span>
                   </div>
                   <div>
-                    <img src="/src/assets/images/group.png" />
+                    <img src="/assets/images/group.png" />
                     <span>
                       {clubData.club.memberCount +
                         " / " +
@@ -193,7 +193,7 @@ const ClubDetailInfo = () => {
                 </div>
                 <div className="ClubDetailTop_middelContentArea">
                   <div>
-                    <img src="/src/assets/images/leader.png" />
+                    <img src="/assets/images/leader.png" />
                     <span className="clubdetailspanspan">모임장:</span>
                     <span className="clubdetailspanspanspan">
                       {clubManager.nickName
@@ -202,14 +202,14 @@ const ClubDetailInfo = () => {
                     </span>
                   </div>
                   <div>
-                    <img src="/src/assets/images/age.png" />
+                    <img src="/assets/images/age.png" />
                     <span className="clubdetailspanspan">나이제한:</span>
                     <span className="clubdetailspanspanspan">
                       {clubData.club.ageLimit}
                     </span>
                   </div>
                   <div>
-                    <img src="/src/assets/images/gender.png" />
+                    <img src="/assets/images/gender.png" />
                     <span className="clubdetailspanspan">제한성별:</span>
                     <span className="clubdetailspanspanspan">
                       {clubData.club.clubGender}
@@ -245,19 +245,16 @@ const ClubDetailInfo = () => {
                             ? member.nickName
                             : member.userName,
                           message: member.userIntro,
-                          backgroundImage: `data:image/jpeg;base64,${
-                            clubData.imageData["backImage" + member.userId]
-                          }`,
-                          profileImage: `data:image/jpeg;base64,${
-                            clubData.imageData["userImage" + member.userId]
-                          }`,
+                          backgroundImage: `data:image/jpeg;base64,${clubData.imageData["backImage" + member.userId]
+                            }`,
+                          profileImage: `data:image/jpeg;base64,${clubData.imageData["userImage" + member.userId]
+                            }`,
                         })
                       }
                     >
                       <img
-                        src={`data:image/jpeg;base64,${
-                          clubData.imageData["userImage" + member.userId]
-                        }`}
+                        src={`data:image/jpeg;base64,${clubData.imageData["userImage" + member.userId]
+                          }`}
                       />
                       <div className="ClubDetailMemberInfo">
                         <p className="ClubDetailMemberNickname">
@@ -297,9 +294,8 @@ const ClubDetailInfo = () => {
                   <div key={club.clubNo} className="ClubDetailPopGroupInfoBox">
                     <div className="ClubDetailPopGroupImage">
                       <img
-                        src={`data:image/jpeg;base64,${
-                          clubData.imageData["clubImage" + club.clubNo]
-                        }`}
+                        src={`data:image/jpeg;base64,${clubData.imageData["clubImage" + club.clubNo]
+                          }`}
                         onClick={() => {
                           nav(`/club/${club.clubNo}`);
                         }}
@@ -333,7 +329,7 @@ const ClubDetailInfo = () => {
             {loginId !== clubData.club.userId && (
               <div>
                 {isRecruitment &&
-                clubData.club.maxMember - clubData.club.memberCount > 0 ? (
+                  clubData.club.maxMember - clubData.club.memberCount > 0 ? (
                   <div className="ClubDetailSignButtonArea">
                     <div className="ClubDetailSignButtonBox">
                       <div className="ClubDetailSignTextArea">

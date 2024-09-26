@@ -2,104 +2,102 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.ClubMapper">
 
-	<insert id="create" parameterType="com.kh.awoolim.domain.Club">
-		INSERT INTO CLUB VALUES(
-		club_seq.nextVal,#{clubTitle},#{clubGender},
-		#{ageLimit},#{category},#{city}
-		,#{district},#{regularType},#{maxMember}
-		,#{userId},#{dDay},#{clubImage}
-		,#{detailInfo},#{recruitment},#{memberCount})
-	</insert>
+    <!-- 클럽 생성 -->
+    <insert id="create" parameterType="com.kh.awoolim.domain.Club">
+        INSERT INTO CLUB (CLUBTITLE, CLUBGENDER, AGELIMIT, CATEGORY, CITY, DISTRICT, REGULARTYPE, MAXMEMBER, USERID, DDAY, CLUBIMAGE, DETAILINFO, RECRUITMENT, MEMBERCOUNT)
+        VALUES (#{clubTitle}, #{clubGender}, #{ageLimit}, #{category}, #{city}, #{district}, #{regularType}, #{maxMember}, #{userId}, #{dDay}, #{clubImage}, #{detailInfo}, #{recruitment}, #{memberCount})
+    </insert>
 
-	<select id="readClub" resultType="com.kh.awoolim.domain.Club" parameterType="int">
-		SELECT *
-		FROM CLUB WHERE CLUBNO = #{clubNo}
-	</select>
+    <!-- 클럽 조회 (클럽 번호로) -->
+    <select id="readClub" resultType="com.kh.awoolim.domain.Club" parameterType="int">
+        SELECT * FROM CLUB WHERE CLUBNO = #{clubNo}
+    </select>
 
-	<select id="readPopularTop4" resultType="com.kh.awoolim.domain.Club">
-		SELECT * FROM CLUB ORDER
-		BY MEMBERCOUNT DESC,CLUBNO ASC
-		FETCH FIRST 4 ROWS
-		ONLY
-	</select>
-	<select id="clubCount" resultType="int">
-		SELECT COUNT(CLUBNO) FROM CLUB
-		WHERE USERID = #{userId}
-	</select>
-	<select id="readMyApprovalClubList" parameterType="int"
-		resultType="com.kh.awoolim.domain.Club">
-		SELECT c.* FROM
-		CLUB c JOIN CLUBMEMBER cm
-		ON c.CLUBNO =
-		cm.CLUBNO
-		WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND
-		cm.ISACCEPT = 1
-	</select>
-	<select id="readMyClubDisapprovalList" parameterType="int"
-		resultType="com.kh.awoolim.domain.Club">
-		SELECT c.* FROM
-		CLUB c JOIN CLUBMEMBER cm
-		ON c.CLUBNO =
-		cm.CLUBNO
-		WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND
-		cm.ISACCEPT = 0
-	</select>
-	<update id="addClubCount" parameterType="int">
-		UPDATE CLUB SET
-		MEMBERCOUNT = MEMBERCOUNT + 1
-		WHERE CLUBNO = #{clubNo}
-	</update>
-	<update id="minusClubCount" parameterType="int">
-		UPDATE CLUB SET
-		MEMBERCOUNT = MEMBERCOUNT - 1
-		WHERE CLUBNO = #{clubNo}
-	</update>
-	<select id="readMyMadeClubList" parameterType="int"
-		resultType="com.kh.awoolim.domain.Club">
-		SELECT * FROM CLUB WHERE USERID = #{userId}
-	</select>
-	<update id="modifyClub" parameterType="com.kh.awoolim.domain.Club">
-		UPDATE CLUB SET CLUBTITLE
-		= #{clubTitle},CATEGORY = #{category},
-		CLUBGENDER = #{clubGender}, DDAY
-		= #{dDay}, REGULARTYPE = #{regularType},
-		MAXMEMBER = #{maxMember}, CITY
-		= #{city}, DISTRICT = #{district},
-		DETAILINFO = #{detailInfo}, AGELIMIT
-		= #{ageLimit}, CLUBIMAGE = #{clubImage},
-		RECRUITMENT = #{recruitment}
-		WHERE CLUBNO = #{clubNo}
-	</update>
-	<select id="getAllClubs" resultType="com.kh.awoolim.domain.Club">
-		SELECT * FROM club
-		ORDER BY CLUBNO ASC
-	</select>
+    <!-- 인기 있는 상위 4개의 클럽 조회 -->
+    <select id="readPopularTop4" resultType="com.kh.awoolim.domain.Club">
+        SELECT * FROM CLUB ORDER BY MEMBERCOUNT DESC, CLUBNO ASC LIMIT 4
+    </select>
 
-	<select id="searchClubs" resultType="com.kh.awoolim.domain.Club" parameterType="java.util.Map">
-		SELECT * FROM CLUB
-		where clubTitle like '%' || #{clubTitle} || '%'
-		<if test="city != null and city != ''">
-			AND city = #{city}
-		</if>
-		<if test="district != null and district != ''">
-			AND district = #{district}
-		</if>
-		<if test="clubGender != null and clubGender != ''">
-			AND CLUBGENDER = #{clubGender}
-		</if>
-		<if test="regularType != null and regularType != ''">
-			AND REGULARTYPE = #{regularType}
-		</if>
-		<if test="category != null and category != ''">
-			AND CATEGORY = #{category}
-		</if>
-	</select>
-	
-	<delete id="delete" parameterType="int">
-		DELETE FROM CLUB
-		WHERE CLUBNO =
-		#{clubNo}
-	</delete>
+    <!-- 특정 유저가 만든 클럽 수 조회 -->
+    <select id="clubCount" resultType="int">
+        SELECT COUNT(CLUBNO) FROM CLUB WHERE USERID = #{userId}
+    </select>
+
+    <!-- 승인된 클럽 목록 조회 (특정 유저) -->
+    <select id="readMyApprovalClubList" parameterType="int" resultType="com.kh.awoolim.domain.Club">
+        SELECT c.* FROM CLUB c 
+        JOIN CLUBMEMBER cm ON c.CLUBNO = cm.CLUBNO
+        WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND cm.ISACCEPT = 1
+    </select>
+
+    <!-- 승인되지 않은 클럽 목록 조회 (특정 유저) -->
+    <select id="readMyClubDisapprovalList" parameterType="int" resultType="com.kh.awoolim.domain.Club">
+        SELECT c.* FROM CLUB c 
+        JOIN CLUBMEMBER cm ON c.CLUBNO = cm.CLUBNO
+        WHERE cm.USERID = #{userId} AND c.USERID != #{userId} AND cm.ISACCEPT = 0
+    </select>
+
+    <!-- 클럽 멤버 수 증가 -->
+    <update id="addClubCount" parameterType="int">
+        UPDATE CLUB SET MEMBERCOUNT = MEMBERCOUNT + 1 WHERE CLUBNO = #{clubNo}
+    </update>
+
+    <!-- 클럽 멤버 수 감소 -->
+    <update id="minusClubCount" parameterType="int">
+        UPDATE CLUB SET MEMBERCOUNT = MEMBERCOUNT - 1 WHERE CLUBNO = #{clubNo}
+    </update>
+
+    <!-- 특정 유저가 만든 클럽 목록 조회 -->
+    <select id="readMyMadeClubList" parameterType="int" resultType="com.kh.awoolim.domain.Club">
+        SELECT * FROM CLUB WHERE USERID = #{userId}
+    </select>
+
+    <!-- 클럽 수정 -->
+    <update id="modifyClub" parameterType="com.kh.awoolim.domain.Club">
+        UPDATE CLUB SET 
+            CLUBTITLE = #{clubTitle},
+            CATEGORY = #{category},
+            CLUBGENDER = #{clubGender},
+            DDAY = #{dDay},
+            REGULARTYPE = #{regularType},
+            MAXMEMBER = #{maxMember},
+            CITY = #{city},
+            DISTRICT = #{district},
+            DETAILINFO = #{detailInfo},
+            AGELIMIT = #{ageLimit},
+            CLUBIMAGE = #{clubImage},
+            RECRUITMENT = #{recruitment}
+        WHERE CLUBNO = #{clubNo}
+    </update>
+
+    <!-- 전체 클럽 목록 조회 -->
+    <select id="getAllClubs" resultType="com.kh.awoolim.domain.Club">
+        SELECT * FROM CLUB ORDER BY CLUBNO ASC
+    </select>
+
+    <!-- 클럽 검색 (조건 검색) -->
+    <select id="searchClubs" resultType="com.kh.awoolim.domain.Club" parameterType="java.util.Map">
+        SELECT * FROM CLUB WHERE clubTitle LIKE CONCAT('%', #{clubTitle}, '%')
+        <if test="city != null and city != ''">
+            AND city = #{city}
+        </if>
+        <if test="district != null and district != ''">
+            AND district = #{district}
+        </if>
+        <if test="clubGender != null and clubGender != ''">
+            AND CLUBGENDER = #{clubGender}
+        </if>
+        <if test="regularType != null and regularType != ''">
+            AND REGULARTYPE = #{regularType}
+        </if>
+        <if test="category != null and category != ''">
+            AND CATEGORY = #{category}
+        </if>
+    </select>
+
+    <!-- 클럽 삭제 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM CLUB WHERE CLUBNO = #{clubNo}
+    </delete>
 
 </mapper>
-

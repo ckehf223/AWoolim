@@ -6,29 +6,33 @@
 <mapper namespace="com.kh.awoolim.mapper.ClubScheduleMapper">
 
 	<!-- 클럽 번호로 일정 목록을 가져오는 SQL -->
-	<select id="getSchedulesByClubNo"
-		resultType="com.kh.awoolim.domain.ClubSchedule">
+	<select id="getSchedulesByClubNo" resultType="com.kh.awoolim.domain.ClubSchedule">
 		SELECT SCHEDULENO, CLUBNO, DDAY, CONTENT
 		FROM CLUBSCHEDULE
 		WHERE CLUBNO = #{clubNo}
 	</select>
-	
-	<insert id="create">
-		INSERT INTO CLUBSCHEDULE VALUES(
-			CLUBSCHEDULE_SEQ.NEXTVAL, #{clubNo},#{dDay},#{content})
+
+	<!-- 일정 생성 -->
+	<insert id="create" parameterType="com.kh.awoolim.domain.ClubSchedule">
+		INSERT INTO CLUBSCHEDULE (CLUBNO, DDAY, CONTENT) 
+		VALUES (#{clubNo}, #{dDay}, #{content})
 	</insert>
-	
+
+	<!-- 특정 일정 조회 -->
 	<select id="findBySchedule" resultType="com.kh.awoolim.domain.ClubSchedule" parameterType="com.kh.awoolim.domain.ClubSchedule">
 		SELECT * FROM CLUBSCHEDULE
 		WHERE CLUBNO = #{clubNo} AND DDAY = #{dDay}
 	</select>
-	
-	<update id="update">
-		UPDATE CLUBSCHEDULE SET CONTENT= #{content}
+
+	<!-- 일정 업데이트 -->
+	<update id="update" parameterType="com.kh.awoolim.domain.ClubSchedule">
+		UPDATE CLUBSCHEDULE 
+		SET CONTENT = #{content}
 		WHERE SCHEDULENO = #{scheduleNo}
 	</update>
-	
-	<delete id="delete">
+
+	<!-- 일정 삭제 -->
+	<delete id="delete" parameterType="com.kh.awoolim.domain.ClubSchedule">
 		DELETE FROM CLUBSCHEDULE
 		WHERE CLUBNO = #{clubNo} AND DDAY = #{dDay}
 	</delete>

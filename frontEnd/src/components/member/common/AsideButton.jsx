@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "/src/css/member/common/asidebutton.css";
 import ChatListModal from "/src/components/member/modal/ChatListModal";
-import firstImage from "/src/assets/images/check-list.png";
-import secondImage from "/src/assets/images/comments.png";
-import thirdImage from "/src/assets/images/calendar.png";
-import cancelImage from "/src/assets/images/cancel.png";
+import firstImage from "/assets/images/check-list.png";
+import secondImage from "/assets/images/comments.png";
+import thirdImage from "/assets/images/calendar.png";
+import cancelImage from "/assets/images/cancel.png";
 import { useAuth } from "/src/common/AuthContext";
 
 function AsideButton() {
