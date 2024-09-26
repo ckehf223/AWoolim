@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.ClubMemberMapper">
-	<select id="readClubMember" resultType="Member" parameterType="int">
+	<select id="readClubMember" resultType="com.kh.awoolim.domain.Member" parameterType="int">
     SELECT m.USERID as userId, 
       m.USERNAME as userName,
       m.NICKNAME as nickName, 
@@ -16,7 +16,7 @@
       cm.CLUBNO = #{clubNo} 
       AND cm.ISACCEPT = 1
   </select>
-  <select id="readClubMemberList" resultType="Map" parameterType="int">
+  <select id="readClubMemberList" resultType="java.util.Map" parameterType="int">
  	SELECT M.USERID,M.USERNAME,M.USEREMAIL,M.USERBIRTH,M.USERGENDER,
   	M.USERPHONE,M.NICKNAME,M.USERIMAGE,M.USERBACKIMAGE,M.USERINTRO,
   	TO_CHAR(CM.REGDATE,'YY.MM.DD') AS REGDATE 

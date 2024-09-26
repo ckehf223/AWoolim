@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.MemberMapper">
 
-	<select id="findById" parameterType="int" resultType="Member">
+	<select id="findById" parameterType="int" resultType="com.kh.awoolim.domain.Member">
 		SELECT *
 		FROM MEMBER WHERE USERID = #{userId}
 	</select>
-	<select id="profile" parameterType="int" resultType="Member">
+	<select id="profile" parameterType="int" resultType="com.kh.awoolim.domain.Member">
 		SELECT
 		USERID,USERNAME,NICKNAME,USERIMAGE,USERBACKIMAGE,USERINTRO FROM MEMBER
 		WHERE USERID = #{userId}
 	</select>
-	<insert id="create" parameterType="Member">
+	<insert id="create" parameterType="com.kh.awoolim.domain.Member">
 		INSERT INTO
 		MEMBER(USERID,USEREMAIL,PASSWORD,USERNAME,USERBIRTH,USERPHONE,USERGENDER,SNSTYPE,USERIMAGE,USERBACKIMAGE)
 		VALUES(
@@ -27,17 +27,17 @@
 		#{userBackImage})
 	</insert>
 
-	<select id="findByEmail" resultType="Member">
+	<select id="findByEmail" resultType="com.kh.awoolim.domain.Member">
 		SELECT * FROM MEMBER WHERE
 		USEREMAIL = #{email}
 	</select>
 	<!-- 추가된 부분 -->
-	<select id="findByPhone" resultType="Member"
+	<select id="findByPhone" resultType="com.kh.awoolim.domain.Member"
 		parameterType="String">
 		SELECT * FROM MEMBER 
 		WHERE USERPHONE=#{phone}
 	</select>
-	<select id="findByEmailType" resultType="Member">
+	<select id="findByEmailType" resultType="com.kh.awoolim.domain.Member">
 		SELECT * FROM MEMBER
 		WHERE USEREMAIL = #{email} AND SNSTYPE = #{type}
 	</select>
@@ -45,12 +45,12 @@
 		UPDATE MEMBER SET
 		PASSWORD = #{password} WHERE USEREMAIL = #{email}
 	</update>
-	<update id="updateProfile" parameterType="Member">
+	<update id="updateProfile" parameterType="com.kh.awoolim.domain.Member">
 		UPDATE MEMBER SET
 		NICKNAME = #{nickName}, USERINTRO = #{userIntro}, USERIMAGE = #{userImage}, USERBACKIMAGE = #{userBackImage}
 		WHERE USERID = #{userId}
 	</update>
-	<update id="updateUser" parameterType="Member">
+	<update id="updateUser" parameterType="com.kh.awoolim.domain.Member">
 		UPDATE MEMBER SET
 		USEREMAIL = #{userEmail},USERPHONE = #{userPhone}, PASSWORD = #{password}
 		WHERE USERID = #{userId}

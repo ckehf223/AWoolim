@@ -18,7 +18,7 @@
 			CLUBSCHEDULE_SEQ.NEXTVAL, #{clubNo},#{dDay},#{content})
 	</insert>
 	
-	<select id="findBySchedule" resultType="ClubSchedule" parameterType="ClubSchedule">
+	<select id="findBySchedule" resultType="com.kh.awoolim.domain.ClubSchedule" parameterType="com.kh.awoolim.domain.ClubSchedule">
 		SELECT * FROM CLUBSCHEDULE
 		WHERE CLUBNO = #{clubNo} AND DDAY = #{dDay}
 	</select>

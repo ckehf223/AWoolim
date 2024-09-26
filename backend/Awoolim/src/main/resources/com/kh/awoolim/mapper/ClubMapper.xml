@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.ClubMapper">
 
-	<insert id="create" parameterType="Club">
+	<insert id="create" parameterType="com.kh.awoolim.domain.Club">
 		INSERT INTO CLUB VALUES(
 		club_seq.nextVal,#{clubTitle},#{clubGender},
 		#{ageLimit},#{category},#{city}
@@ -11,12 +11,12 @@
 		,#{detailInfo},#{recruitment},#{memberCount})
 	</insert>
 
-	<select id="readClub" resultType="Club" parameterType="int">
+	<select id="readClub" resultType="com.kh.awoolim.domain.Club" parameterType="int">
 		SELECT *
 		FROM CLUB WHERE CLUBNO = #{clubNo}
 	</select>
 
-	<select id="readPopularTop4" resultType="Club">
+	<select id="readPopularTop4" resultType="com.kh.awoolim.domain.Club">
 		SELECT * FROM CLUB ORDER
 		BY MEMBERCOUNT DESC,CLUBNO ASC
 		FETCH FIRST 4 ROWS
@@ -27,7 +27,7 @@
 		WHERE USERID = #{userId}
 	</select>
 	<select id="readMyApprovalClubList" parameterType="int"
-		resultType="Club">
+		resultType="com.kh.awoolim.domain.Club">
 		SELECT c.* FROM
 		CLUB c JOIN CLUBMEMBER cm
 		ON c.CLUBNO =
@@ -36,7 +36,7 @@
 		cm.ISACCEPT = 1
 	</select>
 	<select id="readMyClubDisapprovalList" parameterType="int"
-		resultType="Club">
+		resultType="com.kh.awoolim.domain.Club">
 		SELECT c.* FROM
 		CLUB c JOIN CLUBMEMBER cm
 		ON c.CLUBNO =
@@ -55,10 +55,10 @@
 		WHERE CLUBNO = #{clubNo}
 	</update>
 	<select id="readMyMadeClubList" parameterType="int"
-		resultType="Club">
+		resultType="com.kh.awoolim.domain.Club">
 		SELECT * FROM CLUB WHERE USERID = #{userId}
 	</select>
-	<update id="modifyClub" parameterType="Club">
+	<update id="modifyClub" parameterType="com.kh.awoolim.domain.Club">
 		UPDATE CLUB SET CLUBTITLE
 		= #{clubTitle},CATEGORY = #{category},
 		CLUBGENDER = #{clubGender}, DDAY
@@ -70,12 +70,12 @@
 		RECRUITMENT = #{recruitment}
 		WHERE CLUBNO = #{clubNo}
 	</update>
-	<select id="getAllClubs" resultType="Club">
+	<select id="getAllClubs" resultType="com.kh.awoolim.domain.Club">
 		SELECT * FROM club
 		ORDER BY CLUBNO ASC
 	</select>
 
-	<select id="searchClubs" resultType="Club" parameterType="map">
+	<select id="searchClubs" resultType="com.kh.awoolim.domain.Club" parameterType="java.util.Map">
 		SELECT * FROM CLUB
 		where clubTitle like '%' || #{clubTitle} || '%'
 		<if test="city != null and city != ''">

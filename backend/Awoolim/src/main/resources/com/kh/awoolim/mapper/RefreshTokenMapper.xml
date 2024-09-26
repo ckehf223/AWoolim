@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.awoolim.mapper.RefreshTokenMapper">
-	<select id="read" resultType="RefreshToken">
+	<select id="read" resultType="com.kh.awoolim.common.domain.RefreshToken">
 		SELECT * FROM REFRESHTOKEN WHERE
 		refresh = #{refresh}
 	</select>
-	<insert id="create" parameterType="RefreshToken">
+	<insert id="create" parameterType="com.kh.awoolim.common.domain.RefreshToken">
 		INSERT INTO REFRESHTOKEN
 		VALUES(refreshtoken_seq.nextVal,#{userId},#{userEmail},#{refresh},#{expiration})
 	</insert>

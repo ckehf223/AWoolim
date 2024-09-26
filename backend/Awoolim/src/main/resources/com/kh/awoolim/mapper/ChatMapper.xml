@@ -3,7 +3,7 @@
 <mapper namespace="com.kh.awoolim.mapper.ChatMapper">
 
 	<!-- 채팅 메시지 삽입 -->
-	<insert id="insertChat" parameterType="Chat">
+	<insert id="insertChat" parameterType="com.kh.awoolim.domain.Chat">
 		INSERT INTO CHAT (chatno,
 		clubno, userid, message,
 		regdate)
@@ -13,7 +13,7 @@
 	</insert>
 
 	<!-- 클럽 번호로 채팅 메시지 조회 -->
-	<select id="selectChatsByClubNo" resultType="Map"
+	<select id="selectChatsByClubNo" resultType="java.util.Map"
 		parameterType="int">
 		SELECT
 		CT.CHATNO,CT.CLUBNO,CT.USERID,CT.MESSAGE,M.NICKNAME,M.USERNAME,M.USERIMAGE
@@ -23,7 +23,7 @@
 		ORDER BY CT.CHATNO ASC
 	</select>
 
-	<select id="list" parameterType="int" resultType="ChatRoom">
+	<select id="list" parameterType="int" resultType="com.kh.awoolim.domain.ChatRoom">
 		SELECT CR.*
 		FROM CHATROOM CR JOIN CLUBMEMBER CM
 		ON CR.CLUBNO = CM.CLUBNO
