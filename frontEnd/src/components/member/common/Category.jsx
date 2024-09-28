@@ -23,7 +23,7 @@ function Category() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/club/");
+        const response = await fetch("http://ec2-3-35-137-210.ap-northeast-2.compute.amazonaws.com:8080/api/club/");
         const data = await response.json();
         setClubs(data);
         setCategoryList([
