@@ -7,7 +7,7 @@
 <br/>
 
 ## 🎥시연 영상 
-- youtube : https://youtu.be/ZL009ZhEuWI?si=wdmSauWS3ADZ65YQ
+- youtube : [https://youtu.be/ZL009ZhEuWI?si=wdmSauWS3ADZ65YQ](https://youtu.be/c26_VMtaRYE)
 <br/>
 
 ## 🗂️개요
